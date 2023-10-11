@@ -1,0 +1,766 @@
+\documentclass[journal, 18pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper, total={6in, 8in}, margin = 0.05in]{geometry}
+\usepackage{amsmath}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\usepackage{graphics}
+\usepackage{graphicx}
+\graphicspath{{}}
+% \usepackage[latin1]{inputenc}
+       \usepackage{fullpage}
+%        \usepackage{color}
+%        \usepackage{array}
+%        \usepackage{longtable}
+%        \usepackage{calc}
+%        \usepackage{multirow}
+%        \usepackage{hhline}
+%        \usepackage{ifthen}
+% \usepackage{url}
+\def\UrlBreaks{\do\/\do-}
+\usepackage{listings}
+\def\inputGnumericTable{}  
+\lstset{
+backgroundcolor=\color{backcolour},   
+commentstyle=\color{codegreen},
+keywordstyle=\color{magenta},
+numberstyle=\tiny\color{codegray},
+stringstyle=\color{codepurple},
+basicstyle=\ttfamily\footnotesize,
+breakatwhitespace=false,         
+breaklines=true,
+showspaces=false,                
+showstringspaces=false,
+showtabs=false,                  
+tabsize=4,
+captionpos=b,                    
+keepspaces=true,                 
+numbers=left,                    
+numbersep=5pt,                  
+language=C,
+%frame=single, 
+breaklines=true,
+columns=fullflexible
+}
+\title{ \textbf{VGM}}
+\author{Beeram Sandya - CS21BTECH11006\\\\Challa Akshay Santoshi - CS21BTECH11012\\\\Hema Sri Cheekatla - CS21BTECH11013\\\\Potta Vennela - CS21BTECH11046}
+
+\begin{document}
+\maketitle
+
+\chapter{Introduction}
+\section*{Motivation for designing \textbf{VGM}}
+Many of us, programmers, start our coding journey with one of the very good and basic language C. At least, we started our coding with C. C makes us learn good code writing. We get to write the code from basics. Often we felt, why we were writing the things again and again. Especially, when it comes to cases like matrix operations, where we have to write nested loops every time. At some point of coding journey in C, most of us hope for the existence of inbuilt functions for performing those operations. So that we can just write all the necessary code in a single line. \\
+Also, there are times, where we would like to add to or delete an element from an array. In some cases, we don't know the size of the array beforehand. So to make sure our data fits into array, we may declare an array with larger size, which leads to wastage of the memory allocated. This also might happen that the size we declared might be smaller than required. In either way, we don't want to declare the size beforehand. But C doesn't allow us to do it.\\
+When it comes to implementation of the graphs, the traversals DFS and BFS are widely used. So our lives will be easier if we have them inbuilt.\\
+So the main goal of this language is to reduce some burden if not all.
+\chapter{Lexical Conventions}
+\begin{lstlisting}
+#include <stdio.h>
+int main(){
+    int a;
+    printf("Hello World!\n");
+}
+\end{lstlisting}
+\section{Identifiers}
+ The identifiers in this language are same like in C language.\\
+ $1$. The first letter of an identifier can be alphabet or underscore.\\
+ $2$. Alphabet can be uppercase or lowercase.\\
+ $3$. Identifier name cannot start with a digit.\\
+ \section{Reserved Keywords}
+ These are some reserved words which cannot be used as identifiers.\\
+ \begin{table}[!h]
+     \centering
+     \begin{tabular}{cccccc}
+         int& char& float& string&void& bool\\
+         return& true& false& if& else& continue\\
+         break& matrix& graph& vect& switch& case\\
+         class& struct.& and & or& gte& gt\\
+         eq& neq& lte& lt& add& sub\\
+         mul& div&not& exp& incr& decr\\
+         declr& expr& func& null & loop &  \\
+     \end{tabular}
+     \caption{reserved keywords}
+     \label{tab:my_label}
+ \end{table}
+  \section{Comments}
+ Comments can be single line or multi line. But both of these should include in '!!' symbol.\\
+ \textbf{Example :}
+ \begin{lstlisting}
+ !! This is a single line comment !!
+\end{lstlisting}
+\begin{lstlisting}
+!! This is a 
+ multi line comment!!
+\end{lstlisting}
+\section{whitespaces}
+All white spaces including space, tab, new line will be ignored except for places where it is used to separate the tokens\\
+\section{Punctuation}
+
+These include ';', ':', ',', ''', '"', "." .\\
+Statements should end with semicolon ';'.\\
+\begin{lstlisting}
+func int main()
+{
+    int a = 4; !! for ending statements !!
+    string s = "hi"; !! for string constants !!
+    char c = 'c'; !! for character constants !!
+    case a: !! for labels and cases !!
+    call obj.function(); !! for calling object functions !!
+
+    return a;
+}
+\end{lstlisting}
+
+\chapter{Data Types}
+
+\section{Primary datatypes}
+\begin{enumerate}
+    \item \textbf{int}: This int datatype is similar to that of C, i.e. 64-bit signed integer.
+    \begin{lstlisting}
+        declr int abc;
+        expr abc = 12;
+    \end{lstlisting}
+    \item \textbf{float}: It is used to store floating-point values. It is a 64-bit signed floating-point number similar to C.
+    \begin{lstlisting}
+        declr float a, b;
+        expr b = 12.32;
+        expr a = 9;
+    \end{lstlisting}
+    \item \textbf{char}: It is used to store only a single character.
+    \begin{lstlisting}
+        declr char z;
+        expr z = 'a';
+    \end{lstlisting}
+    \item \textbf{string}: This datatype is used to store a sequence of characters.
+    \begin{lstlisting}
+        declr string str;
+        expr str = "Compilers Course!!";
+    \end{lstlisting}
+    \item \textbf{bool}: It represents the truth conditions and can take two possible values, wither true or false.
+    \begin{lstlisting}
+        declr bool val, res;
+        expr val = true;
+        expr res = false;
+    \end{lstlisting}
+    \item \textbf{struct}: This datatype follows the syntax: \texttt{struct identifier\{ declaration statements \}; }\\
+    Struct datatype can only contain declaration statements.\\
+    \begin{lstlisting}
+        struct node
+        {
+            declr string name;
+            declr char grade;
+            declr int marks;
+            declr float cgpa;
+            declr bool feeStatus;
+        };
+    \end{lstlisting}
+    \item \textbf{class}: This datatype is similar to C++. It can contain declaration statements as well as functions. This datatype follows the syntax: \texttt{class identifier \{ declr stmts; functions,....\}; }\\
+    However expression statements cannot be present inside a class.\\
+    \begin{lstlisting}
+        class vehicle
+        {
+            declr string type;
+            declr int regNo;
+            declr bool pollutionCheck;
+
+            func int getRegNo()
+            {
+                return regNo;
+            }
+            func void updatePollStatus ( bool val )
+            {
+                pollutionCheck = val;
+                return null;
+            }
+        }
+    \end{lstlisting}
+    \item \textbf{void}
+\end{enumerate}
+\section{Introduced datatypes}
+\begin{enumerate}
+    \item \textbf{array}:\\\\ To declare an array the following syntax is used: \texttt{ declr <datatype> <identifier>[num]; }\\
+    The expression statement for this array should follow the condition that the number of values inside the array equals the number which is the size with which it was initialized. It can be represented as follows: \texttt{ exp <array identifier> = \{ value1, value2, value3,... \};}\\
+    All of these values should have the same datatype and should match with it's declaration datatype.\\
+    \begin{lstlisting}
+        declr int arr[10];
+        expr arr = {1,2,3,4,5,6,7,8,9};
+
+        declr string str[3];
+        expr str = {"Hema", "Sandya", "Vennela"};
+    \end{lstlisting}
+    \item \textbf{graph}:\\\\ Two types of graphs can be implemented. It can be a weighted graph or it can be an unweighted graph. By default the graphs are taken as directed graphs.\\
+    The following syntax is used for declaration: \texttt{ declr graph <identifier>[num of nodes];}\\
+    Here by default the node labels will be from 1 to n, where n is the number of nodes given in the declaration statement.
+    Now, the edges of the nodes can be represented as follows: \texttt{ expr <identifier> = \{ stmts \};}\\
+    The `stmts' present here depend on the type of graph you want to construct. For an unweighted graph, it can be represented as \texttt{ node\_label : node1\_label, node2\_label,....;}\\
+    This states that there is a directed edge from node$\_$label to node1\_label, from node\_label to node2\_label and so on. If you want to represent an undirected graph, then it can be represented as 2 directed edges between the same two nodes but in reverse direction. For example, if there is an undirected edge between nodes 1 and 2, then you represent it by having a directed edge from 1 to 2, as well as a directed edge from 2 to 1.\\\\
+    Now, if you want to represent a weighted graph, `stmts' takes the form: \texttt{ node\_label : (node1\_label, weight1), (node2\_label, weight2),...;}\\
+    Here also, by default we take them as directed edges. Inside the pair, the first value is the node label and the second value is the weight value associated with the edge. For an undirected graph, the same rule of taking the edge as a combination of two directed edges applies.\\
+    Here, there is a directed edge from node\_label to node1\_label with a weight value of weight1 and so on.\\
+    \begin{lstlisting}
+        declr graph G[4]; 
+        expr G = 
+        {
+            1 : 2,3;
+            2 : 1,4;
+            3 : 1;
+            4 : 2;
+        };
+
+        declr graph G[3];
+        expr G = 
+        {
+            1 : (2,8),(3,12);
+            2 : (3,5);
+        };
+    \end{lstlisting}
+    \item \textbf{matrix}:\\\\
+    The declaration statement of a matrix takes the form \texttt{declr matrix <identifier> [no of rows][no of columns];}\\
+    The matrix itself can be represented as follows: \texttt{expr <identifier> = [ [val\_11, val\_12,...,val\_1n]; [val\_21,val\_22,val\_23,...,val\_2n]; ..... [val\_m1,val\_m2,...,val\_mn] ];}\\
+    Here `m' represents the number of rows and `n' represents the number of columns.\\
+    \begin{lstlisting}
+        declr matrix mat [2][3];
+        expr mat = 
+        [
+            [1,2,3];
+            [4,5,6];
+        ];
+    \end{lstlisting}
+    \item \textbf{vector}:\\\\
+    The size of a vector is not mentioned in our declaration. The declaration of a vector is represented as follows: \texttt{declr vect<datatype> <identifier>;}\\
+    This is similar to the C++ vector datatype.\\
+    Its values maintain the constraint that their datatype matches with the datatype of the vector during its declaration. Their values are represented as follows: \texttt{expr <identifier> = \{val1, val2,...\};}\\
+    \begin{lstlisting}
+        declr vect<int> myvec;
+        expr myvec = {1,2,3};
+    \end{lstlisting}
+\end{enumerate}
+\chapter{Defining function}
+Functions start with a key word \texttt{func}. The declaration of functions follows the following syntax:\\
+\texttt{func <data\_type> (  <arguments> ) { <selected\_statements> }}\\
+The arguments follows the following syntax:\\
+for single argument: \texttt{<data\_type> variable} \\
+for multiple arguments: \texttt{<data\_type> variable1, <data\_type> variable2, <data\_type> variable3}
+functions can have only the following statements
+\begin{enumerate}
+    \item call statements
+    \item variable declaration statements
+    \item expression statements
+    \item conditional statements
+    \item loop statements
+    \item jump statements
+    \item return statements
+\end{enumerate}
+Function can have no arguments too. Here is its corresponding syntax\\
+\texttt{func <data\_type> ( ) { <selected\_statements> }}
+\begin{lstlisting}
+func int foo()
+{
+    !! write statements here (must contain atleast one return)!!
+}
+
+func string boo(int a, int b)
+{
+    !! write the statements here (must contain atleast one return) !!
+}
+\end{lstlisting}
+
+\textbf{NOTE:} Functions must contains atleast one return statement returning the same data type as that of function
+
+\chapter{Statements and their syntax}
+\section*{Operations}
+\subsection*{arithmetic operations}
+Here are the binary operators: \textbf{add, sub, mul, div}\\
+They have the following syntax:\\
+\textbf{\texttt{<b\_operator> (<resultant>, <resultant>)}}\\
+In this the \texttt{<resultant>} represents the following
+\begin{itemize}
+    \item constants (constants of data types int, float, bool , etc)
+    \item arithmetic operations
+    \item logical operations
+    \item call statements
+\end{itemize}
+Here are unary operators: \textbf{incr, decr}\\
+They have the following syntax:\\
+\textbf{\texttt{<u\_operator>(<resultant>)}}\\
+\texttt{<resultant>} is same as mentioned above
+Examples:
+\begin{lstlisting}
+    add(mul(a, b), incr(c))
+    add(call fun(), 3)
+    incr(incr(a))
+    incr(add(i, j))
+    decr(call fun())
+\end{lstlisting}
+\subsection*{logical operations}
+Here are the logical operators: \textbf{and, or, not}\\
+s 
+Statements exists only within the scopes. Here are the types of statements:\\
+\textbf{\texttt{(<resultant> <logical\_operator> <resultant>)}}
+Examples:
+\begin{lstlisting}
+    (a and b)
+    (a or (b and c))
+    (call fun() or incr(c))
+\end{lstlisting}
+\textbf{Note:} The logical operations should lie within braces
+\section{Declaration Statements}
+Declaration statements are used to declare. These statements begin with the keyword \texttt{declr}
+\subsection{pre-defined datatype declarations}
+We can declare single or multiples variables in a single declare statement
+Declaration of primary datatypes.
+
+The declaration of pre-defined datatypes is as follows:\\
+\texttt{declr <data\_type> <variables> ;}
+
+
+\begin{lstlisting}
+func int main()
+{
+    declr int a;
+    declr float f1, f2;
+    declr int arr[a];
+    declr string str1, str2;
+    declr char c;
+    declr bool ans; 
+    declr vect<int> myVec; !! declaration of vector !!
+    declr graph G[10]; !! declaration of graph !!
+    return 0;
+}
+\end{lstlisting}
+
+\subsection{struct declarations}
+The declaration of user defined structs is as follows:\\
+\textbf{\texttt{declr struct <identifier> <identifier> ;}}
+\begin{lstlisting}
+func int main()
+{
+    !! assume that the struct name node is defined !!
+    declr struct node A;
+    declr struct node b, c;
+    return 0;
+}
+\end{lstlisting}
+
+\subsection{class declarations}
+The declaration of user defined class is as follows:\\
+\textbf{\texttt{declr class <identifier> <identifier> ;}}
+\begin{lstlisting}
+func int main()
+{
+    !!  assume that the class name node is defined !!
+    declr class node A;
+    declr class node vertex1, vertex2;
+    return 0;
+}
+\end{lstlisting}
+
+\section{Expression statements}
+Expression statements start with the key word \texttt{expr}. It follows the following syntax\\
+\begin{enumerate}
+    \item \textbf{\texttt{expr variable = <constant>}}:\\
+    Here \texttt{<constant>} is constant of any data types such as int, float,
+    string, char, vect, matrix, bool
+    \begin{lstlisting}
+        func int main()
+        {
+            declr int a;
+            expr a = 10;
+
+            declr string str;
+            expr str = "Hello, World!"
+
+            declr vect<int> myVec;
+            expr myVec = {};
+
+            return 1;
+        }
+    \end{lstlisting}
+    \item \textbf{\texttt{expr variable = <arithematic operations>}} \\
+    Details about \texttt{<arithmetic operation>} are provided earlier
+    \begin{lstlisting}
+        func int main()
+        {
+            declr int ans, a, c, d;
+            expr ans = add(a, mul(c, d));
+            return ans;
+        }
+    \end{lstlisting}
+    \item \textbf{\texttt{expr variable = <logical operations>}}:\\
+    Details about \texttt{<logical operations>} are provided earlier
+    \begin{lstlisting}
+        func int main()
+        {
+            declr bool ans, c;
+            declr int a, b;
+            expr ans = ((a and True) or (b and c));
+            return ans;
+        }
+    \end{lstlisting}
+    \item \textbf{\texttt{expr variable = <Call statements>}}:\\
+    Here call statements are the ones that are described in the later section.
+    \begin{lstlisting}
+        func int main()
+        {
+            declr int ans;
+            expr ans = call foo();
+            return ans;
+        }
+    \end{lstlisting}
+\end{enumerate}
+
+\section{Conditional statements}
+\subsection{if-conditionals}
+Here is the syntax for if-conditionals
+\begin{enumerate}
+    \item \textbf{\texttt{if (<resultant>) \{ <statements>\}}}:\\
+    The \texttt{<resultant>} includes following kinds 
+    \begin{itemize}
+        \item constants (constants of data types int, float, bool , etc)
+        \item arithematic operations
+        \item logical operations
+        \item call statements
+    \end{itemize}
+    \begin{lstlisting}
+        func int main()
+        {
+            !! assumes that the identifier used it these statments are already declared !!
+            if ( (a and b) or (add(1, 2)))
+            {
+                !! write statements here !!
+            }
+
+            return a;
+        }
+    \end{lstlisting}
+    \item \texttt{\texttt{if (<resultant> \{ <statements>\})} else \{ <statements>\}}:\\
+    \begin{lstlisting}
+        func int main()
+        {
+            !! assumes that the identifier used it these statments are already declared !!
+            if ( (a and b) and (call foo(1, 2)))
+            {
+                !! write statements here !!
+                return a;
+            }
+            else 
+            {
+                !! write statements here !!
+                return b;
+            }
+        }
+    \end{lstlisting}
+\end{enumerate}
+\subsection{switch-conditionals}
+Here is the syntax for the switch conditionals\\
+\texttt{switch (<resultant>) \{ \\
+    case <constant> :\\
+        <statements>\\
+    case <constant> :\\
+        <statement>\\
+    default :\\
+        <statements>\\
+    \}}\\
+
+\textbf{Note:}
+There can be any number of cases. The \texttt{default} case is optional
+\begin{lstlisting}
+    func int main()
+    {
+        !! assume that the identifiers that are used are already declare before !!
+        switch(id1)
+        {
+            case 1:
+                !! write statements here !!
+            default:
+                !! write statements here !!
+        }
+
+        return id1;
+    }
+\end{lstlisting}
+\section{Loops}
+The loop start with a key word \texttt{'loop'}
+\subsection{for loops}
+The syntax for 'for loops'\\
+\textbf{\texttt{loop for(<expression statement> ; <logical operations>; <increment operations>) \{ <statements>\}}}
+\begin{lstlisting}
+    func int main()
+    {
+        !! write statements here (optional)!!
+        loop for (i=0 ; (i<10); incr(i))
+        {
+            !! write statements here !!
+        }
+        return i;
+    }
+\end{lstlisting}
+\subsection{while loops}
+The syntax for while loops\\
+\textbf{\texttt{loop while (<resultant>) \{<statements>\}}}\\
+The \texttt{<resultant>} above includes the following
+\begin{itemize}
+    \item constants (constants of data types int, float, bool , etc)
+        \item arithmetic operations
+        \item logical operations
+        \item call statements
+\end{itemize}
+\begin{lstlisting}
+    func int main()
+    {
+        !! write statements here (optional) !!
+        loop while((i<10))
+        {
+            !! write statements here !!
+        }
+
+        loop while(decr(i))
+        {
+            !! write statemens here !!
+        }
+
+        return i;
+    }
+\end{lstlisting}
+\section{Jump statements}
+To write the jump statements, the label to which the program should jump to should be declared first. Here is its syntax assuming that the corresponding label is declared before\\
+\textbf{\texttt{goto <identifier>}}
+\begin{lstlisting}
+    func int main()
+    {
+        declr int a;
+        expr a = 0;
+        label1 : incr(a);
+
+        !! write statements here !!
+
+        if(a){
+            goto label1;
+        }
+
+        !! write statemnts here !!
+
+        return a;
+    }
+\end{lstlisting}
+The labeled statements looks like the following\\
+\textbf{\texttt{<identifier> : <statement>}} 
+\\ or
+\textbf{\texttt{<identifier>: }}\\
+It is not necessary to have statements right to the label.
+
+\section{Call statements}
+Call statements are used to call the functions. They can be used as statements or as RHS of expressions or as conditionals in conditional statements too. They must start with the keyword \texttt{call}. Here is their syntax:\\
+\textbf{\texttt{call <identifier>(<call\_arguments>)}} \\
+The \texttt{<call\_arguments>} follow the following syntax:\\
+\texttt{<resultant>}\\ 
+or\\
+\texttt{<resultant>, <resultant>, <resultant>}\\
+The call arguments are none or more \texttt{<resultant>} objects. The \texttt{<resultant>} means the following
+\begin{itemize}
+    \item constants (constants of data types int, float, bool , etc)
+    \item arithmetic operations
+    \item logical operations
+    \item call statements
+\end{itemize}
+\begin{lstlisting}
+    func int main()
+    {
+        !! write statements here (optional) !!
+        call foo();
+        call fun(a, incr(n));
+        expr a = call fan(i);
+        if(call ben(s, str, 10))
+        {
+            !! write statements here !!
+        }
+        return 0;
+    }
+\end{lstlisting}
+
+And here is the syntax for calling functions that belong to some class
+\\
+\textbf{\texttt{call <identifier>.<identifier>(call\_arguments)}}
+\begin{lstlisting}
+    func int main()
+    {
+        !! assume that a class named node is defined and there is a 
+            function name Print_node, add_nums exists in that node class !!
+
+        declr class node A;
+        call A.Print_node();
+        declr int ans;
+        expr ans = call A.add_nums(12, 13);
+        return ans;
+    }
+\end{lstlisting}
+
+\section{return statements}
+The return statement are used in functions to return the result of the function. Here is the syntax for the return statements:\\
+\textbf{\texttt{return <resultant>}}\\
+As mentioned in earlier the \texttt{<resultant>} represents the following
+\begin{itemize}
+    \item constants (constants of data types int, float, bool , etc)
+    \item arithmetic operations
+    \item logical operations
+    \item call statements
+\end{itemize}
+The thing the return statement return should match the data type of the function, which is checked by syntax analyser. A function should contain atleast one return statement
+\begin{lstlisting}
+    func int main()
+    {
+        declr int a;
+        expr a = 10;
+        
+        if(a)
+        {
+            return 0;
+        }
+        else{
+            return incr(a);
+        }
+        return a;
+    }
+\end{lstlisting}
+\section{unary operation statements}
+The unary operation itself can act as statement. The syntax is already defined previously.\\
+\textbf{\texttt{<u\_operator> (<resultant>)}}
+\begin{lstlisting}
+func int main()
+{
+    declr int a;
+    expr a = 10;
+    incr(incr(a));
+    return incr(a);
+}
+\end{lstlisting}
+They can also be given as function arguments, conditional arguments, RHS of expression statements also.
+\chapter{Improvisation}
+
+\section{Vectors}
+Vectors in this language works similar to the vectors in C++. There is no beforehand declaration of the size as in the case of arrays.\\
+Vectors are mutable.\\
+We have some inbuilt functions like append, remove, pop, length, sort for various uses.
+\subsection{append}
+The function 'append' adds the associated element at the end of the vector.
+\begin{lstlisting}
+
+    expr myvec = {1,2,3}; !! expression statement !!
+    
+    myvec.append(4); !! append method of vector !!
+    
+    !! myvec becomes {1,2,3,4} !!
+    
+\end{lstlisting}
+\subsection{remove}
+The function 'remove' takes in an argument of the index which has to removed. It must have the constraint that the index must be within the size of that vector.\\
+\begin{lstlisting}
+    !! myvec = {10,25,35} !!
+    
+    myvec.remove(1); 
+
+    !! myvec becomes {10,35} !!
+\end{lstlisting}
+\subsection{length}
+The function 'length' returns the number of the elements in the vector.\\
+\begin{lstlisting}
+    !! myvec = {'c','h','e','z'} !!
+    
+    expr a = myvec.length();
+    
+    !! The value 4 gets assigned to variable 'a' !!
+\end{lstlisting}
+\subsection{sort}
+The function 'sort' by default sorts the vector in increasing order.
+\begin{lstlisting}
+    !! myvec = {34,23,1,-123} !!
+
+    myvec.sort();
+
+    !! myvec becomes {-123,1,23,34} !!
+\end{lstlisting}
+\subsection{clear}
+The function `clear' removes all the elements in the vector making its size 0.
+\begin{lstlisting}
+    !! myvec = {1,2,3,4} !!
+
+    myvec.clear();
+
+    !! myvec becomes {} !!
+\end{lstlisting}
+\subsection{at}
+This function takes an argument of index and returns the value which is present at that index in the vector.
+\begin{lstlisting}
+    !! myvec = {20,100,67,69} !!
+
+    expr a = myvec.at(3);
+
+    !! The variable 'a' gets assigned the value of 69. !!
+\end{lstlisting}
+\section{Matrices}
+We can declare matrix directly using this 'matrix' datatype.\\
+We have some inbuilt functions for regularly using matrix operations like add, sub, transpose, trace.
+\subsection{add\_matx}
+'add\_matx' is a function which takes two matrices as input and return their addition only if their dimensions match. Else gives an error. \\
+\begin{lstlisting}
+    declr matrix A[2][3], B[2][3], C[2][3];
+
+    expr C = add_matx(A,B); !! C gets assigned the matrix obtained by the addition of A and B !!
+    
+\end{lstlisting}
+\subsection{sub\_matx}
+'sub\_matx' is a function which takes two matrices as input and return their subtraction only if their dimensions match. Else gives an error.\\
+By returning the subtraction here we mean, the matrix which is given as a second argument is subtracted from first.
+\begin{lstlisting}
+    declr matrix A[2][3], B[2][3], C[2][3];
+
+    expr C = sub_matx(A,B); !! C gets assigned the matrix obtained by the subtraction of B from A !!
+\end{lstlisting}
+\subsection{mult\_matx}
+'mult\_matx' is matrix multiplication function. Here two matrices can qualify for multiplication only if the number of columns of first matrix is equal to the number of rows of the second matrix.\\
+This returned matrix has rows equal to the number of rows of the first matrix and the columns equal to that of the second matrix.\\
+\begin{lstlisting}
+    declr matrix A[5][6], B[6][10], C[5][10];
+
+    expr C = mult_matx(A,B); !! C gets assigned the matrix obtained by the multiplication of A with B. !!
+\end{lstlisting}
+\subsection{transpose}
+This takes a matrix as an input and return its transpose.\\
+\begin{lstlisting}
+    declr matrix A[1][2], B[2][1];
+
+    expr B = A.transpose(); !! B gets assigned the transpose of A !!
+\end{lstlisting}
+\subsection{trace}
+This function checks whether the matrix is a square matrix. If it is, returns the trace else gives an error.
+\begin{lstlisting}
+    declr matrix A[2][2]; 
+
+    expr a = A.trace(); !! 'a' gets assigned the value of trace of A !!
+\end{lstlisting}
+\section{Graphs}
+Graphs has inbuilt functions for BFS and DFS traversals.
+\subsection{dfs}
+This 'dfs' function implements the DFS traversal of a graph. It takes an argument which is the node at which the dfs search has to be implemented. This returns a vector.\\
+\begin{lstlisting}
+    declr vect<int> myvec;
+    
+    declr graph G[12];
+    
+    expr myvec = G.dfs(3);  !! myvec gets assigned the dfs order of nodes starting at 3 !!
+\end{lstlisting}
+\subsection{bfs}
+This 'bfs' function implements the BFS traversal of a graph. It takes an argument of the node and returns the bfs search from there as a vector.\\
+\begin{lstlisting}
+    declr vect<int> myvec;
+    
+    declr graph G[5];
+    
+    expr myvec = G.bfs(2); !! myvec gets assigned the bfs order of nodes starting at 2 !!
+\end{lstlisting}
+\end{document}
