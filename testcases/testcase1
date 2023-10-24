@@ -3,5 +3,6 @@ func int main()
 	declr int a, b;
 	declr float c;
 	expr c = a + b;
+	incr(c);
 	return c;
 }
