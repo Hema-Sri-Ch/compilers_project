@@ -33,13 +33,7 @@
 	return tokenA;
 }
 
-# Sandya
 
-# Akshay
-
-# Hema
-
-# Vennela
 
 . {
 	printf("%s\n", yytext);
