@@ -33,9 +33,39 @@
 	return tokenA;
 }
 
+\'[^']\' {
+    printf("CHAR_CONST: %s\n", yytext);
+    return CHAR_CONST;
+}
+
+\"[^"]*\" {
+    printf("STR_CONST: %s\n", yytext);
+    return STR_CONST;
+}
+
+[0-9]+ {
+    printf("INT_CONST: %s\n", yytext);
+    return INT_CONST;
+}
+
+"true"|"false" {
+    printf("BOOL_CONST: %s\n", yytext);
+    return BOOL_CONST;
+}
+
+[0-9]+[.][0-9]+ {
+    printf("FLOAT_CONST: %s\n", yytext);
+    return FLOAT_CONST;
+}
+
+
 [a-zA-Z_][a-zA-Z0-9_]* {
 	printf("Identifier : %s\n", yytext);
 	return id;
+}
+
+\n {
+    // Ignore newline characters for now.
 }
 
 . {
@@ -49,6 +79,6 @@
 int yywrap(){}
 
 int main(){
-	yylex();
+	while(yylex());
 	return 0;
 }

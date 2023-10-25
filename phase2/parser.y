@@ -7,6 +7,12 @@
 
 %token tokenA
 %token id
+%token INT_CONST
+%token FLOAT_CONST
+%token CHAR_CONST
+%token STR_CONST
+%token BOOL_CONST
+
 
 %start program_unit
 
