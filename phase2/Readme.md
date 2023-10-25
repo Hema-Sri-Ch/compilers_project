@@ -3,8 +3,9 @@
 --> compile it with 'yacc -d parser.y'
 
 --> Then compile your lexer with 
+
 		lex lexer.l
-		gcc lex.yy.c
+  		gcc lex.yy.c
 
 --> write your testcase in 'inp' file
 
