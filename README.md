@@ -6,6 +6,6 @@ Post any updates you do to the repo in this file or in the group to let others k
 --> Current Assingment is to be done in 'phase2' folder
 
 # Beeram Sandya
-# Challa Akshay Santoshi
+# Akshay Santoshi
 # Cheekatla Hema Sri
 # Potta Vennela
