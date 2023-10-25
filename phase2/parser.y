@@ -6,7 +6,7 @@
 %}
 
 %token tokenA
-
+%token id
 
 %start program_unit
 

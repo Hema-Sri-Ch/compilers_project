@@ -33,7 +33,10 @@
 	return tokenA;
 }
 
-
+[a-zA-Z_][a-zA-Z0-9_]* {
+	printf("Identifier : %s\n", yytext);
+	return id;
+}
 
 . {
 	printf("%s\n", yytext);
