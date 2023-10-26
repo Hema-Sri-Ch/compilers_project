@@ -235,15 +235,20 @@
 
 [;:,\'\".] {
 	printf("Punctuation : %s\n", yytext);
-	return PUNC;
+	return yytext[0];
 }
 
-\n {
+[\n\t ] {
     // Ignore newline characters for now.
 }
 
+[\[\](){}=] {
+	printf("Special symbols:	%s\n", yytext);
+	return yytext[0];
+}
+
 . {
-	printf("%s\n", yytext);
+	printf("EXTRA:	%s\n", yytext);
 }
 
 
