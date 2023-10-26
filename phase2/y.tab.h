@@ -55,13 +55,37 @@ extern int yydebug;
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
     tokenA = 258,                  /* tokenA  */
-    ID = 259,                      /* ID  */
+    id = 259,                      /* id  */
     INT_CONST = 260,               /* INT_CONST  */
     FLOAT_CONST = 261,             /* FLOAT_CONST  */
     CHAR_CONST = 262,              /* CHAR_CONST  */
     STR_CONST = 263,               /* STR_CONST  */
     BOOL_CONST = 264,              /* BOOL_CONST  */
-    PUNC = 265                     /* PUNC  */
+    PUNC = 265,                    /* PUNC  */
+    DATATYPE = 266,                /* DATATYPE  */
+    VOID = 267,                    /* VOID  */
+    RETURN = 268,                  /* RETURN  */
+    IF = 269,                      /* IF  */
+    ELSE = 270,                    /* ELSE  */
+    CONTINUE = 271,                /* CONTINUE  */
+    BREAK = 272,                   /* BREAK  */
+    MATRIX = 273,                  /* MATRIX  */
+    GRAPH = 274,                   /* GRAPH  */
+    VECT = 275,                    /* VECT  */
+    SWITCH = 276,                  /* SWITCH  */
+    CASE = 277,                    /* CASE  */
+    CLASS = 278,                   /* CLASS  */
+    STRUCT = 279,                  /* STRUCT  */
+    LOGOP = 280,                   /* LOGOP  */
+    ARITHOP = 281,                 /* ARITHOP  */
+    NOT = 282,                     /* NOT  */
+    EXP = 283,                     /* EXP  */
+    UNARYOP = 284,                 /* UNARYOP  */
+    DECLR = 285,                   /* DECLR  */
+    EXPR = 286,                    /* EXPR  */
+    FUNC = 287,                    /* FUNC  */
+    LOOP = 288,                    /* LOOP  */
+    null = 289                     /* null  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -71,13 +95,37 @@ extern int yydebug;
 #define YYerror 256
 #define YYUNDEF 257
 #define tokenA 258
-#define ID 259
+#define id 259
 #define INT_CONST 260
 #define FLOAT_CONST 261
 #define CHAR_CONST 262
 #define STR_CONST 263
 #define BOOL_CONST 264
 #define PUNC 265
+#define DATATYPE 266
+#define VOID 267
+#define RETURN 268
+#define IF 269
+#define ELSE 270
+#define CONTINUE 271
+#define BREAK 272
+#define MATRIX 273
+#define GRAPH 274
+#define VECT 275
+#define SWITCH 276
+#define CASE 277
+#define CLASS 278
+#define STRUCT 279
+#define LOGOP 280
+#define ARITHOP 281
+#define NOT 282
+#define EXP 283
+#define UNARYOP 284
+#define DECLR 285
+#define EXPR 286
+#define FUNC 287
+#define LOOP 288
+#define null 289
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

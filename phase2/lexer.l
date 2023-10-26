@@ -23,10 +23,179 @@
 	# include <string.h>
 	# include <stdlib.h>
 	# include "y.tab.h"
+	// extern FILE* fparse;
 	extern int yyleng;
 %}
 
 %%
+
+"int"|"char"|"string"|"bool"|"float" {
+	// fprintf(yyout, "datatype: %s\n", yytext);
+    // fprintf(fparse, "%s", yytext);
+	printf("datatype: %s\n", yytext);
+    return DATATYPE;
+}
+
+"void" {
+    // fprintf(yyout, "datatype: %s\n", yytext);
+    // fprintf(fparse, "%s", yytext);
+	printf("datatype: %s\n", yytext);
+    return VOID;
+}
+
+"return" {
+    // fprintf(yyout, "reserved keyword: %s\n", yytext);
+    // fprintf(fparse, "%s", yytext);
+	printf("reserved keyword: %s\n", yytext);
+    return RETURN;
+}
+
+"if" {
+	// fprintf(yyout, "reserved keyword: %s\n", yytext);
+    // fprintf(fparse, "%s", yytext);
+	printf("reserved keyword: %s\n", yytext);
+    return IF;
+}
+
+"else" {
+	// fprintf(yyout, "reserved keyword: %s\n", yytext);
+    // fprintf(fparse, "%s", yytext);
+	printf("reserved keyword: %s\n", yytext);
+    return ELSE;
+}
+
+"continue" {
+	// fprintf(yyout, "reserved keyword: %s\n", yytext);
+    // fprintf(fparse, "%s", yytext);
+	printf("reserved keyword: %s\n", yytext);
+    return CONTINUE;
+}
+
+"break" {
+	// fprintf(yyout, "reserved keyword: %s\n", yytext);
+    // fprintf(fparse, "%s", yytext);
+	printf("reserved keyword: %s\n", yytext);
+    return BREAK;
+}
+
+"matrix" {
+	// fprintf(yyout, "reserved keyword: %s\n", yytext);
+    // fprintf(fparse, "%s", yytext);
+	printf("reserved keyword: %s\n", yytext);
+    return MATRIX;
+}
+
+"graph" {
+	// fprintf(yyout, "reserved keyword: %s\n", yytext);
+    // fprintf(fparse, "%s", yytext);
+	printf("reserved keyword: %s\n", yytext);
+    return GRAPH;
+}
+
+"vect" {
+	// fprintf(yyout, "reserved keyword: %s\n", yytext);
+    // fprintf(fparse, "%s", yytext);
+	printf("reserved keyword: %s\n", yytext);
+    return VECT;
+}
+
+"switch" {
+	// fprintf(yyout, "reserved keyword: %s\n", yytext);
+    // fprintf(fparse, "%s", yytext);
+	printf("reserved keyword: %s\n", yytext);
+    return SWITCH;
+}
+
+"case" {
+	// fprintf(yyout, "reserved keyword: %s\n", yytext);
+    // fprintf(fparse, "%s", yytext);
+	printf("reserved keyword: %s\n", yytext);
+    return CASE;
+}
+
+"class" {
+	// fprintf(yyout, "reserved keyword: %s\n", yytext);
+    // fprintf(fparse, "%s", yytext);
+	printf("reserved keyword: %s\n", yytext);
+    return CLASS;
+}
+
+"struct" {
+	// fprintf(yyout, "reserved keyword: %s\n", yytext);
+    // fprintf(fparse, "%s", yytext);
+	printf("reserved keyword: %s\n", yytext);
+    return STRUCT;
+}
+
+"and"|"or"|"lt"|"gt"|"gte"|"eq"|"neq"|"lte" {
+	// fprintf(yyout, "reserved keyword: %s\n", yytext);
+    // fprintf(fparse, "%s", yytext);
+	printf("reserved keyword: %s\n", yytext);
+    return LOGOP;
+}
+
+"add"|"sub"|"mul"|"div" {
+	// fprintf(yyout, "operator: %s\n", yytext);
+    // fprintf(fparse, "%s", yytext);
+	printf("operator: %s\n", yytext);
+    return ARITHOP;
+}
+
+"not" {
+	// fprintf(yyout, "reserved keyword: %s\n", yytext);
+    // fprintf(fparse, "%s", yytext);
+	printf("reserved keyword: %s\n", yytext);
+    return NOT;
+}
+
+"exp" {
+	// fprintf(yyout, "reserved keyword: %s\n", yytext);
+    // fprintf(fparse, "%s", yytext);
+	printf("reserved keyword: %s\n", yytext);
+    return EXP;
+}
+
+"incr"|"decr" {
+	// fprintf(yyout, "reserved keyword: %s\n", yytext);
+    // fprintf(fparse, "%s", yytext);
+	printf("reserved keyword: %s\n", yytext);
+    return UNARYOP;
+}
+
+"declr" {
+	// fprintf(yyout, "reserved keyword: %s\n", yytext);
+    // fprintf(fparse, "%s", yytext);
+	printf("reserved keyword: %s\n", yytext);
+    return DECLR;
+}
+
+"expr" {
+	// fprintf(yyout, "reserved keyword: %s\n", yytext);
+    // fprintf(fparse, "%s", yytext);
+	printf("reserved keyword: %s\n", yytext);
+    return EXPR;
+}
+
+"func" {
+	// fprintf(yyout, "reserved keyword: %s\n", yytext);
+    // fprintf(fparse, "%s", yytext);
+	printf("reserved keyword: %s\n", yytext);
+    return FUNC;
+}
+
+"loop" {
+	// fprintf(yyout, "reserved keyword: %s\n", yytext);
+    // fprintf(fparse, "%s", yytext);
+	printf("reserved keyword: %s\n", yytext);
+    return LOOP;
+}
+
+"null" {
+	// fprintf(yyout, "reserved keyword: %s\n", yytext);
+    // fprintf(fparse, "%s", yytext);
+	printf("reserved keyword: %s\n", yytext);
+    return null;
+}
 
 "abc" {
 	printf("%s\n", yytext);
@@ -61,8 +230,9 @@
 
 [a-zA-Z_][a-zA-Z0-9_]* {
 	printf("Identifier : %s\n", yytext);
-	return ID;
+	return id;
 }
+
 [;:,\'\".] {
 	printf("Punctuation : %s\n", yytext);
 	return PUNC;
@@ -80,9 +250,13 @@
 
 %%
 
-int yywrap(){}
+int yywrap()
+{
+	// return 1;
+}
 
 int main(){
 	while(yylex());
 	return 0;
 }
+

@@ -71,10 +71,12 @@
 
 	#include<stdio.h>
 	#include <string.h>
+	// extern FILE* yyin, *yyout;
+    // FILE* fparse;
 	int yylex(void);
 	int yyerror(const char *s);
 
-#line 78 "y.tab.c"
+#line 80 "y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -119,13 +121,37 @@ extern int yydebug;
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
     tokenA = 258,                  /* tokenA  */
-    ID = 259,                      /* ID  */
+    id = 259,                      /* id  */
     INT_CONST = 260,               /* INT_CONST  */
     FLOAT_CONST = 261,             /* FLOAT_CONST  */
     CHAR_CONST = 262,              /* CHAR_CONST  */
     STR_CONST = 263,               /* STR_CONST  */
     BOOL_CONST = 264,              /* BOOL_CONST  */
-    PUNC = 265                     /* PUNC  */
+    PUNC = 265,                    /* PUNC  */
+    DATATYPE = 266,                /* DATATYPE  */
+    VOID = 267,                    /* VOID  */
+    RETURN = 268,                  /* RETURN  */
+    IF = 269,                      /* IF  */
+    ELSE = 270,                    /* ELSE  */
+    CONTINUE = 271,                /* CONTINUE  */
+    BREAK = 272,                   /* BREAK  */
+    MATRIX = 273,                  /* MATRIX  */
+    GRAPH = 274,                   /* GRAPH  */
+    VECT = 275,                    /* VECT  */
+    SWITCH = 276,                  /* SWITCH  */
+    CASE = 277,                    /* CASE  */
+    CLASS = 278,                   /* CLASS  */
+    STRUCT = 279,                  /* STRUCT  */
+    LOGOP = 280,                   /* LOGOP  */
+    ARITHOP = 281,                 /* ARITHOP  */
+    NOT = 282,                     /* NOT  */
+    EXP = 283,                     /* EXP  */
+    UNARYOP = 284,                 /* UNARYOP  */
+    DECLR = 285,                   /* DECLR  */
+    EXPR = 286,                    /* EXPR  */
+    FUNC = 287,                    /* FUNC  */
+    LOOP = 288,                    /* LOOP  */
+    null = 289                     /* null  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -135,13 +161,37 @@ extern int yydebug;
 #define YYerror 256
 #define YYUNDEF 257
 #define tokenA 258
-#define ID 259
+#define id 259
 #define INT_CONST 260
 #define FLOAT_CONST 261
 #define CHAR_CONST 262
 #define STR_CONST 263
 #define BOOL_CONST 264
 #define PUNC 265
+#define DATATYPE 266
+#define VOID 267
+#define RETURN 268
+#define IF 269
+#define ELSE 270
+#define CONTINUE 271
+#define BREAK 272
+#define MATRIX 273
+#define GRAPH 274
+#define VECT 275
+#define SWITCH 276
+#define CASE 277
+#define CLASS 278
+#define STRUCT 279
+#define LOGOP 280
+#define ARITHOP 281
+#define NOT 282
+#define EXP 283
+#define UNARYOP 284
+#define DECLR 285
+#define EXPR 286
+#define FUNC 287
+#define LOOP 288
+#define null 289
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -166,15 +216,39 @@ enum yysymbol_kind_t
   YYSYMBOL_YYerror = 1,                    /* error  */
   YYSYMBOL_YYUNDEF = 2,                    /* "invalid token"  */
   YYSYMBOL_tokenA = 3,                     /* tokenA  */
-  YYSYMBOL_ID = 4,                         /* ID  */
+  YYSYMBOL_id = 4,                         /* id  */
   YYSYMBOL_INT_CONST = 5,                  /* INT_CONST  */
   YYSYMBOL_FLOAT_CONST = 6,                /* FLOAT_CONST  */
   YYSYMBOL_CHAR_CONST = 7,                 /* CHAR_CONST  */
   YYSYMBOL_STR_CONST = 8,                  /* STR_CONST  */
   YYSYMBOL_BOOL_CONST = 9,                 /* BOOL_CONST  */
   YYSYMBOL_PUNC = 10,                      /* PUNC  */
-  YYSYMBOL_YYACCEPT = 11,                  /* $accept  */
-  YYSYMBOL_program_unit = 12               /* program_unit  */
+  YYSYMBOL_DATATYPE = 11,                  /* DATATYPE  */
+  YYSYMBOL_VOID = 12,                      /* VOID  */
+  YYSYMBOL_RETURN = 13,                    /* RETURN  */
+  YYSYMBOL_IF = 14,                        /* IF  */
+  YYSYMBOL_ELSE = 15,                      /* ELSE  */
+  YYSYMBOL_CONTINUE = 16,                  /* CONTINUE  */
+  YYSYMBOL_BREAK = 17,                     /* BREAK  */
+  YYSYMBOL_MATRIX = 18,                    /* MATRIX  */
+  YYSYMBOL_GRAPH = 19,                     /* GRAPH  */
+  YYSYMBOL_VECT = 20,                      /* VECT  */
+  YYSYMBOL_SWITCH = 21,                    /* SWITCH  */
+  YYSYMBOL_CASE = 22,                      /* CASE  */
+  YYSYMBOL_CLASS = 23,                     /* CLASS  */
+  YYSYMBOL_STRUCT = 24,                    /* STRUCT  */
+  YYSYMBOL_LOGOP = 25,                     /* LOGOP  */
+  YYSYMBOL_ARITHOP = 26,                   /* ARITHOP  */
+  YYSYMBOL_NOT = 27,                       /* NOT  */
+  YYSYMBOL_EXP = 28,                       /* EXP  */
+  YYSYMBOL_UNARYOP = 29,                   /* UNARYOP  */
+  YYSYMBOL_DECLR = 30,                     /* DECLR  */
+  YYSYMBOL_EXPR = 31,                      /* EXPR  */
+  YYSYMBOL_FUNC = 32,                      /* FUNC  */
+  YYSYMBOL_LOOP = 33,                      /* LOOP  */
+  YYSYMBOL_null = 34,                      /* null  */
+  YYSYMBOL_YYACCEPT = 35,                  /* $accept  */
+  YYSYMBOL_program_unit = 36               /* program_unit  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -505,7 +579,7 @@ union yyalloc
 #define YYLAST   1
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  11
+#define YYNTOKENS  35
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  2
 /* YYNRULES -- Number of rules.  */
@@ -514,7 +588,7 @@ union yyalloc
 #define YYNSTATES  4
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   265
+#define YYMAXUTOK   289
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -554,14 +628,16 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7,     8,     9,    10
+       5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
+      15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
+      25,    26,    27,    28,    29,    30,    31,    32,    33,    34
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    20,    20
+       0,    47,    47
 };
 #endif
 
@@ -577,9 +653,12 @@ static const char *yysymbol_name (yysymbol_kind_t yysymbol) YY_ATTRIBUTE_UNUSED;
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "\"end of file\"", "error", "\"invalid token\"", "tokenA", "ID",
+  "\"end of file\"", "error", "\"invalid token\"", "tokenA", "id",
   "INT_CONST", "FLOAT_CONST", "CHAR_CONST", "STR_CONST", "BOOL_CONST",
-  "PUNC", "$accept", "program_unit", YY_NULLPTR
+  "PUNC", "DATATYPE", "VOID", "RETURN", "IF", "ELSE", "CONTINUE", "BREAK",
+  "MATRIX", "GRAPH", "VECT", "SWITCH", "CASE", "CLASS", "STRUCT", "LOGOP",
+  "ARITHOP", "NOT", "EXP", "UNARYOP", "DECLR", "EXPR", "FUNC", "LOOP",
+  "null", "$accept", "program_unit", YY_NULLPTR
 };
 
 static const char *
@@ -643,13 +722,13 @@ static const yytype_int8 yycheck[] =
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     3,    12,     0
+       0,     3,    36,     0
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    11,    12
+       0,    35,    36
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
@@ -1119,7 +1198,7 @@ yyreduce:
   switch (yyn)
     {
 
-#line 1123 "y.tab.c"
+#line 1202 "y.tab.c"
 
       default: break;
     }
@@ -1312,7 +1391,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 22 "parser.y"
+#line 49 "parser.y"
 
 
 
@@ -1322,5 +1401,24 @@ int yyerror(const char *msg)
 	printf("Parsing Failed\nLine Number: %d %s\n",yylineno,msg);
 	fprintf(yyout, " : invalid statement");
 	return 0;
+	// fprintf(fparse, " : invalid statement");
+	// exit(0);
 }
+
+// main() {
+// 	    FILE* fp = fopen(input.txt, "r");
+//      yyin = fp;
+//      fparse = fopen(parsed.txt, "w");
+//  	FILE* ft = fopen(tokens.txt, "w");
+//  	yyout = ft;
+//
+//  	yyparse();
+//  
+//  	fclose(fparse);
+//  	fclose(ft);
+//  	fclose(fp);
+// }
+
+
+
 
