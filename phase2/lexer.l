@@ -255,13 +255,11 @@
 
 %%
 
-int yywrap()
-{
-	// return 1;
-}
+int yywrap(){}
 
+/*
 int main(){
 	while(yylex());
 	return 0;
 }
-
+*/

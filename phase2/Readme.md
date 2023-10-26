@@ -1,4 +1,6 @@
---> Define token names from line 8 in 'parser.y'
+--> Remove the undeclared variables in the grammer rule of 'statement' while testing your code. Those variables will be declared by your teammates soon.
+
+--> Give understandable names to the variables while writting grammar so that others can understand your code
 
 --> compile it with 
 		
@@ -7,7 +9,7 @@
 --> Then compile your lexer with 
 
 		lex lexer.l
-  		gcc lex.yy.c
+  		gcc lex.yy.c y.tab.c
 
 --> write your testcase in 'inp' file
 
