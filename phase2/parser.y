@@ -6,13 +6,13 @@
 %}
 
 %token tokenA
-%token id
+%token ID
 %token INT_CONST
 %token FLOAT_CONST
 %token CHAR_CONST
 %token STR_CONST
 %token BOOL_CONST
-
+%token PUNC
 
 %start program_unit
 
