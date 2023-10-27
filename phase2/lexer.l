@@ -257,7 +257,7 @@
     // Ignore newline characters for now.
 }
 
-[\[\](){}=] {
+[\[\](){}=<>] {
 	fprintf(yyout, "Special symbols:	%s\n", yytext);
 	fprintf(fparse, "%s", yytext);
 	return yytext[0];

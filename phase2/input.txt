@@ -6,4 +6,19 @@ func int main(){
 	expr d = add(call df(), call A.df(8, ddf, mul(a, b), (a or b), call dfas()));
 	call sdf();
 	call sdfsd.sdf();
+	declr int a;
+	declr float f1, f2;
+	declr int arr[10];
+	declr int arr[10], barr[5];
+	declr string str1, str2;
+	declr char c;
+	declr bool ans;
+	declr vect < int > myVec; 
+	declr graph G[10];
+	declr vect<int> myVec1, myVec2; 
+	declr graph G[10], B[0];
+	declr struct node A;
+	declr struct node b, c;
+	declr class node A;
+	declr class node vertex1, vertex2;
 }

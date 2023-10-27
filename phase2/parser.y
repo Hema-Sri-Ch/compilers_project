@@ -95,6 +95,9 @@ function_head			: FUNC dtype id '(' ')' {fprintf(fparse, " : FUNCTION HEAD");}
 						;
 						
 dtype					: DATATYPE
+						| MATRIX
+						| GRAPH
+						| VECT '<' dtype '>'
 						| id
 						;
 						
@@ -109,9 +112,33 @@ statements				: statement statements
 						
 statement				: expr_stmt
 						| call_stmt
+						| declr_stmt 
 						;
 						
 expr_stmt				: EXPR id '=' RHS ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
+						;
+
+declr_stmt				: DECLR declr_body ';' {fprintf(fparse, " : DECLARATION STATEMENT");}
+
+declr_body				: DATATYPE id_list
+						| GRAPH graph_and_array_list
+						| VECT '<' dtype '>' id_list
+						| MATRIX matrix_list 
+						| DATATYPE graph_and_array_list
+						| STRUCT id id_list
+						| CLASS id id_list
+						;
+
+graph_and_array_list	: id '[' INT_CONST ']' ',' graph_and_array_list
+						| id '[' INT_CONST ']'
+						;
+
+matrix_list				: id '[' INT_CONST ']' '[' INT_CONST ']' ',' matrix_list
+						| id '[' INT_CONST ']' '[' INT_CONST ']'
+						;
+
+id_list					: id ',' id_list
+						| id
 						;
 						
 RHS						: constants

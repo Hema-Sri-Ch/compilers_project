@@ -111,4 +111,106 @@ Identifier : sdf
 Special symbols:	(
 Special symbols:	)
 Punctuation : ;
+reserved keyword: declr
+datatype: int
+Identifier : a
+Punctuation : ;
+reserved keyword: declr
+datatype: float
+Identifier : f1
+Punctuation : ,
+Identifier : f2
+Punctuation : ;
+reserved keyword: declr
+datatype: int
+Identifier : arr
+Special symbols:	[
+constant: 10
+Special symbols:	]
+Punctuation : ;
+reserved keyword: declr
+datatype: int
+Identifier : arr
+Special symbols:	[
+constant: 10
+Special symbols:	]
+Punctuation : ,
+Identifier : barr
+Special symbols:	[
+constant: 5
+Special symbols:	]
+Punctuation : ;
+reserved keyword: declr
+datatype: string
+Identifier : str1
+Punctuation : ,
+Identifier : str2
+Punctuation : ;
+reserved keyword: declr
+datatype: char
+Identifier : c
+Punctuation : ;
+reserved keyword: declr
+datatype: bool
+Identifier : ans
+Punctuation : ;
+reserved keyword: declr
+reserved keyword: vect
+Special symbols:	<
+datatype: int
+Special symbols:	>
+Identifier : myVec
+Punctuation : ;
+reserved keyword: declr
+reserved keyword: graph
+Identifier : G
+Special symbols:	[
+constant: 10
+Special symbols:	]
+Punctuation : ;
+reserved keyword: declr
+reserved keyword: vect
+Special symbols:	<
+datatype: int
+Special symbols:	>
+Identifier : myVec1
+Punctuation : ,
+Identifier : myVec2
+Punctuation : ;
+reserved keyword: declr
+reserved keyword: graph
+Identifier : G
+Special symbols:	[
+constant: 10
+Special symbols:	]
+Punctuation : ,
+Identifier : B
+Special symbols:	[
+constant: 0
+Special symbols:	]
+Punctuation : ;
+reserved keyword: declr
+reserved keyword: struct
+Identifier : node
+Identifier : A
+Punctuation : ;
+reserved keyword: declr
+reserved keyword: struct
+Identifier : node
+Identifier : b
+Punctuation : ,
+Identifier : c
+Punctuation : ;
+reserved keyword: declr
+reserved keyword: class
+Identifier : node
+Identifier : A
+Punctuation : ;
+reserved keyword: declr
+reserved keyword: class
+Identifier : node
+Identifier : vertex1
+Punctuation : ,
+Identifier : vertex2
+Punctuation : ;
 Special symbols:	}
