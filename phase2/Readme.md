@@ -9,12 +9,12 @@
 --> Then compile your lexer with 
 
 		lex lexer.l
-  		gcc lex.yy.c y.tab.c
+  		gcc lex.yy.c y.tab.c -w
 
 --> write your testcase in 'inp' file
 
 --> test it with command
 
-		./a.out <inp
+		./a.out
 		
 --> This will automatically read from the file 'inp'
