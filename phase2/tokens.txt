@@ -1,0 +1,114 @@
+reserved keyword: func
+datatype: int
+Identifier : main
+Special symbols:	(
+Special symbols:	)
+Special symbols:	{
+reserved keyword: expr
+Identifier : a
+Special symbols:	=
+Identifier : b
+Punctuation : ;
+reserved keyword: expr
+Identifier : adf
+Special symbols:	=
+operator: add
+Special symbols:	(
+Identifier : df
+Punctuation : ,
+operator: mul
+Special symbols:	(
+Identifier : a
+Punctuation : ,
+operator: div
+Special symbols:	(
+operator: sub
+Special symbols:	(
+Identifier : c
+Punctuation : ,
+Identifier : d
+Special symbols:	)
+Punctuation : ,
+Identifier : f
+Special symbols:	)
+Special symbols:	)
+Special symbols:	)
+Punctuation : ;
+reserved keyword: expr
+Identifier : sd
+Special symbols:	=
+Special symbols:	(
+Identifier : sd
+reserved keyword: or
+Identifier : difd
+Special symbols:	)
+Punctuation : ;
+reserved keyword: expr
+Identifier : sd
+Special symbols:	=
+Special symbols:	(
+constant: 12
+reserved keyword: and
+operator: add
+Special symbols:	(
+constant: 12
+Punctuation : ,
+reserved keyword: incr
+Special symbols:	(
+Identifier : df
+Special symbols:	)
+Special symbols:	)
+Special symbols:	)
+Punctuation : ;
+reserved keyword: expr
+Identifier : d
+Special symbols:	=
+operator: add
+Special symbols:	(
+reserved keyword: call
+Identifier : df
+Special symbols:	(
+Special symbols:	)
+Punctuation : ,
+reserved keyword: call
+Identifier : A
+Punctuation : .
+Identifier : df
+Special symbols:	(
+constant: 8
+Punctuation : ,
+Identifier : ddf
+Punctuation : ,
+operator: mul
+Special symbols:	(
+Identifier : a
+Punctuation : ,
+Identifier : b
+Special symbols:	)
+Punctuation : ,
+Special symbols:	(
+Identifier : a
+reserved keyword: or
+Identifier : b
+Special symbols:	)
+Punctuation : ,
+reserved keyword: call
+Identifier : dfas
+Special symbols:	(
+Special symbols:	)
+Special symbols:	)
+Special symbols:	)
+Punctuation : ;
+reserved keyword: call
+Identifier : sdf
+Special symbols:	(
+Special symbols:	)
+Punctuation : ;
+reserved keyword: call
+Identifier : sdfsd
+Punctuation : .
+Identifier : sdf
+Special symbols:	(
+Special symbols:	)
+Punctuation : ;
+Special symbols:	}

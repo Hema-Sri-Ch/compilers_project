@@ -95,11 +95,11 @@
 
 	#include<stdio.h>
 	#include <string.h>
-	extern int yylineno;
-	// extern FILE* yyin, *yyout;
-    // FILE* fparse;
-	int yylex(void);
-	int yyerror(const char *s);
+	// extern int yylineno;
+	extern FILE* yyin, *yyout;
+    FILE* fparse;
+	// int yylex(void);
+	// int yyerror(const char *s);
 
 #line 105 "y.tab.c"
 
@@ -1343,19 +1343,19 @@ yyreduce:
     {
   case 11: /* function_head: FUNC dtype id '(' ')'  */
 #line 94 "parser.y"
-                                                        {printf("\n\n FUNCTION HEAD \n\n");}
+                                                        {fprintf(fparse, " : FUNCTION HEAD");}
 #line 1348 "y.tab.c"
     break;
 
   case 21: /* expr_stmt: EXPR id '=' RHS ';'  */
 #line 114 "parser.y"
-                                                              {printf("\n\n EXPRESSION STATEMENT \n\n");}
+                                                              {fprintf(fparse, " : EXPRESSION STATEMENT");}
 #line 1354 "y.tab.c"
     break;
 
   case 53: /* call_stmt: func_calls ';'  */
 #line 173 "parser.y"
-                                                         {printf("\n\n CALL STATEMENT \n\n");}
+                                                         {fprintf(fparse, " : CALL STATEMENT");}
 #line 1360 "y.tab.c"
     break;
 
@@ -1556,36 +1556,39 @@ yyreturnlab:
 #line 186 "parser.y"
 
 
-
+/*
 int main(){
 	yyparse();
 	return 0;
 }
+*/
 
 
 int yyerror(const char *msg)
 {
+	/*
 	extern int yylineno;
 	printf("Parsing Failed\nLine Number: %d %s\n",yylineno,msg);
 	printf( " : invalid statement");
 	return 0;
-	// fprintf(fparse, " : invalid statement");
-	// exit(0);
+	*/
+	fprintf(fparse, " : invalid statement");
+	exit(0);
 }
 
-// main() {
-// 	    FILE* fp = fopen(input.txt, "r");
-//      yyin = fp;
-//      fparse = fopen(parsed.txt, "w");
-//  	FILE* ft = fopen(tokens.txt, "w");
-//  	yyout = ft;
-//
-//  	yyparse();
-//  
-//  	fclose(fparse);
-//  	fclose(ft);
-//  	fclose(fp);
-// }
+main() {
+ 	FILE* fp = fopen("input.txt", "r");
+    yyin = fp;
+    fparse = fopen("parsed.txt", "w");
+ 	FILE* ft = fopen("tokens.txt", "w");
+ 	yyout = ft;
+
+ 	yyparse();
+
+	fclose(fparse);
+ 	fclose(ft);
+ 	fclose(fp);
+ }
 
 
 

@@ -25,11 +25,11 @@
 
 	#include<stdio.h>
 	#include <string.h>
-	extern int yylineno;
-	// extern FILE* yyin, *yyout;
-    // FILE* fparse;
-	int yylex(void);
-	int yyerror(const char *s);
+	// extern int yylineno;
+	extern FILE* yyin, *yyout;
+    FILE* fparse;
+	// int yylex(void);
+	// int yyerror(const char *s);
 %}
 
 %token tokenA
@@ -91,7 +91,7 @@ struct					: id
 function				: function_head function_body
 						;
 						
-function_head			: FUNC dtype id '(' ')' {printf("\n\n FUNCTION HEAD \n\n");}
+function_head			: FUNC dtype id '(' ')' {fprintf(fparse, " : FUNCTION HEAD");}
 						;
 						
 dtype					: DATATYPE
@@ -111,7 +111,7 @@ statement				: expr_stmt
 						| call_stmt
 						;
 						
-expr_stmt				: EXPR id '=' RHS ';' {printf("\n\n EXPRESSION STATEMENT \n\n");}
+expr_stmt				: EXPR id '=' RHS ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
 						;
 						
 RHS						: constants
@@ -170,7 +170,7 @@ unary_op				: UNARYOP '(' RHS ')'
 logical_op				: '(' RHS LOGOP RHS ')'
 						;
 						
-call_stmt				: func_calls ';' {printf("\n\n CALL STATEMENT \n\n");}
+call_stmt				: func_calls ';' {fprintf(fparse, " : CALL STATEMENT");}
 						;
 						
 func_calls				: CALL id '(' arg_list ')'
@@ -185,36 +185,39 @@ arg_list				: RHS ',' arg_list
 
 %%
 
-
+/*
 int main(){
 	yyparse();
 	return 0;
 }
+*/
 
 
 int yyerror(const char *msg)
 {
+	/*
 	extern int yylineno;
 	printf("Parsing Failed\nLine Number: %d %s\n",yylineno,msg);
 	printf( " : invalid statement");
 	return 0;
-	// fprintf(fparse, " : invalid statement");
-	// exit(0);
+	*/
+	fprintf(fparse, " : invalid statement");
+	exit(0);
 }
 
-// main() {
-// 	    FILE* fp = fopen(input.txt, "r");
-//      yyin = fp;
-//      fparse = fopen(parsed.txt, "w");
-//  	FILE* ft = fopen(tokens.txt, "w");
-//  	yyout = ft;
-//
-//  	yyparse();
-//  
-//  	fclose(fparse);
-//  	fclose(ft);
-//  	fclose(fp);
-// }
+main() {
+ 	FILE* fp = fopen("input.txt", "r");
+    yyin = fp;
+    fparse = fopen("parsed.txt", "w");
+ 	FILE* ft = fopen("tokens.txt", "w");
+ 	yyout = ft;
+
+ 	yyparse();
+
+	fclose(fparse);
+ 	fclose(ft);
+ 	fclose(fp);
+ }
 
 
 

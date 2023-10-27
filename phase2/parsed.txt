@@ -1,0 +1,9 @@
+func int main() : FUNCTION HEAD{
+	expr a = b; : EXPRESSION STATEMENT
+	expr adf = add(df, mul(a, div(sub(c, d), f))); : EXPRESSION STATEMENT
+	expr sd = (sd or difd); : EXPRESSION STATEMENT
+	expr sd = (12 and add(12, incr(df))); : EXPRESSION STATEMENT
+	expr d = add(call df(), call A.df(8, ddf, mul(a, b), (a or b), call dfas())); : EXPRESSION STATEMENT
+	call sdf(); : CALL STATEMENT
+	call sdfsd.sdf(); : CALL STATEMENT
+}
