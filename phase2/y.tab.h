@@ -83,9 +83,10 @@ extern int yydebug;
     UNARYOP = 284,                 /* UNARYOP  */
     DECLR = 285,                   /* DECLR  */
     EXPR = 286,                    /* EXPR  */
-    FUNC = 287,                    /* FUNC  */
-    LOOP = 288,                    /* LOOP  */
-    null = 289                     /* null  */
+    CALL = 287,                    /* CALL  */
+    FUNC = 288,                    /* FUNC  */
+    LOOP = 289,                    /* LOOP  */
+    null = 290                     /* null  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -123,9 +124,10 @@ extern int yydebug;
 #define UNARYOP 284
 #define DECLR 285
 #define EXPR 286
-#define FUNC 287
-#define LOOP 288
-#define null 289
+#define CALL 287
+#define FUNC 288
+#define LOOP 289
+#define null 290
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

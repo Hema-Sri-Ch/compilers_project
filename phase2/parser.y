@@ -61,6 +61,7 @@
 %token UNARYOP
 %token DECLR
 %token EXPR
+%token CALL
 %token FUNC
 %token LOOP
 %token null
@@ -106,15 +107,82 @@ statements				: statement statements
 						| function_body
 						;
 						
-statement				: declr_stmt
-						| expr_stmt
-						| cond_stmt
-						| loop_stmt
-						| jump_stmt
+statement				: expr_stmt
 						| call_stmt
-						| return_stmt
-						| unop_stmt
 						;
+						
+expr_stmt				: EXPR id '=' RHS ';' {printf("\n\n EXPRESSION STATEMENT \n\n");}
+						;
+						
+RHS						: constants
+						| arith_op
+						| logical_op
+						| func_calls
+						;
+						
+constants				: INT_CONST
+						| FLOAT_CONST
+						| CHAR_CONST
+						| STR_CONST
+						| BOOL_CONST
+						| array_const
+						| graph_const
+						| matrix_const
+						| vect_const
+						| id
+						;
+						
+
+array_const				: '{' val_list '}'
+						| '{' '}'
+						;
+						
+val_list				: val ',' val_list
+						| val
+						;
+						
+val						: INT_CONST
+						| FLOAT_CONST
+						| CHAR_CONST
+						| BOOL_CONST
+						| STR_CONST
+						;
+						
+graph_const				: '*'
+						;
+						
+vect_const				: '+'
+						;
+						
+matrix_const			: '-'
+						;
+						
+arith_op				: binary_op
+						| unary_op
+						;
+						
+binary_op				: ARITHOP '(' RHS ',' RHS ')'
+						;
+						
+unary_op				: UNARYOP '(' RHS ')'
+						;
+						
+logical_op				: '(' RHS LOGOP RHS ')'
+						;
+						
+call_stmt				: func_calls ';' {printf("\n\n CALL STATEMENT \n\n");}
+						;
+						
+func_calls				: CALL id '(' arg_list ')'
+						| CALL id '(' ')'
+						| CALL id '.' id '(' arg_list ')'
+						| CALL id '.' id '(' ')'
+						;
+						
+arg_list				: RHS ',' arg_list
+						| RHS
+						;
+
 %%
 
 

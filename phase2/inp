@@ -1,8 +1,9 @@
 func int main(){
-	aba ;
-	sdif ;
-	sdfsli ;
-	_sdf12 ;
-	sfs;sdf;
-	sfd;
+	expr a = b;
+	expr adf = add(df, mul(a, div(sub(c, d), f)));
+	expr sd = (sd or difd);
+	expr sd = (12 and add(12, incr(df)));
+	expr d = add(call df(), call A.df(8, ddf, mul(a, b), (a or b), call dfas()));
+	call sdf();
+	call sdfsd.sdf();
 }
