@@ -1,20 +1,37 @@
-func int main() : FUNCTION HEAD{
-	expr a = b; : EXPRESSION STATEMENT
-	expr adf = add(df, mul(a, div(sub(c, d), f))); : EXPRESSION STATEMENT
+func int main() : FUNCTION HEAD
+{
 	expr sd = (sd or difd); : EXPRESSION STATEMENT
 	expr sd = (12 and add(12, incr(df))); : EXPRESSION STATEMENT
 	expr d = add(call df(), call A.df(8, ddf, mul(a, b), (a or b), call dfas())); : EXPRESSION STATEMENT
-	call sdf(); : CALL STATEMENT
-	call sdfsd.sdf(); : CALL STATEMENT
-	declr int a; : DECLARATION STATEMENT
-	declr float f1, f2; : DECLARATION STATEMENT
-	declr int arr[10]; : DECLARATION STATEMENT
-	declr int arr[10], barr[5]; : DECLARATION STATEMENT
-	declr string str1, str2; : DECLARATION STATEMENT
-	declr char c; : DECLARATION STATEMENT
-	declr bool ans; : DECLARATION STATEMENT
-	declr vect < int > myVec; : DECLARATION STATEMENT 
-	declr graph G[10]; : DECLARATION STATEMENT
+	if((a or b)) : CONDITIONAL STATEMENT
+	{
+		call sdf(); : CALL STATEMENT
+		call sdfsd.sdf(); : CALL STATEMENT
+		declr int a; : DECLARATION STATEMENT
+		declr float f1, f2; : DECLARATION STATEMENT
+	}
+	if(add(1,2)) : CONDITIONAL STATEMENT
+	{
+		expr a = b; : EXPRESSION STATEMENT
+	}
+	else
+	{
+		declr vect < int > myVec; : DECLARATION STATEMENT 
+		declr graph G[10]; : DECLARATION STATEMENT
+	}
+
+	switch((a or b)) : CONDITIONAL STATEMENT
+	{
+		case 1:
+			declr int arr[10]; : DECLARATION STATEMENT
+			declr int arr[10], barr[5]; : DECLARATION STATEMENT
+		case 2:
+			expr adf = add(df, mul(a, div(sub(c, d), f))); : EXPRESSION STATEMENT
+			declr string str1, str2; : DECLARATION STATEMENT
+		default :
+			declr vect<int> myVec1, myVec2; : DECLARATION STATEMENT	
+	}
+
 	declr vect<int> myVec1, myVec2; : DECLARATION STATEMENT 
 	declr graph G[10], B[0]; : DECLARATION STATEMENT
 	declr struct node A; : DECLARATION STATEMENT

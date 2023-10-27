@@ -1,20 +1,37 @@
-func int main(){
-	expr a = b;
-	expr adf = add(df, mul(a, div(sub(c, d), f)));
+func int main()
+{
 	expr sd = (sd or difd);
 	expr sd = (12 and add(12, incr(df)));
 	expr d = add(call df(), call A.df(8, ddf, mul(a, b), (a or b), call dfas()));
-	call sdf();
-	call sdfsd.sdf();
-	declr int a;
-	declr float f1, f2;
-	declr int arr[10];
-	declr int arr[10], barr[5];
-	declr string str1, str2;
-	declr char c;
-	declr bool ans;
-	declr vect < int > myVec; 
-	declr graph G[10];
+	if((a or b))
+	{
+		call sdf();
+		call sdfsd.sdf();
+		declr int a;
+		declr float f1, f2;
+	}
+	if(add(1,2))
+	{
+		expr a = b;
+	}
+	else
+	{
+		declr vect < int > myVec; 
+		declr graph G[10];
+	}
+
+	switch((a or b))
+	{
+		case 1:
+			declr int arr[10];
+			declr int arr[10], barr[5];
+		case 2:
+			expr adf = add(df, mul(a, div(sub(c, d), f)));
+			declr string str1, str2;
+		default :
+			declr vect<int> myVec1, myVec2;	
+	}
+
 	declr vect<int> myVec1, myVec2; 
 	declr graph G[10], B[0];
 	declr struct node A;

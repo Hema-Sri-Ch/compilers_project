@@ -113,6 +113,13 @@
     return CASE;
 }
 
+"default" {
+	fprintf(yyout, "reserved keyword: %s\n", yytext);
+    fprintf(fparse, "%s", yytext);
+	// printf("reserved keyword: %s\n", yytext);
+    return DEFAULT;
+}
+
 "class" {
 	fprintf(yyout, "reserved keyword: %s\n", yytext);
     fprintf(fparse, "%s", yytext);

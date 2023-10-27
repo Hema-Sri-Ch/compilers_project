@@ -74,19 +74,20 @@ extern int yydebug;
     VECT = 275,                    /* VECT  */
     SWITCH = 276,                  /* SWITCH  */
     CASE = 277,                    /* CASE  */
-    CLASS = 278,                   /* CLASS  */
-    STRUCT = 279,                  /* STRUCT  */
-    LOGOP = 280,                   /* LOGOP  */
-    ARITHOP = 281,                 /* ARITHOP  */
-    NOT = 282,                     /* NOT  */
-    EXP = 283,                     /* EXP  */
-    UNARYOP = 284,                 /* UNARYOP  */
-    DECLR = 285,                   /* DECLR  */
-    EXPR = 286,                    /* EXPR  */
-    CALL = 287,                    /* CALL  */
-    FUNC = 288,                    /* FUNC  */
-    LOOP = 289,                    /* LOOP  */
-    null = 290                     /* null  */
+    DEFAULT = 278,                 /* DEFAULT  */
+    CLASS = 279,                   /* CLASS  */
+    STRUCT = 280,                  /* STRUCT  */
+    LOGOP = 281,                   /* LOGOP  */
+    ARITHOP = 282,                 /* ARITHOP  */
+    NOT = 283,                     /* NOT  */
+    EXP = 284,                     /* EXP  */
+    UNARYOP = 285,                 /* UNARYOP  */
+    DECLR = 286,                   /* DECLR  */
+    EXPR = 287,                    /* EXPR  */
+    CALL = 288,                    /* CALL  */
+    FUNC = 289,                    /* FUNC  */
+    LOOP = 290,                    /* LOOP  */
+    null = 291                     /* null  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -115,19 +116,20 @@ extern int yydebug;
 #define VECT 275
 #define SWITCH 276
 #define CASE 277
-#define CLASS 278
-#define STRUCT 279
-#define LOGOP 280
-#define ARITHOP 281
-#define NOT 282
-#define EXP 283
-#define UNARYOP 284
-#define DECLR 285
-#define EXPR 286
-#define CALL 287
-#define FUNC 288
-#define LOOP 289
-#define null 290
+#define DEFAULT 278
+#define CLASS 279
+#define STRUCT 280
+#define LOGOP 281
+#define ARITHOP 282
+#define NOT 283
+#define EXP 284
+#define UNARYOP 285
+#define DECLR 286
+#define EXPR 287
+#define CALL 288
+#define FUNC 289
+#define LOOP 290
+#define null 291
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

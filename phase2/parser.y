@@ -52,6 +52,7 @@
 %token VECT
 %token SWITCH
 %token CASE
+%token DEFAULT
 %token CLASS
 %token STRUCT
 %token LOGOP
@@ -113,6 +114,8 @@ statements				: statement statements
 statement				: expr_stmt
 						| call_stmt
 						| declr_stmt 
+						| ifcond_stmt
+						| switch_stmt
 						;
 						
 expr_stmt				: EXPR id '=' RHS ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
@@ -139,6 +142,23 @@ matrix_list				: id '[' INT_CONST ']' '[' INT_CONST ']' ',' matrix_list
 
 id_list					: id ',' id_list
 						| id
+						;
+
+ifcond_stmt				: IF '(' RHS ')' {fprintf(fparse, " : CONDITIONAL STATEMENT");} if_body
+						;
+
+if_body					: '{' statements '}' ELSE '{' statements '}'
+						| '{' statements '}'
+						;
+
+switch_stmt				: SWITCH '(' RHS ')' {fprintf(fparse, " : CONDITIONAL STATEMENT");} switch_body
+						;
+
+switch_body				: '{' cases DEFAULT ':' statements '}'
+						;
+
+cases					: CASE INT_CONST ':' statements cases
+						| CASE INT_CONST ':' statements
 						;
 						
 RHS						: constants

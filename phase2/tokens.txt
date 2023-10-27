@@ -5,36 +5,6 @@ Special symbols:	(
 Special symbols:	)
 Special symbols:	{
 reserved keyword: expr
-Identifier : a
-Special symbols:	=
-Identifier : b
-Punctuation : ;
-reserved keyword: expr
-Identifier : adf
-Special symbols:	=
-operator: add
-Special symbols:	(
-Identifier : df
-Punctuation : ,
-operator: mul
-Special symbols:	(
-Identifier : a
-Punctuation : ,
-operator: div
-Special symbols:	(
-operator: sub
-Special symbols:	(
-Identifier : c
-Punctuation : ,
-Identifier : d
-Special symbols:	)
-Punctuation : ,
-Identifier : f
-Special symbols:	)
-Special symbols:	)
-Special symbols:	)
-Punctuation : ;
-reserved keyword: expr
 Identifier : sd
 Special symbols:	=
 Special symbols:	(
@@ -99,6 +69,15 @@ Special symbols:	)
 Special symbols:	)
 Special symbols:	)
 Punctuation : ;
+reserved keyword: if
+Special symbols:	(
+Special symbols:	(
+Identifier : a
+reserved keyword: or
+Identifier : b
+Special symbols:	)
+Special symbols:	)
+Special symbols:	{
 reserved keyword: call
 Identifier : sdf
 Special symbols:	(
@@ -121,6 +100,52 @@ Identifier : f1
 Punctuation : ,
 Identifier : f2
 Punctuation : ;
+Special symbols:	}
+reserved keyword: if
+Special symbols:	(
+operator: add
+Special symbols:	(
+constant: 1
+Punctuation : ,
+constant: 2
+Special symbols:	)
+Special symbols:	)
+Special symbols:	{
+reserved keyword: expr
+Identifier : a
+Special symbols:	=
+Identifier : b
+Punctuation : ;
+Special symbols:	}
+reserved keyword: else
+Special symbols:	{
+reserved keyword: declr
+reserved keyword: vect
+Special symbols:	<
+datatype: int
+Special symbols:	>
+Identifier : myVec
+Punctuation : ;
+reserved keyword: declr
+reserved keyword: graph
+Identifier : G
+Special symbols:	[
+constant: 10
+Special symbols:	]
+Punctuation : ;
+Special symbols:	}
+reserved keyword: switch
+Special symbols:	(
+Special symbols:	(
+Identifier : a
+reserved keyword: or
+Identifier : b
+Special symbols:	)
+Special symbols:	)
+Special symbols:	{
+reserved keyword: case
+constant: 1
+Punctuation : :
 reserved keyword: declr
 datatype: int
 Identifier : arr
@@ -140,34 +165,52 @@ Special symbols:	[
 constant: 5
 Special symbols:	]
 Punctuation : ;
+reserved keyword: case
+constant: 2
+Punctuation : :
+reserved keyword: expr
+Identifier : adf
+Special symbols:	=
+operator: add
+Special symbols:	(
+Identifier : df
+Punctuation : ,
+operator: mul
+Special symbols:	(
+Identifier : a
+Punctuation : ,
+operator: div
+Special symbols:	(
+operator: sub
+Special symbols:	(
+Identifier : c
+Punctuation : ,
+Identifier : d
+Special symbols:	)
+Punctuation : ,
+Identifier : f
+Special symbols:	)
+Special symbols:	)
+Special symbols:	)
+Punctuation : ;
 reserved keyword: declr
 datatype: string
 Identifier : str1
 Punctuation : ,
 Identifier : str2
 Punctuation : ;
-reserved keyword: declr
-datatype: char
-Identifier : c
-Punctuation : ;
-reserved keyword: declr
-datatype: bool
-Identifier : ans
-Punctuation : ;
+reserved keyword: default
+Punctuation : :
 reserved keyword: declr
 reserved keyword: vect
 Special symbols:	<
 datatype: int
 Special symbols:	>
-Identifier : myVec
+Identifier : myVec1
+Punctuation : ,
+Identifier : myVec2
 Punctuation : ;
-reserved keyword: declr
-reserved keyword: graph
-Identifier : G
-Special symbols:	[
-constant: 10
-Special symbols:	]
-Punctuation : ;
+Special symbols:	}
 reserved keyword: declr
 reserved keyword: vect
 Special symbols:	<
