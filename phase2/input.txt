@@ -1,3 +1,24 @@
+func bool foo(int a, char b, vect<int> sdf, node sdffd){
+	declr vect<int> myVec1, myVec2; 
+	declr graph G[10], B[0];
+	declr struct node A;
+	declr struct node b, c;
+	declr class node A;
+	declr class node vertex1, vertex2;
+
+
+	if(call funckd()){
+		expr dfd = df;
+	} else {
+		expr sdf = sdfjsd;
+		call boo();
+		call dfjd.dsfd(sdf, idf, add(a, b), incr(i));
+	}
+	
+	return sdfb;
+
+}
+
 func int main()
 {
 	expr sd = (sd or difd);

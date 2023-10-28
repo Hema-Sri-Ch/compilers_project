@@ -763,4 +763,64 @@ This 'bfs' function implements the BFS traversal of a graph. It takes an argumen
     
     expr myvec = G.bfs(2); !! myvec gets assigned the bfs order of nodes starting at 2 !!
 \end{lstlisting}
+
+\section{strings}
+In this langauage we have some special functions that can be called on strings. They perform some string operations
+
+\subsection{strlen}
+This function \texttt{strlen} returns the length of the string (it returns an integer). It is to be called from the variable/identifier that store the string value. Here is the corresponding syntax\\
+\texttt{ <identifier> . strlen ( )}
+\begin{lstlisting}
+    declr string str = "Hello, world\n";
+    declr int length = str.strlen();
+
+    !!Now the identifier length stores the value 13!!
+\end{lstlisting}
+
+\subsection{strcmp}
+This function \texttt{strcmp} compares if the given strings are identical or not and return the boolean value 'true' or 'false' / returns integer value '1' or '0'. \\
+'true'/'1' indicates the given two strings are identical, otherwise they are unidentical. Here is the corresponding syntax\\
+\texttt{strcmp ( <identifier> , <identifier> )} \\
+Note: The argument is need not be an identifier, it can be anything that returns string, like a function call that returns string, or any operation that returns string
+\begin{lstlisting}
+    declr string str1, str2, str3;
+    expr str1 = "Hello, world\n";
+    expr str2 = "hello ,world\n";
+    expr str3 = str1;
+    declr int a;
+    declr bool b;
+    expr a = strcmp(str1, str2); !! now a contains the value  0!!
+    expr b = strcmp(str1, str3); !! now b contains the value true !!
+
+    expr a = strcmp (str1, call foo()); !! This is valid if the function foo() returns a string type !!
+\end{lstlisting}
+
+\subsection{strjoin}
+This function \texttt{'strjoin'} performs string concatenation and returns the concatenated string. It takes two arguments both are string type and returns a string type. Here is the corresponding syntax.\\
+\texttt{strjoin ( <identifier> , <identifier> )}
+\begin{lstlisting}
+    declr string str1, str2, str3, str4;
+    expr str1 = "Hello, ";
+    expr str2 = "world\n";
+    expr str3 = strjoin(str1, str2); !! now str2 contains "Hello, world\n" !!
+    expr str4 = strjoin(strjoin(str1, str2), str2); 
+    !! now str4 contains "Hello, world\nworld\n"
+    expr str4 = strjoin(strjoin(foo(), boo()), zoo()); 
+    !! This is also valid as long as those functions return string type !!
+\end{lstlisting}
+
+\subsection{strcut}
+This function \texttt{strcut} cuts strings with respect to the indices. We give the starting and ending indices, as long as they are valid, this function cuts that part of string and returns it. Here is the corresponding syntax\\
+\texttt{<identifier> . strcut ( <number> , <number> ) } \\
+In the above '\texttt{<number>}' indicates any integer constant or identifier of integer type or any operation or function call that return an integer. If those indices are valid, this function would give corresponding substring, else it returns empty string? \\
+Note: The resultant string is the substring of original string from starting index to ending-1 index. It does not include the ending index. And the indexing starts from 0.
+\begin{lstlisting}
+    declr string str1, str2, str3;
+    declr int a, b;
+    expr str1 = "abcdefgh";
+    expr str2 = str1.strcut(2, 6);
+    !! now str2 is "cdef"
+    expr str3 = str1.strcut(a, call foo()); !!as long as they are integer type and has valid integers, the funciton gives the string!!
+\end{lstlisting}
 \end{document}
+

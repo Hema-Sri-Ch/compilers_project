@@ -25,11 +25,12 @@
 
 	#include<stdio.h>
 	#include <string.h>
-	// extern int yylineno;
+	#include <stdlib.h>
+	extern int yylineno;
 	extern FILE* yyin, *yyout;
     FILE* fparse;
-	// int yylex(void);
-	// int yyerror(const char *s);
+	int yylex(void);
+	int yyerror(const char *s);
 %}
 
 %token tokenA
@@ -93,6 +94,11 @@ function				: function_head function_body
 						;
 						
 function_head			: FUNC dtype id '(' ')' {fprintf(fparse, " : FUNCTION HEAD");}
+						| FUNC dtype id '(' param_list ')' {fprintf(fparse, " : FUNCTION HEAD");}
+						;
+						
+param_list				: dtype id ',' param_list
+						| dtype id
 						;
 						
 dtype					: DATATYPE
@@ -248,11 +254,12 @@ int yyerror(const char *msg)
 	printf( " : invalid statement");
 	return 0;
 	*/
+	printf("Parsing Failed\nLine Number: %d, %s\n",yylineno,msg);
 	fprintf(fparse, " : invalid statement");
 	exit(0);
 }
 
-main() {
+int main() {
  	FILE* fp = fopen("input.txt", "r");
     yyin = fp;
     fparse = fopen("parsed.txt", "w");
