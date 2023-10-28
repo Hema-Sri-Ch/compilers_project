@@ -4,24 +4,32 @@ func int main()
 	{	
 		expr m = 10;
 	}
-	loop while(decr(i))
+	loop while(decr(incr(i)))
 	{
  	expr n = "hi";
 	}
 	return i;
+	return call boo.bob(add(i, mul(j, k)));
 }
 
 func int main()
 {
+	{}
+	
+	{
+	
+	}
 	loop for (expr i=0 ; (i lt 10); expr j = incr(i))
 	{	
   		expr m = 0;
+  		return {};
 	}
 	loop for (expr i=0 ; (i lt 10); expr i = mul(i,3))
 	{	
   		expr m = 0;
+  		return {1, 2, 3};
 	}
-	return i;
+	return {1 : 2,3;2 : 1,4;3 : 1;4 : 2;};
 }
 
 struct node

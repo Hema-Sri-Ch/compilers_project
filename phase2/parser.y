@@ -125,6 +125,7 @@ dtype					: DATATYPE
 						;
 						
 function_body			: '{' statements '}'
+						| '{' '}'
 						;
 						
 statements				: statement statements
