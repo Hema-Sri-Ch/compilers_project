@@ -145,6 +145,7 @@ statement				: expr_stmt
 
 return_stmt 			: RETURN RHS';' {fprintf(fparse, " : RETURN STATEMENT");}
 						| RETURN extra_consts ';' {fprintf(fparse, " : RETURN STATEMENT");}
+						| RETURN improvisations ';' {fprintf(fparse, " : RETURN STATEMENT");}
 						;
 
 loop_stmt				: LOOP loop_type {fprintf(fparse, " : LOOP");}
@@ -166,6 +167,7 @@ while_loop				: WHILE '('RHS')''{' statements '}'
 						
 expr_stmt				: EXPR id '=' RHS ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
 						| EXPR id '=' extra_consts ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
+						| EXPR id '=' improvisations ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
 						;
 
 declr_stmt				: DECLR declr_body ';' {fprintf(fparse, " : DECLARATION STATEMENT");}
@@ -210,6 +212,7 @@ cases					: CASE INT_CONST ':' '{' statements '}' cases
 
 						
 RHS						: constants
+						| string_impr
 						| arith_op
 						| logical_op
 						| func_calls
@@ -241,6 +244,23 @@ val_list				: int_list
 						| char_list
 						| bool_list
 						| str_list
+						;
+						
+improvisations			: vect_impr
+						| graph_impr
+						| matrix_impr
+						;
+						
+string_impr				: '+'
+						;
+						
+vect_impr				: '-'
+						;
+						
+graph_impr				: '!'
+						;
+						
+matrix_impr				: '@'
 						;
 						
 						
@@ -301,7 +321,7 @@ vect_list				: INT_CONST ',' vect_list
 						| '{' '}'
 						;
 						
-matrix_const				: '[' mat_list ']'
+matrix_const			: '[' mat_list ']'
 						;
 
 mat_list				: '[' int_list ']'';' mat_list
