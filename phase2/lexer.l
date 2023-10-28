@@ -141,7 +141,7 @@
     return LOGOP;
 }
 
-"add"|"sub"|"mul"|"div" {
+"add"|"sub"|"mul"|"div"|"exp" {
 	fprintf(yyout, "operator: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
 	// printf("operator: %s\n", yytext);
@@ -153,13 +153,6 @@
     fprintf(fparse, "%s", yytext);
 	// printf("reserved keyword: %s\n", yytext);
     return NOT;
-}
-
-"exp" {
-	fprintf(yyout, "reserved keyword: %s\n", yytext);
-    fprintf(fparse, "%s", yytext);
-	// printf("reserved keyword: %s\n", yytext);
-    return EXP;
 }
 
 "incr"|"decr" {

@@ -58,7 +58,6 @@
 %token LOGOP
 %token ARITHOP
 %token NOT
-%token EXP
 %token UNARYOP
 %token DECLR
 %token EXPR
