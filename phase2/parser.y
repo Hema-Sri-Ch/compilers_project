@@ -33,7 +33,6 @@
 	int yyerror(const char *s);
 %}
 
-%token tokenA
 %token id
 %token INT_CONST
 %token FLOAT_CONST

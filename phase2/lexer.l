@@ -224,10 +224,7 @@
     return null;
 }
 
-"abc" {
-	printf("%s\n", yytext);
-	return tokenA;
-}
+
 
 \'[^']\' {
     fprintf(yyout, "constant: %s\n", yytext);

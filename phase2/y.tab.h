@@ -54,42 +54,41 @@ extern int yydebug;
     YYEOF = 0,                     /* "end of file"  */
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
-    tokenA = 258,                  /* tokenA  */
-    id = 259,                      /* id  */
-    INT_CONST = 260,               /* INT_CONST  */
-    FLOAT_CONST = 261,             /* FLOAT_CONST  */
-    CHAR_CONST = 262,              /* CHAR_CONST  */
-    STR_CONST = 263,               /* STR_CONST  */
-    BOOL_CONST = 264,              /* BOOL_CONST  */
-    PUNC = 265,                    /* PUNC  */
-    DATATYPE = 266,                /* DATATYPE  */
-    VOID = 267,                    /* VOID  */
-    RETURN = 268,                  /* RETURN  */
-    IF = 269,                      /* IF  */
-    ELSE = 270,                    /* ELSE  */
-    CONTINUE = 271,                /* CONTINUE  */
-    BREAK = 272,                   /* BREAK  */
-    MATRIX = 273,                  /* MATRIX  */
-    GRAPH = 274,                   /* GRAPH  */
-    VECT = 275,                    /* VECT  */
-    SWITCH = 276,                  /* SWITCH  */
-    CASE = 277,                    /* CASE  */
-    DEFAULT = 278,                 /* DEFAULT  */
-    CLASS = 279,                   /* CLASS  */
-    STRUCT = 280,                  /* STRUCT  */
-    LOGOP = 281,                   /* LOGOP  */
-    ARITHOP = 282,                 /* ARITHOP  */
-    NOT = 283,                     /* NOT  */
-    EXP = 284,                     /* EXP  */
-    UNARYOP = 285,                 /* UNARYOP  */
-    DECLR = 286,                   /* DECLR  */
-    EXPR = 287,                    /* EXPR  */
-    CALL = 288,                    /* CALL  */
-    FUNC = 289,                    /* FUNC  */
-    LOOP = 290,                    /* LOOP  */
-    null = 291,                    /* null  */
-    FOR = 292,                     /* FOR  */
-    WHILE = 293                    /* WHILE  */
+    id = 258,                      /* id  */
+    INT_CONST = 259,               /* INT_CONST  */
+    FLOAT_CONST = 260,             /* FLOAT_CONST  */
+    CHAR_CONST = 261,              /* CHAR_CONST  */
+    STR_CONST = 262,               /* STR_CONST  */
+    BOOL_CONST = 263,              /* BOOL_CONST  */
+    PUNC = 264,                    /* PUNC  */
+    DATATYPE = 265,                /* DATATYPE  */
+    VOID = 266,                    /* VOID  */
+    RETURN = 267,                  /* RETURN  */
+    IF = 268,                      /* IF  */
+    ELSE = 269,                    /* ELSE  */
+    CONTINUE = 270,                /* CONTINUE  */
+    BREAK = 271,                   /* BREAK  */
+    MATRIX = 272,                  /* MATRIX  */
+    GRAPH = 273,                   /* GRAPH  */
+    VECT = 274,                    /* VECT  */
+    SWITCH = 275,                  /* SWITCH  */
+    CASE = 276,                    /* CASE  */
+    DEFAULT = 277,                 /* DEFAULT  */
+    CLASS = 278,                   /* CLASS  */
+    STRUCT = 279,                  /* STRUCT  */
+    LOGOP = 280,                   /* LOGOP  */
+    ARITHOP = 281,                 /* ARITHOP  */
+    NOT = 282,                     /* NOT  */
+    EXP = 283,                     /* EXP  */
+    UNARYOP = 284,                 /* UNARYOP  */
+    DECLR = 285,                   /* DECLR  */
+    EXPR = 286,                    /* EXPR  */
+    CALL = 287,                    /* CALL  */
+    FUNC = 288,                    /* FUNC  */
+    LOOP = 289,                    /* LOOP  */
+    null = 290,                    /* null  */
+    FOR = 291,                     /* FOR  */
+    WHILE = 292                    /* WHILE  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -98,42 +97,41 @@ extern int yydebug;
 #define YYEOF 0
 #define YYerror 256
 #define YYUNDEF 257
-#define tokenA 258
-#define id 259
-#define INT_CONST 260
-#define FLOAT_CONST 261
-#define CHAR_CONST 262
-#define STR_CONST 263
-#define BOOL_CONST 264
-#define PUNC 265
-#define DATATYPE 266
-#define VOID 267
-#define RETURN 268
-#define IF 269
-#define ELSE 270
-#define CONTINUE 271
-#define BREAK 272
-#define MATRIX 273
-#define GRAPH 274
-#define VECT 275
-#define SWITCH 276
-#define CASE 277
-#define DEFAULT 278
-#define CLASS 279
-#define STRUCT 280
-#define LOGOP 281
-#define ARITHOP 282
-#define NOT 283
-#define EXP 284
-#define UNARYOP 285
-#define DECLR 286
-#define EXPR 287
-#define CALL 288
-#define FUNC 289
-#define LOOP 290
-#define null 291
-#define FOR 292
-#define WHILE 293
+#define id 258
+#define INT_CONST 259
+#define FLOAT_CONST 260
+#define CHAR_CONST 261
+#define STR_CONST 262
+#define BOOL_CONST 263
+#define PUNC 264
+#define DATATYPE 265
+#define VOID 266
+#define RETURN 267
+#define IF 268
+#define ELSE 269
+#define CONTINUE 270
+#define BREAK 271
+#define MATRIX 272
+#define GRAPH 273
+#define VECT 274
+#define SWITCH 275
+#define CASE 276
+#define DEFAULT 277
+#define CLASS 278
+#define STRUCT 279
+#define LOGOP 280
+#define ARITHOP 281
+#define NOT 282
+#define EXP 283
+#define UNARYOP 284
+#define DECLR 285
+#define EXPR 286
+#define CALL 287
+#define FUNC 288
+#define LOOP 289
+#define null 290
+#define FOR 291
+#define WHILE 292
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
