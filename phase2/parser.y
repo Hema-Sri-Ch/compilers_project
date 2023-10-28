@@ -160,11 +160,11 @@ if_body					: '{' statements '}' ELSE '{' statements '}'
 switch_stmt				: SWITCH '(' RHS ')' {fprintf(fparse, " : CONDITIONAL STATEMENT");} switch_body
 						;
 
-switch_body				: '{' cases DEFAULT ':' statements '}'
+switch_body				: '{' cases DEFAULT ':' '{' statements '}' '}'
 						;
 
-cases					: CASE INT_CONST ':' statements cases
-						| CASE INT_CONST ':' statements
+cases					: CASE INT_CONST ':' '{' statements '}' cases
+						| CASE INT_CONST ':' '{' statements '}'
 						;
 						
 RHS						: constants

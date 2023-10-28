@@ -14,9 +14,6 @@ func bool foo(int a, char b, vect<int> sdf, node sdffd){
 		call boo();
 		call dfjd.dsfd(sdf, idf, add(a, b), incr(i));
 	}
-	
-	return sdfb;
-
 }
 
 func int main()
@@ -44,13 +41,19 @@ func int main()
 	switch((a or b))
 	{
 		case 1:
+		{
 			declr int arr[10];
 			declr int arr[10], barr[5];
+		}	
 		case 2:
+		{
 			expr adf = add(df, mul(a, div(sub(c, d), f)));
 			declr string str1, str2;
+		}	
 		default :
+		{
 			declr vect<int> myVec1, myVec2;	
+		}	
 	}
 
 	declr vect<int> myVec1, myVec2; 
