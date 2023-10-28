@@ -28,17 +28,13 @@ func bool foo(int a, char b, vect<int> sdf, node sdffd) : FUNCTION HEAD
 		declr int a; : DECLARATION STATEMENT
 		declr float f1, f2; : DECLARATION STATEMENT
 	}
-	if(add(1,2)) : CONDITIONAL STATEMENT
-	{
-		expr a = b; : EXPRESSION STATEMENT
-	}
 	else
 	{
 		declr vect < int > myVec; : DECLARATION STATEMENT 
 		declr graph G[10]; : DECLARATION STATEMENT
 	}
 
-	switch((a or b)) : CONDITIONAL STATEMENT
+	switch(5) : CONDITIONAL STATEMENT
 	{
 		case 1:
 		{

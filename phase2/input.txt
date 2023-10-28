@@ -28,17 +28,13 @@ func bool foo(int a, char b, vect<int> sdf, node sdffd)
 		declr int a;
 		declr float f1, f2;
 	}
-	if(add(1,2))
-	{
-		expr a = b;
-	}
 	else
 	{
 		declr vect < int > myVec; 
 		declr graph G[10];
 	}
 
-	switch((a or b))
+	switch(5)
 	{
 		case 1:
 		{

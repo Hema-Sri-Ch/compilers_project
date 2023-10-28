@@ -150,14 +150,14 @@ id_list					: id ',' id_list
 						| id
 						;
 
-ifcond_stmt				: IF '(' RHS ')' {fprintf(fparse, " : CONDITIONAL STATEMENT");} if_body
+ifcond_stmt				: IF '(' cond_res ')' {fprintf(fparse, " : CONDITIONAL STATEMENT");} if_body
 						;
 
 if_body					: '{' statements '}' ELSE '{' statements '}'
 						| '{' statements '}'
 						;
 
-switch_stmt				: SWITCH '(' RHS ')' {fprintf(fparse, " : CONDITIONAL STATEMENT");} switch_body
+switch_stmt				: SWITCH '(' cond_res ')' {fprintf(fparse, " : CONDITIONAL STATEMENT");} switch_body
 						;
 
 switch_body				: '{' cases DEFAULT ':' '{' statements '}' '}'
@@ -165,6 +165,10 @@ switch_body				: '{' cases DEFAULT ':' '{' statements '}' '}'
 
 cases					: CASE INT_CONST ':' '{' statements '}' cases
 						| CASE INT_CONST ':' '{' statements '}'
+						;
+
+cond_res				: INT_CONST
+						| logical_op
 						;
 						
 RHS						: constants
