@@ -1,16 +1,11 @@
 func int main()
 {
-	loop while((i lt 10))
-	{	
-		expr m = 10;
-	}
-	loop while(decr(incr(i)))
-	{
- 	expr n = "hi";
-	}
-	return i;
-	return call boo.bob(add(i, mul(j, k)));
+	declr matrix mat[2][3];
+	expr mat = [[1,2,3];
+	 			[2,3,4];
+				];
 }
+
 
 func int main()
 {

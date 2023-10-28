@@ -4,39 +4,37 @@ Identifier : main
 Special symbols:	(
 Special symbols:	)
 Special symbols:	{
-reserved keyword: loop
-reserved keyword: while
-Special symbols:	(
-Special symbols:	(
-Identifier : i
-reserved keyword: lt
-constant: 10
-Special symbols:	)
-Special symbols:	)
-Special symbols:	{
-reserved keyword: expr
-Identifier : m
-Special symbols:	=
-constant: 10
+reserved keyword: declr
+reserved keyword: matrix
+Identifier : mat
+Special symbols:	[
+constant: 2
+Special symbols:	]
+Special symbols:	[
+constant: 3
+Special symbols:	]
 Punctuation : ;
-Special symbols:	}
-reserved keyword: loop
-reserved keyword: while
-Special symbols:	(
-reserved keyword: decr
-Special symbols:	(
-Identifier : i
-Special symbols:	)
-Special symbols:	)
-Special symbols:	{
 reserved keyword: expr
-Identifier : n
+Identifier : mat
 Special symbols:	=
-constant: "hi"
+Special symbols:	[
+Special symbols:	[
+constant: 1
+Punctuation : ,
+constant: 2
+Punctuation : ,
+constant: 3
+Special symbols:	]
 Punctuation : ;
-Special symbols:	}
-reserved keyword: return
-Identifier : i
+Special symbols:	[
+constant: 2
+Punctuation : ,
+constant: 3
+Punctuation : ,
+constant: 4
+Special symbols:	]
+Punctuation : ;
+Special symbols:	]
 Punctuation : ;
 Special symbols:	}
 reserved keyword: func
@@ -45,6 +43,10 @@ Identifier : main
 Special symbols:	(
 Special symbols:	)
 Special symbols:	{
+Special symbols:	{
+Special symbols:	}
+Special symbols:	{
+Special symbols:	}
 reserved keyword: loop
 reserved keyword: for
 Special symbols:	(
@@ -72,6 +74,10 @@ reserved keyword: expr
 Identifier : m
 Special symbols:	=
 constant: 0
+Punctuation : ;
+reserved keyword: return
+Special symbols:	{
+Special symbols:	}
 Punctuation : ;
 Special symbols:	}
 reserved keyword: loop
@@ -104,9 +110,39 @@ Identifier : m
 Special symbols:	=
 constant: 0
 Punctuation : ;
+reserved keyword: return
+Special symbols:	{
+constant: 1
+Punctuation : ,
+constant: 2
+Punctuation : ,
+constant: 3
+Special symbols:	}
+Punctuation : ;
 Special symbols:	}
 reserved keyword: return
-Identifier : i
+Special symbols:	{
+constant: 1
+Punctuation : :
+constant: 2
+Punctuation : ,
+constant: 3
+Punctuation : ;
+constant: 2
+Punctuation : :
+constant: 1
+Punctuation : ,
+constant: 4
+Punctuation : ;
+constant: 3
+Punctuation : :
+constant: 1
+Punctuation : ;
+constant: 4
+Punctuation : :
+constant: 2
+Punctuation : ;
+Special symbols:	}
 Punctuation : ;
 Special symbols:	}
 reserved keyword: struct

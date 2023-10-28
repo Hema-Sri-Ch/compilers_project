@@ -1,27 +1,30 @@
 func int main() : FUNCTION HEAD
 {
-	loop while((i lt 10))
-	{	
-		expr m = 10; : EXPRESSION STATEMENT
-	} : LOOP
-	loop while(decr(i))
-	{
- 	expr n = "hi"; : EXPRESSION STATEMENT
-	} : LOOP
-	return i; : RETURN STATEMENT
+	declr matrix mat[2][3]; : DECLARATION STATEMENT
+	expr mat = [[1,2,3];
+	 			[2,3,4];
+				]; : EXPRESSION STATEMENT
 }
+
 
 func int main() : FUNCTION HEAD
 {
+	{}
+	
+	{
+	
+	}
 	loop for (expr i=0 ; : EXPRESSION STATEMENT (i lt 10); expr j = incr(i))
 	{	
   		expr m = 0; : EXPRESSION STATEMENT
+  		return {}; : RETURN STATEMENT
 	} : LOOP
 	loop for (expr i=0 ; : EXPRESSION STATEMENT (i lt 10); expr i = mul(i,3))
 	{	
   		expr m = 0; : EXPRESSION STATEMENT
+  		return {1, 2, 3}; : RETURN STATEMENT
 	} : LOOP
-	return i; : RETURN STATEMENT
+	return {1 : 2,3;2 : 1,4;3 : 1;4 : 2;}; : RETURN STATEMENT
 }
 
 struct node

@@ -301,7 +301,12 @@ vect_list				: INT_CONST ',' vect_list
 						| '{' '}'
 						;
 						
-matrix_const			: '-'
+matrix_const				: '[' mat_list ']'
+						;
+
+mat_list				: '[' int_list ']'';' mat_list
+						| '[' int_list ']'';'
+						;
 						;
 						
 arith_op				: binary_op
