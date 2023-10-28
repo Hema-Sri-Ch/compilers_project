@@ -84,17 +84,33 @@ model					: function
 						| struct
 						;
 						
-class					: tokenA
+class					: CLASS id '{' class_items '}' ';' {fprintf(fparse, " : CLASS DEFINITION");}
 						;
 						
-struct					: id
+class_items				: class_item class_items
+						| class_item
+						;
+						
+class_item				: declr_stmt
+						| function
+						;
+						
+struct					: STRUCT id '{' struct_items '}' ';' {fprintf(fparse, " : STRUCT DEFINITION");}
+						;
+						
+struct_items			: declr_stmt struct_items
+						| declr_stmt
 						;
 						
 function				: function_head function_body
 						;
 						
-function_head			: FUNC dtype id '(' ')' {fprintf(fparse, " : FUNCTION HEAD");}
-						| FUNC dtype id '(' param_list ')' {fprintf(fparse, " : FUNCTION HEAD");}
+function_head			: FUNC fdtype id '(' ')' {fprintf(fparse, " : FUNCTION HEAD");}
+						| FUNC fdtype id '(' param_list ')' {fprintf(fparse, " : FUNCTION HEAD");}
+						;
+						
+fdtype					: dtype
+						| VOID
 						;
 						
 param_list				: dtype id ',' param_list

@@ -1,3 +1,28 @@
+struct node
+{
+	declr string name;
+	declr char grade;
+	declr int marks;
+	declr float cgpa;
+	declr bool feeStatus;
+};
+
+
+class vehical {
+    declr string type;
+    declr int regNo;
+    declr bool pollutionCheck;
+    func int getRegNo()
+    {
+        declr int regNo;
+    }
+    func void updatePollStatus ( bool val )
+    {
+        expr pollutionCheck = val;
+        declr int nuldl;
+    }
+};
+
 func bool foo(int a, char b, vect<int> sdf, node sdffd)
 {
 	declr graph G[4];

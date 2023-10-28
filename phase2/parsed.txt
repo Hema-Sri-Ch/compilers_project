@@ -1,3 +1,28 @@
+struct node
+{
+	declr string name; : DECLARATION STATEMENT
+	declr char grade; : DECLARATION STATEMENT
+	declr int marks; : DECLARATION STATEMENT
+	declr float cgpa; : DECLARATION STATEMENT
+	declr bool feeStatus; : DECLARATION STATEMENT
+}; : STRUCT DEFINITION
+
+
+class vehical {
+    declr string type; : DECLARATION STATEMENT
+    declr int regNo; : DECLARATION STATEMENT
+    declr bool pollutionCheck; : DECLARATION STATEMENT
+    func int getRegNo() : FUNCTION HEAD
+    {
+        declr int regNo; : DECLARATION STATEMENT
+    }
+    func void updatePollStatus ( bool val ) : FUNCTION HEAD
+    {
+        expr pollutionCheck = val; : EXPRESSION STATEMENT
+        declr int nuldl; : DECLARATION STATEMENT
+    }
+}; : CLASS DEFINITION
+
 func bool foo(int a, char b, vect<int> sdf, node sdffd) : FUNCTION HEAD
 {
 	declr graph G[4]; : DECLARATION STATEMENT

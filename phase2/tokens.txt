@@ -1,3 +1,74 @@
+reserved keyword: struct
+Identifier : node
+Special symbols:	{
+reserved keyword: declr
+datatype: string
+Identifier : name
+Punctuation : ;
+reserved keyword: declr
+datatype: char
+Identifier : grade
+Punctuation : ;
+reserved keyword: declr
+datatype: int
+Identifier : marks
+Punctuation : ;
+reserved keyword: declr
+datatype: float
+Identifier : cgpa
+Punctuation : ;
+reserved keyword: declr
+datatype: bool
+Identifier : feeStatus
+Punctuation : ;
+Special symbols:	}
+Punctuation : ;
+reserved keyword: class
+Identifier : vehical
+Special symbols:	{
+reserved keyword: declr
+datatype: string
+Identifier : type
+Punctuation : ;
+reserved keyword: declr
+datatype: int
+Identifier : regNo
+Punctuation : ;
+reserved keyword: declr
+datatype: bool
+Identifier : pollutionCheck
+Punctuation : ;
+reserved keyword: func
+datatype: int
+Identifier : getRegNo
+Special symbols:	(
+Special symbols:	)
+Special symbols:	{
+reserved keyword: declr
+datatype: int
+Identifier : regNo
+Punctuation : ;
+Special symbols:	}
+reserved keyword: func
+datatype: void
+Identifier : updatePollStatus
+Special symbols:	(
+datatype: bool
+Identifier : val
+Special symbols:	)
+Special symbols:	{
+reserved keyword: expr
+Identifier : pollutionCheck
+Special symbols:	=
+Identifier : val
+Punctuation : ;
+reserved keyword: declr
+datatype: int
+Identifier : nuldl
+Punctuation : ;
+Special symbols:	}
+Special symbols:	}
+Punctuation : ;
 reserved keyword: func
 datatype: bool
 Identifier : foo
