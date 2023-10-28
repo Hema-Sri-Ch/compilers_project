@@ -143,6 +143,7 @@ statement				: expr_stmt
 						;
 
 return_stmt 			: RETURN RHS';' {fprintf(fparse, " : RETURN STATEMENT");}
+						| RETURN extra_consts ';' {fprintf(fparse, " : RETURN STATEMENT");}
 						;
 
 loop_stmt				: LOOP loop_type {fprintf(fparse, " : LOOP");}
@@ -152,17 +153,18 @@ loop_type				: for_loop
 						| while_loop
 						;
 				
-for_loop				: FOR '('EXPR id '=' cond_res ';' logical_op ';' for_expr ')''{'statements'}'
+for_loop				: FOR '(' expr_stmt logical_op ';' for_expr ')''{'statements'}'
 						;
 
 for_expr				: unary_op
-						| id '=' arith_op 
+						| EXPR id '=' arith_op 
 						;
 
-while_loop				: WHILE '('cond_res')''{' statements '}'
+while_loop				: WHILE '('RHS')''{' statements '}'
 						;
 						
 expr_stmt				: EXPR id '=' RHS ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
+						| EXPR id '=' extra_consts ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
 						;
 
 declr_stmt				: DECLR declr_body ';' {fprintf(fparse, " : DECLARATION STATEMENT");}
@@ -188,14 +190,14 @@ id_list					: id ',' id_list
 						| id
 						;
 
-ifcond_stmt				: IF '(' cond_res ')' {fprintf(fparse, " : CONDITIONAL STATEMENT");} if_body
+ifcond_stmt				: IF '(' RHS ')' {fprintf(fparse, " : CONDITIONAL STATEMENT");} if_body
 						;
 
 if_body					: '{' statements '}' ELSE '{' statements '}'
 						| '{' statements '}'
 						;
 
-switch_stmt				: SWITCH '(' cond_res ')' {fprintf(fparse, " : CONDITIONAL STATEMENT");} switch_body
+switch_stmt				: SWITCH '(' RHS ')' {fprintf(fparse, " : CONDITIONAL STATEMENT");} switch_body
 						;
 
 switch_body				: '{' cases DEFAULT ':' '{' statements '}' '}'
@@ -205,16 +207,6 @@ cases					: CASE INT_CONST ':' '{' statements '}' cases
 						| CASE INT_CONST ':' '{' statements '}'
 						;
 
-cond_res				: INT_CONST
-						| logical_op
-						| func_calls
-						| FLOAT_CONST
-						| CHAR_CONST
-						| STR_CONST
-						| BOOL_CONST
-						| id
-						| arith_op
-						;
 						
 RHS						: constants
 						| arith_op
@@ -227,11 +219,14 @@ constants				: INT_CONST
 						| CHAR_CONST
 						| STR_CONST
 						| BOOL_CONST
-						| array_const
-						| graph_const
-						| matrix_const
-						| vect_const
 						| id
+						;
+						
+						
+extra_consts			: array_const
+						| graph_const
+						| vect_const
+						| matrix_const
 						| '{' '}'
 						;
 						

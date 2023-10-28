@@ -13,11 +13,11 @@ func int main() : FUNCTION HEAD
 
 func int main() : FUNCTION HEAD
 {
-	loop for (expr i=0 ; (i lt 10); j = incr(i))
+	loop for (expr i=0 ; : EXPRESSION STATEMENT (i lt 10); expr j = incr(i))
 	{	
   		expr m = 0; : EXPRESSION STATEMENT
 	} : LOOP
-	loop for (expr i=0 ; (i lt 10); i = mul(i,3))
+	loop for (expr i=0 ; : EXPRESSION STATEMENT (i lt 10); expr i = mul(i,3))
 	{	
   		expr m = 0; : EXPRESSION STATEMENT
 	} : LOOP
