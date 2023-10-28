@@ -1,24 +1,6 @@
 %option yylineno
 
 %{
-
-/*
-	
-	--> Define token names from line 8 in 'parser.y'
-	--> compile it with 'yacc -d parser.y'
-	--> Then compile your lexer with 
-			lex lexer.l
-			gcc lex.yy.c
-	--> write your testcase in 'inp' file
-	--> test it with command
-			./a.out <inp
-		
-	--> This will automatically read from the file 'inp'
-	
-	--> remove the lines with your names, before testing
-
-*/
-
 	# include <stdio.h>
 	# include <string.h>
 	# include <stdlib.h>
@@ -28,6 +10,78 @@
 %}
 
 %%
+
+"add_matx"|"sub_matx"|"mult_matx" {
+	fprintf(yyout, "reserved keyword: %s\n", yytext);
+    fprintf(fparse, "%s", yytext);
+    return MATXOP;
+}
+
+"append" {
+	fprintf(yyout, "Identifier: %s\n", yytext);
+    fprintf(fparse, "%s", yytext);
+    return APPEND;
+}
+
+"remove" {
+	fprintf(yyout, "Identifier: %s\n", yytext);
+    fprintf(fparse, "%s", yytext);
+    return REMOVE;
+}
+
+"length" {
+	fprintf(yyout, "Identifier: %s\n", yytext);
+    fprintf(fparse, "%s", yytext);
+    return LENGTH;
+}
+
+"sort" {
+	fprintf(yyout, "Identifier: %s\n", yytext);
+    fprintf(fparse, "%s", yytext);
+    return SORT;
+}
+
+"clear" {
+	fprintf(yyout, "Identifier: %s\n", yytext);
+    fprintf(fparse, "%s", yytext);
+    return CLEAR;
+}
+
+"at" {
+	fprintf(yyout, "Identifier: %s\n", yytext);
+    fprintf(fparse, "%s", yytext);
+    return AT;
+}
+
+"transpose" {
+	fprintf(yyout, "Identifier: %s\n", yytext);
+    fprintf(fparse, "%s", yytext);
+    return TRANSPOSE;
+}
+
+"trace" {
+	fprintf(yyout, "Identifier: %s\n", yytext);
+    fprintf(fparse, "%s", yytext);
+    return TRACE;
+}
+
+"dfs"|"bfs" {
+	fprintf(yyout, "Identifier: %s\n", yytext);
+    fprintf(fparse, "%s", yytext);
+    return TRAVERSAL;
+}
+
+"strlen" {
+	fprintf(yyout, "Identifier: %s\n", yytext);
+    fprintf(fparse, "%s", yytext);
+    return STRLEN;
+}
+
+"strcut" {
+	fprintf(yyout, "Identifier: %s\n", yytext);
+    fprintf(fparse, "%s", yytext);
+    return STRCUT;
+}
 
 "int"|"char"|"string"|"bool"|"float" {
 	fprintf(yyout, "datatype: %s\n", yytext);
@@ -46,7 +100,6 @@
 "return" {
     fprintf(yyout, "reserved keyword: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
-	// printf("reserved keyword: %s\n", yytext);
     return RETURN;
 }
 
@@ -253,7 +306,7 @@
 [a-zA-Z_][a-zA-Z0-9_]* {
 	fprintf(yyout, "Identifier : %s\n", yytext);
 	fprintf(fparse, "%s", yytext);
-	return id;
+	return newid;
 }
 
 [;:,\'\".] {

@@ -4,6 +4,16 @@ func int main()
 	expr mat = [[1,2,3];
 	 			[2,3,4];
 				];
+	clear.append(4);
+	myvec.remove(1);
+	expr a = myvec.length();
+	myvec.sort();
+	myvec.clear();
+	expr a = myvec.at(3);
+	expr C = add_matx(A,B);
+	expr B = A.transpose();
+	expr B = A.trace();
+	expr myvec = G.dfs(3);
 }
 
 

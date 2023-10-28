@@ -54,7 +54,7 @@ extern int yydebug;
     YYEOF = 0,                     /* "end of file"  */
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
-    id = 258,                      /* id  */
+    newid = 258,                   /* newid  */
     INT_CONST = 259,               /* INT_CONST  */
     FLOAT_CONST = 260,             /* FLOAT_CONST  */
     CHAR_CONST = 261,              /* CHAR_CONST  */
@@ -79,16 +79,27 @@ extern int yydebug;
     LOGOP = 280,                   /* LOGOP  */
     ARITHOP = 281,                 /* ARITHOP  */
     NOT = 282,                     /* NOT  */
-    EXP = 283,                     /* EXP  */
-    UNARYOP = 284,                 /* UNARYOP  */
-    DECLR = 285,                   /* DECLR  */
-    EXPR = 286,                    /* EXPR  */
-    CALL = 287,                    /* CALL  */
-    FUNC = 288,                    /* FUNC  */
-    LOOP = 289,                    /* LOOP  */
-    null = 290,                    /* null  */
-    FOR = 291,                     /* FOR  */
-    WHILE = 292                    /* WHILE  */
+    UNARYOP = 283,                 /* UNARYOP  */
+    DECLR = 284,                   /* DECLR  */
+    EXPR = 285,                    /* EXPR  */
+    CALL = 286,                    /* CALL  */
+    FUNC = 287,                    /* FUNC  */
+    LOOP = 288,                    /* LOOP  */
+    null = 289,                    /* null  */
+    FOR = 290,                     /* FOR  */
+    WHILE = 291,                   /* WHILE  */
+    APPEND = 292,                  /* APPEND  */
+    REMOVE = 293,                  /* REMOVE  */
+    LENGTH = 294,                  /* LENGTH  */
+    SORT = 295,                    /* SORT  */
+    CLEAR = 296,                   /* CLEAR  */
+    AT = 297,                      /* AT  */
+    TRANSPOSE = 298,               /* TRANSPOSE  */
+    TRACE = 299,                   /* TRACE  */
+    TRAVERSAL = 300,               /* TRAVERSAL  */
+    STRLEN = 301,                  /* STRLEN  */
+    STRCUT = 302,                  /* STRCUT  */
+    MATXOP = 303                   /* MATXOP  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -97,7 +108,7 @@ extern int yydebug;
 #define YYEOF 0
 #define YYerror 256
 #define YYUNDEF 257
-#define id 258
+#define newid 258
 #define INT_CONST 259
 #define FLOAT_CONST 260
 #define CHAR_CONST 261
@@ -122,16 +133,27 @@ extern int yydebug;
 #define LOGOP 280
 #define ARITHOP 281
 #define NOT 282
-#define EXP 283
-#define UNARYOP 284
-#define DECLR 285
-#define EXPR 286
-#define CALL 287
-#define FUNC 288
-#define LOOP 289
-#define null 290
-#define FOR 291
-#define WHILE 292
+#define UNARYOP 283
+#define DECLR 284
+#define EXPR 285
+#define CALL 286
+#define FUNC 287
+#define LOOP 288
+#define null 289
+#define FOR 290
+#define WHILE 291
+#define APPEND 292
+#define REMOVE 293
+#define LENGTH 294
+#define SORT 295
+#define CLEAR 296
+#define AT 297
+#define TRANSPOSE 298
+#define TRACE 299
+#define TRAVERSAL 300
+#define STRLEN 301
+#define STRCUT 302
+#define MATXOP 303
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

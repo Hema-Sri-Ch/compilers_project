@@ -1,28 +1,4 @@
 %{
-/*
-
---> Remove the undeclared variables in the grammer rule of 'statement' while testing your code. Those variables will be declared by your teammates soon. (line no: 109)
-
---> Give understandable names to the variables while writting grammar so that others can understand your code
-
---> compile it with 
-		
-  		yacc -d parser.y
-
---> Then compile your lexer with 
-
-		lex lexer.l
-  		gcc lex.yy.c y.tab.c
-
---> write your testcase in 'inp' file
-
---> test it with command
-
-		./a.out <inp
-		
---> This will automatically read from the file 'inp'
-*/
-
 	#include<stdio.h>
 	#include <string.h>
 	#include <stdlib.h>
@@ -33,7 +9,7 @@
 	int yyerror(const char *s);
 %}
 
-%token id
+%token newid
 %token INT_CONST
 %token FLOAT_CONST
 %token CHAR_CONST
@@ -67,6 +43,18 @@
 %token null
 %token FOR
 %token WHILE
+%token APPEND
+%token REMOVE
+%token LENGTH
+%token SORT
+%token CLEAR
+%token AT
+%token TRANSPOSE
+%token TRACE
+%token TRAVERSAL
+%token STRLEN
+%token STRCUT
+%token MATXOP
 
 %start program_unit
 
@@ -84,6 +72,20 @@ model					: function
 						;
 						
 class					: CLASS id '{' class_items '}' ';' {fprintf(fparse, " : CLASS DEFINITION");}
+						;
+
+id						: newid
+						| APPEND
+						| REMOVE
+						| LENGTH
+						| SORT
+						| CLEAR
+						| AT
+						| TRANSPOSE
+						| TRACE
+						| TRAVERSAL
+						| STRLEN
+						| STRCUT
 						;
 						
 class_items				: class_item class_items
@@ -140,11 +142,29 @@ statement				: expr_stmt
 						| switch_stmt
 						| loop_stmt
 						| return_stmt
+						| vect_stmt {fprintf(fparse, " : INDEPENDENT METHOD");}
+						;
+
+vect_stmt				: id '.' APPEND '(' vect_append ')' ';'
+						| id '.' REMOVE '(' remove_body ')' ';'
+						| id '.' SORT '(' ')' ';'
+						| id '.' CLEAR '(' ')' ';'
+						;
+
+remove_body				: INT_CONST
+						| id
+						| func_calls
+						| arith_op
+						;
+
+vect_append				: constants
+						| '{' '}'
+						| vect_const
 						;
 
 return_stmt 			: RETURN RHS';' {fprintf(fparse, " : RETURN STATEMENT");}
 						| RETURN extra_consts ';' {fprintf(fparse, " : RETURN STATEMENT");}
-						| RETURN improvisations ';' {fprintf(fparse, " : RETURN STATEMENT");}
+						| RETURN graph_impr ';' {fprintf(fparse, " : RETURN STATEMENT");}
 						;
 
 loop_stmt				: LOOP loop_type {fprintf(fparse, " : LOOP");}
@@ -166,7 +186,7 @@ while_loop				: WHILE '('RHS')''{' statements '}'
 						
 expr_stmt				: EXPR id '=' RHS ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
 						| EXPR id '=' extra_consts ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
-						| EXPR id '=' improvisations ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
+						| EXPR id '=' graph_impr ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
 						;
 
 declr_stmt				: DECLR declr_body ';' {fprintf(fparse, " : DECLARATION STATEMENT");}
@@ -215,6 +235,8 @@ RHS						: constants
 						| arith_op
 						| logical_op
 						| func_calls
+						| vect_impr
+						| matrix_impr
 						;
 						
 constants				: INT_CONST
@@ -245,21 +267,19 @@ val_list				: int_list
 						| str_list
 						;
 						
-improvisations			: vect_impr
-						| graph_impr
-						| matrix_impr
-						;
-						
 string_impr				: '+'
 						;
 						
-vect_impr				: '-'
+vect_impr				: id '.' LENGTH '(' ')'
+						| id '.' AT '(' remove_body ')'
 						;
 						
-graph_impr				: '!'
+graph_impr				: id '.' TRAVERSAL '(' remove_body ')'
 						;
 						
-matrix_impr				: '@'
+matrix_impr				: MATXOP '(' RHS ',' RHS ')'
+						| id '.' TRANSPOSE '(' ')'
+						| id '.' TRACE '(' ')'
 						;
 						
 						

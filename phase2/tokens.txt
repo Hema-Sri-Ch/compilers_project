@@ -36,6 +36,89 @@ Special symbols:	]
 Punctuation : ;
 Special symbols:	]
 Punctuation : ;
+Identifier: clear
+Punctuation : .
+Identifier: append
+Special symbols:	(
+constant: 4
+Special symbols:	)
+Punctuation : ;
+Identifier : myvec
+Punctuation : .
+Identifier: remove
+Special symbols:	(
+constant: 1
+Special symbols:	)
+Punctuation : ;
+reserved keyword: expr
+Identifier : a
+Special symbols:	=
+Identifier : myvec
+Punctuation : .
+Identifier: length
+Special symbols:	(
+Special symbols:	)
+Punctuation : ;
+Identifier : myvec
+Punctuation : .
+Identifier: sort
+Special symbols:	(
+Special symbols:	)
+Punctuation : ;
+Identifier : myvec
+Punctuation : .
+Identifier: clear
+Special symbols:	(
+Special symbols:	)
+Punctuation : ;
+reserved keyword: expr
+Identifier : a
+Special symbols:	=
+Identifier : myvec
+Punctuation : .
+Identifier: at
+Special symbols:	(
+constant: 3
+Special symbols:	)
+Punctuation : ;
+reserved keyword: expr
+Identifier : C
+Special symbols:	=
+reserved keyword: add_matx
+Special symbols:	(
+Identifier : A
+Punctuation : ,
+Identifier : B
+Special symbols:	)
+Punctuation : ;
+reserved keyword: expr
+Identifier : B
+Special symbols:	=
+Identifier : A
+Punctuation : .
+Identifier: transpose
+Special symbols:	(
+Special symbols:	)
+Punctuation : ;
+reserved keyword: expr
+Identifier : B
+Special symbols:	=
+Identifier : A
+Punctuation : .
+Identifier: trace
+Special symbols:	(
+Special symbols:	)
+Punctuation : ;
+reserved keyword: expr
+Identifier : myvec
+Special symbols:	=
+Identifier : G
+Punctuation : .
+Identifier: dfs
+Special symbols:	(
+constant: 3
+Special symbols:	)
+Punctuation : ;
 Special symbols:	}
 reserved keyword: func
 datatype: int

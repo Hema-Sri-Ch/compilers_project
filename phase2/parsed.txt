@@ -4,6 +4,16 @@ func int main() : FUNCTION HEAD
 	expr mat = [[1,2,3];
 	 			[2,3,4];
 				]; : EXPRESSION STATEMENT
+	clear.append(4); : INDEPENDENT METHOD
+	myvec.remove(1); : INDEPENDENT METHOD
+	expr a = myvec.length(); : EXPRESSION STATEMENT
+	myvec.sort(); : INDEPENDENT METHOD
+	myvec.clear(); : INDEPENDENT METHOD
+	expr a = myvec.at(3); : EXPRESSION STATEMENT
+	expr C = add_matx(A,B); : EXPRESSION STATEMENT
+	expr B = A.transpose(); : EXPRESSION STATEMENT
+	expr B = A.trace(); : EXPRESSION STATEMENT
+	expr myvec = G.dfs(3); : EXPRESSION STATEMENT
 }
 
 
