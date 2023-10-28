@@ -67,7 +67,8 @@
 %token FUNC
 %token LOOP
 %token null
-
+%token FOR
+%token WHILE
 
 %start program_unit
 
@@ -138,7 +139,26 @@ statement				: expr_stmt
 						| declr_stmt 
 						| ifcond_stmt
 						| switch_stmt
+						|loop_stmt
+						| return_stmt
 						;
+return_stmt 			: RETURN RHS';' {fprintf(fparse, " : RETURN STATEMENT");}
+
+loop_stmt				: LOOP loop_type {fprintf(fparse, " : LOOP");}
+						; 
+loop_type				: for_loop
+						| while_loop
+						;
+						;
+for_loop				: FOR '('EXPR id '=' cond_res ';' logical_op ';' UNARYOP '('id')'')''{'statements'}'
+						;
+
+while_loop				: WHILE '('while_res')''{' statements '}'
+						;
+while_res			    : cond_res
+						| call_stmt
+						;
+
 						
 expr_stmt				: EXPR id '=' RHS ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
 						;

@@ -87,7 +87,9 @@ extern int yydebug;
     CALL = 288,                    /* CALL  */
     FUNC = 289,                    /* FUNC  */
     LOOP = 290,                    /* LOOP  */
-    null = 291                     /* null  */
+    null = 291,                    /* null  */
+    FOR = 292,                     /* FOR  */
+    WHILE = 293                    /* WHILE  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -130,6 +132,8 @@ extern int yydebug;
 #define FUNC 289
 #define LOOP 290
 #define null 291
+#define FOR 292
+#define WHILE 293
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

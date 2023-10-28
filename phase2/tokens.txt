@@ -1,3 +1,80 @@
+reserved keyword: func
+datatype: int
+Identifier : main
+Special symbols:	(
+Special symbols:	)
+Special symbols:	{
+reserved keyword: loop
+reserved keyword: while
+Special symbols:	(
+Special symbols:	(
+Identifier : i
+reserved keyword: lt
+constant: 10
+Special symbols:	)
+Special symbols:	)
+Special symbols:	{
+reserved keyword: expr
+Identifier : m
+Special symbols:	=
+constant: 10
+Punctuation : ;
+Special symbols:	}
+reserved keyword: loop
+reserved keyword: while
+Special symbols:	(
+reserved keyword: decr
+Special symbols:	(
+Identifier : i
+Special symbols:	)
+Special symbols:	)
+Special symbols:	{
+reserved keyword: expr
+Identifier : n
+Special symbols:	=
+constant: "hi"
+Punctuation : ;
+Special symbols:	}
+reserved keyword: return
+Identifier : i
+Punctuation : ;
+Special symbols:	}
+reserved keyword: func
+datatype: int
+Identifier : main
+Special symbols:	(
+Special symbols:	)
+Special symbols:	{
+reserved keyword: loop
+reserved keyword: for
+Special symbols:	(
+reserved keyword: expr
+Identifier : i
+Special symbols:	=
+constant: 0
+Punctuation : ;
+Special symbols:	(
+Identifier : i
+reserved keyword: lt
+constant: 10
+Special symbols:	)
+Punctuation : ;
+reserved keyword: incr
+Special symbols:	(
+Identifier : i
+Special symbols:	)
+Special symbols:	)
+Special symbols:	{
+reserved keyword: expr
+Identifier : m
+Special symbols:	=
+constant: 0
+Punctuation : ;
+Special symbols:	}
+reserved keyword: return
+Identifier : i
+Punctuation : ;
+Special symbols:	}
 reserved keyword: struct
 Identifier : node
 Special symbols:	{
