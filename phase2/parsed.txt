@@ -1,26 +1,26 @@
-func bool foo(int a, char b, vect<int> sdf, node sdffd) : FUNCTION HEAD{
-	declr vect<int> myVec1, myVec2; : DECLARATION STATEMENT 
-	declr graph G[10], B[0]; : DECLARATION STATEMENT
-	declr struct node A; : DECLARATION STATEMENT
-	declr struct node b, c; : DECLARATION STATEMENT
-	declr class node A; : DECLARATION STATEMENT
-	declr class node vertex1, vertex2; : DECLARATION STATEMENT
-
-
-	if(call funckd()) : CONDITIONAL STATEMENT{
-		expr dfd = df; : EXPRESSION STATEMENT
-	} else {
-		expr sdf = sdfjsd; : EXPRESSION STATEMENT
-		call boo(); : CALL STATEMENT
-		call dfjd.dsfd(sdf, idf, add(a, b), incr(i)); : CALL STATEMENT
-	}
-}
-
-func int main() : FUNCTION HEAD
+func bool foo(int a, char b, vect<int> sdf, node sdffd) : FUNCTION HEAD
 {
-	expr sd = (sd or difd); : EXPRESSION STATEMENT
-	expr sd = (12 and add(12, incr(df))); : EXPRESSION STATEMENT
-	expr d = add(call df(), call A.df(8, ddf, mul(a, b), (a or b), call dfas())); : EXPRESSION STATEMENT
+	declr graph G[4]; : DECLARATION STATEMENT
+	expr G =
+	{
+		1 : 2,3;
+		2 : 1,4;
+		3 : 1;
+		4 : 2;
+	}; : EXPRESSION STATEMENT
+
+	declr graph G[3]; : DECLARATION STATEMENT
+	expr G =
+	{
+		1 : (2,8),(3,12);
+		2 : (3,5);
+	}; : EXPRESSION STATEMENT
+
+	declr vect<int> myvec; : DECLARATION STATEMENT
+	expr myvec = {1,2,3}; : EXPRESSION STATEMENT
+	expr myvec = {1,bat,3}; : EXPRESSION STATEMENT
+	expr myvec = {1,{1, str, {}},3}; : EXPRESSION STATEMENT
+
 	if((a or b)) : CONDITIONAL STATEMENT
 	{
 		call sdf(); : CALL STATEMENT
@@ -55,11 +55,4 @@ func int main() : FUNCTION HEAD
 			declr vect<int> myVec1, myVec2; : DECLARATION STATEMENT	
 		}	
 	}
-
-	declr vect<int> myVec1, myVec2; : DECLARATION STATEMENT 
-	declr graph G[10], B[0]; : DECLARATION STATEMENT
-	declr struct node A; : DECLARATION STATEMENT
-	declr struct node b, c; : DECLARATION STATEMENT
-	declr class node A; : DECLARATION STATEMENT
-	declr class node vertex1, vertex2; : DECLARATION STATEMENT
 }

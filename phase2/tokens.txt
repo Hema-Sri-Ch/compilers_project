@@ -19,170 +19,119 @@ Identifier : sdffd
 Special symbols:	)
 Special symbols:	{
 reserved keyword: declr
-reserved keyword: vect
-Special symbols:	<
-datatype: int
-Special symbols:	>
-Identifier : myVec1
+reserved keyword: graph
+Identifier : G
+Special symbols:	[
+constant: 4
+Special symbols:	]
+Punctuation : ;
+reserved keyword: expr
+Identifier : G
+Special symbols:	=
+Special symbols:	{
+constant: 1
+Punctuation : :
+constant: 2
 Punctuation : ,
-Identifier : myVec2
+constant: 3
+Punctuation : ;
+constant: 2
+Punctuation : :
+constant: 1
+Punctuation : ,
+constant: 4
+Punctuation : ;
+constant: 3
+Punctuation : :
+constant: 1
+Punctuation : ;
+constant: 4
+Punctuation : :
+constant: 2
+Punctuation : ;
+Special symbols:	}
 Punctuation : ;
 reserved keyword: declr
 reserved keyword: graph
 Identifier : G
 Special symbols:	[
-constant: 10
-Special symbols:	]
-Punctuation : ,
-Identifier : B
-Special symbols:	[
-constant: 0
+constant: 3
 Special symbols:	]
 Punctuation : ;
-reserved keyword: declr
-reserved keyword: struct
-Identifier : node
-Identifier : A
-Punctuation : ;
-reserved keyword: declr
-reserved keyword: struct
-Identifier : node
-Identifier : b
-Punctuation : ,
-Identifier : c
-Punctuation : ;
-reserved keyword: declr
-reserved keyword: class
-Identifier : node
-Identifier : A
-Punctuation : ;
-reserved keyword: declr
-reserved keyword: class
-Identifier : node
-Identifier : vertex1
-Punctuation : ,
-Identifier : vertex2
-Punctuation : ;
-reserved keyword: if
-Special symbols:	(
-reserved keyword: call
-Identifier : funckd
-Special symbols:	(
-Special symbols:	)
-Special symbols:	)
+reserved keyword: expr
+Identifier : G
+Special symbols:	=
 Special symbols:	{
-reserved keyword: expr
-Identifier : dfd
-Special symbols:	=
-Identifier : df
-Punctuation : ;
-Special symbols:	}
-reserved keyword: else
-Special symbols:	{
-reserved keyword: expr
-Identifier : sdf
-Special symbols:	=
-Identifier : sdfjsd
-Punctuation : ;
-reserved keyword: call
-Identifier : boo
+constant: 1
+Punctuation : :
 Special symbols:	(
-Special symbols:	)
-Punctuation : ;
-reserved keyword: call
-Identifier : dfjd
-Punctuation : .
-Identifier : dsfd
-Special symbols:	(
-Identifier : sdf
+constant: 2
 Punctuation : ,
-Identifier : idf
-Punctuation : ,
-operator: add
-Special symbols:	(
-Identifier : a
-Punctuation : ,
-Identifier : b
-Special symbols:	)
-Punctuation : ,
-reserved keyword: incr
-Special symbols:	(
-Identifier : i
-Special symbols:	)
-Special symbols:	)
-Punctuation : ;
-Special symbols:	}
-Special symbols:	}
-reserved keyword: func
-datatype: int
-Identifier : main
-Special symbols:	(
-Special symbols:	)
-Special symbols:	{
-reserved keyword: expr
-Identifier : sd
-Special symbols:	=
-Special symbols:	(
-Identifier : sd
-reserved keyword: or
-Identifier : difd
-Special symbols:	)
-Punctuation : ;
-reserved keyword: expr
-Identifier : sd
-Special symbols:	=
-Special symbols:	(
-constant: 12
-reserved keyword: and
-operator: add
-Special symbols:	(
-constant: 12
-Punctuation : ,
-reserved keyword: incr
-Special symbols:	(
-Identifier : df
-Special symbols:	)
-Special symbols:	)
-Special symbols:	)
-Punctuation : ;
-reserved keyword: expr
-Identifier : d
-Special symbols:	=
-operator: add
-Special symbols:	(
-reserved keyword: call
-Identifier : df
-Special symbols:	(
-Special symbols:	)
-Punctuation : ,
-reserved keyword: call
-Identifier : A
-Punctuation : .
-Identifier : df
-Special symbols:	(
 constant: 8
-Punctuation : ,
-Identifier : ddf
-Punctuation : ,
-operator: mul
-Special symbols:	(
-Identifier : a
-Punctuation : ,
-Identifier : b
 Special symbols:	)
 Punctuation : ,
 Special symbols:	(
-Identifier : a
-reserved keyword: or
-Identifier : b
-Special symbols:	)
+constant: 3
 Punctuation : ,
-reserved keyword: call
-Identifier : dfas
+constant: 12
+Special symbols:	)
+Punctuation : ;
+constant: 2
+Punctuation : :
 Special symbols:	(
+constant: 3
+Punctuation : ,
+constant: 5
 Special symbols:	)
-Special symbols:	)
-Special symbols:	)
+Punctuation : ;
+Special symbols:	}
+Punctuation : ;
+reserved keyword: declr
+reserved keyword: vect
+Special symbols:	<
+datatype: int
+Special symbols:	>
+Identifier : myvec
+Punctuation : ;
+reserved keyword: expr
+Identifier : myvec
+Special symbols:	=
+Special symbols:	{
+constant: 1
+Punctuation : ,
+constant: 2
+Punctuation : ,
+constant: 3
+Special symbols:	}
+Punctuation : ;
+reserved keyword: expr
+Identifier : myvec
+Special symbols:	=
+Special symbols:	{
+constant: 1
+Punctuation : ,
+Identifier : bat
+Punctuation : ,
+constant: 3
+Special symbols:	}
+Punctuation : ;
+reserved keyword: expr
+Identifier : myvec
+Special symbols:	=
+Special symbols:	{
+constant: 1
+Punctuation : ,
+Special symbols:	{
+constant: 1
+Punctuation : ,
+Identifier : str
+Punctuation : ,
+Special symbols:	{
+Special symbols:	}
+Special symbols:	}
+Punctuation : ,
+constant: 3
+Special symbols:	}
 Punctuation : ;
 reserved keyword: if
 Special symbols:	(
@@ -332,49 +281,4 @@ Identifier : myVec2
 Punctuation : ;
 Special symbols:	}
 Special symbols:	}
-reserved keyword: declr
-reserved keyword: vect
-Special symbols:	<
-datatype: int
-Special symbols:	>
-Identifier : myVec1
-Punctuation : ,
-Identifier : myVec2
-Punctuation : ;
-reserved keyword: declr
-reserved keyword: graph
-Identifier : G
-Special symbols:	[
-constant: 10
-Special symbols:	]
-Punctuation : ,
-Identifier : B
-Special symbols:	[
-constant: 0
-Special symbols:	]
-Punctuation : ;
-reserved keyword: declr
-reserved keyword: struct
-Identifier : node
-Identifier : A
-Punctuation : ;
-reserved keyword: declr
-reserved keyword: struct
-Identifier : node
-Identifier : b
-Punctuation : ,
-Identifier : c
-Punctuation : ;
-reserved keyword: declr
-reserved keyword: class
-Identifier : node
-Identifier : A
-Punctuation : ;
-reserved keyword: declr
-reserved keyword: class
-Identifier : node
-Identifier : vertex1
-Punctuation : ,
-Identifier : vertex2
-Punctuation : ;
 Special symbols:	}

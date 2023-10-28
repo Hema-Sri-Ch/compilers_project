@@ -1,26 +1,26 @@
-func bool foo(int a, char b, vect<int> sdf, node sdffd){
-	declr vect<int> myVec1, myVec2; 
-	declr graph G[10], B[0];
-	declr struct node A;
-	declr struct node b, c;
-	declr class node A;
-	declr class node vertex1, vertex2;
-
-
-	if(call funckd()){
-		expr dfd = df;
-	} else {
-		expr sdf = sdfjsd;
-		call boo();
-		call dfjd.dsfd(sdf, idf, add(a, b), incr(i));
-	}
-}
-
-func int main()
+func bool foo(int a, char b, vect<int> sdf, node sdffd)
 {
-	expr sd = (sd or difd);
-	expr sd = (12 and add(12, incr(df)));
-	expr d = add(call df(), call A.df(8, ddf, mul(a, b), (a or b), call dfas()));
+	declr graph G[4];
+	expr G =
+	{
+		1 : 2,3;
+		2 : 1,4;
+		3 : 1;
+		4 : 2;
+	};
+
+	declr graph G[3];
+	expr G =
+	{
+		1 : (2,8),(3,12);
+		2 : (3,5);
+	};
+
+	declr vect<int> myvec;
+	expr myvec = {1,2,3};
+	expr myvec = {1,bat,3};
+	expr myvec = {1,{1, str, {}},3};
+
 	if((a or b))
 	{
 		call sdf();
@@ -55,11 +55,4 @@ func int main()
 			declr vect<int> myVec1, myVec2;	
 		}	
 	}
-
-	declr vect<int> myVec1, myVec2; 
-	declr graph G[10], B[0];
-	declr struct node A;
-	declr struct node b, c;
-	declr class node A;
-	declr class node vertex1, vertex2;
 }

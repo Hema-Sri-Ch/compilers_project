@@ -183,28 +183,77 @@ constants				: INT_CONST
 						| matrix_const
 						| vect_const
 						| id
-						;
-						
-
-array_const				: '{' val_list '}'
 						| '{' '}'
 						;
 						
-val_list				: val ',' val_list
-						| val
+
+array_const				: '[' val_list ']'
+						| '[' ']'
 						;
 						
-val						: INT_CONST
+val_list				: int_list
+						| float_list
+						| char_list
+						| bool_list
+						| str_list
+						;
+						
+						
+graph_const				: '{' graph_type1 '}'
+						| '{' graph_type2 '}'
+						;
+
+graph_type1				: INT_CONST ':' int_list ';' graph_type1
+						| INT_CONST ':' int_list ';'
+						;
+
+graph_type2				: INT_CONST ':' weight_list ';' graph_type2
+						| INT_CONST ':' weight_list ';'
+						;
+
+int_list				: INT_CONST ',' int_list
+						| INT_CONST
+						;
+
+float_list				: FLOAT_CONST ',' float_list
 						| FLOAT_CONST
+						;
+
+char_list				: CHAR_CONST ',' char_list
 						| CHAR_CONST
+						;
+
+bool_list				: BOOL_CONST ',' bool_list
 						| BOOL_CONST
+						;
+
+str_list				: STR_CONST ',' str_list
 						| STR_CONST
 						;
-						
-graph_const				: '*'
+
+weight_list				: '(' INT_CONST ',' INT_CONST ')' ',' weight_list
+						| '(' INT_CONST ',' INT_CONST ')'
 						;
 						
-vect_const				: '+'
+vect_const				: '{' vect_list '}'
+						;
+
+vect_list				: INT_CONST ',' vect_list
+						| CHAR_CONST ',' vect_list
+						| FLOAT_CONST ',' vect_list
+						| BOOL_CONST ',' vect_list
+						| STR_CONST ',' vect_list
+						| id ',' vect_list
+						| vect_const ',' vect_list
+						| '{' '}' ',' vect_list
+						| INT_CONST
+						| CHAR_CONST
+						| FLOAT_CONST
+						| BOOL_CONST
+						| STR_CONST
+						| id
+						| vect_const
+						| '{' '}'
 						;
 						
 matrix_const			: '-'
