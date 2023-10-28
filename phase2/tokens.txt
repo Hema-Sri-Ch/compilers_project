@@ -59,9 +59,43 @@ reserved keyword: lt
 constant: 10
 Special symbols:	)
 Punctuation : ;
+reserved keyword: expr
+Identifier : j
+Special symbols:	=
 reserved keyword: incr
 Special symbols:	(
 Identifier : i
+Special symbols:	)
+Special symbols:	)
+Special symbols:	{
+reserved keyword: expr
+Identifier : m
+Special symbols:	=
+constant: 0
+Punctuation : ;
+Special symbols:	}
+reserved keyword: loop
+reserved keyword: for
+Special symbols:	(
+reserved keyword: expr
+Identifier : i
+Special symbols:	=
+constant: 0
+Punctuation : ;
+Special symbols:	(
+Identifier : i
+reserved keyword: lt
+constant: 10
+Special symbols:	)
+Punctuation : ;
+reserved keyword: expr
+Identifier : i
+Special symbols:	=
+operator: mul
+Special symbols:	(
+Identifier : i
+Punctuation : ,
+constant: 3
 Special symbols:	)
 Special symbols:	)
 Special symbols:	{

@@ -1,23 +1,29 @@
 func int main()
 {
-loop while((i lt 10))
-{
-	expr m = 10;
+	loop while((i lt 10))
+	{	
+		expr m = 10;
+	}
+	loop while(decr(i))
+	{
+ 	expr n = "hi";
+	}
+	return i;
 }
-loop while(decr(i))
-{
- expr n = "hi";
-}
-return i;
-}
+
 func int main()
 {
-loop for (expr i=0 ; (i lt 10); incr(i))
-{
-  expr m = 0;
+	loop for (expr i=0 ; (i lt 10); expr j = incr(i))
+	{	
+  		expr m = 0;
+	}
+	loop for (expr i=0 ; (i lt 10); expr i = mul(i,3))
+	{	
+  		expr m = 0;
+	}
+	return i;
 }
-return i;
-}
+
 struct node
 {
 	declr string name;

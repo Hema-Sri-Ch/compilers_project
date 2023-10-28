@@ -1,23 +1,29 @@
 func int main() : FUNCTION HEAD
 {
-loop while((i lt 10))
-{
-	expr m = 10; : EXPRESSION STATEMENT
-} : LOOP
-loop while(decr(i))
-{
- expr n = "hi"; : EXPRESSION STATEMENT
-} : LOOP
-return i; : RETURN STATEMENT
+	loop while((i lt 10))
+	{	
+		expr m = 10; : EXPRESSION STATEMENT
+	} : LOOP
+	loop while(decr(i))
+	{
+ 	expr n = "hi"; : EXPRESSION STATEMENT
+	} : LOOP
+	return i; : RETURN STATEMENT
 }
+
 func int main() : FUNCTION HEAD
 {
-loop for (expr i=0 ; (i lt 10); incr(i))
-{
-  expr m = 0; : EXPRESSION STATEMENT
-} : LOOP
-return i; : RETURN STATEMENT
+	loop for (expr i=0 ; (i lt 10); j = incr(i))
+	{	
+  		expr m = 0; : EXPRESSION STATEMENT
+	} : LOOP
+	loop for (expr i=0 ; (i lt 10); i = mul(i,3))
+	{	
+  		expr m = 0; : EXPRESSION STATEMENT
+	} : LOOP
+	return i; : RETURN STATEMENT
 }
+
 struct node
 {
 	declr string name; : DECLARATION STATEMENT

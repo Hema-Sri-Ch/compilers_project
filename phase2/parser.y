@@ -138,26 +138,29 @@ statement				: expr_stmt
 						| declr_stmt 
 						| ifcond_stmt
 						| switch_stmt
-						|loop_stmt
+						| loop_stmt
 						| return_stmt
 						;
+
 return_stmt 			: RETURN RHS';' {fprintf(fparse, " : RETURN STATEMENT");}
+						;
 
 loop_stmt				: LOOP loop_type {fprintf(fparse, " : LOOP");}
 						; 
+
 loop_type				: for_loop
 						| while_loop
 						;
-						;
-for_loop				: FOR '('EXPR id '=' cond_res ';' logical_op ';' UNARYOP '('id')'')''{'statements'}'
-						;
-
-while_loop				: WHILE '('while_res')''{' statements '}'
-						;
-while_res			    : cond_res
-						| call_stmt
+				
+for_loop				: FOR '('EXPR id '=' cond_res ';' logical_op ';' for_expr ')''{'statements'}'
 						;
 
+for_expr				: unary_op
+						| id '=' arith_op 
+						;
+
+while_loop				: WHILE '('cond_res')''{' statements '}'
+						;
 						
 expr_stmt				: EXPR id '=' RHS ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
 						;
