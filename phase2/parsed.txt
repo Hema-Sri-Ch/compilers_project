@@ -34,6 +34,8 @@ func bool foo(int a, char b, vect<int> sdf, node sdffd) : FUNCTION HEAD
 		declr graph G[10]; : DECLARATION STATEMENT
 	}
 
+	declr vect<vect<int>> myvec; : DECLARATION STATEMENT
+
 	switch(5) : CONDITIONAL STATEMENT
 	{
 		case 1:

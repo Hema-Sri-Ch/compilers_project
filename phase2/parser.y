@@ -169,6 +169,13 @@ cases					: CASE INT_CONST ':' '{' statements '}' cases
 
 cond_res				: INT_CONST
 						| logical_op
+						| func_calls
+						| FLOAT_CONST
+						| CHAR_CONST
+						| STR_CONST
+						| BOOL_CONST
+						| id
+						| arith_op
 						;
 						
 RHS						: constants

@@ -182,6 +182,16 @@ constant: 10
 Special symbols:	]
 Punctuation : ;
 Special symbols:	}
+reserved keyword: declr
+reserved keyword: vect
+Special symbols:	<
+reserved keyword: vect
+Special symbols:	<
+datatype: int
+Special symbols:	>
+Special symbols:	>
+Identifier : myvec
+Punctuation : ;
 reserved keyword: switch
 Special symbols:	(
 constant: 5

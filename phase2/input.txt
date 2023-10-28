@@ -34,6 +34,8 @@ func bool foo(int a, char b, vect<int> sdf, node sdffd)
 		declr graph G[10];
 	}
 
+	declr vect<vect<int>> myvec;
+
 	switch(5)
 	{
 		case 1:
