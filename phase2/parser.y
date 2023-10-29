@@ -148,6 +148,8 @@ statement				: expr_stmt
 						| loop_stmt
 						| return_stmt
 						| vect_stmt
+						| BREAK ';' {fprintf(fparse, " : BREAK STATEMENT");}
+						| CONTINUE ';' {fprintf(fparse, " : CONTINUE STATEMENT");}
 						;
 
 vect_stmt				: vect_stmt_body ';' {fprintf(fparse, " : INDEPENDENT METHOD");}
@@ -162,7 +164,7 @@ vect_stmt_body			: resultant '.' APPEND '(' vect_append ')'
 
 remove_body				: INT_CONST
 						| FLOAT_CONST
-						| id
+						| LHS
 						| func_calls
 						| arith_op
 						| logical_op

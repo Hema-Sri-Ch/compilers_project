@@ -1,38 +1,3 @@
-class myClass {
-	declr int itemA; : DECLARATION STATEMENT
-	declr float itemB, itemC; : DECLARATION STATEMENT
-	declr struct myStruct itemD; : DECLARATION STATEMENT
-	
-	func void setItems(int a, float b, float c, myStruct d) : FUNCTION HEAD {
-		expr itemA = a; : EXPRESSION STATEMENT
-		expr itemB = b; : EXPRESSION STATEMENT
-		expr itemC = c; : EXPRESSION STATEMENT
-		expr itemD = d; : EXPRESSION STATEMENT
-		return null; : RETURN STATEMENT
-	}
-	
-	func int boo(int num) : FUNCTION HEAD {
-		return mul(num, (num gt 10)); : RETURN STATEMENT
-	}
-	
-	func myStruct foo(int p, int q) : FUNCTION HEAD {
-		expr a = add(sItem1, mul(p, (q and call boo(q)))); : EXPRESSION STATEMENT
-		sItem2.append(10); : INDEPENDENT METHOD
-		expr itemD->sItem1 = sub(a, sItem2.append(call boo((a lt itemD->sItem3.strlen()))).sort().length()); : EXPRESSION STATEMENT
-		return itemD; : RETURN STATEMENT
-	}
-}; : CLASS DEFINITION
-
-struct myStruct {
-	declr int sItem1; : DECLARATION STATEMENT
-	declr vect<int> sItem2; : DECLARATION STATEMENT
-	declr string sItem3; : DECLARATION STATEMENT
-}; : STRUCT DEFINITION
-
-func int main () : FUNCTION HEAD {
-	return 1; : RETURN STATEMENT
-}
-
 func int main() : FUNCTION HEAD
 {
 	{}
