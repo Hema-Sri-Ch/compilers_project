@@ -255,6 +255,8 @@ functions can have only the following statements
     \item loop statements
     \item jump statements
     \item return statements
+    \item unary statements
+    \item improvisation statements
 \end{enumerate}
 Function can have no arguments too. Here is its corresponding syntax\\
 \texttt{func <data\_type> ( ) { <selected\_statements> }}
@@ -270,7 +272,9 @@ func string boo(int a, int b)
 }
 \end{lstlisting}
 
-\textbf{NOTE:} Functions must contains atleast one return statement returning the same data type as that of function
+\textbf{NOTE:} Functions must contains atleast one return statement returning the same data type as that of function\\
+\textbf{NOTE:} Function body can be comprised of statements, or function bodies\\
+\textbf{NOTE:} Function CAN have empty scopes\\
 
 \chapter{Statements and their syntax}
 \section*{Operations}
@@ -284,6 +288,7 @@ In this the \texttt{<resultant>} represents the following
     \item arithmetic operations
     \item logical operations
     \item call statements
+    \item functions of improvisations
 \end{itemize}
 Here are unary operators: \textbf{incr, decr}\\
 They have the following syntax:\\
@@ -376,7 +381,7 @@ Expression statements start with the key word \texttt{expr}. It follows the foll
             expr str = "Hello, World!"
 
             declr vect<int> myVec;
-            expr myVec = {};
+            expr myVec = {1, 2};
 
             return 1;
         }
@@ -412,6 +417,21 @@ Expression statements start with the key word \texttt{expr}. It follows the foll
             return ans;
         }
     \end{lstlisting}
+
+    \item \textbf{\texttt{expr variable = <functions of improvisations>}}
+    Details of \texttt{functions of improvisations} are given in section 6. They can return integers, strings, graphs, matrices or vectors
+    \begin{lstlisting}
+        func int main()
+        {
+            declr vect<int> myVec;
+            expr myVec = {1, 2, 3};
+            expr myVec = myVec.append(4);
+            expr myVec = myVec.append(5).remove(4);
+            declr int length;
+            expr length = myVec.length();
+            return length
+        }
+    \end{lstlisting}
 \end{enumerate}
 
 \section{Conditional statements}
@@ -425,6 +445,7 @@ Here is the syntax for if-conditionals
         \item arithematic operations
         \item logical operations
         \item call statements
+        \item functions of improvisations
     \end{itemize}
     \begin{lstlisting}
         func int main()
@@ -488,12 +509,18 @@ There can be any number of cases. The \texttt{default} case is optional
 The loop start with a key word \texttt{'loop'}
 \subsection{for loops}
 The syntax for 'for loops'\\
-\textbf{\texttt{loop for(<expression statement> ; <logical operations>; <increment operations>) \{ <statements>\}}}
+\textbf{\texttt{loop for(<expression statement> ; <logical operations>; <increment operations>) \{ <statements>\}}} \\
+\textbf{\texttt{loop for(<exprssion statement> ; <logical operation> ; <arithmetic operation>)\{<statements>\}}}
 \begin{lstlisting}
     func int main()
     {
         !! write statements here (optional)!!
-        loop for (i=0 ; (i<10); incr(i))
+        loop for (i=0 ; (i lt 10); incr(i))
+        {
+            !! write statements here !!
+        }
+
+        loop for(j = 0; (j lt i); expr i = i + 2)
         {
             !! write statements here !!
         }
@@ -509,6 +536,7 @@ The \texttt{<resultant>} above includes the following
         \item arithmetic operations
         \item logical operations
         \item call statements
+        \item functions of improvisations
 \end{itemize}
 \begin{lstlisting}
     func int main()
@@ -567,6 +595,7 @@ The call arguments are none or more \texttt{<resultant>} objects. The \texttt{<r
     \item arithmetic operations
     \item logical operations
     \item call statements
+    \item functions of improvisations
 \end{itemize}
 \begin{lstlisting}
     func int main()
@@ -609,6 +638,7 @@ As mentioned in earlier the \texttt{<resultant>} represents the following
     \item arithmetic operations
     \item logical operations
     \item call statements
+    \item functions of improvisations
 \end{itemize}
 The thing the return statement return should match the data type of the function, which is checked by syntax analyser. A function should contain atleast one return statement
 \begin{lstlisting}
@@ -647,7 +677,7 @@ Vectors in this language works similar to the vectors in C++. There is no before
 Vectors are mutable.\\
 We have some inbuilt functions like append, remove, pop, length, sort for various uses.
 \subsection{append}
-The function 'append' adds the associated element at the end of the vector.
+The function 'append' adds the associated element at the end of the vector. It returns itself, which is modified. This can be used as standalone statement or as RHS of expression statement or it can be used in return statements.
 \begin{lstlisting}
 
     expr myvec = {1,2,3}; !! expression statement !!
@@ -655,19 +685,35 @@ The function 'append' adds the associated element at the end of the vector.
     myvec.append(4); !! append method of vector !!
     
     !! myvec becomes {1,2,3,4} !!
+
+    expr myvec = myvec.append(5).append(6);
+
+    !! first myvec becomes {1, 2, 3, 4, 5} and then it becomes {1, 2, 3, 4, 5, 6} !!
+
+    return myvec;
     
 \end{lstlisting}
 \subsection{remove}
-The function 'remove' takes in an argument of the index which has to removed. It must have the constraint that the index must be within the size of that vector.\\
+The function 'remove' takes in an argument of the index which has to removed. It must have the constraint that the index must be within the size of that vector.It returns itself, which is modified. This can be used as standalone statement or as RHS of expression statement or it can be used in return statements.\\
+
+If the non-existed element is asked to remove, then no change takes place in the vector
 \begin{lstlisting}
     !! myvec = {10,25,35} !!
     
     myvec.remove(1); 
 
     !! myvec becomes {10,35} !!
+
+    expr myvec2 = myvec.remove(10);
+
+    !! now myvec2 as well as myvec are {35} !!
+
+    return myvec.remove(35);
 \end{lstlisting}
 \subsection{length}
 The function 'length' returns the number of the elements in the vector.\\
+syntax : \texttt{<vector\_resultant> . length ( )} \\
+vector\_resultant can be identifier of vector type or anything that returns vector type
 \begin{lstlisting}
     !! myvec = {'c','h','e','z'} !!
     
@@ -677,6 +723,8 @@ The function 'length' returns the number of the elements in the vector.\\
 \end{lstlisting}
 \subsection{sort}
 The function 'sort' by default sorts the vector in increasing order.
+syntax : \texttt{<vector\_resultant> . sort ( )} \\
+vector\_resultant can be identifier of vector type or anything that returns vector type
 \begin{lstlisting}
     !! myvec = {34,23,1,-123} !!
 
@@ -686,6 +734,8 @@ The function 'sort' by default sorts the vector in increasing order.
 \end{lstlisting}
 \subsection{clear}
 The function `clear' removes all the elements in the vector making its size 0.
+syntax : \texttt{<vector\_resultant> . clear ( )} \\
+vector\_resultant can be identifier of vector type or anything that returns vector type
 \begin{lstlisting}
     !! myvec = {1,2,3,4} !!
 
@@ -694,7 +744,10 @@ The function `clear' removes all the elements in the vector making its size 0.
     !! myvec becomes {} !!
 \end{lstlisting}
 \subsection{at}
-This function takes an argument of index and returns the value which is present at that index in the vector.
+This function takes an argument of index and returns the value which is present at that index in the vector.\\
+
+syntax : \texttt{<vector\_resultant> . at ( <integer\_resultant> )} \\
+vector\_resultant can be identifier of vector type or anything that returns vector type and integer\_resultant can be identifier of integer type or anything that returns integer type
 \begin{lstlisting}
     !! myvec = {20,100,67,69} !!
 
@@ -707,6 +760,8 @@ We can declare matrix directly using this 'matrix' datatype.\\
 We have some inbuilt functions for regularly using matrix operations like add, sub, transpose, trace.
 \subsection{add\_matx}
 'add\_matx' is a function which takes two matrices as input and return their addition only if their dimensions match. Else gives an error. \\
+syntax: \texttt{<add\_matx> (<matrix\_resultant> , <matrix\_resultant>)}\\
+Here matrix\_resultant can be identifier of type matrix or anthing that returns matrix type
 \begin{lstlisting}
     declr matrix A[2][3], B[2][3], C[2][3];
 
@@ -715,7 +770,9 @@ We have some inbuilt functions for regularly using matrix operations like add, s
 \end{lstlisting}
 \subsection{sub\_matx}
 'sub\_matx' is a function which takes two matrices as input and return their subtraction only if their dimensions match. Else gives an error.\\
-By returning the subtraction here we mean, the matrix which is given as a second argument is subtracted from first.
+By returning the subtraction here we mean, the matrix which is given as a second argument is subtracted from first.\\
+syntax: \texttt{<sub\_matx> (<matrix\_resultant> , <matrix\_resultant>)}\\
+Here matrix\_resultant can be identifier of type matrix or anthing that returns matrix type
 \begin{lstlisting}
     declr matrix A[2][3], B[2][3], C[2][3];
 
@@ -723,21 +780,27 @@ By returning the subtraction here we mean, the matrix which is given as a second
 \end{lstlisting}
 \subsection{mult\_matx}
 'mult\_matx' is matrix multiplication function. Here two matrices can qualify for multiplication only if the number of columns of first matrix is equal to the number of rows of the second matrix.\\
-This returned matrix has rows equal to the number of rows of the first matrix and the columns equal to that of the second matrix.\\
+This returned matrix has rows equal to the number of rows of the first matrix and the columns equal to that of the second matrix.\\\\
+syntax: \texttt{<mult\_matx> (<matrix\_resultant> , <matrix\_resultant>)}\\
+Here matrix\_resultant can be identifier of type matrix or anthing that returns matrix type
 \begin{lstlisting}
     declr matrix A[5][6], B[6][10], C[5][10];
 
     expr C = mult_matx(A,B); !! C gets assigned the matrix obtained by the multiplication of A with B. !!
 \end{lstlisting}
 \subsection{transpose}
-This takes a matrix as an input and return its transpose.\\
+This takes a matrix as an input and return its transpose.\\\\
+syntax: \texttt{ <matrix\_resultant> . transpose () }\\
+Here matrix\_resultant can be identifier of type matrix or anthing that returns matrix type
 \begin{lstlisting}
     declr matrix A[1][2], B[2][1];
 
     expr B = A.transpose(); !! B gets assigned the transpose of A !!
 \end{lstlisting}
 \subsection{trace}
-This function checks whether the matrix is a square matrix. If it is, returns the trace else gives an error.
+This function checks whether the matrix is a square matrix. If it is, returns the trace else gives an error.\\
+syntax: \texttt{<matrix\_resultant> . trace () }\\
+Here matrix\_resultant can be identifier of type matrix or anthing that returns matrix type
 \begin{lstlisting}
     declr matrix A[2][2]; 
 
@@ -747,6 +810,8 @@ This function checks whether the matrix is a square matrix. If it is, returns th
 Graphs has inbuilt functions for BFS and DFS traversals.
 \subsection{dfs}
 This 'dfs' function implements the DFS traversal of a graph. It takes an argument which is the node at which the dfs search has to be implemented. This returns a vector.\\
+syntax : \texttt{ <identifier> dfs ( <integer\_resultant> ) }\\
+Here integer\_resultant is any thing that returns item of integer type
 \begin{lstlisting}
     declr vect<int> myvec;
     
@@ -756,6 +821,8 @@ This 'dfs' function implements the DFS traversal of a graph. It takes an argumen
 \end{lstlisting}
 \subsection{bfs}
 This 'bfs' function implements the BFS traversal of a graph. It takes an argument of the node and returns the bfs search from there as a vector.\\
+syntax : \texttt{ <identifier> bfs ( <integer\_resultant> ) }\\
+Here integer\_resultant is any thing that returns item of integer type
 \begin{lstlisting}
     declr vect<int> myvec;
     
@@ -771,8 +838,10 @@ In this langauage we have some special functions that can be called on strings. 
 This function \texttt{strlen} returns the length of the string (it returns an integer). It is to be called from the variable/identifier that store the string value. Here is the corresponding syntax\\
 \texttt{ <identifier> . strlen ( )}
 \begin{lstlisting}
-    declr string str = "Hello, world\n";
-    declr int length = str.strlen();
+    declr string str;
+    expr str = "Hello, world\n";
+    declr int length;
+    expr length = str.strlen();
 
     !!Now the identifier length stores the value 13!!
 \end{lstlisting}
