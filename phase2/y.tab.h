@@ -60,48 +60,49 @@ extern int yydebug;
     CHAR_CONST = 261,              /* CHAR_CONST  */
     STR_CONST = 262,               /* STR_CONST  */
     BOOL_CONST = 263,              /* BOOL_CONST  */
-    PUNC = 264,                    /* PUNC  */
-    DATATYPE = 265,                /* DATATYPE  */
-    VOID = 266,                    /* VOID  */
-    RETURN = 267,                  /* RETURN  */
-    IF = 268,                      /* IF  */
-    ELSE = 269,                    /* ELSE  */
-    CONTINUE = 270,                /* CONTINUE  */
-    BREAK = 271,                   /* BREAK  */
-    MATRIX = 272,                  /* MATRIX  */
-    GRAPH = 273,                   /* GRAPH  */
-    VECT = 274,                    /* VECT  */
-    SWITCH = 275,                  /* SWITCH  */
-    CASE = 276,                    /* CASE  */
-    DEFAULT = 277,                 /* DEFAULT  */
-    CLASS = 278,                   /* CLASS  */
-    STRUCT = 279,                  /* STRUCT  */
-    LOGOP = 280,                   /* LOGOP  */
-    ARITHOP = 281,                 /* ARITHOP  */
-    NOT = 282,                     /* NOT  */
-    UNARYOP = 283,                 /* UNARYOP  */
-    DECLR = 284,                   /* DECLR  */
-    EXPR = 285,                    /* EXPR  */
-    CALL = 286,                    /* CALL  */
-    FUNC = 287,                    /* FUNC  */
-    LOOP = 288,                    /* LOOP  */
-    null = 289,                    /* null  */
-    FOR = 290,                     /* FOR  */
-    WHILE = 291,                   /* WHILE  */
-    APPEND = 292,                  /* APPEND  */
-    REMOVE = 293,                  /* REMOVE  */
-    LENGTH = 294,                  /* LENGTH  */
-    SORT = 295,                    /* SORT  */
-    CLEAR = 296,                   /* CLEAR  */
-    AT = 297,                      /* AT  */
-    TRANSPOSE = 298,               /* TRANSPOSE  */
-    TRACE = 299,                   /* TRACE  */
-    TRAVERSAL = 300,               /* TRAVERSAL  */
-    STRLEN = 301,                  /* STRLEN  */
-    STRCUT = 302,                  /* STRCUT  */
-    STRCMP = 303,                  /* STRCMP  */
-    STRJOIN = 304,                 /* STRJOIN  */
-    MATXOP = 305                   /* MATXOP  */
+    ARROW = 264,                   /* ARROW  */
+    PUNC = 265,                    /* PUNC  */
+    DATATYPE = 266,                /* DATATYPE  */
+    VOID = 267,                    /* VOID  */
+    RETURN = 268,                  /* RETURN  */
+    IF = 269,                      /* IF  */
+    ELSE = 270,                    /* ELSE  */
+    CONTINUE = 271,                /* CONTINUE  */
+    BREAK = 272,                   /* BREAK  */
+    MATRIX = 273,                  /* MATRIX  */
+    GRAPH = 274,                   /* GRAPH  */
+    VECT = 275,                    /* VECT  */
+    SWITCH = 276,                  /* SWITCH  */
+    CASE = 277,                    /* CASE  */
+    DEFAULT = 278,                 /* DEFAULT  */
+    CLASS = 279,                   /* CLASS  */
+    STRUCT = 280,                  /* STRUCT  */
+    LOGOP = 281,                   /* LOGOP  */
+    ARITHOP = 282,                 /* ARITHOP  */
+    NOT = 283,                     /* NOT  */
+    UNARYOP = 284,                 /* UNARYOP  */
+    DECLR = 285,                   /* DECLR  */
+    EXPR = 286,                    /* EXPR  */
+    CALL = 287,                    /* CALL  */
+    FUNC = 288,                    /* FUNC  */
+    LOOP = 289,                    /* LOOP  */
+    null = 290,                    /* null  */
+    FOR = 291,                     /* FOR  */
+    WHILE = 292,                   /* WHILE  */
+    APPEND = 293,                  /* APPEND  */
+    REMOVE = 294,                  /* REMOVE  */
+    LENGTH = 295,                  /* LENGTH  */
+    SORT = 296,                    /* SORT  */
+    CLEAR = 297,                   /* CLEAR  */
+    AT = 298,                      /* AT  */
+    TRANSPOSE = 299,               /* TRANSPOSE  */
+    TRACE = 300,                   /* TRACE  */
+    TRAVERSAL = 301,               /* TRAVERSAL  */
+    STRLEN = 302,                  /* STRLEN  */
+    STRCUT = 303,                  /* STRCUT  */
+    STRCMP = 304,                  /* STRCMP  */
+    STRJOIN = 305,                 /* STRJOIN  */
+    MATXOP = 306                   /* MATXOP  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -116,48 +117,49 @@ extern int yydebug;
 #define CHAR_CONST 261
 #define STR_CONST 262
 #define BOOL_CONST 263
-#define PUNC 264
-#define DATATYPE 265
-#define VOID 266
-#define RETURN 267
-#define IF 268
-#define ELSE 269
-#define CONTINUE 270
-#define BREAK 271
-#define MATRIX 272
-#define GRAPH 273
-#define VECT 274
-#define SWITCH 275
-#define CASE 276
-#define DEFAULT 277
-#define CLASS 278
-#define STRUCT 279
-#define LOGOP 280
-#define ARITHOP 281
-#define NOT 282
-#define UNARYOP 283
-#define DECLR 284
-#define EXPR 285
-#define CALL 286
-#define FUNC 287
-#define LOOP 288
-#define null 289
-#define FOR 290
-#define WHILE 291
-#define APPEND 292
-#define REMOVE 293
-#define LENGTH 294
-#define SORT 295
-#define CLEAR 296
-#define AT 297
-#define TRANSPOSE 298
-#define TRACE 299
-#define TRAVERSAL 300
-#define STRLEN 301
-#define STRCUT 302
-#define STRCMP 303
-#define STRJOIN 304
-#define MATXOP 305
+#define ARROW 264
+#define PUNC 265
+#define DATATYPE 266
+#define VOID 267
+#define RETURN 268
+#define IF 269
+#define ELSE 270
+#define CONTINUE 271
+#define BREAK 272
+#define MATRIX 273
+#define GRAPH 274
+#define VECT 275
+#define SWITCH 276
+#define CASE 277
+#define DEFAULT 278
+#define CLASS 279
+#define STRUCT 280
+#define LOGOP 281
+#define ARITHOP 282
+#define NOT 283
+#define UNARYOP 284
+#define DECLR 285
+#define EXPR 286
+#define CALL 287
+#define FUNC 288
+#define LOOP 289
+#define null 290
+#define FOR 291
+#define WHILE 292
+#define APPEND 293
+#define REMOVE 294
+#define LENGTH 295
+#define SORT 296
+#define CLEAR 297
+#define AT 298
+#define TRANSPOSE 299
+#define TRACE 300
+#define TRAVERSAL 301
+#define STRLEN 302
+#define STRCUT 303
+#define STRCMP 304
+#define STRJOIN 305
+#define MATXOP 306
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

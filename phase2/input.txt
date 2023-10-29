@@ -1,3 +1,38 @@
+class myClass {
+	declr int itemA;
+	declr float itemB, itemC;
+	declr struct myStruct itemD;
+	
+	func void setItems(int a, float b, float c, myStruct d) {
+		expr itemA = a;
+		expr itemB = b;
+		expr itemC = c;
+		expr itemD = d;
+		return null;
+	}
+	
+	func int boo(int num) {
+		return mul(num, (num gt 10));
+	}
+	
+	func myStruct foo(int p, int q) {
+		expr a = add(sItem1, mul(p, (q and call boo(q))));
+		sItem2.append(10);
+		expr itemD->sItem1 = sub(a, sItem2.append(call boo((a lt itemD->sItem3.strlen()))).sort().length());
+		return itemD;
+	}
+};
+
+struct myStruct {
+	declr int sItem1;
+	declr vect<int> sItem2;
+	declr string sItem3;
+};
+
+func int main () {
+	return 1;
+}
+
 func int main()
 {
 	{}
@@ -38,7 +73,7 @@ func int main()
 	return myvec.remove(add(call foo(), (a and mat.trace())));
 	
 	
-	return clear.remove(str.strcut(call a.foo(), (a or b)));
+	return clear.remove(str.strcut(call a->foo(), (a or b)));
 	
 	
 	clear.append(4).sort();
@@ -52,7 +87,7 @@ func int main()
 	myvec.remove(add(call foo(), (a and mat.trace())));
 	
 	
-	clear.remove(str.strcut(call a.foo(), (a or b)));
+	clear.remove(str.strcut(call a->foo(), (a or b)));
 	
 	
 	expr a = myvec.length();
@@ -138,7 +173,7 @@ func bool foo(int a, char b, vect<int> sdf, node sdffd)
 	if(A.strlen())
 	{
 		call sdf();
-		call sdfsd.sdf();
+		call sdfsd->sdf();
 		declr int a;
 		declr float f1, f2;
 	}
