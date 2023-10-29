@@ -165,6 +165,7 @@ vect_append				: constants
 return_stmt 			: RETURN RHS';' {fprintf(fparse, " : RETURN STATEMENT");}
 						| RETURN extra_consts ';' {fprintf(fparse, " : RETURN STATEMENT");}
 						| RETURN graph_impr ';' {fprintf(fparse, " : RETURN STATEMENT");}
+						| RETURN matrix_impr ';' {fprintf(fparse, " : RETURN STATEMENT");}
 						;
 
 loop_stmt				: LOOP loop_type {fprintf(fparse, " : LOOP");}
@@ -187,6 +188,7 @@ while_loop				: WHILE '('RHS')''{' statements '}'
 expr_stmt				: EXPR id '=' RHS ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
 						| EXPR id '=' extra_consts ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
 						| EXPR id '=' graph_impr ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
+						| EXPR id '=' matrix_impr ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
 						;
 
 declr_stmt				: DECLR declr_body ';' {fprintf(fparse, " : DECLARATION STATEMENT");}
@@ -235,8 +237,7 @@ RHS						: constants
 						| arith_op
 						| logical_op
 						| func_calls
-						| vect_impr
-						| matrix_impr
+						| impr
 						;
 						
 constants				: INT_CONST
@@ -270,18 +271,21 @@ val_list				: int_list
 string_impr				: '+'
 						;
 						
-vect_impr				: id '.' LENGTH '(' ')'
+impr					: id '.' LENGTH '(' ')'
 						| id '.' AT '(' remove_body ')'
+						| id '.' TRACE '(' ')'
 						;
 						
 graph_impr				: id '.' TRAVERSAL '(' remove_body ')'
 						;
 						
-matrix_impr				: MATXOP '(' RHS ',' RHS ')'
-						| id '.' TRANSPOSE '(' ')'
-						| id '.' TRACE '(' ')'
+matrix_impr				: MATXOP '(' matr_body ',' matr_body ')'
+						| id '.' TRANSPOSE '(' ')' 
 						;
 						
+matr_body				: RHS
+						| matrix_impr
+						;
 						
 graph_const				: '{' graph_type1 '}'
 						| '{' graph_type2 '}'
