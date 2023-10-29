@@ -296,7 +296,7 @@
     return STR_CONST;
 }
 
-[0-9]+ {
+-?[0-9]+ {
     fprintf(yyout, "constant: %s\n", yytext);
 	fprintf(fparse, "%s", yytext);
     return INT_CONST;
@@ -308,7 +308,7 @@
     return BOOL_CONST;
 }
 
-[0-9]+[.][0-9]+ {
+-?[0-9]+[.][0-9]+ {
     fprintf(yyout, "constant: %s\n", yytext);
 	fprintf(fparse, "%s", yytext);
     return FLOAT_CONST;
