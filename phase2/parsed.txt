@@ -1,29 +1,62 @@
 func int main() : FUNCTION HEAD
 {
+	{}
+	
+	{
+		expr x = sdf; : EXPRESSION STATEMENT
+		{expr sdf = sdf; : EXPRESSION STATEMENT}
+	}
+
 	declr matrix mat[2][3]; : DECLARATION STATEMENT
 	expr mat = [[1,2,3];
-	 			[2,3,4];
+	 			[2.0,3.5,4.8];
 				]; : EXPRESSION STATEMENT
-	clear.append(4); : INDEPENDENT METHOD
-	myvec.remove(1); : INDEPENDENT METHOD
+				
+	expr myvec = {mat, 
+				[[1,2,3];
+	 			 [2.0,3.5,4.8];],
+	 			{a, b, c}, 
+	 			{},
+	 			{
+					1 : 2,3;
+					2 : 1,4;
+					3 : 1;
+					4 : 2;
+				}
+				}; : EXPRESSION STATEMENT
+				
+				
+	clear.append(4).sort(); : INDEPENDENT METHOD
+	clear.append(add(call foo(), (a and b))); : INDEPENDENT METHOD
+	clear.append(mat.trace()).remove(1); : INDEPENDENT METHOD
+	myvec.append(clear.length()).remove(8); : INDEPENDENT METHOD
+	myvec.append(8).append(9); : INDEPENDENT METHOD
+	
+	
+	myvec.remove(clear.length()); : INDEPENDENT METHOD
+	myvec.remove(add(call foo(), (a and mat.trace()))); : INDEPENDENT METHOD
+	
+	
+	clear.remove(str.strcut(call a.foo(), (a or b))); : INDEPENDENT METHOD
 	expr a = myvec.length(); : EXPRESSION STATEMENT
 	myvec.sort(); : INDEPENDENT METHOD
 	myvec.clear(); : INDEPENDENT METHOD
 	expr a = myvec.at(3); : EXPRESSION STATEMENT
-	expr C = add_matx(A,B); : EXPRESSION STATEMENT
-	expr B = A.transpose(); : EXPRESSION STATEMENT
+	expr C = add_matx(sub_matx(P, mult_matx(Q, R)), S); : EXPRESSION STATEMENT
+	expr B = add_matx(A, B).transpose().trace(); : EXPRESSION STATEMENT
 	expr B = A.trace(); : EXPRESSION STATEMENT
 	expr myvec = G.dfs(3); : EXPRESSION STATEMENT
+	
+	expr str3 = strjoin(str1, str2); : EXPRESSION STATEMENT
+	expr str4 = strjoin(strjoin(str1, str2), str2).strlen(); : EXPRESSION STATEMENT
+	expr t8 = strcmp(strjoin(strjoin(call foo(), call boo()), call zoo()), str1.strcut(a, call foo())); : EXPRESSION STATEMENT
+	expr str4 = strjoin(strjoin(call foo(), call boo()), call zoo()); : EXPRESSION STATEMENT
 }
 
 
 func int main() : FUNCTION HEAD
 {
-	{}
 	
-	{
-	
-	}
 	loop for (expr i=0 ; : EXPRESSION STATEMENT (i lt 10); expr j = incr(i))
 	{	
   		expr m = 0; : EXPRESSION STATEMENT
@@ -85,7 +118,7 @@ func bool foo(int a, char b, vect<int> sdf, node sdffd) : FUNCTION HEAD
 	expr myvec = {1,bat,3}; : EXPRESSION STATEMENT
 	expr myvec = {1,{1, str, {}},3}; : EXPRESSION STATEMENT
 
-	if((a or b)) : CONDITIONAL STATEMENT
+	if(A.strlen()) : CONDITIONAL STATEMENT
 	{
 		call sdf(); : CALL STATEMENT
 		call sdfsd.sdf(); : CALL STATEMENT

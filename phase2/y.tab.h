@@ -99,7 +99,9 @@ extern int yydebug;
     TRAVERSAL = 300,               /* TRAVERSAL  */
     STRLEN = 301,                  /* STRLEN  */
     STRCUT = 302,                  /* STRCUT  */
-    MATXOP = 303                   /* MATXOP  */
+    STRCMP = 303,                  /* STRCMP  */
+    STRJOIN = 304,                 /* STRJOIN  */
+    MATXOP = 305                   /* MATXOP  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -153,7 +155,9 @@ extern int yydebug;
 #define TRAVERSAL 300
 #define STRLEN 301
 #define STRCUT 302
-#define MATXOP 303
+#define STRCMP 303
+#define STRJOIN 304
+#define MATXOP 305
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

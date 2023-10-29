@@ -54,6 +54,8 @@
 %token TRAVERSAL
 %token STRLEN
 %token STRCUT
+%token STRCMP
+%token STRJOIN
 %token MATXOP
 
 %start program_unit
@@ -86,6 +88,8 @@ id						: newid
 						| TRAVERSAL
 						| STRLEN
 						| STRCUT
+						| STRJOIN
+						| STRCMP
 						;
 						
 class_items				: class_item class_items
@@ -142,24 +146,36 @@ statement				: expr_stmt
 						| switch_stmt
 						| loop_stmt
 						| return_stmt
-						| vect_stmt {fprintf(fparse, " : INDEPENDENT METHOD");}
+						| vect_stmt
 						;
 
-vect_stmt				: id '.' APPEND '(' vect_append ')' ';'
-						| id '.' REMOVE '(' remove_body ')' ';'
-						| id '.' SORT '(' ')' ';'
-						| id '.' CLEAR '(' ')' ';'
+vect_stmt				: vect_stmt_body ';' {fprintf(fparse, " : INDEPENDENT METHOD");}
 						;
+
+vect_stmt_body			: vect_res '.' APPEND '(' vect_append ')'
+						| vect_res '.' REMOVE '(' remove_body ')'
+						| vect_res '.' SORT '(' ')'
+						| vect_res '.' CLEAR '(' ')'
+						;
+						
+
+vect_res				: id
+						| vect_stmt_body
+						;
+
 
 remove_body				: INT_CONST
+						| FLOAT_CONST
 						| id
 						| func_calls
 						| arith_op
+						| logical_op
+						| impr
 						;
-
-vect_append				: constants
-						| '{' '}'
-						| vect_const
+						
+						
+vect_append				: RHS
+						| extra_consts
 						;
 
 return_stmt 			: RETURN RHS';' {fprintf(fparse, " : RETURN STATEMENT");}
@@ -167,6 +183,7 @@ return_stmt 			: RETURN RHS';' {fprintf(fparse, " : RETURN STATEMENT");}
 						| RETURN graph_impr ';' {fprintf(fparse, " : RETURN STATEMENT");}
 						| RETURN matrix_impr ';' {fprintf(fparse, " : RETURN STATEMENT");}
 						;
+						
 
 loop_stmt				: LOOP loop_type {fprintf(fparse, " : LOOP");}
 						; 
@@ -233,7 +250,6 @@ cases					: CASE INT_CONST ':' '{' statements '}' cases
 
 						
 RHS						: constants
-						| string_impr
 						| arith_op
 						| logical_op
 						| func_calls
@@ -267,20 +283,29 @@ val_list				: int_list
 						| bool_list
 						| str_list
 						;
+
+resultant				: id
+						| matrix_impr
+						| impr
+						;					
 						
-string_impr				: '+'
+impr					: resultant '.' LENGTH '(' ')'
+						| resultant '.' AT '(' remove_body ')'
+						| resultant '.' TRACE '(' ')'
+						| resultant '.' STRLEN '(' ')'
+						| STRCMP '(' RHS ',' RHS ')'
+						| resultant '.' STRCUT '(' remove_body ',' remove_body ')'
+						| STRJOIN '(' RHS ',' RHS ')'
 						;
 						
-impr					: id '.' LENGTH '(' ')'
-						| id '.' AT '(' remove_body ')'
-						| id '.' TRACE '(' ')'
+
+						
+graph_impr				: resultant '.' TRAVERSAL '(' remove_body ')'
 						;
 						
-graph_impr				: id '.' TRAVERSAL '(' remove_body ')'
-						;
 						
 matrix_impr				: MATXOP '(' matr_body ',' matr_body ')'
-						| id '.' TRANSPOSE '(' ')' 
+						| resultant '.' TRANSPOSE '(' ')' 
 						;
 						
 matr_body				: RHS
@@ -321,35 +346,30 @@ str_list				: STR_CONST ',' str_list
 
 weight_list				: '(' INT_CONST ',' INT_CONST ')' ',' weight_list
 						| '(' INT_CONST ',' INT_CONST ')'
+						| '(' INT_CONST ',' FLOAT_CONST ')' ',' weight_list
+						| '(' INT_CONST ',' FLOAT_CONST ')'
 						;
 						
 vect_const				: '{' vect_list '}'
 						;
 
-vect_list				: INT_CONST ',' vect_list
-						| CHAR_CONST ',' vect_list
-						| FLOAT_CONST ',' vect_list
-						| BOOL_CONST ',' vect_list
-						| STR_CONST ',' vect_list
-						| id ',' vect_list
-						| vect_const ',' vect_list
-						| '{' '}' ',' vect_list
-						| INT_CONST
-						| CHAR_CONST
-						| FLOAT_CONST
-						| BOOL_CONST
-						| STR_CONST
-						| id
-						| vect_const
-						| '{' '}'
+vect_list				: constants ',' vect_list
+						| constants
+						| extra_consts ',' vect_list
+						| extra_consts
 						;
 						
 matrix_const			: '[' mat_list ']'
 						;
 
-mat_list				: '[' int_list ']'';' mat_list
-						| '[' int_list ']'';'
+int_float_list			: INT_CONST ',' int_float_list
+						| FLOAT_CONST ',' int_float_list
+						| INT_CONST
+						| FLOAT_CONST
 						;
+
+mat_list				: '[' int_float_list ']'';' mat_list
+						| '[' int_float_list ']'';'
 						;
 						
 arith_op				: binary_op

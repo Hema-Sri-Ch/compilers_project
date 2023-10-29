@@ -83,6 +83,18 @@
     return STRCUT;
 }
 
+"strcmp" {
+	fprintf(yyout, "Identifier: %s\n", yytext);
+	fprintf(fparse, "%s", yytext);
+	return STRCMP;
+}
+
+"strjoin" {
+	fprintf(yyout, "Identifier: %s\n", yytext);
+	fprintf(fparse, "%s", yytext);
+	return STRJOIN;
+}
+
 "int"|"char"|"string"|"bool"|"float" {
 	fprintf(yyout, "datatype: %s\n", yytext);
     fprintf(fparse, "%s", yytext);

@@ -4,6 +4,22 @@ Identifier : main
 Special symbols:	(
 Special symbols:	)
 Special symbols:	{
+Special symbols:	{
+Special symbols:	}
+Special symbols:	{
+reserved keyword: expr
+Identifier : x
+Special symbols:	=
+Identifier : sdf
+Punctuation : ;
+Special symbols:	{
+reserved keyword: expr
+Identifier : sdf
+Special symbols:	=
+Identifier : sdf
+Punctuation : ;
+Special symbols:	}
+Special symbols:	}
 reserved keyword: declr
 reserved keyword: matrix
 Identifier : mat
@@ -27,14 +43,74 @@ constant: 3
 Special symbols:	]
 Punctuation : ;
 Special symbols:	[
-constant: 2
+constant: 2.0
 Punctuation : ,
-constant: 3
+constant: 3.5
 Punctuation : ,
-constant: 4
+constant: 4.8
 Special symbols:	]
 Punctuation : ;
 Special symbols:	]
+Punctuation : ;
+reserved keyword: expr
+Identifier : myvec
+Special symbols:	=
+Special symbols:	{
+Identifier : mat
+Punctuation : ,
+Special symbols:	[
+Special symbols:	[
+constant: 1
+Punctuation : ,
+constant: 2
+Punctuation : ,
+constant: 3
+Special symbols:	]
+Punctuation : ;
+Special symbols:	[
+constant: 2.0
+Punctuation : ,
+constant: 3.5
+Punctuation : ,
+constant: 4.8
+Special symbols:	]
+Punctuation : ;
+Special symbols:	]
+Punctuation : ,
+Special symbols:	{
+Identifier : a
+Punctuation : ,
+Identifier : b
+Punctuation : ,
+Identifier : c
+Special symbols:	}
+Punctuation : ,
+Special symbols:	{
+Special symbols:	}
+Punctuation : ,
+Special symbols:	{
+constant: 1
+Punctuation : :
+constant: 2
+Punctuation : ,
+constant: 3
+Punctuation : ;
+constant: 2
+Punctuation : :
+constant: 1
+Punctuation : ,
+constant: 4
+Punctuation : ;
+constant: 3
+Punctuation : :
+constant: 1
+Punctuation : ;
+constant: 4
+Punctuation : :
+constant: 2
+Punctuation : ;
+Special symbols:	}
+Special symbols:	}
 Punctuation : ;
 Identifier: clear
 Punctuation : .
@@ -42,12 +118,129 @@ Identifier: append
 Special symbols:	(
 constant: 4
 Special symbols:	)
+Punctuation : .
+Identifier: sort
+Special symbols:	(
+Special symbols:	)
+Punctuation : ;
+Identifier: clear
+Punctuation : .
+Identifier: append
+Special symbols:	(
+operator: add
+Special symbols:	(
+reserved keyword: call
+Identifier : foo
+Special symbols:	(
+Special symbols:	)
+Punctuation : ,
+Special symbols:	(
+Identifier : a
+reserved keyword: and
+Identifier : b
+Special symbols:	)
+Special symbols:	)
+Special symbols:	)
+Punctuation : ;
+Identifier: clear
+Punctuation : .
+Identifier: append
+Special symbols:	(
+Identifier : mat
+Punctuation : .
+Identifier: trace
+Special symbols:	(
+Special symbols:	)
+Special symbols:	)
+Punctuation : .
+Identifier: remove
+Special symbols:	(
+constant: 1
+Special symbols:	)
+Punctuation : ;
+Identifier : myvec
+Punctuation : .
+Identifier: append
+Special symbols:	(
+Identifier: clear
+Punctuation : .
+Identifier: length
+Special symbols:	(
+Special symbols:	)
+Special symbols:	)
+Punctuation : .
+Identifier: remove
+Special symbols:	(
+constant: 8
+Special symbols:	)
+Punctuation : ;
+Identifier : myvec
+Punctuation : .
+Identifier: append
+Special symbols:	(
+constant: 8
+Special symbols:	)
+Punctuation : .
+Identifier: append
+Special symbols:	(
+constant: 9
+Special symbols:	)
 Punctuation : ;
 Identifier : myvec
 Punctuation : .
 Identifier: remove
 Special symbols:	(
-constant: 1
+Identifier: clear
+Punctuation : .
+Identifier: length
+Special symbols:	(
+Special symbols:	)
+Special symbols:	)
+Punctuation : ;
+Identifier : myvec
+Punctuation : .
+Identifier: remove
+Special symbols:	(
+operator: add
+Special symbols:	(
+reserved keyword: call
+Identifier : foo
+Special symbols:	(
+Special symbols:	)
+Punctuation : ,
+Special symbols:	(
+Identifier : a
+reserved keyword: and
+Identifier : mat
+Punctuation : .
+Identifier: trace
+Special symbols:	(
+Special symbols:	)
+Special symbols:	)
+Special symbols:	)
+Special symbols:	)
+Punctuation : ;
+Identifier: clear
+Punctuation : .
+Identifier: remove
+Special symbols:	(
+Identifier : str
+Punctuation : .
+Identifier: strcut
+Special symbols:	(
+reserved keyword: call
+Identifier : a
+Punctuation : .
+Identifier : foo
+Special symbols:	(
+Special symbols:	)
+Punctuation : ,
+Special symbols:	(
+Identifier : a
+reserved keyword: or
+Identifier : b
+Special symbols:	)
+Special symbols:	)
 Special symbols:	)
 Punctuation : ;
 reserved keyword: expr
@@ -86,17 +279,36 @@ Identifier : C
 Special symbols:	=
 reserved keyword: add_matx
 Special symbols:	(
-Identifier : A
+reserved keyword: sub_matx
+Special symbols:	(
+Identifier : P
 Punctuation : ,
-Identifier : B
+reserved keyword: mult_matx
+Special symbols:	(
+Identifier : Q
+Punctuation : ,
+Identifier : R
+Special symbols:	)
+Special symbols:	)
+Punctuation : ,
+Identifier : S
 Special symbols:	)
 Punctuation : ;
 reserved keyword: expr
 Identifier : B
 Special symbols:	=
+reserved keyword: add_matx
+Special symbols:	(
 Identifier : A
+Punctuation : ,
+Identifier : B
+Special symbols:	)
 Punctuation : .
 Identifier: transpose
+Special symbols:	(
+Special symbols:	)
+Punctuation : .
+Identifier: trace
 Special symbols:	(
 Special symbols:	)
 Punctuation : ;
@@ -119,6 +331,98 @@ Special symbols:	(
 constant: 3
 Special symbols:	)
 Punctuation : ;
+reserved keyword: expr
+Identifier : str3
+Special symbols:	=
+Identifier: strjoin
+Special symbols:	(
+Identifier : str1
+Punctuation : ,
+Identifier : str2
+Special symbols:	)
+Punctuation : ;
+reserved keyword: expr
+Identifier : str4
+Special symbols:	=
+Identifier: strjoin
+Special symbols:	(
+Identifier: strjoin
+Special symbols:	(
+Identifier : str1
+Punctuation : ,
+Identifier : str2
+Special symbols:	)
+Punctuation : ,
+Identifier : str2
+Special symbols:	)
+Punctuation : .
+Identifier: strlen
+Special symbols:	(
+Special symbols:	)
+Punctuation : ;
+reserved keyword: expr
+Identifier : t8
+Special symbols:	=
+Identifier: strcmp
+Special symbols:	(
+Identifier: strjoin
+Special symbols:	(
+Identifier: strjoin
+Special symbols:	(
+reserved keyword: call
+Identifier : foo
+Special symbols:	(
+Special symbols:	)
+Punctuation : ,
+reserved keyword: call
+Identifier : boo
+Special symbols:	(
+Special symbols:	)
+Special symbols:	)
+Punctuation : ,
+reserved keyword: call
+Identifier : zoo
+Special symbols:	(
+Special symbols:	)
+Special symbols:	)
+Punctuation : ,
+Identifier : str1
+Punctuation : .
+Identifier: strcut
+Special symbols:	(
+Identifier : a
+Punctuation : ,
+reserved keyword: call
+Identifier : foo
+Special symbols:	(
+Special symbols:	)
+Special symbols:	)
+Special symbols:	)
+Punctuation : ;
+reserved keyword: expr
+Identifier : str4
+Special symbols:	=
+Identifier: strjoin
+Special symbols:	(
+Identifier: strjoin
+Special symbols:	(
+reserved keyword: call
+Identifier : foo
+Special symbols:	(
+Special symbols:	)
+Punctuation : ,
+reserved keyword: call
+Identifier : boo
+Special symbols:	(
+Special symbols:	)
+Special symbols:	)
+Punctuation : ,
+reserved keyword: call
+Identifier : zoo
+Special symbols:	(
+Special symbols:	)
+Special symbols:	)
+Punctuation : ;
 Special symbols:	}
 reserved keyword: func
 datatype: int
@@ -126,10 +430,6 @@ Identifier : main
 Special symbols:	(
 Special symbols:	)
 Special symbols:	{
-Special symbols:	{
-Special symbols:	}
-Special symbols:	{
-Special symbols:	}
 reserved keyword: loop
 reserved keyword: for
 Special symbols:	(
@@ -436,10 +736,10 @@ Special symbols:	}
 Punctuation : ;
 reserved keyword: if
 Special symbols:	(
+Identifier : A
+Punctuation : .
+Identifier: strlen
 Special symbols:	(
-Identifier : a
-reserved keyword: or
-Identifier : b
 Special symbols:	)
 Special symbols:	)
 Special symbols:	{

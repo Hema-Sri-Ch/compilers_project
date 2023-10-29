@@ -1,29 +1,62 @@
 func int main()
 {
+	{}
+	
+	{
+		expr x = sdf;
+		{expr sdf = sdf;}
+	}
+
 	declr matrix mat[2][3];
 	expr mat = [[1,2,3];
-	 			[2,3,4];
+	 			[2.0,3.5,4.8];
 				];
-	clear.append(4);
-	myvec.remove(1);
+				
+	expr myvec = {mat, 
+				[[1,2,3];
+	 			 [2.0,3.5,4.8];],
+	 			{a, b, c}, 
+	 			{},
+	 			{
+					1 : 2,3;
+					2 : 1,4;
+					3 : 1;
+					4 : 2;
+				}
+				};
+				
+				
+	clear.append(4).sort();
+	clear.append(add(call foo(), (a and b)));
+	clear.append(mat.trace()).remove(1);
+	myvec.append(clear.length()).remove(8);
+	myvec.append(8).append(9);
+	
+	
+	myvec.remove(clear.length());
+	myvec.remove(add(call foo(), (a and mat.trace())));
+	
+	
+	clear.remove(str.strcut(call a.foo(), (a or b)));
 	expr a = myvec.length();
 	myvec.sort();
 	myvec.clear();
 	expr a = myvec.at(3);
-	expr C = add_matx(A,B);
-	expr B = A.transpose();
+	expr C = add_matx(sub_matx(P, mult_matx(Q, R)), S);
+	expr B = add_matx(A, B).transpose().trace();
 	expr B = A.trace();
 	expr myvec = G.dfs(3);
+	
+	expr str3 = strjoin(str1, str2);
+	expr str4 = strjoin(strjoin(str1, str2), str2).strlen();
+	expr t8 = strcmp(strjoin(strjoin(call foo(), call boo()), call zoo()), str1.strcut(a, call foo()));
+	expr str4 = strjoin(strjoin(call foo(), call boo()), call zoo());
 }
 
 
 func int main()
 {
-	{}
 	
-	{
-	
-	}
 	loop for (expr i=0 ; (i lt 10); expr j = incr(i))
 	{	
   		expr m = 0;
@@ -85,7 +118,7 @@ func bool foo(int a, char b, vect<int> sdf, node sdffd)
 	expr myvec = {1,bat,3};
 	expr myvec = {1,{1, str, {}},3};
 
-	if((a or b))
+	if(A.strlen())
 	{
 		call sdf();
 		call sdfsd.sdf();
