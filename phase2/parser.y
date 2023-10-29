@@ -152,17 +152,12 @@ statement				: expr_stmt
 vect_stmt				: vect_stmt_body ';' {fprintf(fparse, " : INDEPENDENT METHOD");}
 						;
 
-vect_stmt_body			: vect_res '.' APPEND '(' vect_append ')'
-						| vect_res '.' REMOVE '(' remove_body ')'
-						| vect_res '.' SORT '(' ')'
-						| vect_res '.' CLEAR '(' ')'
+vect_stmt_body			: resultant '.' APPEND '(' vect_append ')'
+						| resultant '.' REMOVE '(' remove_body ')'
+						| resultant '.' SORT '(' ')'
+						| resultant '.' CLEAR '(' ')'
 						;
 						
-
-vect_res				: id
-						| vect_stmt_body
-						;
-
 
 remove_body				: INT_CONST
 						| FLOAT_CONST
@@ -182,6 +177,7 @@ return_stmt 			: RETURN RHS';' {fprintf(fparse, " : RETURN STATEMENT");}
 						| RETURN extra_consts ';' {fprintf(fparse, " : RETURN STATEMENT");}
 						| RETURN graph_impr ';' {fprintf(fparse, " : RETURN STATEMENT");}
 						| RETURN matrix_impr ';' {fprintf(fparse, " : RETURN STATEMENT");}
+						| RETURN vect_stmt_body ';' {fprintf(fparse, " : RETURN STATEMENT");}
 						;
 						
 
@@ -206,6 +202,7 @@ expr_stmt				: EXPR id '=' RHS ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
 						| EXPR id '=' extra_consts ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
 						| EXPR id '=' graph_impr ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
 						| EXPR id '=' matrix_impr ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
+						| EXPR id '=' vect_stmt_body ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
 						;
 
 declr_stmt				: DECLR declr_body ';' {fprintf(fparse, " : DECLARATION STATEMENT");}
@@ -286,6 +283,7 @@ val_list				: int_list
 
 resultant				: id
 						| matrix_impr
+						| vect_stmt_body
 						| impr
 						;					
 						

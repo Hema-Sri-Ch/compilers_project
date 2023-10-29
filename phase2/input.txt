@@ -1,7 +1,8 @@
 func int main()
 {
 	{}
-	
+	expr sdf = -78.5;
+	expr sdf = -85;	
 	{
 		expr x = sdf;
 		{expr sdf = sdf;}
@@ -26,6 +27,20 @@ func int main()
 				};
 				
 				
+	expr t = clear.append(4).sort();
+	expr s = clear.append(add(call foo(), (a and b)));
+	expr s = clear.append(mat.trace()).remove(1);
+	return myvec.append(clear.length()).remove(8);
+	expr s = myvec.append(8).append(9);
+	
+	
+	return myvec.remove(clear.length());
+	return myvec.remove(add(call foo(), (a and mat.trace())));
+	
+	
+	return clear.remove(str.strcut(call a.foo(), (a or b)));
+	
+	
 	clear.append(4).sort();
 	clear.append(add(call foo(), (a and b)));
 	clear.append(mat.trace()).remove(1);
@@ -38,6 +53,8 @@ func int main()
 	
 	
 	clear.remove(str.strcut(call a.foo(), (a or b)));
+	
+	
 	expr a = myvec.length();
 	myvec.sort();
 	myvec.clear();
