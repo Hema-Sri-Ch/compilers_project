@@ -308,6 +308,12 @@
     return BOOL_CONST;
 }
 
+"->" {
+	fprintf(yyout, "Special symbols: %s\n", yytext);
+	fprintf(fparse, "%s", yytext);
+    return ARROW;
+}
+
 -?[0-9]+[.][0-9]+ {
     fprintf(yyout, "constant: %s\n", yytext);
 	fprintf(fparse, "%s", yytext);

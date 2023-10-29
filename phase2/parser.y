@@ -15,6 +15,7 @@
 %token CHAR_CONST
 %token STR_CONST
 %token BOOL_CONST
+%token ARROW
 %token PUNC
 %token DATATYPE
 %token VOID
@@ -178,6 +179,7 @@ return_stmt 			: RETURN RHS';' {fprintf(fparse, " : RETURN STATEMENT");}
 						| RETURN graph_impr ';' {fprintf(fparse, " : RETURN STATEMENT");}
 						| RETURN matrix_impr ';' {fprintf(fparse, " : RETURN STATEMENT");}
 						| RETURN vect_stmt_body ';' {fprintf(fparse, " : RETURN STATEMENT");}
+						| RETURN null ';' {fprintf(fparse, " : RETURN STATEMENT");}
 						;
 						
 
@@ -198,11 +200,15 @@ for_expr				: unary_op
 while_loop				: WHILE '('RHS')''{' statements '}'
 						;
 						
-expr_stmt				: EXPR id '=' RHS ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
-						| EXPR id '=' extra_consts ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
-						| EXPR id '=' graph_impr ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
-						| EXPR id '=' matrix_impr ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
-						| EXPR id '=' vect_stmt_body ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
+expr_stmt				: EXPR LHS '=' RHS ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
+						| EXPR LHS '=' extra_consts ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
+						| EXPR LHS '=' graph_impr ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
+						| EXPR LHS '=' matrix_impr ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
+						| EXPR LHS '=' vect_stmt_body ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
+						;
+						
+LHS						: id
+						| class_struct_items
 						;
 
 declr_stmt				: DECLR declr_body ';' {fprintf(fparse, " : DECLARATION STATEMENT");}
@@ -247,11 +253,15 @@ cases					: CASE INT_CONST ':' '{' statements '}' cases
 
 						
 RHS						: constants
+						| class_struct_items
 						| arith_op
 						| logical_op
 						| func_calls
 						| impr
 						;
+
+class_struct_items		: id ARROW id						
+
 						
 constants				: INT_CONST
 						| FLOAT_CONST
@@ -281,7 +291,7 @@ val_list				: int_list
 						| str_list
 						;
 
-resultant				: id
+resultant				: LHS
 						| matrix_impr
 						| vect_stmt_body
 						| impr
@@ -381,6 +391,7 @@ unary_op				: UNARYOP '(' RHS ')'
 						;
 						
 logical_op				: '(' RHS LOGOP RHS ')'
+						| NOT '(' RHS ')'
 						;
 						
 call_stmt				: func_calls ';' {fprintf(fparse, " : CALL STATEMENT");}
@@ -388,8 +399,8 @@ call_stmt				: func_calls ';' {fprintf(fparse, " : CALL STATEMENT");}
 						
 func_calls				: CALL id '(' arg_list ')'
 						| CALL id '(' ')'
-						| CALL id '.' id '(' arg_list ')'
-						| CALL id '.' id '(' ')'
+						| CALL id ARROW id '(' arg_list ')'
+						| CALL id ARROW id '(' ')'
 						;
 						
 arg_list				: RHS ',' arg_list
