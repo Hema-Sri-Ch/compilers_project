@@ -61,11 +61,12 @@ func int main () {
 		structList.append(obj1);
 	}
 	
+	
 	declr class myClass obj2;
 	declr int a;
 	expr a = strcmp(strjoin(strjoin(obj1->sItem3, "abc"), call zoo()), str1.strcut(obj2->itemA, call obj2->boo(10)));
 	obj->sItem2.sort();
-	
+	label1: {
 	if(((a lt 10) and call obj2->boo(add(a, -85)))) {
 		declr matrix mat[2][2];
 		expr mat = [[1,2];
@@ -79,15 +80,19 @@ func int main () {
 		expr mat3 = mult_matx(sub_matx(mat2, mat1), add_matx(mat2, mat1)).transpose();
 		if(call obj2->boo(a)) {
 			expr a = mat3.trace();
+			declr vect<int> inner_vect;
+			expr inner_vect = obj2->itemD->sItem2.sort();
+			inner_vect.append({1, 2});
 		}
 		
 		else {
-			continue;
+			!! write some statements here !!
+			goto label1;
 		}
 		
 		myVec.append(mat3).sort();
 		
-	}
+	}}
 	
 	else {
 		loop while(true) {
@@ -96,6 +101,7 @@ func int main () {
 				case 1:
 				{
 					expr a = incr(a) ;
+					decr(call obj2->boo(a));
 				}	
 				case 2:
 				{
