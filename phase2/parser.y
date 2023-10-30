@@ -58,6 +58,10 @@
 %token STRCMP
 %token STRJOIN
 %token MATXOP
+%token MAXTOGR
+%token GRTOMATX
+%token SHPATH
+%token SHPATHVAL
 
 %start program_unit
 
@@ -91,6 +95,10 @@ id						: newid
 						| STRCUT
 						| STRJOIN
 						| STRCMP
+						| MAXTOGR
+						| GRTOMATX
+						| SHPATH
+						| SHPATHVAL
 						;
 						
 class_items				: class_item class_items
@@ -311,11 +319,15 @@ impr					: resultant '.' LENGTH '(' ')'
 
 						
 graph_impr				: resultant '.' TRAVERSAL '(' remove_body ')'
+						| resultant '.' GRTOMATX '(' ')'
+						| resultant '.' SHPATH '(' remove_body ',' remove_body ')'
+						| resultant '.' SHPATHVAL '(' remove_body ',' remove_body ')'
 						;
 						
 						
 matrix_impr				: MATXOP '(' matr_body ',' matr_body ')'
 						| resultant '.' TRANSPOSE '(' ')' 
+						| resultant '.' MAXTOGR '(' ')'
 						;
 						
 matr_body				: RHS

@@ -102,7 +102,11 @@ extern int yydebug;
     STRCUT = 303,                  /* STRCUT  */
     STRCMP = 304,                  /* STRCMP  */
     STRJOIN = 305,                 /* STRJOIN  */
-    MATXOP = 306                   /* MATXOP  */
+    MATXOP = 306,                  /* MATXOP  */
+    MAXTOGR = 307,                 /* MAXTOGR  */
+    GRTOMATX = 308,                /* GRTOMATX  */
+    SHPATH = 309,                  /* SHPATH  */
+    SHPATHVAL = 310                /* SHPATHVAL  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -160,6 +164,10 @@ extern int yydebug;
 #define STRCMP 304
 #define STRJOIN 305
 #define MATXOP 306
+#define MAXTOGR 307
+#define GRTOMATX 308
+#define SHPATH 309
+#define SHPATHVAL 310
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

@@ -17,6 +17,30 @@
     return MATXOP;
 }
 
+"matxtograph" {
+	fprintf(yyout, "Identifier: %s\n", yytext);
+    fprintf(fparse, "%s", yytext);
+    return MAXTOGR;
+}
+
+"graphtomatx" {
+	fprintf(yyout, "Identifier: %s\n", yytext);
+    fprintf(fparse, "%s", yytext);
+    return GRTOMATX;
+}
+
+"shpathval" {
+	fprintf(yyout, "Identifier: %s\n", yytext);
+    fprintf(fparse, "%s", yytext);
+    return SHPATHVAL;
+}
+
+"shpath" {
+	fprintf(yyout, "Identifier: %s\n", yytext);
+    fprintf(fparse, "%s", yytext);
+    return SHPATH;
+}
+
 "append" {
 	fprintf(yyout, "Identifier: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
