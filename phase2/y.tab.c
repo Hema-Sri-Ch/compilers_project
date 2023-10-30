@@ -174,7 +174,8 @@ extern int yydebug;
     MAXTOGR = 307,                 /* MAXTOGR  */
     GRTOMATX = 308,                /* GRTOMATX  */
     SHPATH = 309,                  /* SHPATH  */
-    SHPATHVAL = 310                /* SHPATHVAL  */
+    SHPATHVAL = 310,               /* SHPATHVAL  */
+    GOTO = 311                     /* GOTO  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -236,6 +237,7 @@ extern int yydebug;
 #define GRTOMATX 308
 #define SHPATH 309
 #define SHPATHVAL 310
+#define GOTO 311
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -312,93 +314,97 @@ enum yysymbol_kind_t
   YYSYMBOL_GRTOMATX = 53,                  /* GRTOMATX  */
   YYSYMBOL_SHPATH = 54,                    /* SHPATH  */
   YYSYMBOL_SHPATHVAL = 55,                 /* SHPATHVAL  */
-  YYSYMBOL_56_ = 56,                       /* '{'  */
-  YYSYMBOL_57_ = 57,                       /* '}'  */
-  YYSYMBOL_58_ = 58,                       /* ';'  */
-  YYSYMBOL_59_ = 59,                       /* '('  */
-  YYSYMBOL_60_ = 60,                       /* ')'  */
-  YYSYMBOL_61_ = 61,                       /* ','  */
-  YYSYMBOL_62_ = 62,                       /* '<'  */
-  YYSYMBOL_63_ = 63,                       /* '>'  */
-  YYSYMBOL_64_ = 64,                       /* '.'  */
-  YYSYMBOL_65_ = 65,                       /* '='  */
-  YYSYMBOL_66_ = 66,                       /* '['  */
-  YYSYMBOL_67_ = 67,                       /* ']'  */
-  YYSYMBOL_68_ = 68,                       /* ':'  */
-  YYSYMBOL_YYACCEPT = 69,                  /* $accept  */
-  YYSYMBOL_program_unit = 70,              /* program_unit  */
-  YYSYMBOL_models = 71,                    /* models  */
-  YYSYMBOL_model = 72,                     /* model  */
-  YYSYMBOL_class = 73,                     /* class  */
-  YYSYMBOL_id = 74,                        /* id  */
-  YYSYMBOL_class_items = 75,               /* class_items  */
-  YYSYMBOL_class_item = 76,                /* class_item  */
-  YYSYMBOL_struct = 77,                    /* struct  */
-  YYSYMBOL_struct_items = 78,              /* struct_items  */
-  YYSYMBOL_function = 79,                  /* function  */
-  YYSYMBOL_function_head = 80,             /* function_head  */
-  YYSYMBOL_fdtype = 81,                    /* fdtype  */
-  YYSYMBOL_param_list = 82,                /* param_list  */
-  YYSYMBOL_dtype = 83,                     /* dtype  */
-  YYSYMBOL_function_body = 84,             /* function_body  */
-  YYSYMBOL_statements = 85,                /* statements  */
-  YYSYMBOL_statement = 86,                 /* statement  */
-  YYSYMBOL_vect_stmt = 87,                 /* vect_stmt  */
-  YYSYMBOL_vect_stmt_body = 88,            /* vect_stmt_body  */
-  YYSYMBOL_remove_body = 89,               /* remove_body  */
-  YYSYMBOL_vect_append = 90,               /* vect_append  */
-  YYSYMBOL_return_stmt = 91,               /* return_stmt  */
-  YYSYMBOL_loop_stmt = 92,                 /* loop_stmt  */
-  YYSYMBOL_loop_type = 93,                 /* loop_type  */
-  YYSYMBOL_for_loop = 94,                  /* for_loop  */
-  YYSYMBOL_for_expr = 95,                  /* for_expr  */
-  YYSYMBOL_while_loop = 96,                /* while_loop  */
-  YYSYMBOL_expr_stmt = 97,                 /* expr_stmt  */
-  YYSYMBOL_LHS = 98,                       /* LHS  */
-  YYSYMBOL_declr_stmt = 99,                /* declr_stmt  */
-  YYSYMBOL_declr_body = 100,               /* declr_body  */
-  YYSYMBOL_graph_and_array_list = 101,     /* graph_and_array_list  */
-  YYSYMBOL_matrix_list = 102,              /* matrix_list  */
-  YYSYMBOL_id_list = 103,                  /* id_list  */
-  YYSYMBOL_ifcond_stmt = 104,              /* ifcond_stmt  */
-  YYSYMBOL_105_1 = 105,                    /* $@1  */
-  YYSYMBOL_if_body = 106,                  /* if_body  */
-  YYSYMBOL_switch_stmt = 107,              /* switch_stmt  */
-  YYSYMBOL_108_2 = 108,                    /* $@2  */
-  YYSYMBOL_switch_body = 109,              /* switch_body  */
-  YYSYMBOL_cases = 110,                    /* cases  */
-  YYSYMBOL_RHS = 111,                      /* RHS  */
-  YYSYMBOL_class_struct_items = 112,       /* class_struct_items  */
-  YYSYMBOL_constants = 113,                /* constants  */
-  YYSYMBOL_extra_consts = 114,             /* extra_consts  */
-  YYSYMBOL_array_const = 115,              /* array_const  */
-  YYSYMBOL_val_list = 116,                 /* val_list  */
-  YYSYMBOL_resultant = 117,                /* resultant  */
-  YYSYMBOL_impr = 118,                     /* impr  */
-  YYSYMBOL_graph_impr = 119,               /* graph_impr  */
-  YYSYMBOL_matrix_impr = 120,              /* matrix_impr  */
-  YYSYMBOL_matr_body = 121,                /* matr_body  */
-  YYSYMBOL_graph_const = 122,              /* graph_const  */
-  YYSYMBOL_graph_type1 = 123,              /* graph_type1  */
-  YYSYMBOL_graph_type2 = 124,              /* graph_type2  */
-  YYSYMBOL_int_list = 125,                 /* int_list  */
-  YYSYMBOL_float_list = 126,               /* float_list  */
-  YYSYMBOL_char_list = 127,                /* char_list  */
-  YYSYMBOL_bool_list = 128,                /* bool_list  */
-  YYSYMBOL_str_list = 129,                 /* str_list  */
-  YYSYMBOL_weight_list = 130,              /* weight_list  */
-  YYSYMBOL_vect_const = 131,               /* vect_const  */
-  YYSYMBOL_vect_list = 132,                /* vect_list  */
-  YYSYMBOL_matrix_const = 133,             /* matrix_const  */
-  YYSYMBOL_int_float_list = 134,           /* int_float_list  */
-  YYSYMBOL_mat_list = 135,                 /* mat_list  */
-  YYSYMBOL_arith_op = 136,                 /* arith_op  */
-  YYSYMBOL_binary_op = 137,                /* binary_op  */
-  YYSYMBOL_unary_op = 138,                 /* unary_op  */
-  YYSYMBOL_logical_op = 139,               /* logical_op  */
-  YYSYMBOL_call_stmt = 140,                /* call_stmt  */
-  YYSYMBOL_func_calls = 141,               /* func_calls  */
-  YYSYMBOL_arg_list = 142                  /* arg_list  */
+  YYSYMBOL_GOTO = 56,                      /* GOTO  */
+  YYSYMBOL_57_ = 57,                       /* '{'  */
+  YYSYMBOL_58_ = 58,                       /* '}'  */
+  YYSYMBOL_59_ = 59,                       /* ';'  */
+  YYSYMBOL_60_ = 60,                       /* '('  */
+  YYSYMBOL_61_ = 61,                       /* ')'  */
+  YYSYMBOL_62_ = 62,                       /* ','  */
+  YYSYMBOL_63_ = 63,                       /* '<'  */
+  YYSYMBOL_64_ = 64,                       /* '>'  */
+  YYSYMBOL_65_ = 65,                       /* ':'  */
+  YYSYMBOL_66_ = 66,                       /* '.'  */
+  YYSYMBOL_67_ = 67,                       /* '='  */
+  YYSYMBOL_68_ = 68,                       /* '['  */
+  YYSYMBOL_69_ = 69,                       /* ']'  */
+  YYSYMBOL_YYACCEPT = 70,                  /* $accept  */
+  YYSYMBOL_program_unit = 71,              /* program_unit  */
+  YYSYMBOL_models = 72,                    /* models  */
+  YYSYMBOL_model = 73,                     /* model  */
+  YYSYMBOL_class = 74,                     /* class  */
+  YYSYMBOL_id = 75,                        /* id  */
+  YYSYMBOL_class_items = 76,               /* class_items  */
+  YYSYMBOL_class_item = 77,                /* class_item  */
+  YYSYMBOL_struct = 78,                    /* struct  */
+  YYSYMBOL_struct_items = 79,              /* struct_items  */
+  YYSYMBOL_function = 80,                  /* function  */
+  YYSYMBOL_function_head = 81,             /* function_head  */
+  YYSYMBOL_fdtype = 82,                    /* fdtype  */
+  YYSYMBOL_param_list = 83,                /* param_list  */
+  YYSYMBOL_dtype = 84,                     /* dtype  */
+  YYSYMBOL_function_body = 85,             /* function_body  */
+  YYSYMBOL_statements = 86,                /* statements  */
+  YYSYMBOL_statement = 87,                 /* statement  */
+  YYSYMBOL_unary_stmt = 88,                /* unary_stmt  */
+  YYSYMBOL_jump_stmt = 89,                 /* jump_stmt  */
+  YYSYMBOL_label_stmt = 90,                /* label_stmt  */
+  YYSYMBOL_goto_stmt = 91,                 /* goto_stmt  */
+  YYSYMBOL_vect_stmt = 92,                 /* vect_stmt  */
+  YYSYMBOL_vect_stmt_body = 93,            /* vect_stmt_body  */
+  YYSYMBOL_remove_body = 94,               /* remove_body  */
+  YYSYMBOL_vect_append = 95,               /* vect_append  */
+  YYSYMBOL_return_stmt = 96,               /* return_stmt  */
+  YYSYMBOL_loop_stmt = 97,                 /* loop_stmt  */
+  YYSYMBOL_loop_type = 98,                 /* loop_type  */
+  YYSYMBOL_for_loop = 99,                  /* for_loop  */
+  YYSYMBOL_for_expr = 100,                 /* for_expr  */
+  YYSYMBOL_while_loop = 101,               /* while_loop  */
+  YYSYMBOL_expr_stmt = 102,                /* expr_stmt  */
+  YYSYMBOL_LHS = 103,                      /* LHS  */
+  YYSYMBOL_declr_stmt = 104,               /* declr_stmt  */
+  YYSYMBOL_declr_body = 105,               /* declr_body  */
+  YYSYMBOL_graph_and_array_list = 106,     /* graph_and_array_list  */
+  YYSYMBOL_matrix_list = 107,              /* matrix_list  */
+  YYSYMBOL_id_list = 108,                  /* id_list  */
+  YYSYMBOL_ifcond_stmt = 109,              /* ifcond_stmt  */
+  YYSYMBOL_110_1 = 110,                    /* $@1  */
+  YYSYMBOL_if_body = 111,                  /* if_body  */
+  YYSYMBOL_switch_stmt = 112,              /* switch_stmt  */
+  YYSYMBOL_113_2 = 113,                    /* $@2  */
+  YYSYMBOL_switch_body = 114,              /* switch_body  */
+  YYSYMBOL_cases = 115,                    /* cases  */
+  YYSYMBOL_RHS = 116,                      /* RHS  */
+  YYSYMBOL_constants = 117,                /* constants  */
+  YYSYMBOL_extra_consts = 118,             /* extra_consts  */
+  YYSYMBOL_array_const = 119,              /* array_const  */
+  YYSYMBOL_val_list = 120,                 /* val_list  */
+  YYSYMBOL_resultant = 121,                /* resultant  */
+  YYSYMBOL_impr = 122,                     /* impr  */
+  YYSYMBOL_graph_impr = 123,               /* graph_impr  */
+  YYSYMBOL_matrix_impr = 124,              /* matrix_impr  */
+  YYSYMBOL_matr_body = 125,                /* matr_body  */
+  YYSYMBOL_graph_const = 126,              /* graph_const  */
+  YYSYMBOL_graph_type1 = 127,              /* graph_type1  */
+  YYSYMBOL_graph_type2 = 128,              /* graph_type2  */
+  YYSYMBOL_int_list = 129,                 /* int_list  */
+  YYSYMBOL_float_list = 130,               /* float_list  */
+  YYSYMBOL_char_list = 131,                /* char_list  */
+  YYSYMBOL_bool_list = 132,                /* bool_list  */
+  YYSYMBOL_str_list = 133,                 /* str_list  */
+  YYSYMBOL_weight_list = 134,              /* weight_list  */
+  YYSYMBOL_vect_const = 135,               /* vect_const  */
+  YYSYMBOL_vect_list = 136,                /* vect_list  */
+  YYSYMBOL_matrix_const = 137,             /* matrix_const  */
+  YYSYMBOL_int_float_list = 138,           /* int_float_list  */
+  YYSYMBOL_mat_list = 139,                 /* mat_list  */
+  YYSYMBOL_arith_op = 140,                 /* arith_op  */
+  YYSYMBOL_binary_op = 141,                /* binary_op  */
+  YYSYMBOL_unary_op = 142,                 /* unary_op  */
+  YYSYMBOL_logical_op = 143,               /* logical_op  */
+  YYSYMBOL_call_stmt = 144,                /* call_stmt  */
+  YYSYMBOL_func_calls = 145,               /* func_calls  */
+  YYSYMBOL_arg_list = 146                  /* arg_list  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -726,19 +732,19 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  39
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   1081
+#define YYLAST   994
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  69
+#define YYNTOKENS  70
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  74
+#define YYNNTS  77
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  208
+#define YYNRULES  217
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  444
+#define YYNSTATES  440
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   310
+#define YYMAXUTOK   311
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -756,15 +762,15 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-      59,    60,     2,     2,    61,     2,    64,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,    68,    58,
-      62,    65,    63,     2,     2,     2,     2,     2,     2,     2,
+      60,    61,     2,     2,    62,     2,    66,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,    65,    59,
+      63,    67,    64,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,    66,     2,    67,     2,     2,     2,     2,     2,     2,
+       2,    68,     2,    69,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,    56,     2,    57,     2,     2,     2,     2,
+       2,     2,     2,    57,     2,    58,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -783,34 +789,35 @@ static const yytype_int8 yytranslate[] =
       25,    26,    27,    28,    29,    30,    31,    32,    33,    34,
       35,    36,    37,    38,    39,    40,    41,    42,    43,    44,
       45,    46,    47,    48,    49,    50,    51,    52,    53,    54,
-      55
+      55,    56
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,    69,    69,    72,    73,    76,    77,    78,    81,    84,
-      85,    86,    87,    88,    89,    90,    91,    92,    93,    94,
-      95,    96,    97,    98,    99,   100,   101,   104,   105,   108,
-     109,   112,   115,   116,   119,   122,   123,   126,   127,   130,
-     131,   134,   135,   136,   137,   138,   141,   142,   145,   146,
-     147,   148,   151,   152,   153,   154,   155,   156,   157,   158,
-     159,   160,   163,   166,   167,   168,   169,   173,   174,   175,
-     176,   177,   178,   179,   183,   184,   187,   188,   189,   190,
-     191,   192,   196,   199,   200,   203,   206,   207,   210,   213,
-     214,   215,   216,   217,   220,   221,   224,   226,   227,   228,
-     229,   230,   231,   232,   235,   236,   239,   240,   243,   244,
-     247,   247,   250,   251,   254,   254,   257,   260,   261,   265,
-     266,   267,   268,   269,   270,   273,   276,   277,   278,   279,
-     280,   281,   285,   286,   287,   288,   289,   293,   294,   297,
-     298,   299,   300,   301,   304,   305,   306,   307,   310,   311,
-     312,   313,   314,   315,   316,   321,   322,   323,   324,   328,
-     329,   330,   333,   334,   337,   338,   341,   342,   345,   346,
-     349,   350,   353,   354,   357,   358,   361,   362,   365,   366,
-     369,   370,   371,   372,   375,   378,   379,   380,   381,   384,
-     387,   388,   389,   390,   393,   394,   397,   398,   401,   404,
-     407,   408,   411,   414,   415,   416,   417,   420,   421
+       0,    70,    70,    73,    74,    77,    78,    79,    82,    85,
+      86,    87,    88,    89,    90,    91,    92,    93,    94,    95,
+      96,    97,    98,    99,   100,   101,   102,   105,   106,   109,
+     110,   113,   116,   117,   120,   123,   124,   127,   128,   131,
+     132,   135,   136,   137,   138,   139,   142,   143,   146,   147,
+     148,   149,   152,   153,   154,   155,   156,   157,   158,   159,
+     160,   161,   162,   163,   166,   169,   170,   173,   176,   179,
+     182,   183,   184,   185,   189,   190,   191,   192,   193,   194,
+     195,   199,   200,   203,   204,   205,   206,   207,   208,   212,
+     215,   216,   219,   222,   223,   224,   225,   226,   227,   228,
+     231,   234,   235,   236,   237,   238,   241,   242,   245,   247,
+     248,   249,   250,   251,   252,   253,   256,   257,   260,   261,
+     264,   265,   268,   268,   271,   272,   275,   275,   278,   281,
+     282,   286,   287,   288,   289,   290,   294,   295,   296,   297,
+     298,   299,   303,   304,   305,   306,   307,   311,   312,   315,
+     316,   317,   318,   319,   322,   323,   324,   325,   326,   329,
+     330,   331,   332,   333,   334,   335,   340,   341,   342,   343,
+     347,   348,   349,   352,   353,   356,   357,   360,   361,   364,
+     365,   368,   369,   372,   373,   376,   377,   380,   381,   384,
+     385,   388,   389,   390,   391,   394,   397,   398,   399,   400,
+     403,   406,   407,   408,   409,   412,   413,   416,   417,   420,
+     423,   426,   427,   430,   433,   434,   437,   438
 };
 #endif
 
@@ -834,22 +841,23 @@ static const char *const yytname[] =
   "FUNC", "LOOP", "null", "FOR", "WHILE", "APPEND", "REMOVE", "LENGTH",
   "SORT", "CLEAR", "AT", "TRANSPOSE", "TRACE", "TRAVERSAL", "STRLEN",
   "STRCUT", "STRCMP", "STRJOIN", "MATXOP", "MAXTOGR", "GRTOMATX", "SHPATH",
-  "SHPATHVAL", "'{'", "'}'", "';'", "'('", "')'", "','", "'<'", "'>'",
-  "'.'", "'='", "'['", "']'", "':'", "$accept", "program_unit", "models",
-  "model", "class", "id", "class_items", "class_item", "struct",
+  "SHPATHVAL", "GOTO", "'{'", "'}'", "';'", "'('", "')'", "','", "'<'",
+  "'>'", "':'", "'.'", "'='", "'['", "']'", "$accept", "program_unit",
+  "models", "model", "class", "id", "class_items", "class_item", "struct",
   "struct_items", "function", "function_head", "fdtype", "param_list",
-  "dtype", "function_body", "statements", "statement", "vect_stmt",
-  "vect_stmt_body", "remove_body", "vect_append", "return_stmt",
-  "loop_stmt", "loop_type", "for_loop", "for_expr", "while_loop",
-  "expr_stmt", "LHS", "declr_stmt", "declr_body", "graph_and_array_list",
-  "matrix_list", "id_list", "ifcond_stmt", "$@1", "if_body", "switch_stmt",
-  "$@2", "switch_body", "cases", "RHS", "class_struct_items", "constants",
-  "extra_consts", "array_const", "val_list", "resultant", "impr",
-  "graph_impr", "matrix_impr", "matr_body", "graph_const", "graph_type1",
-  "graph_type2", "int_list", "float_list", "char_list", "bool_list",
-  "str_list", "weight_list", "vect_const", "vect_list", "matrix_const",
-  "int_float_list", "mat_list", "arith_op", "binary_op", "unary_op",
-  "logical_op", "call_stmt", "func_calls", "arg_list", YY_NULLPTR
+  "dtype", "function_body", "statements", "statement", "unary_stmt",
+  "jump_stmt", "label_stmt", "goto_stmt", "vect_stmt", "vect_stmt_body",
+  "remove_body", "vect_append", "return_stmt", "loop_stmt", "loop_type",
+  "for_loop", "for_expr", "while_loop", "expr_stmt", "LHS", "declr_stmt",
+  "declr_body", "graph_and_array_list", "matrix_list", "id_list",
+  "ifcond_stmt", "$@1", "if_body", "switch_stmt", "$@2", "switch_body",
+  "cases", "RHS", "constants", "extra_consts", "array_const", "val_list",
+  "resultant", "impr", "graph_impr", "matrix_impr", "matr_body",
+  "graph_const", "graph_type1", "graph_type2", "int_list", "float_list",
+  "char_list", "bool_list", "str_list", "weight_list", "vect_const",
+  "vect_list", "matrix_const", "int_float_list", "mat_list", "arith_op",
+  "binary_op", "unary_op", "logical_op", "call_stmt", "func_calls",
+  "arg_list", YY_NULLPTR
 };
 
 static const char *
@@ -859,12 +867,12 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-326)
+#define YYPACT_NINF (-318)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
 
-#define YYTABLE_NINF (-148)
+#define YYTABLE_NINF (-159)
 
 #define yytable_value_is_error(Yyn) \
   0
@@ -873,51 +881,50 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int16 yypact[] =
 {
-       0,   164,   164,   978,    13,  -326,     0,  -326,  -326,  -326,
-     -25,  -326,  -326,  -326,  -326,  -326,  -326,  -326,  -326,  -326,
-    -326,  -326,  -326,  -326,  -326,  -326,  -326,  -326,  -326,   -17,
-       2,  -326,  -326,  -326,  -326,    11,  -326,   164,  -326,  -326,
-    -326,   869,  -326,    -4,    40,  1026,    17,   426,    19,    26,
-      31,    33,   109,   164,   164,    44,    45,    53,    58,  -326,
-     110,   924,    61,   924,  -326,    72,  -326,  -326,  -326,  -326,
-    -326,  -326,  -326,  -326,    67,  -326,  -326,  -326,    77,    79,
-      -4,  -326,  -326,    80,    40,    76,   734,  -326,  -326,  -326,
-    -326,  -326,    82,    84,    87,    90,   540,   763,   103,     8,
-      93,    96,    78,  -326,    97,  -326,    98,    99,   102,   106,
-    -326,  -326,  -326,  -326,  -326,  -326,  -326,  -326,   763,  -326,
-    -326,   763,   164,   164,   164,    95,   164,   164,   108,   111,
-       5,   119,   120,  -326,  -326,  -326,   763,   763,   763,   164,
-    -326,  -326,  -326,  -326,   455,  -326,   122,  -326,   123,  -326,
-    -326,  -326,   124,   164,   763,   763,   763,  -326,   100,  -326,
-    -326,   121,   127,   126,   135,   136,  -326,   168,   134,   138,
-     159,   160,   161,    83,  -326,   156,  -326,  -326,  -326,  -326,
-    -326,   157,  -326,  -326,  -326,   512,  -326,  -326,   165,   166,
-     -38,  -326,  -326,   162,  -326,   163,  -326,  1026,   164,   164,
-    -326,   483,   164,   623,   196,   763,   174,   176,  -326,   175,
-     180,  -326,   184,   185,   186,   187,   188,   189,   191,   192,
-     195,   197,   199,  -326,  -326,  -326,   200,   205,   207,   209,
-      15,   569,   569,  -326,  -326,  -326,   763,   256,   268,   269,
-     274,   279,   227,   228,   223,  -326,  -326,   232,   233,   234,
-     235,  -326,  -326,   164,   291,   293,   237,   240,  -326,  -326,
-     245,   252,   254,   255,   257,   258,  -326,   259,   262,    -8,
-     263,   763,   763,   763,   483,   816,   264,   266,   267,   816,
-     270,   271,   272,   816,   275,  1026,   763,  -326,  -326,   312,
-     260,   261,  -326,  -326,   277,  -326,  -326,  -326,  -326,  -326,
-      83,    83,   276,   816,   278,   816,   816,   273,   284,  -326,
-     280,   281,   164,  -326,  -326,  -326,  -326,  -326,   681,   763,
-    -326,   283,   286,   289,   294,   295,   296,  -326,  -326,  -326,
-    -326,   299,   298,    99,  -326,  -326,  -326,  -326,  -326,  -326,
-     304,  -326,  -326,  -326,   282,  -326,  -326,   305,   292,   324,
-     364,  -326,  -326,  -326,   306,   311,  -326,   313,   314,   924,
-    -326,   355,  -326,   326,   322,  -326,  -326,   329,  -326,     1,
-     924,  -326,  -326,  -326,  -326,  -326,  -326,   816,  -326,    92,
-     323,  -326,   327,  -326,  -326,  -326,   816,   816,   335,   390,
-     373,   164,   394,  -326,   164,   339,  -326,   347,   345,   349,
-     350,   256,   352,   353,   354,   397,   356,   367,  -326,   348,
-     358,   361,  -326,  -326,   357,   375,  -326,  -326,   382,   383,
-     387,   384,    18,   924,   352,   352,   924,   924,   924,   164,
-    -326,   389,  -326,  -326,   391,   392,   393,  -326,  -326,  -326,
-     355,   395,  -326,  -326
+      66,   500,   500,   891,    34,  -318,    66,  -318,  -318,  -318,
+     -16,  -318,  -318,  -318,  -318,  -318,  -318,  -318,  -318,  -318,
+    -318,  -318,  -318,  -318,  -318,  -318,  -318,  -318,  -318,   -10,
+       0,  -318,  -318,  -318,  -318,    -3,  -318,   500,  -318,  -318,
+    -318,   780,  -318,     2,    23,   939,     5,   411,    15,    10,
+      18,    22,    42,   126,   500,   500,     1,    49,    54,    58,
+     500,  -318,     6,   836,    26,   836,  -318,  -318,  -318,  -318,
+    -318,    20,  -318,  -318,  -318,  -318,  -318,  -318,  -318,    28,
+    -318,  -318,  -318,    67,  -318,    71,    78,     2,  -318,  -318,
+      80,    23,    75,   182,  -318,  -318,  -318,  -318,  -318,    87,
+      88,    90,   527,   697,   115,   143,    94,    89,    95,  -318,
+     100,  -318,    96,   104,   105,  -318,  -318,  -318,  -318,  -318,
+    -318,  -318,  -318,   697,  -318,  -318,   697,   697,   500,   500,
+     500,    97,   500,   500,   106,   111,   107,   108,   112,  -318,
+    -318,  -318,   697,   697,   697,   114,   500,   -16,  -318,  -318,
+    -318,  -318,   558,  -318,  -318,   127,  -318,   128,  -318,  -318,
+    -318,   110,   500,   697,   697,  -318,   123,  -318,  -318,   132,
+     133,   131,   138,   139,  -318,   172,   137,   141,   147,   148,
+     149,    82,  -318,   144,  -318,  -318,  -318,  -318,  -318,   145,
+    -318,  -318,  -318,  -318,  -318,   154,   155,   156,   -42,  -318,
+    -318,   151,  -318,   165,  -318,   939,   500,   500,  -318,   469,
+     638,   208,   697,   178,   179,  -318,   180,   183,  -318,  -318,
+    -318,   184,   188,   193,   195,   197,   198,   202,   204,   205,
+     206,   209,   211,   213,   214,   217,  -318,  -318,  -318,   218,
+     220,   222,    21,   583,   583,  -318,  -318,  -318,   697,   275,
+     279,   280,   282,   283,   230,   235,   229,  -318,  -318,  -318,
+    -318,  -318,   500,   295,   296,   237,   240,  -318,  -318,   244,
+     245,   246,   247,   249,  -318,   248,   251,    -4,   253,   697,
+     697,   697,   469,   727,   254,   256,   258,   727,   259,   281,
+     727,   288,   727,   289,   290,   727,   727,   939,   697,  -318,
+     305,   285,   286,  -318,  -318,   291,  -318,  -318,  -318,  -318,
+    -318,    82,    82,   294,   -16,   297,  -318,   271,   274,   500,
+    -318,  -318,  -318,  -318,  -318,   697,  -318,   298,   -16,   299,
+     304,   306,   307,  -318,  -318,  -318,  -318,   308,    89,    96,
+    -318,  -318,  -318,  -318,  -318,  -318,   309,  -318,  -318,   310,
+    -318,   293,  -318,  -318,   311,   312,  -318,   314,   315,   352,
+     354,  -318,  -318,  -318,   316,   344,  -318,   350,  -318,   326,
+     321,  -318,  -318,    19,  -318,  -318,  -318,  -318,  -318,  -318,
+    -318,  -318,   727,   727,   727,  -318,   101,   301,  -318,   313,
+    -318,  -318,   -16,   372,   367,   500,   387,   500,   331,  -318,
+     332,   334,   335,   336,   337,   275,   339,  -318,   338,   340,
+    -318,   341,   333,   -16,  -318,  -318,  -318,   342,   345,   -16,
+     -16,   346,   284,  -318,   339,   339,   350,   343,   500,   355,
+      96,   356,   180,  -318,  -318,  -318,  -318,  -318,  -318,  -318
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -930,72 +937,71 @@ static const yytype_uint8 yydefact[] =
       18,    19,    20,    22,    21,    23,    24,    25,    26,     0,
        0,    41,    38,    42,    43,     0,    45,     0,    37,     1,
        3,     0,    34,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,    22,    21,     0,    47,
-      94,    51,     0,    49,    59,   146,    58,    57,    52,   144,
-      54,    55,    56,    95,     0,   147,   145,    53,     0,     0,
-      28,    30,    29,     0,    33,     0,     0,   126,   127,   128,
-     129,   130,     0,     0,     0,     0,     0,     0,     0,   131,
-     146,     0,   120,   119,     0,   132,     0,   124,     0,   145,
-     133,   134,   135,   121,   196,   197,   122,   123,     0,    61,
-      60,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,    82,    83,    84,     0,     0,     0,     0,
-      50,    46,    48,    62,     0,   202,     0,    27,     0,    32,
-      44,    35,     0,     0,     0,     0,     0,    81,   126,   136,
-     131,   186,   188,     0,     0,     0,   146,     0,   171,   173,
-     175,   179,   177,     0,   138,     0,   139,   140,   141,   142,
-     143,     0,    80,    76,    77,     0,    78,    79,     0,     0,
-     109,   101,    97,     0,   100,     0,    98,     0,     0,     0,
-      96,     0,     0,     0,     0,     0,     0,     0,   162,   163,
-       0,   125,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     8,    31,    36,    40,     0,     0,     0,
-       0,     0,     0,   164,   165,   184,     0,     0,     0,     0,
-       0,     0,   192,   193,     0,   137,   189,     0,     0,     0,
-       0,   110,   114,     0,     0,     0,     0,   109,   103,   102,
-     146,     0,     0,     0,   145,     0,   204,   208,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,    22,    21,     0,
+       0,    47,   106,    51,     0,    49,    60,    57,    65,    66,
+      61,   157,    59,    58,    52,   154,    54,    55,    56,     0,
+     158,   156,   155,     0,    53,     0,     0,    28,    30,    29,
+       0,    33,     0,     0,   136,   137,   138,   139,   140,     0,
+       0,     0,     0,     0,     0,   106,   157,   141,     0,   131,
+       0,   142,   135,   156,   155,   143,   144,   145,   132,   207,
+     208,   133,   134,     0,    63,    62,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,    89,
+      90,    91,     0,     0,     0,     0,     0,     0,    50,    46,
+      48,    69,     0,    64,   213,     0,    27,     0,    32,    44,
+      35,     0,     0,     0,     0,    88,   136,   146,   141,   197,
+     199,     0,     0,     0,   157,     0,   182,   184,   186,   190,
+     188,     0,   148,     0,   149,   150,   151,   152,   153,     0,
+      87,    83,    84,    85,    86,     0,     0,     0,   121,   113,
+     109,     0,   112,     0,   110,     0,     0,     0,   108,     0,
+       0,     0,     0,     0,     0,   173,   174,     0,    68,   107,
+      67,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     8,    31,    36,    40,
+       0,     0,     0,     0,     0,   175,   176,   195,     0,     0,
+       0,     0,     0,     0,   203,   204,     0,   147,   200,   122,
+     126,   210,     0,     0,     0,     0,   121,   115,   114,   157,
+       0,     0,   156,   155,   215,   217,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,   201,   199,     0,
-       0,     0,   185,   187,     0,   170,   172,   174,   178,   176,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,   108,
-       0,     0,     0,    93,    89,    90,    91,    92,     0,     0,
-     203,     0,     0,     0,     0,     0,     0,    74,    75,    67,
-      68,     0,    69,    73,    71,    72,    70,   148,    65,    66,
-       0,   160,   150,   151,     0,   161,    39,     0,     0,   167,
-     169,   200,   190,   191,   195,     0,   156,     0,     0,     0,
-     111,     0,   115,   105,     0,    99,   206,     0,   207,     0,
-       0,   152,   154,   159,    63,    64,   149,     0,   198,     0,
-       0,   166,     0,   168,   194,   155,     0,     0,     0,     0,
-       0,     0,     0,   205,     0,     0,    86,     0,     0,     0,
-       0,     0,     0,     0,     0,   113,     0,     0,   104,     0,
-       0,     0,    88,   153,   181,   183,   157,   158,     0,     0,
-       0,   107,     0,     0,     0,     0,     0,     0,     0,     0,
-      87,     0,   180,   182,     0,     0,     0,   106,    85,   112,
-     118,     0,   117,   116
+       0,     0,     0,     0,     0,     0,     0,     0,     0,   212,
+       0,     0,     0,   196,   198,     0,   181,   183,   185,   189,
+     187,     0,     0,     0,     0,     0,   120,     0,     0,     0,
+     105,   101,   102,   103,   104,     0,   214,     0,     0,     0,
+       0,     0,     0,    81,    82,    74,    75,     0,    76,    80,
+      78,    79,    77,   159,    72,    73,     0,   171,   161,     0,
+     162,     0,   172,   167,     0,     0,    39,     0,     0,   178,
+     180,   211,   201,   202,   206,   125,   123,     0,   127,   117,
+       0,   111,   216,     0,   100,   163,   165,   170,    70,    71,
+     160,   166,     0,     0,     0,   209,     0,     0,   177,     0,
+     179,   205,     0,     0,     0,     0,     0,     0,     0,    93,
+       0,     0,     0,     0,     0,     0,     0,   124,     0,     0,
+     116,     0,     0,     0,   164,   168,   169,   192,   194,     0,
+       0,   119,     0,    92,     0,     0,   130,     0,     0,    98,
+      96,    97,    99,    94,    95,   191,   193,   129,   128,   118
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int16 yypgoto[] =
 {
-    -326,  -326,   438,  -326,  -326,    -1,   371,  -326,  -326,   363,
-     -21,  -326,  -326,   171,     3,   447,   -45,  -326,  -326,    14,
-    -200,  -326,  -326,  -326,  -326,  -326,  -326,  -326,   297,   -41,
-       6,  -326,  -121,    30,  -188,  -326,  -326,  -326,  -326,  -326,
-    -326,    20,    35,   -26,   -87,   -42,  -326,  -326,   -43,   -20,
-     303,   -40,   190,  -326,   113,   133,   -90,   246,   301,   265,
-     321,  -325,  -326,  -130,  -326,  -187,   151,  -237,  -326,   139,
-    -212,  -326,    -7,  -203
+    -318,  -318,   403,  -318,  -318,    -1,   324,  -318,  -318,   351,
+     -29,  -318,  -318,   129,     7,    -7,     9,  -318,  -318,  -318,
+    -318,  -318,  -318,   -35,  -192,  -318,  -318,  -318,  -318,  -318,
+    -318,  -318,   212,   -36,    24,  -318,  -117,     3,  -184,  -318,
+    -318,  -318,  -318,  -318,  -318,     4,   -30,   -86,   -40,  -318,
+    -318,  -318,   -20,   -39,   -43,   152,  -318,    65,    68,   -93,
+     175,   181,   176,   185,  -317,  -318,  -127,  -318,  -187,    70,
+    -241,  -318,   -32,  -207,  -318,    -2,   116
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int16 yydefgoto[] =
 {
-       0,     4,     5,     6,     7,    99,    79,    80,     8,    83,
-       9,    10,    37,   152,   153,    61,    62,    63,    64,   166,
-     331,   326,    66,    67,   133,   134,   395,   135,    68,    69,
-      70,   128,   191,   194,   192,    71,   307,   360,    72,   308,
-     362,   390,   267,   102,   103,   162,   105,   175,    74,   107,
-     108,    76,   210,   110,   163,   164,   290,   177,   178,   179,
-     180,   291,   111,   165,   112,   244,   181,   113,   114,   115,
-     116,    77,   117,   268
+       0,     4,     5,     6,     7,   105,    86,    87,     8,    90,
+       9,    10,    37,   161,   162,    63,    64,    65,    66,    67,
+      68,    69,    70,   174,   337,   332,    72,    73,   139,   140,
+     398,   141,    74,   107,    76,   134,   199,   202,   200,    77,
+     314,   366,    78,   315,   368,   394,   215,   109,   170,   111,
+     183,    79,   112,    81,    82,   217,   115,   171,   172,   301,
+     185,   186,   187,   188,   302,   116,   173,   117,   256,   189,
+     118,   119,   120,   121,    84,   122,   276
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -1003,305 +1009,287 @@ static const yytype_int16 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int16 yytable[] =
 {
-      29,    30,    36,   196,   106,   104,    38,   109,   176,   161,
-     258,   259,   129,    39,   202,    73,   140,   139,   142,   168,
-      93,    75,    81,   253,     1,     2,    52,    73,   254,     3,
-      94,    41,   394,     3,    78,    73,    46,    73,   334,    43,
-      60,    75,   334,    75,    36,    92,   334,    94,    85,    82,
-      84,    97,    60,   130,    78,    65,    78,   321,    44,    81,
-      60,   100,    60,   335,   203,   309,   334,   335,   334,   334,
-      52,   335,   -94,    45,   289,    65,    86,    65,   118,   340,
-     131,   132,   101,   344,   119,    36,    82,   242,   243,   120,
-      84,   335,   121,   335,   335,   160,   399,   400,   209,   432,
-     433,   292,   293,   355,   136,   357,   358,   168,   169,   170,
-     171,   172,   137,   352,   353,   367,   368,   138,   141,   139,
-     122,   190,   193,   195,   365,   198,   199,   123,   124,   125,
-     143,   144,   167,   126,   127,   145,   146,   148,   211,   150,
-     334,   154,   -95,   155,   161,   161,   156,   295,   157,   334,
-     334,   182,   226,   188,   183,   184,   189,   197,   106,   262,
-     186,   264,   185,  -147,   187,   335,   200,    11,   230,   173,
-     174,   206,   207,   208,   335,   335,   201,   398,   204,   205,
-     223,   224,   231,   233,   225,   430,   403,   404,   232,   227,
-     228,   229,   234,   235,   236,   237,    36,   257,   257,   238,
-     256,   265,    12,    13,    14,    15,    16,    17,    18,    19,
-      20,    21,    22,    23,    24,   260,    25,    26,    27,    28,
-     239,   240,   241,   245,   246,   251,   252,    53,   255,   254,
-     160,   160,   328,   209,   332,   271,   261,   272,   332,  -145,
-     270,   273,   332,   274,   275,   276,   277,   278,   279,    73,
-     280,   281,   257,    73,   282,   333,   283,    73,   284,   333,
-     168,   285,   332,   333,   332,   332,   286,   287,   336,   288,
-     408,   294,   336,   169,    60,   170,   336,    73,    60,    73,
-      73,   171,    60,   333,    36,   333,   333,   172,   300,   301,
-     302,   303,   304,   305,   306,   310,   336,   311,   336,   336,
-     312,   253,    60,   313,    60,    60,   323,   324,   208,   327,
-     314,   257,   315,   316,   388,   317,   348,   318,   349,   350,
-     319,   347,   320,   322,   337,   397,   338,   339,   380,   359,
-     341,   342,   343,    73,   354,   345,   332,   351,   356,    75,
-     361,   369,   370,   377,    73,   332,   332,   363,   364,   371,
-      75,    73,    78,   379,   372,   373,   374,   333,    60,   375,
-      73,    73,  -144,    78,   376,   378,   333,   333,   382,    60,
-     336,   385,   173,    65,   386,   387,    60,   389,   431,   336,
-     336,   434,   435,   436,    65,    60,    60,   391,   392,   393,
-     195,   401,   405,   410,   406,   402,   407,    73,   409,   411,
-      73,    73,    73,    75,   412,   413,    75,    75,    75,   414,
-     415,   289,   418,   416,   417,   421,    78,   423,   424,    78,
-      78,    78,    60,   422,   419,    60,    60,    60,   193,    11,
-      87,    88,    89,    90,    91,   420,   425,    65,   426,   427,
-      65,    65,    65,   428,    40,   429,   438,   149,   439,   440,
-     441,   147,   443,    92,    93,    94,   346,    42,    54,   437,
-     442,    95,   381,   325,    12,    13,    14,    15,    16,    17,
-      18,    19,    20,    21,    22,    56,    57,    58,    25,    26,
-      27,    28,    96,   383,   296,    97,    11,    87,    88,    89,
-      90,    91,    98,   212,   213,   214,   215,   216,   217,   218,
-     219,   269,   220,   221,   263,   384,   299,   222,   396,     0,
-      92,    93,    94,     0,     0,    54,     0,     0,     0,     0,
-       0,    12,    13,    14,    15,    16,    17,    18,    19,    20,
-      21,    22,    56,    57,    58,    25,    26,    27,    28,    96,
-     297,     0,    97,    11,   158,    88,    89,    90,    91,    98,
-     212,   213,   214,   215,   216,   217,   218,   219,   247,   220,
-     221,   298,     0,     0,   222,   248,   249,   250,     0,     0,
-       0,     0,    11,    87,    88,    89,    90,    91,    12,    13,
-      14,    15,    16,    17,    18,    19,    20,    21,    22,    23,
-      24,     0,    25,    26,    27,    28,    96,   159,     0,     0,
-       0,     0,     0,     0,     0,     0,    98,    12,    13,    14,
-      15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
-       0,    25,    26,    27,    28,    96,    11,    87,    88,    89,
-      90,    91,     0,     0,     0,    98,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-      92,    93,    94,     0,     0,    54,     0,     0,     0,     0,
-       0,    12,    13,    14,    15,    16,    17,    18,    19,    20,
-      21,    22,    56,    57,    58,    25,    26,    27,    28,     0,
-       0,     0,    97,   266,    11,    87,    88,    89,    90,    91,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,    92,    93,
-      94,     0,     0,    54,     0,     0,     0,     0,     0,    12,
+      29,    30,    36,    42,   114,    75,    71,   110,   113,    83,
+      38,   184,   106,   204,    88,   146,   169,   108,   135,   136,
+     262,    80,   267,   268,   100,   176,   263,    75,    71,    75,
+      71,    83,    53,    83,    39,     3,    46,   137,   138,    85,
+      62,    41,   340,    80,    36,    80,   340,    43,    52,   340,
+     397,   340,    92,    53,   340,   340,   103,    44,    88,   145,
+      45,    85,    62,    85,    62,    93,   168,    89,    91,   124,
+     327,   147,   148,   175,   150,   123,   341,   125,   316,   151,
+     341,   300,   126,   341,   149,   341,   254,   255,   341,   341,
+       1,     2,    36,   195,   152,   346,   196,   197,   349,     3,
+     351,   216,   127,   354,   355,   403,   404,   435,   436,   142,
+     219,    89,   213,   214,   143,    91,   303,   304,   144,   176,
+     177,   178,   179,   180,   362,   363,   153,   198,   201,   203,
+     154,   206,   207,   240,   241,   371,   155,   128,   157,   159,
+     220,   340,   340,   340,   129,   130,   131,   163,   164,   165,
+     132,   133,   146,   190,   191,  -154,   306,   169,   169,   192,
+     205,   239,  -158,   193,   194,   208,   273,   210,   211,   271,
+     272,   238,   212,   218,   269,   341,   341,   341,   209,   270,
+     275,   433,   278,   181,   182,    11,   236,   237,   242,   245,
+     400,   401,   402,    31,   243,   244,   246,   247,   248,   249,
+      33,    34,    35,   250,    36,   266,   266,   168,   168,   251,
+     252,   253,   265,   257,   258,   259,   260,   261,   305,   264,
+      12,    13,    14,    15,    16,    17,    18,    19,    20,    21,
+      22,    23,    24,   263,    25,    26,    27,    28,   216,    54,
+     279,   280,   334,   160,   282,   281,  -155,   338,   283,   329,
+     330,   338,   333,   284,   338,   285,   338,   286,   287,   338,
+     338,   266,   288,   339,   289,   290,   291,   339,   357,   292,
+     339,   293,   339,   294,   295,   339,   339,   296,   410,   176,
+     297,   342,   298,   299,   177,   342,   178,    11,   342,   179,
+     342,   180,   311,   342,   342,   275,    36,   312,   313,   317,
+     318,   319,   262,   320,   321,   322,   323,   365,   324,   358,
+     325,    99,   326,    52,   328,   343,    55,   344,   266,   345,
+     347,   374,    12,    13,    14,    15,    16,    17,    18,    19,
+      20,    21,    22,    57,    58,    59,    25,    26,    27,    28,
+     369,   399,   348,   370,   359,   360,   338,   338,   338,   350,
+     352,   353,   361,   364,   367,   382,   387,   373,   389,   392,
+     375,   412,   339,   339,   339,   376,   405,   377,   378,   379,
+     380,   381,   393,   383,   384,   385,   408,   386,   406,   432,
+     342,   342,   342,   431,   181,   407,    75,   429,   395,   396,
+     409,   411,   413,   414,   203,   415,   416,   417,   418,   300,
+     422,   438,   430,   419,   424,   420,   423,   425,   428,    40,
+     421,   156,   426,   427,    11,    94,    95,    96,    97,    98,
+     434,  -157,  -156,   277,   388,   307,   356,   201,   390,   310,
+     437,   439,   308,   331,   391,     0,     0,   309,    99,   100,
+      52,   372,   158,    55,     0,     0,   101,     0,     0,    12,
       13,    14,    15,    16,    17,    18,    19,    20,    21,    22,
-      56,    57,    58,    25,    26,    27,    28,    11,     0,     0,
-      97,   366,     0,     0,     0,    31,     0,     0,     0,     0,
-       0,     0,    33,    34,    35,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,    11,    87,    88,    89,
-      90,    91,    12,    13,    14,    15,    16,    17,    18,    19,
-      20,    21,    22,    23,    24,     0,    25,    26,    27,    28,
-      92,    93,    94,     0,   151,    54,     0,     0,     0,     0,
+      57,    58,    59,    25,    26,    27,    28,     0,   102,     0,
+       0,   103,    11,    94,    95,    96,    97,    98,     0,   104,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,    99,   100,    52,     0,
+       0,    55,     0,    11,     0,     0,     0,    12,    13,    14,
+      15,    16,    17,    18,    19,    20,    21,    22,    57,    58,
+      59,    25,    26,    27,    28,     0,   102,     0,     0,   103,
+      11,   166,    95,    96,    97,    98,     0,   104,    12,    13,
+      14,    15,    16,    17,    18,    19,    20,    21,    22,    23,
+      24,     0,    25,    26,    27,    28,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,    12,    13,    14,    15,    16,
+      17,    18,    19,    20,    21,    22,    23,    24,     0,    25,
+      26,    27,    28,     0,   102,   167,    11,    94,    95,    96,
+      97,    98,     0,     0,     0,   104,   221,   222,   223,   224,
+     225,   226,   227,   228,   229,   230,   231,     0,     0,     0,
+     232,   233,   234,   235,     0,     0,     0,     0,     0,     0,
        0,    12,    13,    14,    15,    16,    17,    18,    19,    20,
-      21,    22,    56,    57,    58,    25,    26,    27,    28,    11,
-     329,   330,    97,     0,     0,     0,     0,     0,     0,     0,
+      21,    22,    23,    24,     0,    25,    26,    27,    28,     0,
+     102,    11,    94,    95,    96,    97,    98,     0,     0,     0,
+       0,   104,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,    99,   100,    52,     0,     0,
+      55,     0,     0,     0,     0,     0,    12,    13,    14,    15,
+      16,    17,    18,    19,    20,    21,    22,    57,    58,    59,
+      25,    26,    27,    28,     0,     0,     0,     0,   103,   274,
+      11,    94,    95,    96,    97,    98,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,    92,    93,    94,     0,     0,    54,     0,
-       0,     0,     0,     0,    12,    13,    14,    15,    16,    17,
-      18,    19,    20,    21,    22,    56,    57,    58,    25,    26,
-      27,    28,    11,     0,     0,    97,     0,     0,     0,     0,
-       0,     0,    47,    48,     0,    49,    50,     0,     0,     0,
-      51,     0,     0,     0,     0,     0,     0,     0,     0,    52,
-      53,    54,     0,    55,     0,     0,     0,    12,    13,    14,
-      15,    16,    17,    18,    19,    20,    21,    22,    56,    57,
-      58,    25,    26,    27,    28,    41,    59,    11,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,    47,    48,     0,
-      49,    50,     0,     0,     0,    51,     0,     0,     0,     0,
-       0,     0,     0,     0,    52,    53,    54,     0,    55,     0,
-       0,     0,    12,    13,    14,    15,    16,    17,    18,    19,
-      20,    21,    22,    56,    57,    58,    25,    26,    27,    28,
-      41,    11,     0,     0,     0,     0,     0,     0,     0,    31,
-      32,     0,     0,     0,     0,     0,    33,    34,    35,     0,
+       0,     0,     0,     0,    99,   100,    52,     0,     0,    55,
+      11,   335,   336,     0,     0,    12,    13,    14,    15,    16,
+      17,    18,    19,    20,    21,    22,    57,    58,    59,    25,
+      26,    27,    28,     0,    99,   100,    52,   103,     0,    55,
+       0,     0,     0,     0,     0,    12,    13,    14,    15,    16,
+      17,    18,    19,    20,    21,    22,    57,    58,    59,    25,
+      26,    27,    28,    11,     0,     0,     0,   103,     0,     0,
+       0,     0,     0,    47,    48,     0,    49,    50,     0,     0,
+       0,    51,     0,     0,     0,     0,     0,     0,     0,    52,
+      53,    54,    55,     0,    56,     0,     0,     0,    12,    13,
+      14,    15,    16,    17,    18,    19,    20,    21,    22,    57,
+      58,    59,    25,    26,    27,    28,    60,    41,    61,    11,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,    47,
+      48,     0,    49,    50,     0,     0,     0,    51,     0,     0,
+       0,     0,     0,     0,     0,    52,    53,    54,    55,     0,
+      56,     0,     0,     0,    12,    13,    14,    15,    16,    17,
+      18,    19,    20,    21,    22,    57,    58,    59,    25,    26,
+      27,    28,    60,    41,    11,     0,     0,     0,     0,     0,
+       0,     0,    31,    32,     0,     0,     0,     0,     0,    33,
+      34,    35,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,    12,
+      13,    14,    15,    16,    17,    18,    19,    20,    21,    22,
+      23,    24,    11,    25,    26,    27,    28,     0,     0,     0,
+      31,     0,     0,     0,     0,     0,     0,    33,    34,    35,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,    12,    13,    14,    15,
-      16,    17,    18,    19,    20,    21,    22,    23,    24,    11,
-      25,    26,    27,    28,     0,     0,     0,    31,     0,     0,
-       0,     0,     0,     0,    33,    34,    35,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,    12,    13,    14,    15,    16,    17,
-      18,    19,    20,    21,    22,    23,    24,     0,    25,    26,
-      27,    28
+       0,     0,     0,     0,     0,     0,     0,    12,    13,    14,
+      15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
+       0,    25,    26,    27,    28
 };
 
 static const yytype_int16 yycheck[] =
 {
-       1,     2,     3,   124,    47,    47,     3,    47,    98,    96,
-     198,   199,    53,     0,     9,    41,    61,     9,    63,     4,
-      28,    41,    43,    61,    24,    25,    30,    53,    66,    33,
-      29,    56,    31,    33,    41,    61,    37,    63,   275,    56,
-      41,    61,   279,    63,    45,    27,   283,    29,    45,    43,
-      44,    59,    53,    54,    61,    41,    63,   269,    56,    80,
-      61,    47,    63,   275,    59,   253,   303,   279,   305,   306,
-      30,   283,    64,    62,    59,    61,    59,    63,    59,   279,
-      36,    37,    47,   283,    58,    86,    80,     4,     5,    58,
-      84,   303,    59,   305,   306,    96,     4,     5,   138,   424,
-     425,   231,   232,   303,    59,   305,   306,     4,     5,     6,
-       7,     8,    59,   300,   301,   318,   319,    59,    57,     9,
-      11,   122,   123,   124,   312,   126,   127,    18,    19,    20,
-      58,    64,    97,    24,    25,    58,    57,    57,   139,    63,
-     377,    59,    64,    59,   231,   232,    59,   237,    58,   386,
-     387,    58,   153,   118,    58,    58,   121,    62,   201,   201,
-      58,   201,    64,    64,    58,   377,    58,     3,    68,    66,
-      67,   136,   137,   138,   386,   387,    65,   377,    59,    59,
-      58,    58,    61,    57,    60,   422,   386,   387,    61,   154,
-     155,   156,    57,    57,    26,    61,   197,   198,   199,    61,
-     197,   202,    38,    39,    40,    41,    42,    43,    44,    45,
-      46,    47,    48,    49,    50,   201,    52,    53,    54,    55,
-      61,    61,    61,    67,    67,    60,    60,    31,    66,    66,
-     231,   232,   274,   273,   275,    61,   201,    61,   279,    64,
-     205,    61,   283,    59,    59,    59,    59,    59,    59,   275,
-      59,    59,   253,   279,    59,   275,    59,   283,    59,   279,
-       4,    61,   303,   283,   305,   306,    61,    60,   275,    60,
-     391,   236,   279,     5,   275,     6,   283,   303,   279,   305,
-     306,     7,   283,   303,   285,   305,   306,     8,    61,    61,
-      67,    59,    59,    59,    59,     4,   303,     4,   305,   306,
-      63,    61,   303,    58,   305,   306,   271,   272,   273,   274,
-      58,   312,    58,    58,   359,    58,     4,    59,    58,    58,
-      61,   286,    60,    60,    60,   370,    60,    60,     4,    56,
-      60,    60,    60,   359,    58,    60,   377,    60,    60,   359,
-      56,    58,    56,    61,   370,   386,   387,    67,    67,    60,
-     370,   377,   359,    61,    60,    60,    60,   377,   359,    60,
-     386,   387,    64,   370,    60,    60,   386,   387,     4,   370,
-     377,    60,    66,   359,    61,    61,   377,    22,   423,   386,
-     387,   426,   427,   428,   370,   386,   387,    61,    66,    60,
-     391,    68,    57,   394,     4,    68,    23,   423,     4,    60,
-     426,   427,   428,   423,    57,    60,   426,   427,   428,    60,
-      60,    59,    15,    60,    60,    67,   423,    56,    61,   426,
-     427,   428,   423,    65,    68,   426,   427,   428,   429,     3,
-       4,     5,     6,     7,     8,    68,    61,   423,    56,    56,
-     426,   427,   428,    56,     6,    61,    57,    84,    57,    57,
-      57,    80,    57,    27,    28,    29,   285,    10,    32,   429,
-     440,    35,   349,   273,    38,    39,    40,    41,    42,    43,
-      44,    45,    46,    47,    48,    49,    50,    51,    52,    53,
-      54,    55,    56,   350,   238,    59,     3,     4,     5,     6,
-       7,     8,    66,    38,    39,    40,    41,    42,    43,    44,
-      45,   204,    47,    48,   201,   354,   241,    52,   369,    -1,
-      27,    28,    29,    -1,    -1,    32,    -1,    -1,    -1,    -1,
-      -1,    38,    39,    40,    41,    42,    43,    44,    45,    46,
-      47,    48,    49,    50,    51,    52,    53,    54,    55,    56,
-     239,    -1,    59,     3,     4,     5,     6,     7,     8,    66,
+       1,     2,     3,    10,    47,    41,    41,    47,    47,    41,
+       3,   104,    47,   130,    43,     9,   102,    47,    54,    55,
+      62,    41,   206,   207,    28,     4,    68,    63,    63,    65,
+      65,    63,    30,    65,     0,    33,    37,    36,    37,    41,
+      41,    57,   283,    63,    45,    65,   287,    57,    29,   290,
+      31,   292,    45,    30,   295,   296,    60,    57,    87,    60,
+      63,    63,    63,    65,    65,    60,   102,    43,    44,    59,
+     277,    65,    63,   103,    65,    60,   283,    59,   262,    59,
+     287,    60,    60,   290,    58,   292,     4,     5,   295,   296,
+      24,    25,    93,   123,    66,   287,   126,   127,   290,    33,
+     292,   144,    60,   295,   296,     4,     5,   424,   425,    60,
+     146,    87,   142,   143,    60,    91,   243,   244,    60,     4,
+       5,     6,     7,     8,   311,   312,    59,   128,   129,   130,
+      59,   132,   133,   163,   164,   319,    58,    11,    58,    64,
+     147,   382,   383,   384,    18,    19,    20,    60,    60,    59,
+      24,    25,     9,    59,    59,    66,   249,   243,   244,    59,
+      63,   162,    66,    59,    59,    59,   209,    60,    60,   209,
+     209,    61,    60,    59,   209,   382,   383,   384,    67,   209,
+     210,   422,   212,    68,    69,     3,    59,    59,    65,    58,
+     382,   383,   384,    11,    62,    62,    58,    58,    26,    62,
+      18,    19,    20,    62,   205,   206,   207,   243,   244,    62,
+      62,    62,   205,    69,    69,    61,    61,    61,   248,    68,
       38,    39,    40,    41,    42,    43,    44,    45,    46,    47,
-      48,   240,    -1,    -1,    52,    53,    54,    55,    -1,    -1,
-      -1,    -1,     3,     4,     5,     6,     7,     8,    38,    39,
-      40,    41,    42,    43,    44,    45,    46,    47,    48,    49,
-      50,    -1,    52,    53,    54,    55,    56,    57,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    66,    38,    39,    40,
-      41,    42,    43,    44,    45,    46,    47,    48,    49,    50,
-      -1,    52,    53,    54,    55,    56,     3,     4,     5,     6,
-       7,     8,    -1,    -1,    -1,    66,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      27,    28,    29,    -1,    -1,    32,    -1,    -1,    -1,    -1,
-      -1,    38,    39,    40,    41,    42,    43,    44,    45,    46,
-      47,    48,    49,    50,    51,    52,    53,    54,    55,    -1,
-      -1,    -1,    59,    60,     3,     4,     5,     6,     7,     8,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    27,    28,
-      29,    -1,    -1,    32,    -1,    -1,    -1,    -1,    -1,    38,
-      39,    40,    41,    42,    43,    44,    45,    46,    47,    48,
-      49,    50,    51,    52,    53,    54,    55,     3,    -1,    -1,
-      59,    60,    -1,    -1,    -1,    11,    -1,    -1,    -1,    -1,
-      -1,    -1,    18,    19,    20,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,     3,     4,     5,     6,
-       7,     8,    38,    39,    40,    41,    42,    43,    44,    45,
-      46,    47,    48,    49,    50,    -1,    52,    53,    54,    55,
-      27,    28,    29,    -1,    60,    32,    -1,    -1,    -1,    -1,
-      -1,    38,    39,    40,    41,    42,    43,    44,    45,    46,
-      47,    48,    49,    50,    51,    52,    53,    54,    55,     3,
-       4,     5,    59,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    27,    28,    29,    -1,    -1,    32,    -1,
-      -1,    -1,    -1,    -1,    38,    39,    40,    41,    42,    43,
-      44,    45,    46,    47,    48,    49,    50,    51,    52,    53,
-      54,    55,     3,    -1,    -1,    59,    -1,    -1,    -1,    -1,
-      -1,    -1,    13,    14,    -1,    16,    17,    -1,    -1,    -1,
-      21,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    30,
-      31,    32,    -1,    34,    -1,    -1,    -1,    38,    39,    40,
-      41,    42,    43,    44,    45,    46,    47,    48,    49,    50,
-      51,    52,    53,    54,    55,    56,    57,     3,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    13,    14,    -1,
-      16,    17,    -1,    -1,    -1,    21,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    30,    31,    32,    -1,    34,    -1,
-      -1,    -1,    38,    39,    40,    41,    42,    43,    44,    45,
+      48,    49,    50,    68,    52,    53,    54,    55,   281,    31,
+      62,    62,   282,    61,    60,    62,    66,   283,    60,   279,
+     280,   287,   282,    60,   290,    60,   292,    60,    60,   295,
+     296,   262,    60,   283,    60,    60,    60,   287,   298,    60,
+     290,    60,   292,    60,    60,   295,   296,    60,   395,     4,
+      62,   283,    62,    61,     5,   287,     6,     3,   290,     7,
+     292,     8,    62,   295,   296,   325,   297,    62,    69,     4,
+       4,    64,    62,    59,    59,    59,    59,   314,    59,     4,
+      62,    27,    61,    29,    61,    61,    32,    61,   319,    61,
+      61,   328,    38,    39,    40,    41,    42,    43,    44,    45,
       46,    47,    48,    49,    50,    51,    52,    53,    54,    55,
-      56,     3,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    11,
-      12,    -1,    -1,    -1,    -1,    -1,    18,    19,    20,    -1,
+      69,   373,    61,    69,    59,    59,   382,   383,   384,    61,
+      61,    61,    61,    59,    57,    62,     4,    59,     4,    15,
+      61,   397,   382,   383,   384,    61,    65,    61,    61,    61,
+      61,    61,    22,    62,    62,    61,     4,    62,    65,   422,
+     382,   383,   384,   422,    68,   392,   422,   422,    62,    68,
+      23,     4,    61,    61,   395,    61,    61,    61,    61,    60,
+      67,    58,   422,    65,    62,    65,   413,    62,    62,     6,
+      69,    87,   419,   420,     3,     4,     5,     6,     7,     8,
+     422,    66,    66,   211,   359,   250,   297,   428,   360,   253,
+     426,   428,   251,   281,   364,    -1,    -1,   252,    27,    28,
+      29,   325,    91,    32,    -1,    -1,    35,    -1,    -1,    38,
+      39,    40,    41,    42,    43,    44,    45,    46,    47,    48,
+      49,    50,    51,    52,    53,    54,    55,    -1,    57,    -1,
+      -1,    60,     3,     4,     5,     6,     7,     8,    -1,    68,
       -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    38,    39,    40,    41,
-      42,    43,    44,    45,    46,    47,    48,    49,    50,     3,
-      52,    53,    54,    55,    -1,    -1,    -1,    11,    -1,    -1,
-      -1,    -1,    -1,    -1,    18,    19,    20,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    -1,    27,    28,    29,    -1,
+      -1,    32,    -1,     3,    -1,    -1,    -1,    38,    39,    40,
+      41,    42,    43,    44,    45,    46,    47,    48,    49,    50,
+      51,    52,    53,    54,    55,    -1,    57,    -1,    -1,    60,
+       3,     4,     5,     6,     7,     8,    -1,    68,    38,    39,
+      40,    41,    42,    43,    44,    45,    46,    47,    48,    49,
+      50,    -1,    52,    53,    54,    55,    -1,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    38,    39,    40,    41,    42,
+      43,    44,    45,    46,    47,    48,    49,    50,    -1,    52,
+      53,    54,    55,    -1,    57,    58,     3,     4,     5,     6,
+       7,     8,    -1,    -1,    -1,    68,    38,    39,    40,    41,
+      42,    43,    44,    45,    46,    47,    48,    -1,    -1,    -1,
+      52,    53,    54,    55,    -1,    -1,    -1,    -1,    -1,    -1,
+      -1,    38,    39,    40,    41,    42,    43,    44,    45,    46,
+      47,    48,    49,    50,    -1,    52,    53,    54,    55,    -1,
+      57,     3,     4,     5,     6,     7,     8,    -1,    -1,    -1,
+      -1,    68,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    27,    28,    29,    -1,    -1,
+      32,    -1,    -1,    -1,    -1,    -1,    38,    39,    40,    41,
+      42,    43,    44,    45,    46,    47,    48,    49,    50,    51,
+      52,    53,    54,    55,    -1,    -1,    -1,    -1,    60,    61,
+       3,     4,     5,     6,     7,     8,    -1,    -1,    -1,    -1,
       -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    38,    39,    40,    41,    42,    43,
-      44,    45,    46,    47,    48,    49,    50,    -1,    52,    53,
-      54,    55
+      -1,    -1,    -1,    -1,    27,    28,    29,    -1,    -1,    32,
+       3,     4,     5,    -1,    -1,    38,    39,    40,    41,    42,
+      43,    44,    45,    46,    47,    48,    49,    50,    51,    52,
+      53,    54,    55,    -1,    27,    28,    29,    60,    -1,    32,
+      -1,    -1,    -1,    -1,    -1,    38,    39,    40,    41,    42,
+      43,    44,    45,    46,    47,    48,    49,    50,    51,    52,
+      53,    54,    55,     3,    -1,    -1,    -1,    60,    -1,    -1,
+      -1,    -1,    -1,    13,    14,    -1,    16,    17,    -1,    -1,
+      -1,    21,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    29,
+      30,    31,    32,    -1,    34,    -1,    -1,    -1,    38,    39,
+      40,    41,    42,    43,    44,    45,    46,    47,    48,    49,
+      50,    51,    52,    53,    54,    55,    56,    57,    58,     3,
+      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    13,
+      14,    -1,    16,    17,    -1,    -1,    -1,    21,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    29,    30,    31,    32,    -1,
+      34,    -1,    -1,    -1,    38,    39,    40,    41,    42,    43,
+      44,    45,    46,    47,    48,    49,    50,    51,    52,    53,
+      54,    55,    56,    57,     3,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1,    11,    12,    -1,    -1,    -1,    -1,    -1,    18,
+      19,    20,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    38,
+      39,    40,    41,    42,    43,    44,    45,    46,    47,    48,
+      49,    50,     3,    52,    53,    54,    55,    -1,    -1,    -1,
+      11,    -1,    -1,    -1,    -1,    -1,    -1,    18,    19,    20,
+      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    -1,    -1,    38,    39,    40,
+      41,    42,    43,    44,    45,    46,    47,    48,    49,    50,
+      -1,    52,    53,    54,    55
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,    24,    25,    33,    70,    71,    72,    73,    77,    79,
-      80,     3,    38,    39,    40,    41,    42,    43,    44,    45,
-      46,    47,    48,    49,    50,    52,    53,    54,    55,    74,
-      74,    11,    12,    18,    19,    20,    74,    81,    83,     0,
-      71,    56,    84,    56,    56,    62,    74,    13,    14,    16,
-      17,    21,    30,    31,    32,    34,    49,    50,    51,    57,
-      74,    84,    85,    86,    87,    88,    91,    92,    97,    98,
-      99,   104,   107,   112,   117,   118,   120,   140,   141,    75,
-      76,    79,    99,    78,    99,    83,    59,     4,     5,     6,
-       7,     8,    27,    28,    29,    35,    56,    59,    66,    74,
-      88,   111,   112,   113,   114,   115,   117,   118,   119,   120,
-     122,   131,   133,   136,   137,   138,   139,   141,    59,    58,
-      58,    59,    11,    18,    19,    20,    24,    25,   100,    98,
-      74,    36,    37,    93,    94,    96,    59,    59,    59,     9,
-      85,    57,    85,    58,    64,    58,    57,    75,    57,    78,
-      63,    60,    82,    83,    59,    59,    59,    58,     4,    57,
-      74,   113,   114,   123,   124,   132,    88,   111,     4,     5,
-       6,     7,     8,    66,    67,   116,   125,   126,   127,   128,
-     129,   135,    58,    58,    58,    64,    58,    58,   111,   111,
-      74,   101,   103,    74,   102,    74,   101,    62,    74,    74,
-      58,    65,     9,    59,    59,    59,   111,   111,   111,   120,
-     121,    74,    38,    39,    40,    41,    42,    43,    44,    45,
-      47,    48,    52,    58,    58,    60,    74,   111,   111,   111,
-      68,    61,    61,    57,    57,    57,    26,    61,    61,    61,
-      61,    61,     4,     5,   134,    67,    67,    46,    53,    54,
-      55,    60,    60,    61,    66,    66,    83,    74,   103,   103,
-      88,   111,   114,   119,   120,    74,    60,   111,   142,    97,
-     111,    61,    61,    61,    59,    59,    59,    59,    59,    59,
-      59,    59,    59,    59,    59,    61,    61,    60,    60,    59,
-     125,   130,   132,   132,   111,   125,   126,   127,   129,   128,
-      61,    61,    67,    59,    59,    59,    59,   105,   108,   103,
-       4,     4,    63,    58,    58,    58,    58,    58,    59,    61,
-      60,   139,    60,   111,   111,   121,    90,   111,   114,     4,
-       5,    89,    98,   118,   136,   139,   141,    60,    60,    60,
-      89,    60,    60,    60,    89,    60,    82,   111,     4,    58,
-      58,    60,   134,   134,    58,    89,    60,    89,    89,    56,
-     106,    56,   109,    67,    67,   103,    60,   142,   142,    58,
-      56,    60,    60,    60,    60,    60,    60,    61,    60,    61,
-       4,   123,     4,   124,   135,    60,    61,    61,    85,    22,
-     110,    61,    66,    60,    31,    95,   138,    85,    89,     4,
-       5,    68,    68,    89,    89,    57,     4,    23,   101,     4,
-      74,    60,    57,    60,    60,    60,    60,    60,    15,    68,
-      68,    67,    65,    56,    61,    61,    56,    56,    56,    61,
-     136,    85,   130,   130,    85,    85,    85,   102,    57,    57,
-      57,    57,   110,    57
+       0,    24,    25,    33,    71,    72,    73,    74,    78,    80,
+      81,     3,    38,    39,    40,    41,    42,    43,    44,    45,
+      46,    47,    48,    49,    50,    52,    53,    54,    55,    75,
+      75,    11,    12,    18,    19,    20,    75,    82,    84,     0,
+      72,    57,    85,    57,    57,    63,    75,    13,    14,    16,
+      17,    21,    29,    30,    31,    32,    34,    49,    50,    51,
+      56,    58,    75,    85,    86,    87,    88,    89,    90,    91,
+      92,    93,    96,    97,   102,   103,   104,   109,   112,   121,
+     122,   123,   124,   142,   144,   145,    76,    77,    80,   104,
+      79,   104,    84,    60,     4,     5,     6,     7,     8,    27,
+      28,    35,    57,    60,    68,    75,    93,   103,   116,   117,
+     118,   119,   122,   123,   124,   126,   135,   137,   140,   141,
+     142,   143,   145,    60,    59,    59,    60,    60,    11,    18,
+      19,    20,    24,    25,   105,   103,   103,    36,    37,    98,
+      99,   101,    60,    60,    60,    75,     9,    65,    86,    58,
+      86,    59,    66,    59,    59,    58,    76,    58,    79,    64,
+      61,    83,    84,    60,    60,    59,     4,    58,   103,   117,
+     118,   127,   128,   136,    93,   116,     4,     5,     6,     7,
+       8,    68,    69,   120,   129,   130,   131,   132,   133,   139,
+      59,    59,    59,    59,    59,   116,   116,   116,    75,   106,
+     108,    75,   107,    75,   106,    63,    75,    75,    59,    67,
+      60,    60,    60,   116,   116,   116,   124,   125,    59,   103,
+      85,    38,    39,    40,    41,    42,    43,    44,    45,    46,
+      47,    48,    52,    53,    54,    55,    59,    59,    61,    75,
+     116,   116,    65,    62,    62,    58,    58,    58,    26,    62,
+      62,    62,    62,    62,     4,     5,   138,    69,    69,    61,
+      61,    61,    62,    68,    68,    84,    75,   108,   108,    93,
+     116,   118,   123,   124,    61,   116,   146,   102,   116,    62,
+      62,    62,    60,    60,    60,    60,    60,    60,    60,    60,
+      60,    60,    60,    60,    60,    60,    60,    62,    62,    61,
+      60,   129,   134,   136,   136,   116,   129,   130,   131,   133,
+     132,    62,    62,    69,   110,   113,   108,     4,     4,    64,
+      59,    59,    59,    59,    59,    62,    61,   143,    61,   116,
+     116,   125,    95,   116,   118,     4,     5,    94,   103,   122,
+     140,   143,   145,    61,    61,    61,    94,    61,    61,    94,
+      61,    94,    61,    61,    94,    94,    83,   116,     4,    59,
+      59,    61,   138,   138,    59,    85,   111,    57,   114,    69,
+      69,   108,   146,    59,    85,    61,    61,    61,    61,    61,
+      61,    61,    62,    62,    62,    61,    62,     4,   127,     4,
+     128,   139,    15,    22,   115,    62,    68,    31,   100,   142,
+      94,    94,    94,     4,     5,    65,    65,    85,     4,    23,
+     106,     4,   103,    61,    61,    61,    61,    61,    61,    65,
+      65,    69,    67,    85,    62,    62,    85,    85,    62,    93,
+     122,   123,   124,   140,   145,   134,   134,   115,    58,   107
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    69,    70,    71,    71,    72,    72,    72,    73,    74,
-      74,    74,    74,    74,    74,    74,    74,    74,    74,    74,
-      74,    74,    74,    74,    74,    74,    74,    75,    75,    76,
-      76,    77,    78,    78,    79,    80,    80,    81,    81,    82,
-      82,    83,    83,    83,    83,    83,    84,    84,    85,    85,
-      85,    85,    86,    86,    86,    86,    86,    86,    86,    86,
-      86,    86,    87,    88,    88,    88,    88,    89,    89,    89,
-      89,    89,    89,    89,    90,    90,    91,    91,    91,    91,
-      91,    91,    92,    93,    93,    94,    95,    95,    96,    97,
-      97,    97,    97,    97,    98,    98,    99,   100,   100,   100,
-     100,   100,   100,   100,   101,   101,   102,   102,   103,   103,
-     105,   104,   106,   106,   108,   107,   109,   110,   110,   111,
-     111,   111,   111,   111,   111,   112,   113,   113,   113,   113,
-     113,   113,   114,   114,   114,   114,   114,   115,   115,   116,
-     116,   116,   116,   116,   117,   117,   117,   117,   118,   118,
-     118,   118,   118,   118,   118,   119,   119,   119,   119,   120,
-     120,   120,   121,   121,   122,   122,   123,   123,   124,   124,
-     125,   125,   126,   126,   127,   127,   128,   128,   129,   129,
-     130,   130,   130,   130,   131,   132,   132,   132,   132,   133,
-     134,   134,   134,   134,   135,   135,   136,   136,   137,   138,
-     139,   139,   140,   141,   141,   141,   141,   142,   142
+       0,    70,    71,    72,    72,    73,    73,    73,    74,    75,
+      75,    75,    75,    75,    75,    75,    75,    75,    75,    75,
+      75,    75,    75,    75,    75,    75,    75,    76,    76,    77,
+      77,    78,    79,    79,    80,    81,    81,    82,    82,    83,
+      83,    84,    84,    84,    84,    84,    85,    85,    86,    86,
+      86,    86,    87,    87,    87,    87,    87,    87,    87,    87,
+      87,    87,    87,    87,    88,    89,    89,    90,    91,    92,
+      93,    93,    93,    93,    94,    94,    94,    94,    94,    94,
+      94,    95,    95,    96,    96,    96,    96,    96,    96,    97,
+      98,    98,    99,   100,   100,   100,   100,   100,   100,   100,
+     101,   102,   102,   102,   102,   102,   103,   103,   104,   105,
+     105,   105,   105,   105,   105,   105,   106,   106,   107,   107,
+     108,   108,   110,   109,   111,   111,   113,   112,   114,   115,
+     115,   116,   116,   116,   116,   116,   117,   117,   117,   117,
+     117,   117,   118,   118,   118,   118,   118,   119,   119,   120,
+     120,   120,   120,   120,   121,   121,   121,   121,   121,   122,
+     122,   122,   122,   122,   122,   122,   123,   123,   123,   123,
+     124,   124,   124,   125,   125,   126,   126,   127,   127,   128,
+     128,   129,   129,   130,   130,   131,   131,   132,   132,   133,
+     133,   134,   134,   134,   134,   135,   136,   136,   136,   136,
+     137,   138,   138,   138,   138,   139,   139,   140,   140,   141,
+     142,   143,   143,   144,   145,   145,   146,   146
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
@@ -1313,21 +1301,22 @@ static const yytype_int8 yyr2[] =
        1,     6,     2,     1,     2,     5,     6,     1,     1,     4,
        2,     1,     1,     1,     4,     1,     3,     2,     2,     1,
        2,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-       2,     2,     2,     6,     6,     5,     5,     1,     1,     1,
-       1,     1,     1,     1,     1,     1,     3,     3,     3,     3,
-       3,     3,     2,     1,     1,    10,     1,     4,     7,     5,
-       5,     5,     5,     5,     1,     1,     3,     2,     2,     5,
-       2,     2,     3,     3,     6,     4,     9,     7,     3,     1,
-       0,     6,     7,     3,     0,     6,     8,     7,     6,     1,
-       1,     1,     1,     1,     1,     3,     1,     1,     1,     1,
+       1,     1,     2,     2,     2,     1,     1,     3,     3,     2,
+       6,     6,     5,     5,     1,     1,     1,     1,     1,     1,
+       1,     1,     1,     3,     3,     3,     3,     3,     3,     2,
+       1,     1,     8,     1,     4,     4,     4,     4,     4,     4,
+       5,     5,     5,     5,     5,     5,     1,     3,     3,     2,
+       2,     5,     2,     2,     3,     3,     6,     4,     9,     7,
+       3,     1,     0,     6,     3,     1,     0,     6,     6,     5,
+       4,     1,     1,     1,     1,     1,     1,     1,     1,     1,
        1,     1,     1,     1,     1,     1,     2,     3,     2,     1,
-       1,     1,     1,     1,     1,     1,     1,     1,     5,     6,
-       5,     5,     6,     8,     6,     6,     5,     8,     8,     6,
-       5,     5,     1,     1,     3,     3,     5,     4,     5,     4,
-       3,     1,     3,     1,     3,     1,     3,     1,     3,     1,
-       7,     5,     7,     5,     3,     3,     1,     3,     1,     3,
-       3,     3,     1,     1,     5,     4,     1,     1,     6,     4,
-       5,     4,     2,     5,     4,     7,     6,     3,     1
+       1,     1,     1,     1,     1,     1,     1,     1,     1,     5,
+       6,     5,     5,     6,     8,     6,     6,     5,     8,     8,
+       6,     5,     5,     1,     1,     3,     3,     5,     4,     5,
+       4,     3,     1,     3,     1,     3,     1,     3,     1,     3,
+       1,     7,     5,     7,     5,     3,     3,     1,     3,     1,
+       3,     3,     3,     1,     1,     5,     4,     1,     1,     6,
+       4,     5,     4,     2,     5,     4,     3,     1
 };
 
 
@@ -1791,145 +1780,163 @@ yyreduce:
   switch (yyn)
     {
   case 8: /* class: CLASS id '{' class_items '}' ';'  */
-#line 81 "parser.y"
+#line 82 "parser.y"
                                                                            {fprintf(fparse, " : CLASS DEFINITION");}
-#line 1797 "y.tab.c"
+#line 1786 "y.tab.c"
     break;
 
   case 31: /* struct: STRUCT id '{' struct_items '}' ';'  */
-#line 112 "parser.y"
+#line 113 "parser.y"
                                                                              {fprintf(fparse, " : STRUCT DEFINITION");}
-#line 1803 "y.tab.c"
+#line 1792 "y.tab.c"
     break;
 
   case 35: /* function_head: FUNC fdtype id '(' ')'  */
-#line 122 "parser.y"
+#line 123 "parser.y"
                                                          {fprintf(fparse, " : FUNCTION HEAD");}
-#line 1809 "y.tab.c"
+#line 1798 "y.tab.c"
     break;
 
   case 36: /* function_head: FUNC fdtype id '(' param_list ')'  */
-#line 123 "parser.y"
+#line 124 "parser.y"
                                                                                     {fprintf(fparse, " : FUNCTION HEAD");}
-#line 1815 "y.tab.c"
+#line 1804 "y.tab.c"
     break;
 
-  case 60: /* statement: BREAK ';'  */
-#line 159 "parser.y"
+  case 62: /* statement: BREAK ';'  */
+#line 162 "parser.y"
                                                             {fprintf(fparse, " : BREAK STATEMENT");}
-#line 1821 "y.tab.c"
+#line 1810 "y.tab.c"
     break;
 
-  case 61: /* statement: CONTINUE ';'  */
-#line 160 "parser.y"
-                                                               {fprintf(fparse, " : CONTINUE STATEMENT");}
-#line 1827 "y.tab.c"
-    break;
-
-  case 62: /* vect_stmt: vect_stmt_body ';'  */
+  case 63: /* statement: CONTINUE ';'  */
 #line 163 "parser.y"
+                                                               {fprintf(fparse, " : CONTINUE STATEMENT");}
+#line 1816 "y.tab.c"
+    break;
+
+  case 64: /* unary_stmt: unary_op ';'  */
+#line 166 "parser.y"
+                                                       {fprintf(fparse, " : UNARY STATEMENT");}
+#line 1822 "y.tab.c"
+    break;
+
+  case 67: /* label_stmt: id ':' function_body  */
+#line 173 "parser.y"
+                                                               {fprintf(fparse, " : LABEL");}
+#line 1828 "y.tab.c"
+    break;
+
+  case 68: /* goto_stmt: GOTO id ';'  */
+#line 176 "parser.y"
+                                                      {fprintf(fparse, " : GOTO STATEMENT");}
+#line 1834 "y.tab.c"
+    break;
+
+  case 69: /* vect_stmt: vect_stmt_body ';'  */
+#line 179 "parser.y"
                                                              {fprintf(fparse, " : INDEPENDENT METHOD");}
-#line 1833 "y.tab.c"
+#line 1840 "y.tab.c"
     break;
 
-  case 76: /* return_stmt: RETURN RHS ';'  */
-#line 187 "parser.y"
+  case 83: /* return_stmt: RETURN RHS ';'  */
+#line 203 "parser.y"
                                                 {fprintf(fparse, " : RETURN STATEMENT");}
-#line 1839 "y.tab.c"
+#line 1846 "y.tab.c"
     break;
 
-  case 77: /* return_stmt: RETURN extra_consts ';'  */
-#line 188 "parser.y"
+  case 84: /* return_stmt: RETURN extra_consts ';'  */
+#line 204 "parser.y"
                                                                           {fprintf(fparse, " : RETURN STATEMENT");}
-#line 1845 "y.tab.c"
+#line 1852 "y.tab.c"
     break;
 
-  case 78: /* return_stmt: RETURN graph_impr ';'  */
-#line 189 "parser.y"
+  case 85: /* return_stmt: RETURN graph_impr ';'  */
+#line 205 "parser.y"
                                                                         {fprintf(fparse, " : RETURN STATEMENT");}
-#line 1851 "y.tab.c"
+#line 1858 "y.tab.c"
     break;
 
-  case 79: /* return_stmt: RETURN matrix_impr ';'  */
-#line 190 "parser.y"
+  case 86: /* return_stmt: RETURN matrix_impr ';'  */
+#line 206 "parser.y"
                                                                          {fprintf(fparse, " : RETURN STATEMENT");}
-#line 1857 "y.tab.c"
+#line 1864 "y.tab.c"
     break;
 
-  case 80: /* return_stmt: RETURN vect_stmt_body ';'  */
-#line 191 "parser.y"
+  case 87: /* return_stmt: RETURN vect_stmt_body ';'  */
+#line 207 "parser.y"
                                                                             {fprintf(fparse, " : RETURN STATEMENT");}
-#line 1863 "y.tab.c"
+#line 1870 "y.tab.c"
     break;
 
-  case 81: /* return_stmt: RETURN null ';'  */
-#line 192 "parser.y"
+  case 88: /* return_stmt: RETURN null ';'  */
+#line 208 "parser.y"
                                                                   {fprintf(fparse, " : RETURN STATEMENT");}
-#line 1869 "y.tab.c"
+#line 1876 "y.tab.c"
     break;
 
-  case 82: /* loop_stmt: LOOP loop_type  */
-#line 196 "parser.y"
+  case 89: /* loop_stmt: LOOP loop_type  */
+#line 212 "parser.y"
                                                          {fprintf(fparse, " : LOOP");}
-#line 1875 "y.tab.c"
+#line 1882 "y.tab.c"
     break;
 
-  case 89: /* expr_stmt: EXPR LHS '=' RHS ';'  */
-#line 213 "parser.y"
+  case 101: /* expr_stmt: EXPR LHS '=' RHS ';'  */
+#line 234 "parser.y"
                                                                {fprintf(fparse, " : EXPRESSION STATEMENT");}
-#line 1881 "y.tab.c"
+#line 1888 "y.tab.c"
     break;
 
-  case 90: /* expr_stmt: EXPR LHS '=' extra_consts ';'  */
-#line 214 "parser.y"
+  case 102: /* expr_stmt: EXPR LHS '=' extra_consts ';'  */
+#line 235 "parser.y"
                                                                                 {fprintf(fparse, " : EXPRESSION STATEMENT");}
-#line 1887 "y.tab.c"
+#line 1894 "y.tab.c"
     break;
 
-  case 91: /* expr_stmt: EXPR LHS '=' graph_impr ';'  */
-#line 215 "parser.y"
+  case 103: /* expr_stmt: EXPR LHS '=' graph_impr ';'  */
+#line 236 "parser.y"
                                                                               {fprintf(fparse, " : EXPRESSION STATEMENT");}
-#line 1893 "y.tab.c"
+#line 1900 "y.tab.c"
     break;
 
-  case 92: /* expr_stmt: EXPR LHS '=' matrix_impr ';'  */
-#line 216 "parser.y"
+  case 104: /* expr_stmt: EXPR LHS '=' matrix_impr ';'  */
+#line 237 "parser.y"
                                                                                {fprintf(fparse, " : EXPRESSION STATEMENT");}
-#line 1899 "y.tab.c"
+#line 1906 "y.tab.c"
     break;
 
-  case 93: /* expr_stmt: EXPR LHS '=' vect_stmt_body ';'  */
-#line 217 "parser.y"
+  case 105: /* expr_stmt: EXPR LHS '=' vect_stmt_body ';'  */
+#line 238 "parser.y"
                                                                                   {fprintf(fparse, " : EXPRESSION STATEMENT");}
-#line 1905 "y.tab.c"
+#line 1912 "y.tab.c"
     break;
 
-  case 96: /* declr_stmt: DECLR declr_body ';'  */
-#line 224 "parser.y"
+  case 108: /* declr_stmt: DECLR declr_body ';'  */
+#line 245 "parser.y"
                                                                {fprintf(fparse, " : DECLARATION STATEMENT");}
-#line 1911 "y.tab.c"
+#line 1918 "y.tab.c"
     break;
 
-  case 110: /* $@1: %empty  */
-#line 247 "parser.y"
+  case 122: /* $@1: %empty  */
+#line 268 "parser.y"
                                                          {fprintf(fparse, " : CONDITIONAL STATEMENT");}
-#line 1917 "y.tab.c"
+#line 1924 "y.tab.c"
     break;
 
-  case 114: /* $@2: %empty  */
-#line 254 "parser.y"
+  case 126: /* $@2: %empty  */
+#line 275 "parser.y"
                                                              {fprintf(fparse, " : CONDITIONAL STATEMENT");}
-#line 1923 "y.tab.c"
+#line 1930 "y.tab.c"
     break;
 
-  case 202: /* call_stmt: func_calls ';'  */
-#line 411 "parser.y"
+  case 213: /* call_stmt: func_calls ';'  */
+#line 430 "parser.y"
                                                          {fprintf(fparse, " : CALL STATEMENT");}
-#line 1929 "y.tab.c"
+#line 1936 "y.tab.c"
     break;
 
 
-#line 1933 "y.tab.c"
+#line 1940 "y.tab.c"
 
       default: break;
     }
@@ -2122,7 +2129,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 424 "parser.y"
+#line 441 "parser.y"
 
 
 /*

@@ -1,18 +1,23 @@
 func int main() : FUNCTION HEAD
 {
-	{}
-	expr sdf = -78.5; : EXPRESSION STATEMENT
-	expr sdf = -85; : EXPRESSION STATEMENT	
+	!! {}  comment \n 
+		comment2 
+	expr sdf = -78.5; 
+	expr sdf = -85;	
 	{
-		expr x = sdf; : EXPRESSION STATEMENT
-		{expr sdf = sdf; : EXPRESSION STATEMENT}
-	}
-
+		expr x = sdf;
+		{expr sdf = sdf;}
+	} !!
+	
+	label1:
+	{
 	declr matrix mat[2][3]; : DECLARATION STATEMENT
 	expr mat = [[1,2,3];
 	 			[2.0,3.5,4.8];
 				]; : EXPRESSION STATEMENT
-				
+	} : LABEL
+	
+	if(true) : CONDITIONAL STATEMENT {}
 	expr myvec = {mat, 
 				[[1,2,3];
 	 			 [2.0,3.5,4.8];],
@@ -24,9 +29,8 @@ func int main() : FUNCTION HEAD
 					3 : 1;
 					4 : 2;
 				}
-				}; : EXPRESSION STATEMENT
-				
-				
+				}; : EXPRESSION STATEMENT			
+	goto label1; : GOTO STATEMENT			
 	expr t = clear.append(4).sort(); : EXPRESSION STATEMENT
 	expr s = clear.append(add(call foo(), (a and b))); : EXPRESSION STATEMENT
 	expr s = clear.append(mat.trace()).remove(1); : EXPRESSION STATEMENT

@@ -62,6 +62,7 @@
 %token GRTOMATX
 %token SHPATH
 %token SHPATHVAL
+%token GOTO
 
 %start program_unit
 
@@ -153,11 +154,26 @@ statement				: expr_stmt
 						| declr_stmt 
 						| ifcond_stmt
 						| switch_stmt
+						| jump_stmt
 						| loop_stmt
 						| return_stmt
+						| unary_stmt
 						| vect_stmt
 						| BREAK ';' {fprintf(fparse, " : BREAK STATEMENT");}
 						| CONTINUE ';' {fprintf(fparse, " : CONTINUE STATEMENT");}
+						;
+						
+unary_stmt				: unary_op ';' {fprintf(fparse, " : UNARY STATEMENT");}
+						;
+						
+jump_stmt				: label_stmt
+						| goto_stmt
+						;
+						
+label_stmt				: id ':' function_body {fprintf(fparse, " : LABEL");}
+						;
+						
+goto_stmt				: GOTO id ';' {fprintf(fparse, " : GOTO STATEMENT");}
 						;
 
 vect_stmt				: vect_stmt_body ';' {fprintf(fparse, " : INDEPENDENT METHOD");}
@@ -200,14 +216,19 @@ loop_type				: for_loop
 						| while_loop
 						;
 				
-for_loop				: FOR '(' expr_stmt logical_op ';' for_expr ')''{'statements'}'
+for_loop				: FOR '(' expr_stmt logical_op ';' for_expr ')' function_body
 						;
 
 for_expr				: unary_op
-						| EXPR id '=' arith_op 
+						| EXPR LHS '=' arith_op 
+						| EXPR LHS '=' func_calls
+						| EXPR LHS '=' impr
+						| EXPR LHS '=' graph_impr
+						| EXPR LHS '=' vect_stmt_body
+						| EXPR LHS '=' matrix_impr
 						;
 
-while_loop				: WHILE '('RHS')''{' statements '}'
+while_loop				: WHILE '('RHS')' function_body
 						;
 						
 expr_stmt				: EXPR LHS '=' RHS ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
@@ -218,7 +239,7 @@ expr_stmt				: EXPR LHS '=' RHS ';' {fprintf(fparse, " : EXPRESSION STATEMENT");
 						;
 						
 LHS						: id
-						| class_struct_items
+						| id ARROW LHS
 						;
 
 declr_stmt				: DECLR declr_body ';' {fprintf(fparse, " : DECLARATION STATEMENT");}
@@ -247,30 +268,27 @@ id_list					: id ',' id_list
 ifcond_stmt				: IF '(' RHS ')' {fprintf(fparse, " : CONDITIONAL STATEMENT");} if_body
 						;
 
-if_body					: '{' statements '}' ELSE '{' statements '}'
-						| '{' statements '}'
+if_body					: function_body ELSE function_body
+						| function_body
 						;
 
 switch_stmt				: SWITCH '(' RHS ')' {fprintf(fparse, " : CONDITIONAL STATEMENT");} switch_body
 						;
 
-switch_body				: '{' cases DEFAULT ':' '{' statements '}' '}'
+switch_body				: '{' cases DEFAULT ':' function_body '}'
 						;
 
-cases					: CASE INT_CONST ':' '{' statements '}' cases
-						| CASE INT_CONST ':' '{' statements '}'
+cases					: CASE INT_CONST ':' function_body cases
+						| CASE INT_CONST ':' function_body
 						;
 
 						
 RHS						: constants
-						| class_struct_items
 						| arith_op
 						| logical_op
 						| func_calls
 						| impr
-						;
-
-class_struct_items		: id ARROW id						
+						;						
 
 						
 constants				: INT_CONST
@@ -278,7 +296,7 @@ constants				: INT_CONST
 						| CHAR_CONST
 						| STR_CONST
 						| BOOL_CONST
-						| id
+						| LHS
 						;
 						
 						
@@ -303,6 +321,7 @@ val_list				: int_list
 
 resultant				: LHS
 						| matrix_impr
+						| graph_impr
 						| vect_stmt_body
 						| impr
 						;					
@@ -411,10 +430,8 @@ logical_op				: '(' RHS LOGOP RHS ')'
 call_stmt				: func_calls ';' {fprintf(fparse, " : CALL STATEMENT");}
 						;
 						
-func_calls				: CALL id '(' arg_list ')'
-						| CALL id '(' ')'
-						| CALL id ARROW id '(' arg_list ')'
-						| CALL id ARROW id '(' ')'
+func_calls				: CALL LHS '(' arg_list ')'
+						| CALL LHS '(' ')'
 						;
 						
 arg_list				: RHS ',' arg_list

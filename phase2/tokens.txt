@@ -4,32 +4,17 @@ Identifier : main
 Special symbols:	(
 Special symbols:	)
 Special symbols:	{
+comment: !! {}  comment \n 
+		comment2 
+	expr sdf = -78.5; 
+	expr sdf = -85;	
+	{
+		expr x = sdf;
+		{expr sdf = sdf;}
+	} !!
+Identifier : label1
+Punctuation : :
 Special symbols:	{
-Special symbols:	}
-reserved keyword: expr
-Identifier : sdf
-Special symbols:	=
-constant: -78.5
-Punctuation : ;
-reserved keyword: expr
-Identifier : sdf
-Special symbols:	=
-constant: -85
-Punctuation : ;
-Special symbols:	{
-reserved keyword: expr
-Identifier : x
-Special symbols:	=
-Identifier : sdf
-Punctuation : ;
-Special symbols:	{
-reserved keyword: expr
-Identifier : sdf
-Special symbols:	=
-Identifier : sdf
-Punctuation : ;
-Special symbols:	}
-Special symbols:	}
 reserved keyword: declr
 reserved keyword: matrix
 Identifier : mat
@@ -62,6 +47,13 @@ Special symbols:	]
 Punctuation : ;
 Special symbols:	]
 Punctuation : ;
+Special symbols:	}
+reserved keyword: if
+Special symbols:	(
+constant: true
+Special symbols:	)
+Special symbols:	{
+Special symbols:	}
 reserved keyword: expr
 Identifier : myvec
 Special symbols:	=
@@ -121,6 +113,9 @@ constant: 2
 Punctuation : ;
 Special symbols:	}
 Special symbols:	}
+Punctuation : ;
+reserved keyword: goto
+Identifier : label1
 Punctuation : ;
 reserved keyword: expr
 Identifier : t

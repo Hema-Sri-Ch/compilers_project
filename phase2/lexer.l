@@ -11,6 +11,11 @@
 
 %%
 
+!![^(!!)]*!! {
+	fprintf(yyout, "comment: %s\n", yytext);
+	fprintf(fparse, "%s", yytext);
+}
+
 "add_matx"|"sub_matx"|"mult_matx" {
 	fprintf(yyout, "reserved keyword: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
@@ -306,7 +311,11 @@
     return null;
 }
 
-
+"goto" {
+	fprintf(yyout, "reserved keyword: %s\n", yytext);
+	fprintf(fparse, "%s", yytext);
+	return GOTO;
+}
 
 \'[^']\' {
     fprintf(yyout, "constant: %s\n", yytext);

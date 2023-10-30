@@ -1,18 +1,23 @@
 func int main()
 {
-	{}
-	expr sdf = -78.5;
+	!! {}  comment \n 
+		comment2 
+	expr sdf = -78.5; 
 	expr sdf = -85;	
 	{
 		expr x = sdf;
 		{expr sdf = sdf;}
-	}
-
+	} !!
+	
+	label1:
+	{
 	declr matrix mat[2][3];
 	expr mat = [[1,2,3];
 	 			[2.0,3.5,4.8];
 				];
-				
+	}
+	
+	if(true) {}
 	expr myvec = {mat, 
 				[[1,2,3];
 	 			 [2.0,3.5,4.8];],
@@ -24,9 +29,8 @@ func int main()
 					3 : 1;
 					4 : 2;
 				}
-				};
-				
-				
+				};			
+	goto label1;			
 	expr t = clear.append(4).sort();
 	expr s = clear.append(add(call foo(), (a and b)));
 	expr s = clear.append(mat.trace()).remove(1);
