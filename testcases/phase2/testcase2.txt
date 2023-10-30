@@ -1,0 +1,10 @@
+func int factorial (int n) {
+    if(n eq 1){
+        return 1;
+    }
+    return mul(n,call factorial(n-1));
+}
+
+func matrix matr_add (matrix A, matrix B){
+    
+}

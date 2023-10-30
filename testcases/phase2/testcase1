@@ -1,8 +1,0 @@
-func int main()
-{
-	declr int a, b;
-	declr float c;
-	expr c = a + incr(b);
-	incr(c);
-	return c;
-}
