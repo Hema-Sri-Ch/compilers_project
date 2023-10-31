@@ -184,14 +184,14 @@ func int main()
 \section{Introduced datatypes}
 \begin{enumerate}
     \item \textbf{array}:\\\\ To declare an array the following syntax is used: \texttt{ declr <datatype> <identifier>[num]; }\\
-    The expression statement for this array should follow the condition that the number of values inside the array equals the number which is the size with which it was initialized. It can be represented as follows: \texttt{ exp <array identifier> = \{ value1, value2, value3,... \};}\\
+    The expression statement for this array should follow the condition that the number of values inside the array equals the number which is the size with which it was initialized. It can be represented as follows: \texttt{ exp <array identifier> = [ value1, value2, value3,... ];}\\
     All of these values should have the same datatype and should match with it's declaration datatype.\\
     \begin{lstlisting}
         declr int arr[10];
-        expr arr = {1,2,3,4,5,6,7,8,9};
+        expr arr = [1,2,3,4,5,6,7,8,9];
 
         declr string str[3];
-        expr str = {"Hema", "Sandya", "Vennela"};
+        expr str = ["Hema", "Sandya", "Vennela"];
     \end{lstlisting}
     \item \textbf{graph}:\\\\ Two types of graphs can be implemented. It can be a weighted graph or it can be an unweighted graph. By default the graphs are taken as directed graphs.\\
     The following syntax is used for declaration: \texttt{ declr graph <identifier>[num of nodes];}\\
@@ -224,7 +224,7 @@ func int main()
     The matrix itself can be represented as follows: \texttt{expr <identifier> = [ [val\_11, val\_12,...,val\_1n]; [val\_21,val\_22,val\_23,...,val\_2n]; ..... [val\_m1,val\_m2,...,val\_mn] ];}\\
     Here `m' represents the number of rows and `n' represents the number of columns.\\
     \begin{lstlisting}
-        declr matrix mat [2][3];
+        declr matrix mat[2][3];
         expr mat = 
         [
             [1,2,3];
@@ -806,6 +806,20 @@ Here matrix\_resultant can be identifier of type matrix or anthing that returns 
 
     expr a = A.trace(); !! 'a' gets assigned the value of trace of A !!
 \end{lstlisting}
+\subsection{matxtograph}
+This function converts a matrix into a graph. The matrix here represents an adjacency matrix with the restrictions that it has to be square matrix and should contain 0's and 1's. If there is a 1 at the position of row\_1 and col\_2, it means that there is a directed edge from vertex\_1 to vertex\_2.\\
+\begin{lstlisting}
+    declr matrix A[4][4]; 
+
+    expr A = 
+    [
+        [0,1,1,0];
+        [1,0,0,1];
+        [1,0,0,0];
+        [0,1,0,0];
+    ];
+    expr a = A.matxtograph(); !! 'a' gets the graphical type of matrix A !!
+\end{lstlisting}
 \section{Graphs}
 Graphs has inbuilt functions for BFS and DFS traversals.
 \subsection{dfs}
@@ -830,7 +844,30 @@ Here integer\_resultant is any thing that returns item of integer type
     
     expr myvec = G.bfs(2); !! myvec gets assigned the bfs order of nodes starting at 2 !!
 \end{lstlisting}
+\subsection{graphtomatx}
+This function converts a graph into a matrix. If there is a edge from vertex\_1 to vertex\_2, then in the resulting matrix, we would have a 1 at position (row\_1, column\_2).\\
+\begin{lstlisting}
+    declr graph G[4];
+    declr matrix M[4][4];
+    
+    expr M = G.graphtomatx(); !! M gets the adjacency matrix type of representation of graph G !!
+\end{lstlisting}
+\subsection{shpathval}
+This function returns the shortest path value between two nodes of a graph. If there is no path between the two edges, the function returns -1. For weighted graphs, this function has a limitation that the weights have to be non-negative.\\
+\begin{lstlisting}
+    declr graph G[3];
+    declr int x;
+    
+    expr x = G.shpathval(1,3); !! x contains the shortest distance value between 1 and 3 !!
+\end{lstlisting}
+\subsection{shpath}
+This function returns a vector containing vertices covered while traversing in the shortest path between the asked nodes. If no path exists, then an empty vector is returned.\\
+\begin{lstlisting}
+    declr graph G[3];
+    declr vect<int> myvec;
 
+    expr myvec = G.shpath(1,3); !! myvec gets the shortest route between 1 and 3 !!
+\end{lstlisting}
 \section{strings}
 In this langauage we have some special functions that can be called on strings. They perform some string operations
 
@@ -892,4 +929,3 @@ Note: The resultant string is the substring of original string from starting ind
     expr str3 = str1.strcut(a, call foo()); !!as long as they are integer type and has valid integers, the funciton gives the string!!
 \end{lstlisting}
 \end{document}
-

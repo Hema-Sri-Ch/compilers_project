@@ -1,174 +1,124 @@
-func int main()
-{
-	!! {}  comment \n 
-		comment2 
-	expr sdf = -78.5; 
-	expr sdf = -85;	
-	{
-		expr x = sdf;
-		{expr sdf = sdf;}
-	} !!
-	
-	label1:
-	{
-	declr matrix mat[2][3];
-	expr mat = [[1,2,3];
-	 			[2.0,3.5,4.8];
-				];
-	}
-	
-	if(true) {}
-	expr myvec = {mat, 
-				[[1,2,3];
-	 			 [2.0,3.5,4.8];],
-	 			{a, b, c}, 
-	 			{},
-	 			{
-					1 : 2,3;
-					2 : 1,4;
-					3 : 1;
-					4 : 2;
-				}
-				};			
-	goto label1;			
-	expr t = clear.append(4).sort();
-	expr s = clear.append(add(call foo(), (a and b)));
-	expr s = clear.append(mat.trace()).remove(1);
-	return myvec.append(clear.length()).remove(8);
-	expr s = myvec.append(8).append(9);
-	
-	
-	return myvec.remove(clear.length());
-	return myvec.remove(add(call foo(), (a and mat.trace())));
-	
-	
-	return clear.remove(str.strcut(call a->foo(), (a or b)));
-	
-	
-	clear.append(4).sort();
-	clear.append(add(call foo(), (a and b)));
-	clear.append(mat.trace()).remove(1);
-	myvec.append(clear.length()).remove(8);
-	myvec.append(8).append(9);
-	
-	
-	myvec.remove(clear.length());
-	myvec.remove(add(call foo(), (a and mat.trace())));
-	
-	
-	clear.remove(str.strcut(call a->foo(), (a or b)));
-	
-	
-	expr a = myvec.length();
-	myvec.sort();
-	myvec.clear();
-	expr a = myvec.at(3);
-	expr C = add_matx(sub_matx(P, mult_matx(Q, R)), S);
-	expr B = add_matx(A, B).transpose().trace();
-	expr B = A.trace();
-	expr myvec = G.dfs(3);
-	
-	expr str3 = strjoin(str1, str2);
-	expr str4 = strjoin(strjoin(str1, str2), str2).strlen();
-	expr t8 = strcmp(strjoin(strjoin(call foo(), call boo()), call zoo()), str1.strcut(a, call foo()));
-	expr str4 = strjoin(strjoin(call foo(), call boo()), call zoo());
-}
 
+!! These are comments !!
 
-func int main()
+struct node 
 {
-	
-	loop for (expr i=0 ; (i lt 10); expr j = incr(i))
-	{	
-  		expr m = 0;
-  		return {};
-	}
-	loop for (expr i=0 ; (i lt 10); expr i = mul(i,3))
-	{	
-  		expr m = 0;
-  		return {1, 2, 3};
-	}
-	return {1 : 2,3;2 : 1,4;3 : 1;4 : 2;};
-}
-
-struct node
-{
-	declr string name;
-	declr char grade;
-	declr int marks;
-	declr float cgpa;
-	declr bool feeStatus;
+    declr string name;
+    declr char grade;
 };
 
-
-class vehical {
+class vehicle
+{
     declr string type;
     declr int regNo;
     declr bool pollutionCheck;
     func int getRegNo()
     {
-        declr int regNo;
-    }
-    func void updatePollStatus ( bool val )
-    {
-        expr pollutionCheck = val;
-        declr int nuldl;
+        return regNo;
     }
 };
 
-func bool foo(int a, char b, vect<int> sdf, node sdffd)
+func int f1()
 {
-	declr graph G[4];
-	expr G =
-	{
-		1 : 2,3;
-		2 : 1,4;
-		3 : 1;
-		4 : 2;
-	};
+    declr int arr[10];
+    expr arr = [1,2,3,4,5,6,7,8,9];
 
-	declr graph G[3];
-	expr G =
-	{
-		1 : (2,8),(3,12);
-		2 : (3,5);
-	};
+    declr graph G[4];
+    expr G =
+    {
+        1 : 2,3;
+        2 : 1,4;
+        3 : 1;
+        4 : 2;
+    };
 
-	declr vect<int> myvec;
-	expr myvec = {1,2,3};
-	expr myvec = {1,bat,3};
-	expr myvec = {1,{1, str, {}},3};
+    expr G =
+    {
+        1 : (2,8),(3,12);
+        2 : (3,5);
+    };
 
-	if(A.strlen())
-	{
-		call sdf();
-		call sdfsd->sdf();
-		declr int a;
-		declr float f1, f2;
-	}
-	else
-	{
-		declr vect < int > myVec; 
-		declr graph G[10];
-	}
+    declr matrix mat[2][3];
+    expr mat =
+    [
+        [1,2,3];
+        [4,5,6];
+    ];
 
-	declr vect<vect<int>> myvec;
+    declr vect<int> myvec;
+    expr myvec = {1,2,3};
 
-	switch(5)
-	{
-		case 1:
-		{
-			declr int arr[10];
-			declr int arr[10], barr[5];
-		}	
-		case 2:
-		{
-			expr adf = add(df, mul(a, div(sub(c, d), f)));
-			declr string str1, str2;
-		}	
-		default :
-		{
-			declr vect<int> myVec1, myVec2;	
-		}	
-	}
+    if (( (a and b) or add(1, 2)))
+    {
+        call foo();
+        call fun(a, incr(n));
+    }
+    else
+    {
+        incr(incr(a));
+        return b;
+    }
+
+    switch(id1)
+    {
+        case 1:
+        {   
+            return incr(a);
+        }
+        default:
+        {
+            expr a = myvec.length();
+            myvec.sort();
+            myvec.clear();
+            expr a = myvec.at(3);
+        }
+    }
+
+    label1 : 
+    {
+        incr(a);
+    }
+
+    loop for (expr i=0 ; (i lt 10); incr(i))
+    {
+        goto label1;
+    }
+
+    loop while((i lte 10))
+    {
+        myvec.append(4);
+        myvec.remove(1);
+    }
+
+    declr matrix A[2][3], B[2][3], C[2][3];
+    expr C = add_matx(A,B);
+    expr C = sub_matx(A,B);
+    expr C = mult_matx(A,B);
+    expr B = A.transpose();
+    expr a = A.trace();
+
+    declr matrix A[4][4];
+    expr A =
+    [
+        [0,1,1,0];
+        [1,0,0,1];
+        [1,0,0,0];
+        [0,1,0,0];
+    ];
+    expr a = A.matxtograph();
+
+    expr myvec = G.dfs(3);
+    expr myvec = G.bfs(2);
+
+    expr M = G.graphtomatx();
+
+    expr x = G.shpathval(1,3);
+    expr myvec = G.shpath(1,3);
+
+    expr length = str.strlen();
+    expr a = strcmp (str1, call foo());
+    expr str4 = strjoin(strjoin(str1, str2), str2);
+    expr str2 = str1.strcut(2, 6);
+
+    return 0;
 }

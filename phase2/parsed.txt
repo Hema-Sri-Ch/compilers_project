@@ -1,174 +1,124 @@
-func int main() : FUNCTION HEAD
-{
-	!! {}  comment \n 
-		comment2 
-	expr sdf = -78.5; 
-	expr sdf = -85;	
-	{
-		expr x = sdf;
-		{expr sdf = sdf;}
-	} !!
-	
-	label1:
-	{
-	declr matrix mat[2][3]; : DECLARATION STATEMENT
-	expr mat = [[1,2,3];
-	 			[2.0,3.5,4.8];
-				]; : EXPRESSION STATEMENT
-	} : LABEL
-	
-	if(true) : CONDITIONAL STATEMENT {}
-	expr myvec = {mat, 
-				[[1,2,3];
-	 			 [2.0,3.5,4.8];],
-	 			{a, b, c}, 
-	 			{},
-	 			{
-					1 : 2,3;
-					2 : 1,4;
-					3 : 1;
-					4 : 2;
-				}
-				}; : EXPRESSION STATEMENT			
-	goto label1; : GOTO STATEMENT			
-	expr t = clear.append(4).sort(); : EXPRESSION STATEMENT
-	expr s = clear.append(add(call foo(), (a and b))); : EXPRESSION STATEMENT
-	expr s = clear.append(mat.trace()).remove(1); : EXPRESSION STATEMENT
-	return myvec.append(clear.length()).remove(8); : RETURN STATEMENT
-	expr s = myvec.append(8).append(9); : EXPRESSION STATEMENT
-	
-	
-	return myvec.remove(clear.length()); : RETURN STATEMENT
-	return myvec.remove(add(call foo(), (a and mat.trace()))); : RETURN STATEMENT
-	
-	
-	return clear.remove(str.strcut(call a->foo(), (a or b))); : RETURN STATEMENT
-	
-	
-	clear.append(4).sort(); : INDEPENDENT METHOD
-	clear.append(add(call foo(), (a and b))); : INDEPENDENT METHOD
-	clear.append(mat.trace()).remove(1); : INDEPENDENT METHOD
-	myvec.append(clear.length()).remove(8); : INDEPENDENT METHOD
-	myvec.append(8).append(9); : INDEPENDENT METHOD
-	
-	
-	myvec.remove(clear.length()); : INDEPENDENT METHOD
-	myvec.remove(add(call foo(), (a and mat.trace()))); : INDEPENDENT METHOD
-	
-	
-	clear.remove(str.strcut(call a->foo(), (a or b))); : INDEPENDENT METHOD
-	
-	
-	expr a = myvec.length(); : EXPRESSION STATEMENT
-	myvec.sort(); : INDEPENDENT METHOD
-	myvec.clear(); : INDEPENDENT METHOD
-	expr a = myvec.at(3); : EXPRESSION STATEMENT
-	expr C = add_matx(sub_matx(P, mult_matx(Q, R)), S); : EXPRESSION STATEMENT
-	expr B = add_matx(A, B).transpose().trace(); : EXPRESSION STATEMENT
-	expr B = A.trace(); : EXPRESSION STATEMENT
-	expr myvec = G.dfs(3); : EXPRESSION STATEMENT
-	
-	expr str3 = strjoin(str1, str2); : EXPRESSION STATEMENT
-	expr str4 = strjoin(strjoin(str1, str2), str2).strlen(); : EXPRESSION STATEMENT
-	expr t8 = strcmp(strjoin(strjoin(call foo(), call boo()), call zoo()), str1.strcut(a, call foo())); : EXPRESSION STATEMENT
-	expr str4 = strjoin(strjoin(call foo(), call boo()), call zoo()); : EXPRESSION STATEMENT
-}
 
+!! These are comments !!
 
-func int main() : FUNCTION HEAD
+struct node 
 {
-	
-	loop for (expr i=0 ; : EXPRESSION STATEMENT (i lt 10); expr j = incr(i))
-	{	
-  		expr m = 0; : EXPRESSION STATEMENT
-  		return {}; : RETURN STATEMENT
-	} : LOOP
-	loop for (expr i=0 ; : EXPRESSION STATEMENT (i lt 10); expr i = mul(i,3))
-	{	
-  		expr m = 0; : EXPRESSION STATEMENT
-  		return {1, 2, 3}; : RETURN STATEMENT
-	} : LOOP
-	return {1 : 2,3;2 : 1,4;3 : 1;4 : 2;}; : RETURN STATEMENT
-}
-
-struct node
-{
-	declr string name; : DECLARATION STATEMENT
-	declr char grade; : DECLARATION STATEMENT
-	declr int marks; : DECLARATION STATEMENT
-	declr float cgpa; : DECLARATION STATEMENT
-	declr bool feeStatus; : DECLARATION STATEMENT
+    declr string name; : DECLARATION STATEMENT
+    declr char grade; : DECLARATION STATEMENT
 }; : STRUCT DEFINITION
 
-
-class vehical {
+class vehicle
+{
     declr string type; : DECLARATION STATEMENT
     declr int regNo; : DECLARATION STATEMENT
     declr bool pollutionCheck; : DECLARATION STATEMENT
     func int getRegNo() : FUNCTION HEAD
     {
-        declr int regNo; : DECLARATION STATEMENT
-    }
-    func void updatePollStatus ( bool val ) : FUNCTION HEAD
-    {
-        expr pollutionCheck = val; : EXPRESSION STATEMENT
-        declr int nuldl; : DECLARATION STATEMENT
+        return regNo; : RETURN STATEMENT
     }
 }; : CLASS DEFINITION
 
-func bool foo(int a, char b, vect<int> sdf, node sdffd) : FUNCTION HEAD
+func int f1() : FUNCTION HEAD
 {
-	declr graph G[4]; : DECLARATION STATEMENT
-	expr G =
-	{
-		1 : 2,3;
-		2 : 1,4;
-		3 : 1;
-		4 : 2;
-	}; : EXPRESSION STATEMENT
+    declr int arr[10]; : DECLARATION STATEMENT
+    expr arr = [1,2,3,4,5,6,7,8,9]; : EXPRESSION STATEMENT
 
-	declr graph G[3]; : DECLARATION STATEMENT
-	expr G =
-	{
-		1 : (2,8),(3,12);
-		2 : (3,5);
-	}; : EXPRESSION STATEMENT
+    declr graph G[4]; : DECLARATION STATEMENT
+    expr G =
+    {
+        1 : 2,3;
+        2 : 1,4;
+        3 : 1;
+        4 : 2;
+    }; : EXPRESSION STATEMENT
 
-	declr vect<int> myvec; : DECLARATION STATEMENT
-	expr myvec = {1,2,3}; : EXPRESSION STATEMENT
-	expr myvec = {1,bat,3}; : EXPRESSION STATEMENT
-	expr myvec = {1,{1, str, {}},3}; : EXPRESSION STATEMENT
+    expr G =
+    {
+        1 : (2,8),(3,12);
+        2 : (3,5);
+    }; : EXPRESSION STATEMENT
 
-	if(A.strlen()) : CONDITIONAL STATEMENT
-	{
-		call sdf(); : CALL STATEMENT
-		call sdfsd->sdf(); : CALL STATEMENT
-		declr int a; : DECLARATION STATEMENT
-		declr float f1, f2; : DECLARATION STATEMENT
-	}
-	else
-	{
-		declr vect < int > myVec; : DECLARATION STATEMENT 
-		declr graph G[10]; : DECLARATION STATEMENT
-	}
+    declr matrix mat[2][3]; : DECLARATION STATEMENT
+    expr mat =
+    [
+        [1,2,3];
+        [4,5,6];
+    ]; : EXPRESSION STATEMENT
 
-	declr vect<vect<int>> myvec; : DECLARATION STATEMENT
+    declr vect<int> myvec; : DECLARATION STATEMENT
+    expr myvec = {1,2,3}; : EXPRESSION STATEMENT
 
-	switch(5) : CONDITIONAL STATEMENT
-	{
-		case 1:
-		{
-			declr int arr[10]; : DECLARATION STATEMENT
-			declr int arr[10], barr[5]; : DECLARATION STATEMENT
-		}	
-		case 2:
-		{
-			expr adf = add(df, mul(a, div(sub(c, d), f))); : EXPRESSION STATEMENT
-			declr string str1, str2; : DECLARATION STATEMENT
-		}	
-		default :
-		{
-			declr vect<int> myVec1, myVec2; : DECLARATION STATEMENT	
-		}	
-	}
+    if (( (a and b) or add(1, 2))) : CONDITIONAL STATEMENT
+    {
+        call foo(); : CALL STATEMENT
+        call fun(a, incr(n)); : CALL STATEMENT
+    }
+    else
+    {
+        incr(incr(a)); : UNARY STATEMENT
+        return b; : RETURN STATEMENT
+    }
+
+    switch(id1) : CONDITIONAL STATEMENT
+    {
+        case 1:
+        {   
+            return incr(a); : RETURN STATEMENT
+        }
+        default:
+        {
+            expr a = myvec.length(); : EXPRESSION STATEMENT
+            myvec.sort(); : INDEPENDENT METHOD
+            myvec.clear(); : INDEPENDENT METHOD
+            expr a = myvec.at(3); : EXPRESSION STATEMENT
+        }
+    }
+
+    label1 : 
+    {
+        incr(a); : UNARY STATEMENT
+    } : LABEL
+
+    loop for (expr i=0 ; : EXPRESSION STATEMENT (i lt 10); incr(i))
+    {
+        goto label1; : GOTO STATEMENT
+    } : LOOP
+
+    loop while((i lte 10))
+    {
+        myvec.append(4); : INDEPENDENT METHOD
+        myvec.remove(1); : INDEPENDENT METHOD
+    } : LOOP
+
+    declr matrix A[2][3], B[2][3], C[2][3]; : DECLARATION STATEMENT
+    expr C = add_matx(A,B); : EXPRESSION STATEMENT
+    expr C = sub_matx(A,B); : EXPRESSION STATEMENT
+    expr C = mult_matx(A,B); : EXPRESSION STATEMENT
+    expr B = A.transpose(); : EXPRESSION STATEMENT
+    expr a = A.trace(); : EXPRESSION STATEMENT
+
+    declr matrix A[4][4]; : DECLARATION STATEMENT
+    expr A =
+    [
+        [0,1,1,0];
+        [1,0,0,1];
+        [1,0,0,0];
+        [0,1,0,0];
+    ]; : EXPRESSION STATEMENT
+    expr a = A.matxtograph(); : EXPRESSION STATEMENT
+
+    expr myvec = G.dfs(3); : EXPRESSION STATEMENT
+    expr myvec = G.bfs(2); : EXPRESSION STATEMENT
+
+    expr M = G.graphtomatx(); : EXPRESSION STATEMENT
+
+    expr x = G.shpathval(1,3); : EXPRESSION STATEMENT
+    expr myvec = G.shpath(1,3); : EXPRESSION STATEMENT
+
+    expr length = str.strlen(); : EXPRESSION STATEMENT
+    expr a = strcmp (str1, call foo()); : EXPRESSION STATEMENT
+    expr str4 = strjoin(strjoin(str1, str2), str2); : EXPRESSION STATEMENT
+    expr str2 = str1.strcut(2, 6); : EXPRESSION STATEMENT
+
+    return 0; : RETURN STATEMENT
 }
