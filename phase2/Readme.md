@@ -14,4 +14,5 @@
 		./a.out
 
 --> To simplify all the execution steps, the commands are written in a bash file 'run.sh'. Executing this file will automatically performs above steps. Here is the execution command
+
 		bash run.sh
