@@ -6,5 +6,20 @@ func int factorial (int n) {
 }
 
 func matrix matr_add (matrix A, matrix B){
-    
+    return add_matx(A, B);
+}
+
+func int main(){
+	declr int a, b;
+	declr string str;
+	declr matrix A, B;
+	call matr_add(A, B);
+	expr a = exp(a, add(b, 5));
+	declr string C;
+	!! The following statement would give syntax error !!
+	if(add_matx(A, B))
+	{
+		expr C = "Hello, World!\n";
+	}
+	return 0;
 }
