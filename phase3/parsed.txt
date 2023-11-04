@@ -1,0 +1,124 @@
+
+!! These are comments !!
+
+struct node 
+{
+    declr string name; : DECLARATION STATEMENT
+    declr char grade; : DECLARATION STATEMENT
+}; : STRUCT DEFINITION
+
+class vehicle
+{
+    declr string type; : DECLARATION STATEMENT
+    declr int regNo; : DECLARATION STATEMENT
+    declr bool pollutionCheck; : DECLARATION STATEMENT
+    func int getRegNo() : FUNCTION HEAD
+    {
+        return regNo; : RETURN STATEMENT
+    }
+}; : CLASS DEFINITION
+
+func int f1() : FUNCTION HEAD
+{
+    declr int arr[10]; : DECLARATION STATEMENT
+    expr arr = [1,2,3,4,5,6,7,8,9]; : EXPRESSION STATEMENT
+
+    declr graph G[4]; : DECLARATION STATEMENT
+    expr G =
+    {
+        1 : 2,3;
+        2 : 1,4;
+        3 : 1;
+        4 : 2;
+    }; : EXPRESSION STATEMENT
+
+    expr G =
+    {
+        1 : (2,8),(3,12);
+        2 : (3,5);
+    }; : EXPRESSION STATEMENT
+
+    declr matrix mat[2][3]; : DECLARATION STATEMENT
+    expr mat =
+    [
+        [1,2,3];
+        [4,5,6];
+    ]; : EXPRESSION STATEMENT
+
+    declr vect<int> myvec; : DECLARATION STATEMENT
+    expr myvec = {1,2,3}; : EXPRESSION STATEMENT
+
+    if (( (a and b) or add(1, 2))) : CONDITIONAL STATEMENT
+    {
+        call foo(); : CALL STATEMENT
+        call fun(a, incr(n)); : CALL STATEMENT
+    }
+    else
+    {
+        incr(incr(a)); : UNARY STATEMENT
+        return b; : RETURN STATEMENT
+    }
+
+    switch(id1) : CONDITIONAL STATEMENT
+    {
+        case 1:
+        {   
+            return incr(a); : RETURN STATEMENT
+        }
+        default:
+        {
+            expr a = myvec.length(); : EXPRESSION STATEMENT
+            myvec.sort(); : INDEPENDENT METHOD
+            myvec.clear(); : INDEPENDENT METHOD
+            expr a = myvec.at(3); : EXPRESSION STATEMENT
+        }
+    }
+
+    label1 : 
+    {
+        incr(a); : UNARY STATEMENT
+    } : LABEL
+
+    loop for (expr i=0 ; : EXPRESSION STATEMENT (i lt 10); incr(i))
+    {
+        goto label1; : GOTO STATEMENT
+    } : LOOP
+
+    loop while((i lte 10))
+    {
+        myvec.append(4); : INDEPENDENT METHOD
+        myvec.remove(1); : INDEPENDENT METHOD
+    } : LOOP
+
+    declr matrix A[2][3], B[2][3], C[2][3]; : DECLARATION STATEMENT
+    expr C = add_matx(A,B); : EXPRESSION STATEMENT
+    expr C = sub_matx(A,B); : EXPRESSION STATEMENT
+    expr C = mult_matx(A,B); : EXPRESSION STATEMENT
+    expr B = A.transpose(); : EXPRESSION STATEMENT
+    expr a = A.trace(); : EXPRESSION STATEMENT
+
+    declr matrix A[4][4]; : DECLARATION STATEMENT
+    expr A =
+    [
+        [0,1,1,0];
+        [1,0,0,1];
+        [1,0,0,0];
+        [0,1,0,0];
+    ]; : EXPRESSION STATEMENT
+    expr a = A.matxtograph(); : EXPRESSION STATEMENT
+
+    expr myvec = G.dfs(3); : EXPRESSION STATEMENT
+    expr myvec = G.bfs(2); : EXPRESSION STATEMENT
+
+    expr M = G.graphtomatx(); : EXPRESSION STATEMENT
+
+    expr x = G.shpathval(1,3); : EXPRESSION STATEMENT
+    expr myvec = G.shpath(1,3); : EXPRESSION STATEMENT
+
+    expr length = str.strlen(); : EXPRESSION STATEMENT
+    expr a = strcmp (str1, call foo()); : EXPRESSION STATEMENT
+    expr str4 = strjoin(strjoin(str1, str2), str2); : EXPRESSION STATEMENT
+    expr str2 = str1.strcut(2, 6); : EXPRESSION STATEMENT
+
+    return 0; : RETURN STATEMENT
+}

@@ -2,6 +2,7 @@
 	#include<stdio.h>
 	#include <string.h>
 	#include <stdlib.h>
+	#include "symbol_table.c"
 	extern int yylineno;
 	extern FILE* yyin, *yyout;
     FILE* fparse;

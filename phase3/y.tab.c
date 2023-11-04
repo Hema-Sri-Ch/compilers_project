@@ -67,16 +67,19 @@
 
 
 /* First part of user prologue.  */
-#line 5 "parser.y"
+#line 1 "parser.y"
 
-	#include <bits/stdc++.h>
+	#include<stdio.h>
+	#include <string.h>
+	#include <stdlib.h>
+	#include "symbol_table.c"
 	extern int yylineno;
 	extern FILE* yyin, *yyout;
     FILE* fparse;
 	int yylex(void);
 	int yyerror(const char *s);
 
-#line 80 "y.tab.c"
+#line 83 "y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -110,12 +113,6 @@
 #if YYDEBUG
 extern int yydebug;
 #endif
-/* "%code requires" blocks.  */
-#line 1 "parser.y"
-
-    #include <bits/stdc++.h>
-
-#line 119 "y.tab.c"
 
 /* Token kinds.  */
 #ifndef YYTOKENTYPE
@@ -800,28 +797,28 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,    72,    72,    75,    76,    79,    80,    81,    84,    87,
-      88,    89,    90,    91,    92,    93,    94,    95,    96,    97,
-      98,    99,   100,   101,   102,   103,   104,   107,   108,   111,
-     112,   115,   118,   119,   122,   125,   126,   129,   130,   133,
-     134,   137,   138,   139,   140,   141,   144,   145,   148,   149,
-     150,   151,   154,   155,   156,   157,   158,   159,   160,   161,
-     162,   163,   164,   165,   168,   171,   172,   175,   178,   181,
-     184,   185,   186,   187,   191,   192,   193,   194,   195,   196,
-     197,   201,   202,   205,   206,   207,   208,   209,   210,   214,
-     217,   218,   221,   224,   225,   226,   227,   228,   229,   230,
-     233,   236,   237,   238,   239,   240,   243,   244,   247,   249,
-     250,   251,   252,   253,   254,   255,   258,   259,   262,   263,
-     266,   267,   270,   270,   273,   274,   277,   277,   280,   283,
-     284,   288,   289,   290,   291,   292,   296,   297,   298,   299,
-     300,   301,   305,   306,   307,   308,   309,   313,   314,   317,
-     318,   319,   320,   321,   324,   325,   326,   327,   328,   331,
-     332,   333,   334,   335,   336,   337,   342,   343,   344,   345,
-     349,   350,   351,   354,   355,   358,   359,   362,   363,   366,
-     367,   370,   371,   374,   375,   378,   379,   382,   383,   386,
-     387,   390,   391,   392,   393,   396,   399,   400,   401,   402,
-     405,   408,   409,   410,   411,   414,   415,   418,   419,   422,
-     425,   428,   429,   432,   435,   436,   439,   440
+       0,    71,    71,    74,    75,    78,    79,    80,    83,    86,
+      87,    88,    89,    90,    91,    92,    93,    94,    95,    96,
+      97,    98,    99,   100,   101,   102,   103,   106,   107,   110,
+     111,   114,   117,   118,   121,   124,   125,   128,   129,   132,
+     133,   136,   137,   138,   139,   140,   143,   144,   147,   148,
+     149,   150,   153,   154,   155,   156,   157,   158,   159,   160,
+     161,   162,   163,   164,   167,   170,   171,   174,   177,   180,
+     183,   184,   185,   186,   190,   191,   192,   193,   194,   195,
+     196,   200,   201,   204,   205,   206,   207,   208,   209,   213,
+     216,   217,   220,   223,   224,   225,   226,   227,   228,   229,
+     232,   235,   236,   237,   238,   239,   242,   243,   246,   248,
+     249,   250,   251,   252,   253,   254,   257,   258,   261,   262,
+     265,   266,   269,   269,   272,   273,   276,   276,   279,   282,
+     283,   287,   288,   289,   290,   291,   295,   296,   297,   298,
+     299,   300,   304,   305,   306,   307,   308,   312,   313,   316,
+     317,   318,   319,   320,   323,   324,   325,   326,   327,   330,
+     331,   332,   333,   334,   335,   336,   341,   342,   343,   344,
+     348,   349,   350,   353,   354,   357,   358,   361,   362,   365,
+     366,   369,   370,   373,   374,   377,   378,   381,   382,   385,
+     386,   389,   390,   391,   392,   395,   398,   399,   400,   401,
+     404,   407,   408,   409,   410,   413,   414,   417,   418,   421,
+     424,   427,   428,   431,   434,   435,   438,   439
 };
 #endif
 
@@ -1784,163 +1781,163 @@ yyreduce:
   switch (yyn)
     {
   case 8: /* class: CLASS id '{' class_items '}' ';'  */
-#line 84 "parser.y"
+#line 83 "parser.y"
                                                                            {fprintf(fparse, " : CLASS DEFINITION");}
-#line 1790 "y.tab.c"
+#line 1787 "y.tab.c"
     break;
 
   case 31: /* struct: STRUCT id '{' struct_items '}' ';'  */
-#line 115 "parser.y"
+#line 114 "parser.y"
                                                                              {fprintf(fparse, " : STRUCT DEFINITION");}
-#line 1796 "y.tab.c"
+#line 1793 "y.tab.c"
     break;
 
   case 35: /* function_head: FUNC fdtype id '(' ')'  */
-#line 125 "parser.y"
+#line 124 "parser.y"
                                                          {fprintf(fparse, " : FUNCTION HEAD");}
-#line 1802 "y.tab.c"
+#line 1799 "y.tab.c"
     break;
 
   case 36: /* function_head: FUNC fdtype id '(' param_list ')'  */
-#line 126 "parser.y"
+#line 125 "parser.y"
                                                                                     {fprintf(fparse, " : FUNCTION HEAD");}
-#line 1808 "y.tab.c"
+#line 1805 "y.tab.c"
     break;
 
   case 62: /* statement: BREAK ';'  */
-#line 164 "parser.y"
+#line 163 "parser.y"
                                                             {fprintf(fparse, " : BREAK STATEMENT");}
-#line 1814 "y.tab.c"
+#line 1811 "y.tab.c"
     break;
 
   case 63: /* statement: CONTINUE ';'  */
-#line 165 "parser.y"
+#line 164 "parser.y"
                                                                {fprintf(fparse, " : CONTINUE STATEMENT");}
-#line 1820 "y.tab.c"
+#line 1817 "y.tab.c"
     break;
 
   case 64: /* unary_stmt: unary_op ';'  */
-#line 168 "parser.y"
+#line 167 "parser.y"
                                                        {fprintf(fparse, " : UNARY STATEMENT");}
-#line 1826 "y.tab.c"
+#line 1823 "y.tab.c"
     break;
 
   case 67: /* label_stmt: id ':' function_body  */
-#line 175 "parser.y"
+#line 174 "parser.y"
                                                                {fprintf(fparse, " : LABEL");}
-#line 1832 "y.tab.c"
+#line 1829 "y.tab.c"
     break;
 
   case 68: /* goto_stmt: GOTO id ';'  */
-#line 178 "parser.y"
+#line 177 "parser.y"
                                                       {fprintf(fparse, " : GOTO STATEMENT");}
-#line 1838 "y.tab.c"
+#line 1835 "y.tab.c"
     break;
 
   case 69: /* vect_stmt: vect_stmt_body ';'  */
-#line 181 "parser.y"
+#line 180 "parser.y"
                                                              {fprintf(fparse, " : INDEPENDENT METHOD");}
-#line 1844 "y.tab.c"
+#line 1841 "y.tab.c"
     break;
 
   case 83: /* return_stmt: RETURN RHS ';'  */
-#line 205 "parser.y"
+#line 204 "parser.y"
                                                 {fprintf(fparse, " : RETURN STATEMENT");}
-#line 1850 "y.tab.c"
+#line 1847 "y.tab.c"
     break;
 
   case 84: /* return_stmt: RETURN extra_consts ';'  */
-#line 206 "parser.y"
+#line 205 "parser.y"
                                                                           {fprintf(fparse, " : RETURN STATEMENT");}
-#line 1856 "y.tab.c"
+#line 1853 "y.tab.c"
     break;
 
   case 85: /* return_stmt: RETURN graph_impr ';'  */
-#line 207 "parser.y"
+#line 206 "parser.y"
                                                                         {fprintf(fparse, " : RETURN STATEMENT");}
-#line 1862 "y.tab.c"
+#line 1859 "y.tab.c"
     break;
 
   case 86: /* return_stmt: RETURN matrix_impr ';'  */
-#line 208 "parser.y"
+#line 207 "parser.y"
                                                                          {fprintf(fparse, " : RETURN STATEMENT");}
-#line 1868 "y.tab.c"
+#line 1865 "y.tab.c"
     break;
 
   case 87: /* return_stmt: RETURN vect_stmt_body ';'  */
-#line 209 "parser.y"
+#line 208 "parser.y"
                                                                             {fprintf(fparse, " : RETURN STATEMENT");}
-#line 1874 "y.tab.c"
+#line 1871 "y.tab.c"
     break;
 
   case 88: /* return_stmt: RETURN null ';'  */
-#line 210 "parser.y"
+#line 209 "parser.y"
                                                                   {fprintf(fparse, " : RETURN STATEMENT");}
-#line 1880 "y.tab.c"
+#line 1877 "y.tab.c"
     break;
 
   case 89: /* loop_stmt: LOOP loop_type  */
-#line 214 "parser.y"
+#line 213 "parser.y"
                                                          {fprintf(fparse, " : LOOP");}
-#line 1886 "y.tab.c"
+#line 1883 "y.tab.c"
     break;
 
   case 101: /* expr_stmt: EXPR LHS '=' RHS ';'  */
-#line 236 "parser.y"
+#line 235 "parser.y"
                                                                {fprintf(fparse, " : EXPRESSION STATEMENT");}
-#line 1892 "y.tab.c"
+#line 1889 "y.tab.c"
     break;
 
   case 102: /* expr_stmt: EXPR LHS '=' extra_consts ';'  */
-#line 237 "parser.y"
+#line 236 "parser.y"
                                                                                 {fprintf(fparse, " : EXPRESSION STATEMENT");}
-#line 1898 "y.tab.c"
+#line 1895 "y.tab.c"
     break;
 
   case 103: /* expr_stmt: EXPR LHS '=' graph_impr ';'  */
-#line 238 "parser.y"
+#line 237 "parser.y"
                                                                               {fprintf(fparse, " : EXPRESSION STATEMENT");}
-#line 1904 "y.tab.c"
+#line 1901 "y.tab.c"
     break;
 
   case 104: /* expr_stmt: EXPR LHS '=' matrix_impr ';'  */
-#line 239 "parser.y"
+#line 238 "parser.y"
                                                                                {fprintf(fparse, " : EXPRESSION STATEMENT");}
-#line 1910 "y.tab.c"
+#line 1907 "y.tab.c"
     break;
 
   case 105: /* expr_stmt: EXPR LHS '=' vect_stmt_body ';'  */
-#line 240 "parser.y"
+#line 239 "parser.y"
                                                                                   {fprintf(fparse, " : EXPRESSION STATEMENT");}
-#line 1916 "y.tab.c"
+#line 1913 "y.tab.c"
     break;
 
   case 108: /* declr_stmt: DECLR declr_body ';'  */
-#line 247 "parser.y"
+#line 246 "parser.y"
                                                                {fprintf(fparse, " : DECLARATION STATEMENT");}
-#line 1922 "y.tab.c"
+#line 1919 "y.tab.c"
     break;
 
   case 122: /* $@1: %empty  */
-#line 270 "parser.y"
+#line 269 "parser.y"
                                                          {fprintf(fparse, " : CONDITIONAL STATEMENT");}
-#line 1928 "y.tab.c"
+#line 1925 "y.tab.c"
     break;
 
   case 126: /* $@2: %empty  */
-#line 277 "parser.y"
+#line 276 "parser.y"
                                                              {fprintf(fparse, " : CONDITIONAL STATEMENT");}
-#line 1934 "y.tab.c"
+#line 1931 "y.tab.c"
     break;
 
   case 213: /* call_stmt: func_calls ';'  */
-#line 432 "parser.y"
+#line 431 "parser.y"
                                                          {fprintf(fparse, " : CALL STATEMENT");}
-#line 1940 "y.tab.c"
+#line 1937 "y.tab.c"
     break;
 
 
-#line 1944 "y.tab.c"
+#line 1941 "y.tab.c"
 
       default: break;
     }
@@ -2133,7 +2130,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 443 "parser.y"
+#line 442 "parser.y"
 
 
 /*
