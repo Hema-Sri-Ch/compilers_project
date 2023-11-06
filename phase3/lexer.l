@@ -128,6 +128,7 @@
 	fprintf(yyout, "datatype: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
 	// printf("datatype: %s\n", yytext);
+	yylval.str=strdup(yytext);
     return DATATYPE;
 }
 
@@ -320,24 +321,28 @@
 \'[^']\' {
     fprintf(yyout, "constant: %s\n", yytext);
 	fprintf(fparse, "%s", yytext);
+	yylval.str=strdup(yytext);
     return CHAR_CONST;
 }
 
 \"[^"]*\" {
     fprintf(yyout, "constant: %s\n", yytext);
 	fprintf(fparse, "%s", yytext);
+	yylval.str=strdup(yytext);
     return STR_CONST;
 }
 
 -?[0-9]+ {
     fprintf(yyout, "constant: %s\n", yytext);
 	fprintf(fparse, "%s", yytext);
+	yylval.str=strdup(yytext);
     return INT_CONST;
 }
 
 "true"|"false" {
     fprintf(yyout, "constant: %s\n", yytext);
 	fprintf(fparse, "%s", yytext);
+	yylval.str=strdup(yytext);
     return BOOL_CONST;
 }
 
@@ -350,6 +355,7 @@
 -?[0-9]+[.][0-9]+ {
     fprintf(yyout, "constant: %s\n", yytext);
 	fprintf(fparse, "%s", yytext);
+	yylval.str=strdup(yytext);
     return FLOAT_CONST;
 }
 
@@ -357,6 +363,7 @@
 [a-zA-Z_][a-zA-Z0-9_]* {
 	fprintf(yyout, "Identifier : %s\n", yytext);
 	fprintf(fparse, "%s", yytext);
+	yylval.str = strdup(yytext);
 	return newid;
 }
 
