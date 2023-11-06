@@ -1,0 +1,10 @@
+declr int a;
+declr string mystring;
+expr a = 10;
+expr a = mystring;
+expr a = -12;
+expr a = true;
+expr a = "Hello, world";
+expr a = add(10, 12.0);
+expr a = add(add(true, 0), add(12.0, false));
+expr a = add(a, incr(mul(a, sub(a, true))));
