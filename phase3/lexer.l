@@ -19,78 +19,91 @@
 "add_matx"|"sub_matx"|"mult_matx" {
 	fprintf(yyout, "reserved keyword: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
+    yylval.str=strdup(yytext);
     return MATXOP;
 }
 
 "matxtograph" {
 	fprintf(yyout, "Identifier: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
+    yylval.str=strdup(yytext);
     return MAXTOGR;
 }
 
 "graphtomatx" {
 	fprintf(yyout, "Identifier: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
+    yylval.str=strdup(yytext);
     return GRTOMATX;
 }
 
 "shpathval" {
 	fprintf(yyout, "Identifier: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
+    yylval.str=strdup(yytext);
     return SHPATHVAL;
 }
 
 "shpath" {
 	fprintf(yyout, "Identifier: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
+    yylval.str=strdup(yytext);
     return SHPATH;
 }
 
 "append" {
 	fprintf(yyout, "Identifier: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
+    yylval.str=strdup(yytext);
     return APPEND;
 }
 
 "remove" {
 	fprintf(yyout, "Identifier: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
+    yylval.str=strdup(yytext);
     return REMOVE;
 }
 
 "length" {
 	fprintf(yyout, "Identifier: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
+    yylval.str=strdup(yytext);
     return LENGTH;
 }
 
 "sort" {
 	fprintf(yyout, "Identifier: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
+    yylval.str=strdup(yytext);
     return SORT;
 }
 
 "clear" {
 	fprintf(yyout, "Identifier: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
+    yylval.str=strdup(yytext);
     return CLEAR;
 }
 
 "at" {
 	fprintf(yyout, "Identifier: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
+    yylval.str=strdup(yytext);
     return AT;
 }
 
 "transpose" {
 	fprintf(yyout, "Identifier: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
+    yylval.str=strdup(yytext);
     return TRANSPOSE;
 }
 
 "trace" {
 	fprintf(yyout, "Identifier: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
+    yylval.str=strdup(yytext);
     return TRACE;
 }
 
@@ -103,24 +116,28 @@
 "strlen" {
 	fprintf(yyout, "Identifier: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
+    yylval.str=strdup(yytext);
     return STRLEN;
 }
 
 "strcut" {
 	fprintf(yyout, "Identifier: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
+    yylval.str=strdup(yytext);
     return STRCUT;
 }
 
 "strcmp" {
 	fprintf(yyout, "Identifier: %s\n", yytext);
 	fprintf(fparse, "%s", yytext);
+	yylval.str=strdup(yytext);
 	return STRCMP;
 }
 
 "strjoin" {
 	fprintf(yyout, "Identifier: %s\n", yytext);
 	fprintf(fparse, "%s", yytext);
+	yylval.str=strdup(yytext);
 	return STRJOIN;
 }
 
@@ -136,6 +153,7 @@
     fprintf(yyout, "datatype: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
 	// printf("datatype: %s\n", yytext);
+	yylval.str=strdup(yytext);
     return VOID;
 }
 
@@ -177,6 +195,7 @@
 	fprintf(yyout, "reserved keyword: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
 	// printf("reserved keyword: %s\n", yytext);
+	yylval.str=strdup(yytext);
     return MATRIX;
 }
 
@@ -184,6 +203,7 @@
 	fprintf(yyout, "reserved keyword: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
 	// printf("reserved keyword: %s\n", yytext);
+	yylval.str=strdup(yytext);
     return GRAPH;
 }
 
@@ -191,6 +211,7 @@
 	fprintf(yyout, "reserved keyword: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
 	// printf("reserved keyword: %s\n", yytext);
+	yylval.str=strdup(yytext);
     return VECT;
 }
 

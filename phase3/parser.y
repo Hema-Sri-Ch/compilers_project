@@ -8,9 +8,30 @@
     FILE* fparse;
 	int yylex(void);
 	int yyerror(const char *s);
+	
+	// flags
+	int inClass=0;
+	int level=0;  // indicates level of scope
+	int inFunc=0;
+	int currentFuncIndex; // to be used only at the beginning of the function (right after the funciton head)
 %}
 
-%token newid
+%union{
+	char* str;
+	struct{
+		int level;
+	} level;
+	struct{
+		char* name;
+		char* type;
+	} details;
+	
+}
+
+%type<str> fdtype dtype id param_list
+%type<details> function function_head func_definition
+
+%token <str> newid
 %token INT_CONST
 %token FLOAT_CONST
 %token CHAR_CONST
@@ -18,16 +39,16 @@
 %token BOOL_CONST
 %token ARROW
 %token PUNC
-%token DATATYPE
-%token VOID
+%token <str> DATATYPE
+%token <str> VOID
 %token RETURN
 %token IF
 %token ELSE
 %token CONTINUE
 %token BREAK
-%token MATRIX
-%token GRAPH
-%token VECT
+%token <str> MATRIX
+%token <str> GRAPH
+%token <str> VECT
 %token SWITCH
 %token CASE
 %token DEFAULT
@@ -45,30 +66,30 @@
 %token null
 %token FOR
 %token WHILE
-%token APPEND
-%token REMOVE
-%token LENGTH
-%token SORT
-%token CLEAR
-%token AT
-%token TRANSPOSE
-%token TRACE
-%token TRAVERSAL
-%token STRLEN
-%token STRCUT
-%token STRCMP
-%token STRJOIN
-%token MATXOP
-%token MAXTOGR
-%token GRTOMATX
-%token SHPATH
-%token SHPATHVAL
+%token <str> APPEND
+%token <str> REMOVE
+%token <str> LENGTH
+%token <str> SORT
+%token <str> CLEAR
+%token <str> AT
+%token <str> TRANSPOSE
+%token <str> TRACE
+%token <str> TRAVERSAL
+%token <str> STRLEN
+%token <str> STRCUT
+%token <str> STRCMP
+%token <str> STRJOIN
+%token <str> MATXOP
+%token <str> MAXTOGR
+%token <str> GRTOMATX
+%token <str> SHPATH
+%token <str> SHPATHVAL
 %token GOTO
 
 %start program_unit
 
 %%
-program_unit			: models
+program_unit			:{reset();} models {reset();}
  						;
  						
 models					: model models
@@ -80,27 +101,27 @@ model					: function
 						| struct
 						;
 						
-class					: CLASS id '{' class_items '}' ';' {fprintf(fparse, " : CLASS DEFINITION");}
+class					: CLASS id '{' {level++;} class_items '}' {level--;} ';' {fprintf(fparse, " : CLASS DEFINITION");}
 						;
 
-id						: newid
-						| APPEND
-						| REMOVE
-						| LENGTH
-						| SORT
-						| CLEAR
-						| AT
-						| TRANSPOSE
-						| TRACE
-						| TRAVERSAL
-						| STRLEN
-						| STRCUT
-						| STRJOIN
-						| STRCMP
-						| MAXTOGR
-						| GRTOMATX
-						| SHPATH
-						| SHPATHVAL
+id						: newid {$$=$1;}
+						| APPEND {$$=$1;}
+						| REMOVE {$$=$1;}
+						| LENGTH {$$=$1;}
+						| SORT {$$=$1;}
+						| CLEAR {$$=$1;}
+						| AT {$$=$1;}
+						| TRANSPOSE {$$=$1;}
+						| TRACE {$$=$1;}
+						| TRAVERSAL {$$=$1;}
+						| STRLEN {$$=$1;}
+						| STRCUT {$$=$1;}
+						| STRJOIN {$$=$1;}
+						| STRCMP {$$=$1;}
+						| MAXTOGR {$$=$1;}
+						| GRTOMATX {$$=$1;}
+						| SHPATH {$$=$1;}
+						| SHPATHVAL {$$=$1;}
 						;
 						
 class_items				: class_item class_items
@@ -108,39 +129,73 @@ class_items				: class_item class_items
 						;
 						
 class_item				: declr_stmt
-						| function
+						| function 
 						;
 						
-struct					: STRUCT id '{' struct_items '}' ';' {fprintf(fparse, " : STRUCT DEFINITION");}
+struct					: STRUCT id '{'{level++;} struct_items '}' {level--;}';' {fprintf(fparse, " : STRUCT DEFINITION");}
 						;
 						
 struct_items			: declr_stmt struct_items
 						| declr_stmt
 						;
 						
-function				: function_head function_body
+function				: function_head {
+
+							// inFunc = 0 indicates reading the function for the first time
+							if(inFunc==0) currentFuncIndex = func_search($1.name); 
+							if(level) func_set(-1, var_size, currentFuncIndex);
+						} 
+						function_body {
+							func_delete(func_search($1.name));
+							printFuncDetails(currentFuncIndex);
+							inFunc=0;
+						}
 						;
 						
-function_head			: FUNC fdtype id '(' ')' {fprintf(fparse, " : FUNCTION HEAD");}
-						| FUNC fdtype id '(' param_list ')' {fprintf(fparse, " : FUNCTION HEAD");}
+function_head			: func_definition Parameters { $$=$1; fprintf(fparse, " : FUNCTION HEAD");}
+
+
+func_definition			: FUNC fdtype id {
+							$$.name = $3;
+							$$.type = $2;
+							func_insert($3, $2);
+						}
 						;
 						
-fdtype					: dtype
-						| VOID
+Parameters				: '(' ')'
+						| '(' {level++;} param_list ')'{level--;}
 						;
 						
-param_list				: dtype id ',' param_list
-						| dtype id
+						
+fdtype					: dtype {$$ = $1;}
+						| VOID {$$ = $1;}
 						;
 						
-dtype					: DATATYPE
-						| MATRIX
-						| GRAPH
-						| VECT '<' dtype '>'
-						| id
+param_list				: dtype id ',' param_list {add_args($1);}
+						| dtype id {add_args($1);}
 						;
 						
-function_body			: '{' statements '}'
+dtype					: DATATYPE {$$ = $1;}
+						| MATRIX {$$ = $1;}
+						| GRAPH {$$ = $1;}
+						| VECT '<' dtype '>' { 
+							char* result;
+							char* A = "*";
+						    result = (char*)malloc(strlen(A) + strlen($3) + 1);
+						    strcpy(result, A);
+						    strcat(result, $3);
+						    $$ = result;
+						}
+						| id {$$ = $1;}
+						;
+						
+function_body			: '{' {
+								level++; 
+								if(inFunc==0) {
+									inFunc=0;
+									func_set(var_size, -1, currentFuncIndex);
+								} 
+						} statements '}' {var_delete(); level--;}
 						| '{' '}'
 						;
 						
@@ -276,7 +331,7 @@ if_body					: function_body ELSE function_body
 switch_stmt				: SWITCH '(' RHS ')' {fprintf(fparse, " : CONDITIONAL STATEMENT");} switch_body
 						;
 
-switch_body				: '{' cases DEFAULT ':' function_body '}'
+switch_body				: '{' {level++;} cases DEFAULT ':' function_body '}' {level--;}
 						;
 
 cases					: CASE INT_CONST ':' function_body cases
@@ -463,7 +518,7 @@ int yyerror(const char *msg)
 }
 
 int main() {
- 	FILE* fp = fopen("input.txt", "r");
+ 	FILE* fp = fopen("inp.txt", "r");
     yyin = fp;
     fparse = fopen("parsed.txt", "w");
  	FILE* ft = fopen("tokens.txt", "w");

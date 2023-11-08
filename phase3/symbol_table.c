@@ -90,31 +90,128 @@ int struct_size=0;
 int class_size=0;
 int switch_size=0;
 
-void switch_insert(int Level)
-{
-    switch_symb[switch_size].level = Level;
-    switch_size++;
+
+void reset(){
+	var_size=0;
+	func_size=0;
+	vect_size=0;
+	array_size=0;
+	matrix_size=0;
+	graph_size=0;
+	struct_size=0;
+	class_size=0;
+	switch_size=0;
 }
 
-void add_case(int Level, int case_no)
-{
-    int case_size = switch_symb[switch_size-1].case_size;
 
-    for(int i=0; i<case_size; i++)
+// VARIABLE & PARAMETER SYMBOL TABLE
+
+void PrintIdnode(struct id_node node){
+	printf("Name: %s\n", node.name);
+	printf("type: %s\n", node.type);
+	/*int vp_flag; // v = 1; p = 0
+    char* name;
+    char* type;
+    int level;
+    int dtype_flag; // standard = -1, class =0, struct =1*/
+}
+
+void var_insert(int Flag, char* Name, char* Type, int Level, int Dtype_flag)
+{
+    var_symb[var_size].vp_flag = Flag;
+    var_symb[var_size].name = Name;
+    var_symb[var_size].type = Type;
+    var_symb[var_size].level = Level;
+    var_symb[var_size].dtype_flag = Dtype_flag;
+    PrintIdnode(var_symb[var_size]);
+    var_size++;
+}
+
+
+int var_search(char* Name)
+{
+    int ind = func_symb[func_size-1].param_start;
+    for(int i=ind; i<var_size; i++)
     {
-        if(case_no==switch_symb[switch_size-1].case_list[i])
+        if(strcmp(Name, var_symb[i].name)==0)
         {
-            return; //EXIT STATEMENT
+            return i;
         }
     }
-    switch_symb[switch_size-1].case_list[case_size] = case_no;
-    switch_symb[switch_size-1].case_size++;
+    return -1;
 }
 
-void switch_delete()
+void var_delete()
 {
-    switch_size--;
+    int cur_level = var_symb[var_size-1].level;
+    while(var_size>0)
+    {
+        if(var_symb[var_size-1].level==cur_level)
+        {
+            if(strcmp(var_symb[var_size-1].type,"array")==0) array_size--;
+            if(strcmp(var_symb[var_size-1].type,"vector")==0) vect_size--;
+            if(strcmp(var_symb[var_size-1].type,"matrix")==0) matrix_size--;
+            if(strcmp(var_symb[var_size-1].type,"graph")==0) graph_size--;
+            var_size--;
+        }
+        else break;
+    }
 }
+
+
+// FUNCTION SYMBOL TABLE
+
+void printFuncDetails(int ind){
+	printf("Name: %s\n", func_symb[ind].name);
+	printf("Type: %s\n", func_symb[ind].type);
+	printf("Args: ");
+	for(int i=0; i<func_symb[ind].param_no; i++) printf("%s, ", func_symb[ind].args[i]); 
+	printf("\n");
+}
+
+void func_insert(char* Name, char* Type) // to insert function details at begining
+{
+    func_symb[func_size].name = Name;
+    func_symb[func_size].type = Type;
+    func_symb[func_size].var_start = -1;
+    func_symb[func_size].param_start = -1;
+    func_symb[func_size].param_no =0;
+    func_size++;
+}
+
+void add_args(char* arg) // to insert function argument details at beginning
+{
+    int param_no = func_symb[func_size-1].param_no;
+    func_symb[func_size-1].args[param_no] = arg;
+    func_symb[func_size-1].param_no++;
+}
+
+int func_search(char* Name) // returns index of the function from its symbol table
+{
+    for(int i=0; i<func_size; i++)
+    {
+        if(strcmp(Name, func_symb[i].name)==0)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+void func_set(int Var_start, int Param_start, int ind) // sets level of scopes while executing call statements
+{
+
+    if(Var_start!=-1) func_symb[ind].var_start = Var_start;
+    if(Param_start!=-1) func_symb[ind].param_start = Param_start;
+}
+
+void func_delete(int ind) // sets level of scopes after ending function execution
+{
+    func_symb[ind].var_start=-1;
+    func_symb[ind].param_start=-1;
+}
+
+// CLASS SYMBOL TABLE
 
 void class_insert(char* Name)
 {
@@ -157,12 +254,50 @@ void class_add_args(int ind, char* arg)
     class_symb[ind].func_list[cl_func_size-1].param_no++;
 }
 
+int class_func_search(char* Name, int ind)
+{
+    for(int i=0; i<class_symb[ind].cl_func_size; i++)
+    {
+        if(strcmp(Name, class_symb[ind].func_list[i].name)==0)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+
 void class_func_set(int ind, int Var_start, int Param_start, char* Name)
 {
     int indx = class_func_search(Name, ind); 
 
     if(Var_start!=-1) class_symb[ind].func_list[indx].var_start = Var_start;
     if(Param_start!=-1) class_symb[ind].func_list[indx].param_start = Param_start;
+}
+
+
+int class_declr_search(char* Name, int ind)
+{
+    for(int i=0; i<class_symb[ind].declr_size; i++)
+    {
+        if(strcmp(Name, class_symb[ind].declr_list[i].name)==0)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+int class_search(char* Name)
+{
+    for(int i=0; i<class_size; i++)
+    {
+        if(strcmp(Name, class_symb[i].name)==0)
+        {
+            return i;
+        }
+    }
+    return -1;
 }
 
 void class_func_delete(int ind, char* Name)
@@ -172,15 +307,9 @@ void class_func_delete(int ind, char* Name)
     class_symb[ind].func_list[indx].param_start=-1;
 }
 
-void var_insert(int Flag, char* Name, char* Type, int Level, int Dtype_flag)
-{
-    var_symb[var_size].vp_flag = Flag;
-    var_symb[var_size].name = Name;
-    var_symb[var_size].type = Type;
-    var_symb[var_size].level = Level;
-    var_symb[var_size].dtype_flag = Dtype_flag;
-    var_size++;
-}
+
+// STRUCT SYMBOL TABLE
+
 
 void struct_insert(char* Name)
 {
@@ -201,31 +330,61 @@ void add_struct_declrs(int ind, char* Name, char* Type, int Dtype_flag)
     struct_symb[ind].list_size++;
 }
 
-void func_insert(char* Name, char* Type)
+
+int struct_declr_search(char* Name, int ind)
 {
-    func_symb[func_size].name = Name;
-    func_symb[func_size].type = Type;
-    func_symb[func_size].var_start = -1;
-    func_symb[func_size].param_start = -1;
-    func_symb[func_size].param_no =0;
-    func_size++;
+    for(int i=0; i<struct_symb[ind].list_size; i++)
+    {
+        if(strcmp(Name, struct_symb[ind].list[i].name)==0)
+        {
+            return i;
+        }
+    }
+    return -1;
 }
 
-void add_args(char* arg)
+int struct_search(char* Name)
 {
-    int param_no = func_symb[func_size-1].param_no;
-    func_symb[func_size-1].args[param_no] = arg;
-    func_symb[func_size-1].param_no++;
+    for(int i=0; i<struct_size; i++)
+    {
+        if(strcmp(Name, struct_symb[i].name)==0)
+        {
+            return i;
+        }
+    }
+    return -1;
 }
 
-void func_set(int Var_start, int Param_start, char* Name)
-{
-    int ind = func_search(Name);
+// SWITCH SYMBOL TABLE
 
-    if(Var_start!=-1) func_symb[ind].var_start = Var_start;
-    if(Param_start!=-1) func_symb[ind].param_start = Param_start;
+void switch_insert(int Level)
+{
+    switch_symb[switch_size].level = Level;
+    switch_size++;
 }
 
+void add_case(int Level, int case_no)
+{
+    int case_size = switch_symb[switch_size-1].case_size;
+
+    for(int i=0; i<case_size; i++)
+    {
+        if(case_no==switch_symb[switch_size-1].case_list[i])
+        {
+            return; //EXIT STATEMENT
+        }
+    }
+    switch_symb[switch_size-1].case_list[case_size] = case_no;
+    switch_symb[switch_size-1].case_size++;
+}
+
+void switch_delete()
+{
+    switch_size--;
+}
+
+
+// ARRAY SYMBOL TABLE
 void array_insert(char* Ele_type, int Size)
 {
     arr_symb[array_size].ele_type = Ele_type;
@@ -253,110 +412,4 @@ void graph_insert(int vert, int weight)
     graph_size++;
 }
 
-void var_delete()
-{
-    int cur_level = var_symb[var_size-1].level;
-    while(var_size>0)
-    {
-        if(var_symb[var_size-1].level==cur_level)
-        {
-            if(strcmp(var_symb[var_size-1].type,"array")==0) array_size--;
-            if(strcmp(var_symb[var_size-1].type,"vector")==0) vect_size--;
-            if(strcmp(var_symb[var_size-1].type,"matrix")==0) matrix_size--;
-            if(strcmp(var_symb[var_size-1].type,"graph")==0) graph_size--;
-            var_size--;
-        }
-        else break;
-    }
-}
 
-void func_delete(int ind)
-{
-    func_symb[ind].var_start=-1;
-    func_symb[ind].param_start=-1;
-}
-
-int var_search(char* Name)
-{
-    int ind = func_symb[func_size-1].param_start;
-    for(int i=ind; i<var_size; i++)
-    {
-        if(strcmp(Name, var_symb[i].name)==0)
-        {
-            return 1;
-        }
-    }
-    return 0;
-}
-
-int func_search(char* Name)
-{
-    for(int i=0; i<func_size; i++)
-    {
-        if(strcmp(Name, func_symb[i].name)==0)
-        {
-            return i;
-        }
-    }
-    return -1;
-}
-
-int struct_search(char* Name)
-{
-    for(int i=0; i<struct_size; i++)
-    {
-        if(strcmp(Name, struct_symb[i].name)==0)
-        {
-            return i;
-        }
-    }
-    return -1;
-}
-
-int class_search(char* Name)
-{
-    for(int i=0; i<class_size; i++)
-    {
-        if(strcmp(Name, class_symb[i].name)==0)
-        {
-            return i;
-        }
-    }
-    return -1;
-}
-
-int class_func_search(char* Name, int ind)
-{
-    for(int i=0; i<class_symb[ind].cl_func_size; i++)
-    {
-        if(strcmp(Name, class_symb[ind].func_list[i].name)==0)
-        {
-            return i;
-        }
-    }
-    return -1;
-}
-
-int class_declr_search(char* Name, int ind)
-{
-    for(int i=0; i<class_symb[ind].declr_size; i++)
-    {
-        if(strcmp(Name, class_symb[ind].declr_list[i].name)==0)
-        {
-            return i;
-        }
-    }
-    return -1;
-}
-
-int struct_declr_search(char* Name, int ind)
-{
-    for(int i=0; i<struct_symb[ind].list_size; i++)
-    {
-        if(strcmp(Name, struct_symb[ind].list[i].name)==0)
-        {
-            return i;
-        }
-    }
-    return -1;
-}

@@ -11,12 +11,11 @@
 %}
 
 %union{
-	int ival;
-	float fval;
 	char* str;
 	struct{
 		char* Val;
 		char* type;
+		
 	} stmtStruct;
 }
 
@@ -100,10 +99,6 @@ declr_stmt				: DECLR DATATYPE newid ';' {$$.Val=$3; $$.type=$2; var_insert(1, $
 						
 expr_stmt				: EXPR newid '=' RHS ';' {
 								printf("%s = { %s, %s}\n", $2, $4.Val, $4.type); 
-								int index=var_search($2); 
-								if(strcmp(var_symb[index].type, $4.type)){
-								 	printf("error\n"); exit(1);
-								 }
 							}
 						;
 						
