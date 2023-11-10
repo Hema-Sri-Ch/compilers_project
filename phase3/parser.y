@@ -11,6 +11,7 @@
 	
 	// flags
 	int inClass=0;
+	int inStruct=0;
 	int level=0;  // indicates level of scope
 	int inFunc=0;
 	int currentFuncIndex; // To be used by call statements to grab func details
@@ -47,7 +48,7 @@
 	
 }
 
-%type<str> fdtype dtype id param_list id_list graph_and_array_list matrix_list RHS constants arith_op logical_op func_calls binary_op unary_op arg_list call_head
+%type<str> fdtype dtype id id_list graph_and_array_list matrix_list RHS constants arith_op logical_op func_calls binary_op unary_op arg_list call_head for_RHS myId
 %type<details> function function_head func_definition LHS
 
 %token <str> newid
@@ -124,13 +125,14 @@ class					: CLASS id '{' {
 							level++; 
 							inClass = 1;
 							if(class_search($2)!=-1 || struct_search($2)!=-1)
-							class_insert($2);
-							else
 							{
 								printf("Struct or class name already exists\n");
 								exit(1);
 							}
-						} class_items '}' {level--; inClass = 0;} ';' {fprintf(fparse, " : CLASS DEFINITION");}
+								
+							else class_insert($2);
+							
+						} class_items '}' { var_delete(level); level--; inClass = 0; } ';' {fprintf(fparse, " : CLASS DEFINITION");}
 						;
 
 id						: newid {$$=$1;}
@@ -165,14 +167,15 @@ struct					: STRUCT id '{'
 							{
 								level++; 
 								if(class_search($2)!=-1 || struct_search($2)!=-1)
-								struct_insert($2);
-								else
 								{
 									printf("Struct or class name already exists\n");
 									exit(1);
 								}
+								
+								else struct_insert($2);
+								
 							} 
-							struct_items '}' {level--;}';' {fprintf(fparse, " : STRUCT DEFINITION");}
+							struct_items '}' { var_delete(level); level--;}';' {fprintf(fparse, " : STRUCT DEFINITION");}
 						;
 						
 struct_items			: declr_stmt struct_items
@@ -196,12 +199,12 @@ func_definition			: FUNC fdtype id {
 							$$.type = $2;
 							if(inClass == 0) func_insert($3, $2);
 							else class_func_insert(class_size-1, $3, $2);
-							funcIndex = func_size-1;
+							currentFuncIndex = func_size-1;
 						}
 						;
 						
 Parameters				: '(' ')'
-						| '(' {level++;} param_list ')'{level--;}
+						| '(' param_list ')'
 						;
 						
 						
@@ -209,17 +212,39 @@ fdtype					: dtype {$$ = $1;}
 						| VOID {$$ = $1;}
 						;
 						
-param_list				: dtype id ',' param_list {
+						
+param_list				: param_list ',' param
+						| param
+						;
+						
+						
+param					: dtype id {
 							if(inClass == 0) add_args($1);
-							else class_add_args(class_size-1, $1); 
-							var_insert(0, level, $2, $1, "", -1, -1);	
+							else class_add_args(class_size-1, $1);
+							if(dataType == 0) var_insert(0, level, $2, $1, "", -1, -1);
+							else if(dataType == 2){
+								strncpy($1, $1 + 1, strlen($1)-1);
+								var_insert(0, level, $2, "vect", $1, -1, -1);
+							}
+							else if(dataType == 3) {
+								var_insert(0, level, $2, "matrix", "", -1, -1);
+							}
+							else if(dataType == 4) {
+								var_insert(0, level, $2, "graph", "", -1, -1);
+							}
+							else if(dataType == 5){
+								var_insert(0, level, $2, $1, "", -1, -1);
+							}
+							else if(dataType == 6) {
+								var_insert(0, level, $2, $1, "", -1, -1);
+							}
+
 						}
-						| dtype id {
-							if(inClass == 0) add_args($1);
-							else class_add_args(class_size-1, $1); 
-							var_insert(0, level, $2, $1, "", -1, -1);
+						| dtype id '[' ']' {
+							var_insert(0, level, $2, "array", $1, -1, -1);
 						}
 						;
+						
 						
 						
 dtype					: DATATYPE {$$ = $1; dataType = 0;}
@@ -253,7 +278,7 @@ dtype					: DATATYPE {$$ = $1; dataType = 0;}
 						}
 						;
 						
-function_body			: '{' { level++; } statements '}' {var_delete(); level--;}
+function_body			: '{' { level++; } statements '}' {var_delete(level); level--;}
 						| '{' '}'
 						;
 						
@@ -334,15 +359,39 @@ for_loop				: FOR '(' expr_stmt logical_op ';' for_expr ')' function_body
 						;
 
 for_expr				: unary_op
-						| EXPR LHS '=' arith_op 
-						| EXPR LHS '=' func_calls
-						| EXPR LHS '=' impr
-						| EXPR LHS '=' graph_impr
-						| EXPR LHS '=' vect_stmt_body
-						| EXPR LHS '=' matrix_impr
+						| EXPR LHS '=' for_RHS {
+							if(strcmp($2.type, $4)){
+								int a = !strcmp($2.type, "int") || !strcmp($2.type, "float") || !strcmp($2.type, "bool");
+								int b = !strcmp($4, "int") || !strcmp($4, "float") || !strcmp($4, "bool");
+							
+								if(!(a && b)){
+									printf("%s:%s != <name>:%s\n", $2.name, $2.type, $4);
+									printf("Error: Expression statement, type mismatch\n");
+									exit(1);
+								}
+							}
+						}
+						;
+						
+for_RHS					: arith_op {$$ = $1;}
+						| func_calls {$$ = $1;}
+						| impr {$$ = "improvised";}
+						| graph_impr {$$ = "improvised";}
+						| vect_stmt_body {$$ = "improvised";}
+						| matrix_impr {$$ = "improvised";}
 						;
 
-while_loop				: WHILE '('RHS')' function_body
+while_loop				: WHILE '('RHS')' {
+							int a = !strcmp($3, "int") || 
+									!strcmp($3, "float") || 
+									!strcmp($3, "bool") ||
+									!strcmp($3, "string") ||
+									!strcmp($3, "char")
+									;
+							if(!a) {
+								printf("Error : Invalid conditional argument\n");
+							}
+						} function_body
 						;
 						
 expr_stmt				: EXPR LHS '=' RHS ';' {
@@ -365,7 +414,8 @@ expr_stmt				: EXPR LHS '=' RHS ';' {
 						| EXPR LHS '=' vect_stmt_body ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
 						;
 						
-LHS						: id {
+						
+LHS						: myId {
 							// printf("%s\n", $1);
 							classIndex = -1; // indicates it is independent function(for call statements)
 							int i = var_search($1);
@@ -379,8 +429,14 @@ LHS						: id {
 								$$.type = var_symb[i].type;
 							}
 						}
-						| LHS ARROW id {
-							char* dType = var_symb[var_search($1.name)].type;
+						| LHS ARROW myId {
+							int ind = var_search($1.name);
+							
+							if(ind < 0){
+								printf("Error: Accessing undefined identifier %s\n", $1.name);
+								exit(1);
+							}
+							char* dType = var_symb[ind].type;
 							int i = struct_search(dType);
 							if(i < 0){
 								i = class_search(dType);
@@ -406,7 +462,9 @@ LHS						: id {
 									}
 								
 									else if(k >= 0){
-										currentFuncIndex = k;
+									
+										// set global variables of required indices for call statements
+										funcIndex = k;
 										classIndex = i;
 										$$.name = $3;
 										$$.type = "func"; // can be ignored
@@ -429,6 +487,18 @@ LHS						: id {
 									$$.type = struct_symb[i].list[j].type;
 								}
 							}
+						}
+						;
+						
+						
+myId					: id {$$=$1;}
+						| id '[' RHS ']'{
+							int a = !strcmp($3, "int") || !strcmp($3, "float");
+							if(!a){
+								printf("Error: invalid array index\n");
+								exit(1);
+							}
+							$$ = $1;
 						}
 						;
 
@@ -657,17 +727,41 @@ id_list					: id ',' id_list
 							}
 						;
 
-ifcond_stmt				: IF '(' RHS ')' {fprintf(fparse, " : CONDITIONAL STATEMENT");} if_body
+ifcond_stmt				: IF '(' RHS ')' {
+							int a = !strcmp($3, "int") || 
+									!strcmp($3, "float") || 
+									!strcmp($3, "bool") ||
+									!strcmp($3, "string") ||
+									!strcmp($3, "char")
+									;
+							if(!a) {
+								printf("Error : Invalid conditional argument\n");
+							}
+							fprintf(fparse, " : CONDITIONAL STATEMENT");
+						} if_body
 						;
-
+						
+						
 if_body					: function_body ELSE function_body
 						| function_body
 						;
 
-switch_stmt				: SWITCH '(' RHS ')' {fprintf(fparse, " : CONDITIONAL STATEMENT");} switch_body
+switch_stmt				: SWITCH '(' RHS ')' {
+							int a = !strcmp($3, "int") || 
+									!strcmp($3, "float") || 
+									!strcmp($3, "bool") ||
+									!strcmp($3, "string") ||
+									!strcmp($3, "char")
+									;
+							if(!a) {
+								printf("Error : Invalid conditional argument\n");
+							}
+							fprintf(fparse, " : CONDITIONAL STATEMENT");
+						} switch_body
 						;
+						
 
-switch_body				: '{' {level++;} cases DEFAULT ':' function_body '}' {level--;}
+switch_body				: '{' {level++;} cases DEFAULT ':' function_body '}' { var_delete(level); level--;}
 						;
 
 cases					: CASE INT_CONST ':' function_body cases
@@ -863,16 +957,24 @@ call_stmt				: func_calls ';' {fprintf(fparse, " : CALL STATEMENT"); classIndex 
 						;
 						
 						
+						
 func_calls				: call_head arguments {$$ = $1;}
 						;
 						
 						
 call_head				: CALL LHS  {
 							if(classIndex == -1){
-								$$ = func_symb[currentFuncIndex].type;
+								$$ = func_symb[funcIndex].type;
+								
+								// restore index to -1 (to be redegined by LHS)
+								funcIndex = -1;
 							}
 							else{
-								$$ = class_symb[classIndex].func_list[currentFuncIndex].type;
+								$$ = class_symb[classIndex].func_list[funcIndex].type;
+								
+								// restore indices to -1 (to be redefined by LHS)
+								classIndex = -1;
+								funcIndex = -1;
 							}
 						}
 						;

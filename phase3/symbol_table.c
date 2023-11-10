@@ -88,6 +88,11 @@ int switch_size=0;
 
 // VARIABLE & PARAMETER SYMBOL TABLE
 
+void printVarNode(struct data_node node){
+	printf("Name : %s;	", node.name);
+	printf("Type : %s;	", node.type);
+	printf("Level: %d\n", node.level);
+}
 
 void var_insert(int Flag, int Level, char* Name, char* Type, char* Ele_type, int Dim_A, int Dim_B)
 {
@@ -98,7 +103,7 @@ void var_insert(int Flag, int Level, char* Name, char* Type, char* Ele_type, int
     var_symb[var_size].dim_A = Dim_A;
     var_symb[var_size].dim_B = Dim_B;
     var_symb[var_size].ele_type = Ele_type;
-    // PrintIdnode(var_symb[var_size]);
+    // printVarNode(var_symb[var_size]);
     var_size++;
 }
 
@@ -116,9 +121,8 @@ int var_search(char* Name)
     return -1;
 }
 
-void var_delete()
+void var_delete(int cur_level)
 {
-    int cur_level = var_symb[var_size-1].level;
     while(var_size>0)
     {
         if(var_symb[var_size-1].level==cur_level)
