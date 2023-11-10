@@ -1,216 +1,42 @@
 reserved keyword: func
 datatype: int
-Identifier : setItems
-Special symbols:	(
-datatype: int
-Identifier : a
-Punctuation : ,
-datatype: float
-Identifier : b
-Punctuation : ,
-datatype: float
-Identifier : c
-Punctuation : ,
-Identifier : myStruct
-Identifier : d
-Punctuation : ,
-reserved keyword: vect
-Special symbols:	<
-Identifier : myStruct
-Special symbols:	>
-Identifier : ai
-Punctuation : ,
-reserved keyword: vect
-Special symbols:	<
-datatype: int
-Special symbols:	>
-Identifier : bi
-Special symbols:	)
-Special symbols:	{
-reserved keyword: expr
-Identifier : itemA
-Special symbols:	=
-Identifier : a
-Punctuation : ;
-reserved keyword: expr
-Identifier : itemB
-Special symbols:	=
-Identifier : b
-Punctuation : ;
-reserved keyword: expr
-Identifier : itemC
-Special symbols:	=
-Identifier : c
-Punctuation : ;
-reserved keyword: expr
-Identifier : itemD
-Special symbols:	=
-Identifier : d
-Punctuation : ;
-reserved keyword: return
-reserved keyword: null
-Punctuation : ;
-Special symbols:	}
-reserved keyword: func
-datatype: int
 Identifier : main
 Special symbols:	(
-Special symbols:	)
-Special symbols:	{
-reserved keyword: declr
 datatype: int
 Identifier : a
-Punctuation : ;
+Punctuation : ,
+datatype: float
+Identifier : b
+Punctuation : ,
+datatype: char
+Identifier : c
+Punctuation : ,
+datatype: string
+Identifier : str
+Special symbols:	)
+Special symbols:	{
 reserved keyword: expr
 Identifier : a
 Special symbols:	=
 constant: 10
 Punctuation : ;
-reserved keyword: return
-constant: 10
+reserved keyword: expr
+Identifier : str
+Special symbols:	=
+constant: "Hello, world"
 Punctuation : ;
-Special symbols:	}
-reserved keyword: func
-reserved keyword: vect
-Special symbols:	<
-Identifier : myStruct
-Special symbols:	>
-Identifier : matr_add
-Special symbols:	(
-reserved keyword: matrix
-Identifier : A
-Punctuation : ,
-reserved keyword: matrix
-Identifier : B
-Special symbols:	)
-Special symbols:	{
-reserved keyword: return
-reserved keyword: add_matx
-Special symbols:	(
-Identifier : A
-Punctuation : ,
-Identifier : B
-Special symbols:	)
-Punctuation : ;
-Special symbols:	}
-reserved keyword: func
-reserved keyword: vect
-Special symbols:	<
-Identifier : M
-Special symbols:	>
-Identifier : boo
-Special symbols:	(
-datatype: int
-Identifier : num
-Punctuation : ,
-datatype: float
-Identifier : nums
-Special symbols:	)
-Special symbols:	{
-reserved keyword: return
-operator: mul
-Special symbols:	(
-Identifier : num
-Punctuation : ,
-Special symbols:	(
-Identifier : num
-reserved keyword: gt
-constant: 10
-Special symbols:	)
-Special symbols:	)
-Punctuation : ;
-Special symbols:	}
-reserved keyword: func
-reserved keyword: vect
-Special symbols:	<
-datatype: int
-Special symbols:	>
-Identifier : foo
-Special symbols:	(
-datatype: int
-Identifier : p
-Punctuation : ,
-datatype: int
-Identifier : q
-Special symbols:	)
-Special symbols:	{
 reserved keyword: expr
 Identifier : a
 Special symbols:	=
 operator: add
 Special symbols:	(
-Identifier : sItem1
-Punctuation : ,
-operator: mul
-Special symbols:	(
-Identifier : p
-Punctuation : ,
-Special symbols:	(
-Identifier : q
-reserved keyword: and
-reserved keyword: call
-Identifier : boo
-Special symbols:	(
-Identifier : q
-Special symbols:	)
-Special symbols:	)
-Special symbols:	)
-Special symbols:	)
-Punctuation : ;
-reserved keyword: declr
-reserved keyword: vect
-Special symbols:	<
-datatype: int
-Special symbols:	>
-Identifier : a
-Punctuation : ;
-Identifier : sItem2
-Punctuation : .
-Identifier: append
-Special symbols:	(
-constant: 10
-Special symbols:	)
-Punctuation : ;
-reserved keyword: expr
-Identifier : itemD
-Special symbols: ->
-Identifier : sItem1
-Special symbols:	=
-operator: sub
-Special symbols:	(
 Identifier : a
 Punctuation : ,
-Identifier : sItem2
-Punctuation : .
-Identifier: append
-Special symbols:	(
-reserved keyword: call
-Identifier : boo
-Special symbols:	(
-Special symbols:	(
-Identifier : a
-reserved keyword: lt
-Identifier : itemD
-Special symbols: ->
-Identifier : sItem3
-Punctuation : .
-Identifier: strlen
-Special symbols:	(
-Special symbols:	)
-Special symbols:	)
-Special symbols:	)
-Special symbols:	)
-Punctuation : .
-Identifier: sort
-Special symbols:	(
-Special symbols:	)
-Punctuation : .
-Identifier: length
-Special symbols:	(
-Special symbols:	)
+Identifier : b
 Special symbols:	)
 Punctuation : ;
 reserved keyword: return
-Identifier : itemD
+constant: 1
 Punctuation : ;
 Special symbols:	}
+invalid statement in lexer

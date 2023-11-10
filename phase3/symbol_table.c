@@ -41,24 +41,28 @@ struct class_node
 
 struct array_node
 {
+	char* name;
     char* ele_type;
     int size;
 };
 
 struct vect_node
 {
+	char* name;
     char* ele_type;
     int size;
 };
 
 struct matrix_node
 {
+	char* name;
     int row_dim;
     int col_dim;
 };
 
 struct graph_node
 {
+	char* name;
     int vert_no;
     int weight_type;
 };
@@ -113,7 +117,7 @@ void PrintIdnode(struct id_node node){
     char* name;
     char* type;
     int level;
-    int dtype_flag; // standard = -1, class =0, struct =1*/
+    int dtype_flag; // standard = -1, class =0, struct =1, func=2*/
 }
 
 void var_insert(int Flag, char* Name, char* Type, int Level, int Dtype_flag)
@@ -130,7 +134,8 @@ void var_insert(int Flag, char* Name, char* Type, int Level, int Dtype_flag)
 
 int var_search(char* Name)
 {
-    int ind = func_symb[func_size-1].param_start;
+    // int ind = func_symb[func_size-1].param_start;
+    int ind = 0;
     for(int i=ind; i<var_size; i++)
     {
         if(strcmp(Name, var_symb[i].name)==0)
@@ -173,8 +178,8 @@ void func_insert(char* Name, char* Type) // to insert function details at begini
 {
     func_symb[func_size].name = Name;
     func_symb[func_size].type = Type;
-    func_symb[func_size].var_start = -1;
-    func_symb[func_size].param_start = -1;
+    func_symb[func_size].var_start = 0;
+    func_symb[func_size].param_start = 0;
     func_symb[func_size].param_no =0;
     func_size++;
 }
@@ -201,8 +206,8 @@ int func_search(char* Name) // returns index of the function from its symbol tab
 void func_set(int Var_start, int Param_start, int ind) // sets level of scopes while executing call statements
 {
 
-    if(Var_start!=-1) func_symb[ind].var_start = Var_start;
-    if(Param_start!=-1) func_symb[ind].param_start = Param_start;
+    if(Var_start != -1) func_symb[ind].var_start = Var_start;
+    if(Param_start != -1) func_symb[ind].param_start = Param_start;
 }
 
 void func_delete(int ind) // sets level of scopes after ending function execution
@@ -385,28 +390,32 @@ void switch_delete()
 
 
 // ARRAY SYMBOL TABLE
-void array_insert(char* Ele_type, int Size)
+void array_insert(char* Name, char* Ele_type, int Size)
 {
+	arr_symb[array_size].name = Name;
     arr_symb[array_size].ele_type = Ele_type;
     arr_symb[array_size].size = Size;
     array_size++;
 }
-void vect_insert(char* Ele_type, int Size)
+void vect_insert(char* Name, char* Ele_type, int Size)
 {
+	vect_symb[vect_size].name = Name;
     vect_symb[vect_size].ele_type = Ele_type;
     vect_symb[vect_size].size = Size;
     vect_size++;
 }
 
-void matrix_insert(int row, int col)
+void matrix_insert(char* Name, int row, int col)
 {
+	matrix_symb[matrix_size].name = Name;
     matrix_symb[matrix_size].row_dim = row;
     matrix_symb[matrix_size].col_dim = col;
     matrix_size++;
 }
 
-void graph_insert(int vert, int weight)
+void graph_insert(char* Name, int vert, int weight)
 {
+	graph_symb[graph_size].name = Name;
     graph_symb[graph_size].vert_no = vert;
     graph_symb[graph_size].weight_type = weight;
     graph_size++;

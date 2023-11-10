@@ -1,3 +1,10 @@
+func int main(int a, float b, char c, string str){
+	expr a = 10;
+	expr str = "Hello, world";
+	expr a = add(a, b);
+	return 1;
+}
+!!
 func int setItems(int a, float b, float c, myStruct d, vect<myStruct> ai, vect<int> bi) {
 		expr itemA = a;
 		expr itemB = b;
@@ -10,6 +17,8 @@ func int main()
 {
 	declr int a;
 	expr a = 10;
+	expr abc->def->ghi->k = 0;
+	expr a = call obj->abc->def->a();
 	return 10;
 }
 
@@ -29,3 +38,5 @@ func vect<int> foo(int p, int q) {
 	expr itemD->sItem1 = sub(a, sItem2.append(call boo((a lt itemD->sItem3.strlen()))).sort().length());
 	return itemD;
 }
+
+!!

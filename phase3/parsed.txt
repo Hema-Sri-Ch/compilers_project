@@ -1,31 +1,6 @@
-func int setItems(int a, float b, float c, myStruct d, vect<myStruct> ai, vect<int> bi) : FUNCTION HEAD {
-		expr itemA = a; : EXPRESSION STATEMENT
-		expr itemB = b; : EXPRESSION STATEMENT
-		expr itemC = c; : EXPRESSION STATEMENT
-		expr itemD = d; : EXPRESSION STATEMENT
-		return null; : RETURN STATEMENT
-}
-	
-func int main() : FUNCTION HEAD
-{
-	declr int a; : DECLARATION STATEMENT
+func int main(int a, float b, char c, string str) : FUNCTION HEAD{
 	expr a = 10; : EXPRESSION STATEMENT
-	return 10; : RETURN STATEMENT
-}
-
-
-func vect<myStruct> matr_add (matrix A, matrix B) : FUNCTION HEAD{
-    return add_matx(A, B); : RETURN STATEMENT
-}
-
-func vect<M> boo(int num, float nums) : FUNCTION HEAD {
-	return mul(num, (num gt 10)); : RETURN STATEMENT
-}
-	
-func vect<int> foo(int p, int q) : FUNCTION HEAD {
-	expr a = add(sItem1, mul(p, (q and call boo(q)))); : EXPRESSION STATEMENT
-	declr vect<int> a; : DECLARATION STATEMENT
-	sItem2.append(10); : INDEPENDENT METHOD
-	expr itemD->sItem1 = sub(a, sItem2.append(call boo((a lt itemD->sItem3.strlen()))).sort().length()); : EXPRESSION STATEMENT
-	return itemD; : RETURN STATEMENT
+	expr str = "Hello, world"; : EXPRESSION STATEMENT
+	expr a = add(a, b); : EXPRESSION STATEMENT
+	return 1; : RETURN STATEMENT
 }

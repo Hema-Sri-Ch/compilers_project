@@ -13,7 +13,26 @@
 	int inClass=0;
 	int level=0;  // indicates level of scope
 	int inFunc=0;
-	int currentFuncIndex; // to be used only at the beginning of the function (right after the funciton head)
+	int funcSearch=0; // indicates if function names should be searched or not (for LHS)
+	int currentFuncIndex; // To be used by call statements to grab func details
+	int classIndex = -1; // To be used by call statements to grab func details
+	
+	int dataType;
+	/*
+		dataType = 0 --> standard
+		dataType = 1 --> array
+		dataType = 2 --> vector
+		dataType = 3 --> matrix
+		dataType = 4 --> graph
+		dataType = 5 --> struct
+		dataType = 6 --> class
+	*/
+	
+	
+	/*
+		MY ASSUMPTIONS:
+			--> if it is parameter, only type check is feasible, but no attibute check non-standard datatypes
+	*/
 %}
 
 %union{
@@ -28,8 +47,8 @@
 	
 }
 
-%type<str> fdtype dtype id param_list
-%type<details> function function_head func_definition
+%type<str> fdtype dtype id param_list id_list graph_and_array_list matrix_list
+%type<details> function function_head func_definition LHS
 
 %token <str> newid
 %token INT_CONST
@@ -139,20 +158,15 @@ struct_items			: declr_stmt struct_items
 						| declr_stmt
 						;
 						
-function				: function_head {
-
-							// inFunc = 0 indicates reading the function for the first time
-							if(inFunc==0) currentFuncIndex = func_search($1.name); 
-							if(level) func_set(-1, var_size, currentFuncIndex);
-						} 
-						function_body {
-							func_delete(func_search($1.name));
-							printFuncDetails(currentFuncIndex);
-							inFunc=0;
-						}
+function				: function_head function_body
 						;
 						
-function_head			: func_definition Parameters { $$=$1; fprintf(fparse, " : FUNCTION HEAD");}
+function_head			: func_definition Parameters { 
+							$$=$1; 
+							printFuncDetails(func_size-1); 
+							fprintf(fparse, " : FUNCTION HEAD");
+						}
+						;
 
 
 func_definition			: FUNC fdtype id {
@@ -171,31 +185,115 @@ fdtype					: dtype {$$ = $1;}
 						| VOID {$$ = $1;}
 						;
 						
-param_list				: dtype id ',' param_list {add_args($1);}
-						| dtype id {add_args($1);}
+param_list				: dtype id ',' param_list {
+							add_args($1); 
+							var_insert(0, $2, $1, level, dataType);
+							if(dataType == 1){
+								/* arrays are useless here */
+								array_insert($2, "", -1);
+							}
+							
+							else if(dataType == 2){
+								// vector
+								vect_insert($2, "", -1);
+							}
+							
+							else if(dataType == 3){
+								// matrix
+								matrix_insert($2, -1, -1);
+							}
+							
+							else if(dataType == 4){
+								// graph
+								graph_insert($2, -1, -1);
+							}
+							
+							else if(dataType == 5){
+								// struct
+								
+								/* we store what kind of structs are there, but
+									there is no symbol table for each type of struct */
+							}
+							
+							else if(dataType == 6){
+								// class
+								
+								/* we store what kind of classes are there, but
+									there is no symbol table for each type of class */
+							}
+						}
+						| dtype id {
+							add_args($1); 
+							var_insert(0, $2, $1, level, dataType);
+							if(dataType == 1){
+								/* arrays are useless here */
+								array_insert($2, "", -1);
+							}
+							
+							else if(dataType == 2){
+								// vector
+								vect_insert($2, "", -1);
+							}
+							
+							else if(dataType == 3){
+								// matrix
+								matrix_insert($2, -1, -1);
+							}
+							
+							else if(dataType == 4){
+								// graph
+								graph_insert($2, -1, -1);
+							}
+							
+							else if(dataType == 5){
+								// struct
+								
+								/* we store what kind of structs are there, but
+									there is no symbol table for each type of struct */
+							}
+							
+							else if(dataType == 6){
+								// class
+								
+								/* we store what kind of classes are there, but
+									there is no symbol table for each type of class */
+							}
+						}
 						;
 						
-dtype					: DATATYPE {$$ = $1;}
-						| MATRIX {$$ = $1;}
-						| GRAPH {$$ = $1;}
+						
+dtype					: DATATYPE {$$ = $1; dataType = 0;}
+						| MATRIX {$$ = $1; dataType = 3;}
+						| GRAPH {$$ = $1; dataType = 4;}
 						| VECT '<' dtype '>' { 
 							char* result;
 							char* A = "*";
 						    result = (char*)malloc(strlen(A) + strlen($3) + 1);
 						    strcpy(result, A);
 						    strcat(result, $3);
+						    dataType = 2;
 						    $$ = result;
 						}
-						| id {$$ = $1;}
+						| id {
+							int i = struct_search($1);
+							if(i < 0) {
+								i = class_search($1);
+								if(i < 0){
+									printf("Error: Using undefined datatype %s\n", $1);
+								}
+								else{
+									dataType = 6;
+									$$ = $1;
+								}
+							}
+							else{
+								dataType = 5;
+								$$ = $1;
+							}
+						}
 						;
 						
-function_body			: '{' {
-								level++; 
-								if(inFunc==0) {
-									inFunc=0;
-									func_set(var_size, -1, currentFuncIndex);
-								} 
-						} statements '}' {var_delete(); level--;}
+function_body			: '{' { level++; } statements '}' {var_delete(); level--;}
 						| '{' '}'
 						;
 						
@@ -294,8 +392,87 @@ expr_stmt				: EXPR LHS '=' RHS ';' {fprintf(fparse, " : EXPRESSION STATEMENT");
 						| EXPR LHS '=' vect_stmt_body ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
 						;
 						
-LHS						: id
-						| id ARROW LHS
+LHS						: id {
+							// printf("%s\n", $1);
+							int i = var_search($1);
+							printf("%s - %d\n", $1, i);
+							if( i < 0){
+								printf("Error: Accessing undeclared identifier %s\n", $1);
+								exit(1);
+							}
+							else{
+								$$.name = $1;
+								$$.type = var_symb[i].type;
+							}
+						}
+						| LHS ARROW id {
+							int i = struct_search($1.name);
+							if(i < 0){
+								i = class_search($1.name);
+								if(i < 0){
+									
+									// item is not defined in class and struct
+									printf("Error: Accessing undefined datatype %s\n", $1.name);
+									exit(1);
+								}
+								
+								else{
+									
+									// item defined in class and LHS is from call statement
+									if(funcSearch) {
+										int j = class_declr_search($3, i);
+										int k = class_func_search($3, i);
+										if(j < 0 && k < 0){
+											printf("Error: Accessing undefined function/attribute of class %s\n", $1.name);
+											exit(1);
+										}
+										
+										if(j >= 0){
+											$$.name = $3;
+											$$.type = class_symb[i].declr_list[j].type;
+										}
+										
+										else if(k >= 0){
+											currentFuncIndex = k;
+											classIndex = i;
+											$$.name = $3;
+											$$.type = "func"; // can be ignored
+										}
+									}
+									
+									// item defined in class and LHS is NOT from call statement
+									else{
+										int j = class_declr_search($3, i);
+										if(j < 0){
+											// item is not attribute of this class
+											printf("Error: Accessing undefined attribute of class %s\n", $1.name);
+											exit(1);
+										}
+										
+										else {
+											$$.name = $3;
+											$$.type = class_symb[i].declr_list[j].type;
+										}
+									}
+								}
+							}
+							
+							else {
+								// item defined in struct
+								int j = struct_declr_search($3, i);
+								if(j < 0){
+								
+									// item is not attribute of this struct
+									printf("Error: Accessing undefined attribute of struct %s\n", $1.name);
+									exit(1);
+								}
+								
+								else{
+									$$.name = $3;
+									$$.type = struct_symb[i].list[j].type;
+								}
+							}
+						}
 						;
 
 declr_stmt				: DECLR declr_body ';' {fprintf(fparse, " : DECLARATION STATEMENT");}
@@ -483,7 +660,7 @@ logical_op				: '(' RHS LOGOP RHS ')'
 						| NOT '(' RHS ')'
 						;
 						
-call_stmt				: func_calls ';' {fprintf(fparse, " : CALL STATEMENT");}
+call_stmt				: func_calls ';' {fprintf(fparse, " : CALL STATEMENT"); classIndex = -1;}
 						;
 						
 func_calls				: CALL LHS '(' arg_list ')'
