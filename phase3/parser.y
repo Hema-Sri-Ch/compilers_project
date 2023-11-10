@@ -15,6 +15,7 @@
 	int inFunc=0;
 	int currentFuncIndex; // To be used by call statements to grab func details
 	int classIndex = -1; // To be used by call statements to grab func details
+	int funcIndex;
 	
 	int dataType;
 	/*
@@ -37,16 +38,13 @@
 %union{
 	char* str;
 	struct{
-		int level;
-	} level;
-	struct{
 		char* name;
 		char* type;
 	} details;
 	
 }
 
-%type<str> fdtype dtype id param_list id_list graph_and_array_list matrix_list
+%type<str> fdtype dtype id param_list id_list graph_and_array_list matrix_list RHS constants arith_op logical_op func_calls binary_op unary_op arg_list call_head
 %type<details> function function_head func_definition LHS
 
 %token <str> newid
@@ -107,7 +105,7 @@
 %start program_unit
 
 %%
-program_unit			:{reset();} models {reset();}
+program_unit			: models
  						;
  						
 models					: model models
@@ -178,6 +176,7 @@ func_definition			: FUNC fdtype id {
 							$$.type = $2;
 							if(inClass == 0) func_insert($3, $2);
 							else class_func_insert(class_size-1, $3, $2);
+							funcIndex = func_size-1;
 						}
 						;
 						
@@ -391,7 +390,20 @@ for_expr				: unary_op
 while_loop				: WHILE '('RHS')' function_body
 						;
 						
-expr_stmt				: EXPR LHS '=' RHS ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
+expr_stmt				: EXPR LHS '=' RHS ';' {
+							if(strcmp($2.type, $4)){
+								int a = !strcmp($2.type, "int") || !strcmp($2.type, "float") || !strcmp($2.type, "bool");
+								int b = !strcmp($4, "int") || !strcmp($4, "float") || !strcmp($4, "bool");
+							
+								if(!(a && b)){
+									printf("%s:%s != <name>:%s\n", $2.name, $2.type, $4);
+									printf("Error: Expression statement, type mismatch\n");
+									exit(1);
+								}
+							}
+							
+							fprintf(fparse, " : EXPRESSION STATEMENT");
+						}
 						| EXPR LHS '=' extra_consts ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
 						| EXPR LHS '=' graph_impr ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
 						| EXPR LHS '=' matrix_impr ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
@@ -400,6 +412,7 @@ expr_stmt				: EXPR LHS '=' RHS ';' {fprintf(fparse, " : EXPRESSION STATEMENT");
 						
 LHS						: id {
 							// printf("%s\n", $1);
+							classIndex = -1; // indicates it is independent function(for call statements)
 							int i = var_search($1);
 							printf("%s - %d\n", $1, i);
 							if( i < 0){
@@ -505,20 +518,20 @@ cases					: CASE INT_CONST ':' function_body cases
 						;
 
 						
-RHS						: constants
-						| arith_op
-						| logical_op
-						| func_calls
-						| impr
+RHS						: constants {$$=$1;}
+						| arith_op {$$=$1;}
+						| logical_op {$$=$1;}
+						| func_calls {$$=$1;}
+						| impr {$$ = "improvised";}
 						;						
 
 						
-constants				: INT_CONST
-						| FLOAT_CONST
-						| CHAR_CONST
-						| STR_CONST
-						| BOOL_CONST
-						| LHS
+constants				: INT_CONST {$$="int";}
+						| FLOAT_CONST {$$="float";}
+						| CHAR_CONST {$$="char";}
+						| STR_CONST {$$="string";}
+						| BOOL_CONST {$$ = "bool";}
+						| LHS {$$ = $1.type;}
 						;
 						
 						
@@ -542,7 +555,7 @@ val_list				: int_list
 						;
 
 resultant				: LHS
-						| matrix_impr
+						| matrix_impr 
 						| graph_impr
 						| vect_stmt_body
 						| impr
@@ -639,21 +652,76 @@ arith_op				: binary_op
 						| unary_op
 						;
 						
-binary_op				: ARITHOP '(' RHS ',' RHS ')'
+binary_op				: ARITHOP '(' RHS ',' RHS ')' {
+							if(!strcmp($3, "int") || !strcmp($3, "bool")|| !strcmp($3, "float")){
+								if(!strcmp($5, "int") || !strcmp($5, "bool") || !strcmp($5, "float")){
+									if(!strcmp($5, "float") || !strcmp($3, "float")) $$ = "float";
+									else $$ = "int";
+								}
+								else{
+									printf("Error: Invalid argument for arithmetic operation\n");
+								}
+							}
+							else{
+								printf("Error: Invalid argument for arithmetic operation\n");
+							}
+						}
 						;
 						
-unary_op				: UNARYOP '(' RHS ')'
+unary_op				: UNARYOP '(' RHS ')' {
+							if(!strcmp($3, "int") || !strcmp($3, "bool")|| !strcmp($3, "float")){
+								$$ = "int";
+							}
+							else{
+								printf("Error: Invalid argument for arithmetic operation\n");
+							}
+						}
 						;
 						
-logical_op				: '(' RHS LOGOP RHS ')'
-						| NOT '(' RHS ')'
+logical_op				: '(' RHS LOGOP RHS ')' {
+							if(!strcmp($2, "int") || !strcmp($2, "bool")|| !strcmp($2, "float")){
+								if(!strcmp($4, "int") || !strcmp($4, "bool") || !strcmp($4, "float")){
+									if(!strcmp($2, "float") || !strcmp($4, "float")) $$ = "float";
+									else $$ = "int";
+								}
+								else{
+									printf("Error: Invalid argument for arithmetic operation\n");
+								}
+							}
+							else{
+								printf("Error: Invalid argument for arithmetic operation\n");
+							}
+						}
+						| NOT '(' RHS ')' {
+							if(!strcmp($3, "int") || !strcmp($3, "bool")|| !strcmp($3, "float")){
+								$$ = "int";
+							}
+							else{
+								printf("Error: Invalid argument for arithmetic operation\n");
+							}
+						}
 						;
 						
 call_stmt				: func_calls ';' {fprintf(fparse, " : CALL STATEMENT"); classIndex = -1;}
 						;
 						
-func_calls				: CALL LHS '(' arg_list ')'
-						| CALL LHS '(' ')'
+						
+func_calls				: call_head arguments {$$ = $1;}
+						;
+						
+						
+call_head				: CALL LHS  {
+							if(classIndex == -1){
+								$$ = func_symb[currentFuncIndex].type;
+							}
+							else{
+								$$ = class_symb[classIndex].func_list[currentFuncIndex].type;
+							}
+						}
+						;
+						
+arguments				: '(' arg_list ')'
+						| '(' ')'
 						;
 						
 arg_list				: RHS ',' arg_list

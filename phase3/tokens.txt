@@ -7,12 +7,41 @@ Identifier : myFunc
 Special symbols:	(
 datatype: int
 Identifier : abc
+Punctuation : ,
+datatype: int
+Identifier : k
+Punctuation : ,
+datatype: string
+Identifier : str
+Punctuation : ,
+datatype: char
+Identifier : c
 Special symbols:	)
 Special symbols:	{
 reserved keyword: expr
 Identifier : abc
 Special symbols:	=
 constant: 10
+Punctuation : ;
+reserved keyword: expr
+Identifier : abc
+Special symbols:	=
+operator: mul
+Special symbols:	(
+Identifier : abc
+Punctuation : ,
+Identifier : k
+Special symbols:	)
+Punctuation : ;
+reserved keyword: expr
+Identifier : str
+Special symbols:	=
+constant: "c"
+Punctuation : ;
+reserved keyword: expr
+Identifier : c
+Special symbols:	=
+constant: 'c'
 Punctuation : ;
 reserved keyword: return
 Identifier : abc
@@ -57,7 +86,13 @@ operator: add
 Special symbols:	(
 Identifier : a
 Punctuation : ,
-Identifier : b
+reserved keyword: call
+Identifier : obj
+Special symbols: ->
+Identifier : myFunc
+Special symbols:	(
+constant: 5
+Special symbols:	)
 Special symbols:	)
 Punctuation : ;
 reserved keyword: return

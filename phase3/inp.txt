@@ -1,6 +1,9 @@
 class myClass{
-	func int myFunc(int abc){
+	func int myFunc(int abc, int k, string str, char c){
 		expr abc = 10;
+		expr abc = mul(abc, k);
+		expr str = "c";
+		expr c = 'c';
 		return abc;
 	}
 };
@@ -8,7 +11,7 @@ class myClass{
 func int main(int a, float b, char c, string str, myClass obj){
 	expr a = 10;
 	expr str = "Hello, world";
-	expr a = add(a, b);
+	expr a = add(a, call obj->myFunc(5));
 	return call obj->myFunc(5);
 }
 !!

@@ -95,19 +95,6 @@ int class_size=0;
 int switch_size=0;
 
 
-void reset(){
-	var_size=0;
-	func_size=0;
-	vect_size=0;
-	array_size=0;
-	matrix_size=0;
-	graph_size=0;
-	struct_size=0;
-	class_size=0;
-	switch_size=0;
-}
-
-
 // VARIABLE & PARAMETER SYMBOL TABLE
 
 void PrintIdnode(struct id_node node){
@@ -127,7 +114,7 @@ void var_insert(int Flag, char* Name, char* Type, int Level, int Dtype_flag)
     var_symb[var_size].type = Type;
     var_symb[var_size].level = Level;
     var_symb[var_size].dtype_flag = Dtype_flag;
-    PrintIdnode(var_symb[var_size]);
+    // PrintIdnode(var_symb[var_size]);
     var_size++;
 }
 

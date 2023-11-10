@@ -1,6 +1,9 @@
 class myClass{
-	func int myFunc(int abc) : FUNCTION HEAD{
+	func int myFunc(int abc, int k, string str, char c) : FUNCTION HEAD{
 		expr abc = 10; : EXPRESSION STATEMENT
+		expr abc = mul(abc, k); : EXPRESSION STATEMENT
+		expr str = "c"; : EXPRESSION STATEMENT
+		expr c = 'c'; : EXPRESSION STATEMENT
 		return abc; : RETURN STATEMENT
 	}
 }; : CLASS DEFINITION
@@ -8,6 +11,6 @@ class myClass{
 func int main(int a, float b, char c, string str, myClass obj) : FUNCTION HEAD{
 	expr a = 10; : EXPRESSION STATEMENT
 	expr str = "Hello, world"; : EXPRESSION STATEMENT
-	expr a = add(a, b); : EXPRESSION STATEMENT
+	expr a = add(a, call obj->myFunc(5)); : EXPRESSION STATEMENT
 	return call obj->myFunc(5); : RETURN STATEMENT
 }
