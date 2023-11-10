@@ -1,6 +1,11 @@
 !! hi 
 	))a
 !!
+struct myClass
+{
+	declr int a;
+};
+
 class myClass{
 	func int myFunc(int abc, int k, string str, char c){
 		expr abc = 10;

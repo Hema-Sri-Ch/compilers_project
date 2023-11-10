@@ -123,7 +123,13 @@ model					: function
 class					: CLASS id '{' {
 							level++; 
 							inClass = 1;
+							if(class_search($2)!=-1 || struct_search($2)!=-1)
 							class_insert($2);
+							else
+							{
+								printf("Struct or class name already exists\n");
+								exit(1);
+							}
 						} class_items '}' {level--; inClass = 0;} ';' {fprintf(fparse, " : CLASS DEFINITION");}
 						;
 
@@ -155,7 +161,18 @@ class_item				: declr_stmt
 						| function 
 						;
 						
-struct					: STRUCT id '{'{level++; struct_insert($2);} struct_items '}' {level--;}';' {fprintf(fparse, " : STRUCT DEFINITION");}
+struct					: STRUCT id '{'
+							{
+								level++; 
+								if(class_search($2)!=-1 || struct_search($2)!=-1)
+								struct_insert($2);
+								else
+								{
+									printf("Struct or class name already exists\n");
+									exit(1);
+								}
+							} 
+							struct_items '}' {level--;}';' {fprintf(fparse, " : STRUCT DEFINITION");}
 						;
 						
 struct_items			: declr_stmt struct_items
