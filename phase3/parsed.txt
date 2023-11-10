@@ -14,4 +14,5 @@ class myClass{
 func int main() : FUNCTION HEAD{
 	declr int a, str; : DECLARATION STATEMENT
 	declr char c; : DECLARATION STATEMENT
-	declr myClasss obj;
+	declr myClass obj; : DECLARATION STATEMENT 
+	declr int arr[0], barr[6];

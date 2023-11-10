@@ -582,12 +582,22 @@ graph_and_array_list	: id '[' INT_CONST ']' ',' graph_and_array_list
 							{
 								arr[arr_size] = $1;
 								dimA[arr_size] = atoi($3);
+								if(dimA[arr_size]<=0)
+								{
+									printf("Number of vertices in a graph has to be greater than 0\n");
+									exit(1);
+								}
 								arr_size++;
 							}
 						| id '[' INT_CONST ']'
 							{
 								arr[arr_size] = $1;
 								dimA[arr_size] = atoi($3);
+								if(dimA[arr_size]<=0)
+								{
+									printf("Number of vertices in a graph has to be greater than 0\n");
+									exit(1);
+								}
 								arr_size++;
 							}
 						;
@@ -597,6 +607,11 @@ matrix_list				: id '[' INT_CONST ']' '[' INT_CONST ']' ',' matrix_list
 								arr[arr_size] = $1;
 								dimA[arr_size] = atoi($3);
 								dimB[arr_size] = atoi($6);
+								if(dimA[arr_size]<=0 || dimB[arr_size]<=0)
+								{
+									printf("No of rows or columns has to be positive\n");
+									exit(1);
+								}
 								arr_size++;
 							}
 						| id '[' INT_CONST ']' '[' INT_CONST ']'
@@ -604,6 +619,11 @@ matrix_list				: id '[' INT_CONST ']' '[' INT_CONST ']' ',' matrix_list
 								arr[arr_size] = $1;
 								dimA[arr_size] = atoi($3);
 								dimB[arr_size] = atoi($6);
+								if(dimA[arr_size]<=0 || dimB[arr_size]<=0)
+								{
+									printf("No of rows or columns has to be positive\n");
+									exit(1);
+								}
 								arr_size++;
 							}
 						;

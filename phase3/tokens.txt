@@ -69,6 +69,18 @@ datatype: char
 Identifier : c
 Punctuation : ;
 reserved keyword: declr
-Identifier : myClasss
+Identifier : myClass
 Identifier : obj
+Punctuation : ;
+reserved keyword: declr
+datatype: int
+Identifier : arr
+Special symbols:	[
+constant: 0
+Special symbols:	]
+Punctuation : ,
+Identifier : barr
+Special symbols:	[
+constant: 6
+Special symbols:	]
 Punctuation : ;
