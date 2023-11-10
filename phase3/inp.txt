@@ -11,7 +11,11 @@ class myClass{
 	}
 };
 
-func int main(int a, float b, char c, string str, myClass obj){
+func int main(){
+	declr int a, str;
+	declr char c;
+	declr myClass obj; 
+	declr int arr[5], barr[6];
 	expr a = 10;
 	expr str = "Hello, world";
 	expr a = add(a, call obj->myFunc(5));

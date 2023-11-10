@@ -5,7 +5,7 @@
 
 struct data_node
 {
-    int vp_flag;
+    int vp_flag; // p=0, v=1
     int level;
     char* name;
     char* type;

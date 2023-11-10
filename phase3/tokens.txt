@@ -1,1 +1,74 @@
-invalid statement in lexer
+comment: !! hi 
+	))a
+!!
+reserved keyword: class
+Identifier : myClass
+Special symbols:	{
+reserved keyword: func
+datatype: int
+Identifier : myFunc
+Special symbols:	(
+datatype: int
+Identifier : abc
+Punctuation : ,
+datatype: int
+Identifier : k
+Punctuation : ,
+datatype: string
+Identifier : str
+Punctuation : ,
+datatype: char
+Identifier : c
+Special symbols:	)
+Special symbols:	{
+reserved keyword: expr
+Identifier : abc
+Special symbols:	=
+constant: 10
+Punctuation : ;
+reserved keyword: expr
+Identifier : abc
+Special symbols:	=
+operator: mul
+Special symbols:	(
+Identifier : abc
+Punctuation : ,
+Identifier : k
+Special symbols:	)
+Punctuation : ;
+reserved keyword: expr
+Identifier : str
+Special symbols:	=
+constant: "c"
+Punctuation : ;
+reserved keyword: expr
+Identifier : c
+Special symbols:	=
+constant: 'c'
+Punctuation : ;
+reserved keyword: return
+Identifier : abc
+Punctuation : ;
+Special symbols:	}
+Special symbols:	}
+Punctuation : ;
+reserved keyword: func
+datatype: int
+Identifier : main
+Special symbols:	(
+Special symbols:	)
+Special symbols:	{
+reserved keyword: declr
+datatype: int
+Identifier : a
+Punctuation : ,
+Identifier : str
+Punctuation : ;
+reserved keyword: declr
+datatype: char
+Identifier : c
+Punctuation : ;
+reserved keyword: declr
+Identifier : myClasss
+Identifier : obj
+Punctuation : ;

@@ -1,0 +1,17 @@
+!! hi 
+	))a
+!!
+class myClass{
+	func int myFunc(int abc, int k, string str, char c) : FUNCTION HEAD{
+		expr abc = 10; : EXPRESSION STATEMENT
+		expr abc = mul(abc, k); : EXPRESSION STATEMENT
+		expr str = "c"; : EXPRESSION STATEMENT
+		expr c = 'c'; : EXPRESSION STATEMENT
+		return abc; : RETURN STATEMENT
+	}
+}; : CLASS DEFINITION
+
+func int main() : FUNCTION HEAD{
+	declr int a, str; : DECLARATION STATEMENT
+	declr char c; : DECLARATION STATEMENT
+	declr myClasss obj;

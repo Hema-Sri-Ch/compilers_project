@@ -11,12 +11,11 @@
 	
 	// flags
 	int inClass=0;
-	int inStruct=0;
 	int level=0;  // indicates level of scope
 	int inFunc=0;
 	int currentFuncIndex; // To be used by call statements to grab func details
 	int classIndex = -1; // To be used by call statements to grab func details
-	int funcIndex;
+	int funcIndex = -1;
 	
 	int dataType;
 	/*
@@ -31,6 +30,8 @@
 	
 	char* arr[20];
 	int arr_size=0;
+	int dimA[20];
+	int dimB[20];
 	/*
 		MY ASSUMPTIONS:
 			--> if it is parameter, only type check is feasible, but no attibute check non-standard datatypes
@@ -50,8 +51,8 @@
 %type<details> function function_head func_definition LHS
 
 %token <str> newid
-%token INT_CONST
-%token FLOAT_CONST
+%token <str> INT_CONST
+%token  FLOAT_CONST
 %token CHAR_CONST
 %token STR_CONST
 %token BOOL_CONST
@@ -154,7 +155,7 @@ class_item				: declr_stmt
 						| function 
 						;
 						
-struct					: STRUCT id '{'{level++;} struct_items '}' {level--;}';' {fprintf(fparse, " : STRUCT DEFINITION");}
+struct					: STRUCT id '{'{level++; struct_insert($2);} struct_items '}' {level--;}';' {fprintf(fparse, " : STRUCT DEFINITION");}
 						;
 						
 struct_items			: declr_stmt struct_items
@@ -417,22 +418,194 @@ LHS						: id {
 declr_stmt				: DECLR declr_body ';' {fprintf(fparse, " : DECLARATION STATEMENT");}
 
 declr_body				: DATATYPE id_list
-							
+							{
+								if(currentFuncIndex!=-1)
+								{
+									for(int i=0; i<arr_size; i++)
+									{
+										var_insert(1, level, arr[i], $1, "" , -1, -1);
+									}
+								}
+								else if(inClass==1)
+								{
+									for(int i=0; i<arr_size; i++)
+									{
+										add_class_declrs(arr[i], $1, 1, level, "", -1, -1);
+									}
+								}
+								else
+								{
+									for(int i=0; i<arr_size; i++)
+									{
+										add_struct_declrs(arr[i], $1, 1, level, "", -1, -1);
+									}
+								}
+								arr_size =0;
+							}
 						| GRAPH graph_and_array_list
-							
+							{
+								if(currentFuncIndex!=-1)
+								{
+									for(int i=0; i<arr_size; i++)
+									{
+										var_insert(1, level, arr[i], $1, "" , dimA[i], -1);
+									}
+								}
+								else if(inClass==1)
+								{
+									for(int i=0; i<arr_size; i++)
+									{
+										add_class_declrs(arr[i], $1, 1, level, "", dimA[i], -1);
+									}
+								}
+								else
+								{
+									for(int i=0; i<arr_size; i++)
+									{
+										add_struct_declrs(arr[i], $1, 1, level, "", dimA[i], -1);
+									}
+								}
+								arr_size=0;
+							}
 						| VECT '<' dtype '>' id_list
+							{
+								if(currentFuncIndex!=-1)
+								{
+									for(int i=0; i<arr_size; i++)
+									{
+										var_insert(1, level, arr[i], $1, $3, -1, -1);
+									}
+								}
+								else if(inClass==1)
+								{
+									for(int i=0; i<arr_size; i++)
+									{
+										add_class_declrs(arr[i], $1, 1, level, $3, -1, -1);
+									}
+								}
+								else
+								{
+									for(int i=0; i<arr_size; i++)
+									{
+										add_struct_declrs(arr[i], $1, 1, level, $3, -1, -1);
+									}
+								}
+								arr_size=0;
+							}
 						| MATRIX matrix_list 
+							{
+								if(currentFuncIndex!=-1)
+								{
+									for(int i=0; i<arr_size; i++)
+									{
+										var_insert(1, level, arr[i], $1, "" , dimA[i], dimB[i]);
+									}
+								}
+								else if(inClass==1)
+								{
+									for(int i=0; i<arr_size; i++)
+									{
+										add_class_declrs(arr[i], $1, 1, level, "", dimA[i], dimB[i]);
+									}
+								}
+								else
+								{
+									for(int i=0; i<arr_size; i++)
+									{
+										add_struct_declrs(arr[i], $1, 1, level, "", dimA[i], dimB[i]);
+									}
+								}
+								arr_size=0;
+							}
 						| DATATYPE graph_and_array_list
-						| STRUCT id id_list
-						| CLASS id id_list
+							{
+								if(currentFuncIndex!=-1)
+								{
+									for(int i=0; i<arr_size; i++)
+									{
+										var_insert(1, level, arr[i], "array", $1 , -1, -1);
+									}
+								}
+								else if(inClass==1)
+								{
+									for(int i=0; i<arr_size; i++)
+									{
+										add_class_declrs(arr[i], "array", 1, level, $1, -1, -1);
+									}
+								}
+								else
+								{
+									for(int i=0; i<arr_size; i++)
+									{
+										add_struct_declrs(arr[i], "array", 1, level, $1, -1, -1);
+									}
+								}
+								arr_size=0;
+							}
+						| id id_list
+							{
+								if(class_search($1)!=-1 || struct_search($1)!=-1)
+								{
+									if(currentFuncIndex!=-1)
+									{
+										for(int i=0; i<arr_size; i++)
+										{
+											var_insert(1, level, arr[i], $1, "", -1, -1);
+										}
+									}
+									else if(inClass==1)
+									{
+										for(int i=0; i<arr_size; i++)
+										{
+											add_class_declrs(arr[i], $1, 1, level, "", -1, -1);
+										}
+									}
+									else
+									{
+										for(int i=0; i<arr_size; i++)
+										{
+											add_struct_declrs(arr[i], $1, 1, level, "", -1, -1);
+										}
+									}
+									arr_size =0;
+								}
+								else
+								{
+									arr_size=0;
+									printf("No struct or class with that name is defined\n");
+									exit(1);
+								}
+							}
 						;
 
 graph_and_array_list	: id '[' INT_CONST ']' ',' graph_and_array_list
+							{
+								arr[arr_size] = $1;
+								dimA[arr_size] = atoi($3);
+								arr_size++;
+							}
 						| id '[' INT_CONST ']'
+							{
+								arr[arr_size] = $1;
+								dimA[arr_size] = atoi($3);
+								arr_size++;
+							}
 						;
 
 matrix_list				: id '[' INT_CONST ']' '[' INT_CONST ']' ',' matrix_list
+							{
+								arr[arr_size] = $1;
+								dimA[arr_size] = atoi($3);
+								dimB[arr_size] = atoi($6);
+								arr_size++;
+							}
 						| id '[' INT_CONST ']' '[' INT_CONST ']'
+							{
+								arr[arr_size] = $1;
+								dimA[arr_size] = atoi($3);
+								dimB[arr_size] = atoi($6);
+								arr_size++;
+							}
 						;
 
 id_list					: id ',' id_list
