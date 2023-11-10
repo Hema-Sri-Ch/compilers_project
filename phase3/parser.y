@@ -48,7 +48,7 @@
 	
 }
 
-%type<str> fdtype dtype id id_list graph_and_array_list matrix_list RHS constants arith_op logical_op func_calls binary_op unary_op arg_list call_head for_RHS myId
+%type<str> fdtype dtype id id_list graph_and_array_list matrix_list return_stmt RHS constants extra_consts impr matrix_impr graph_impr arith_op logical_op func_calls binary_op unary_op arg_list call_head for_RHS myId
 %type<details> function function_head func_definition LHS
 
 %token <str> newid
@@ -338,14 +338,50 @@ remove_body				: INT_CONST
 vect_append				: RHS
 						| extra_consts
 						;
-
-return_stmt 			: RETURN RHS';' {fprintf(fparse, " : RETURN STATEMENT");}
-						| RETURN extra_consts ';' {fprintf(fparse, " : RETURN STATEMENT");}
-						| RETURN graph_impr ';' {fprintf(fparse, " : RETURN STATEMENT");}
-						| RETURN matrix_impr ';' {fprintf(fparse, " : RETURN STATEMENT");}
+return_stmt 			: RETURN RHS';'{if(inClass==0){
+								if(strcmp($2,func_symb[currentFuncIndex].type)){printf("error\n");}
+							}
+							else{
+								if(strcmp($2,class_symb[class_size-1].func_list[currentFuncIndex-1].type)){
+									printf("error\n");
+								}
+							}
+							} {fprintf(fparse, " : RETURN STATEMENT");}
+						| RETURN extra_consts ';' 
+						 {
+							if(inClass==0){
+								if(strcmp($2,func_symb[currentFuncIndex].type)){printf("error\n");}
+							}
+							else{
+								if(strcmp($2,class_symb[class_size-1].func_list[currentFuncIndex-1].type)){
+									printf("error\n");
+								}
+							}
+						 }{fprintf(fparse, " : RETURN STATEMENT");}
+						| RETURN graph_impr ';'
+						{
+							if(inClass==0){
+								if(strcmp($2,func_symb[currentFuncIndex].type)){printf("error\n");}
+							}
+							else{
+								if(strcmp($2,class_symb[class_size-1].func_list[currentFuncIndex-1].type)){
+									printf("error\n");
+								}
+							}
+						 } {fprintf(fparse, " : RETURN STATEMENT");}
+						| RETURN matrix_impr ';'{if(inClass==0){
+								if(strcmp($2,func_symb[currentFuncIndex].type)){printf("error\n");}
+							}
+							else{
+								if(strcmp($2,class_symb[class_size-1].func_list[currentFuncIndex-1].type)){
+									printf("error\n");
+								}
+							}
+							}  {fprintf(fparse, " : RETURN STATEMENT");}
 						| RETURN vect_stmt_body ';' {fprintf(fparse, " : RETURN STATEMENT");}
 						| RETURN null ';' {fprintf(fparse, " : RETURN STATEMENT");}
 						;
+				
 						
 
 loop_stmt				: LOOP loop_type {fprintf(fparse, " : LOOP");}
@@ -769,11 +805,12 @@ cases					: CASE INT_CONST ':' function_body cases
 						;
 
 						
+						
 RHS						: constants {$$=$1;}
 						| arith_op {$$=$1;}
 						| logical_op {$$=$1;}
 						| func_calls {$$=$1;}
-						| impr {$$ = "improvised";}
+						| impr {$$ = $1;}
 						;						
 
 						
@@ -786,13 +823,12 @@ constants				: INT_CONST {$$="int";}
 						;
 						
 						
-extra_consts			: array_const
-						| graph_const
-						| vect_const
-						| matrix_const
-						| '{' '}'
+extra_consts			: array_const{$$ = "2";}
+						| graph_const{$$="graph";}
+						| vect_const{$$="vect";}
+						| matrix_const{$$="matrix";}
+						| '{' '}'{$$="1";}
 						;
-						
 
 array_const				: '[' val_list ']'
 						| '[' ']'
@@ -810,29 +846,27 @@ resultant				: LHS
 						| graph_impr
 						| vect_stmt_body
 						| impr
-						;					
+						;		
 						
-impr					: resultant '.' LENGTH '(' ')'
-						| resultant '.' AT '(' remove_body ')'
-						| resultant '.' TRACE '(' ')'
-						| resultant '.' STRLEN '(' ')'
-						| STRCMP '(' RHS ',' RHS ')'
-						| resultant '.' STRCUT '(' remove_body ',' remove_body ')'
-						| STRJOIN '(' RHS ',' RHS ')'
+impr					: resultant '.' LENGTH '(' ')'{$$ = "int";}
+						| resultant '.' AT '(' remove_body ')'{$$ = "0";}
+						| resultant '.' TRACE '(' ')' {$$ = "int";}
+						| resultant '.' STRLEN '(' ')'{$$ = "int";}
+						| STRCMP '(' RHS ',' RHS ')' {$$ = "bool";}
+						| resultant '.' STRCUT '(' remove_body ',' remove_body ')'{$$ = "string";}
+						| STRJOIN '(' RHS ',' RHS ')'{$$ =  "string";}
 						;
 						
-
-						
-graph_impr				: resultant '.' TRAVERSAL '(' remove_body ')'
-						| resultant '.' GRTOMATX '(' ')'
-						| resultant '.' SHPATH '(' remove_body ',' remove_body ')'
-						| resultant '.' SHPATH_VAL '(' remove_body ',' remove_body ')'
+graph_impr				: resultant '.' TRAVERSAL '(' remove_body ')'{$$ = "vect";}
+						| resultant '.' GRTOMATX '(' ')'{$$ = "matrix";}
+						| resultant '.' SHPATH '(' remove_body ',' remove_body ')'{$$ = "vect";}
+						| resultant '.' SHPATH_VAL '(' remove_body ',' remove_body ')' {$$ = "int";}
 						;
 						
 						
-matrix_impr				: MATXOP '(' matr_body ',' matr_body ')'
-						| resultant '.' TRANSPOSE '(' ')' 
-						| resultant '.' MAXTOGR '(' ')'
+matrix_impr				: MATXOP '(' matr_body ',' matr_body ')'{$$ = "matrix";}
+						| resultant '.' TRANSPOSE '(' ')' {$$ = "matrix";}
+						| resultant '.' MAXTOGR '(' ')' {$$ = "matrix";}
 						;
 						
 matr_body				: RHS
