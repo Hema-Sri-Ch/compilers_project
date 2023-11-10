@@ -1,8 +1,15 @@
-func int main(int a, float b, char c, string str){
+class myClass{
+	func int myFunc(int abc){
+		expr abc = 10;
+		return abc;
+	}
+};
+
+func int main(int a, float b, char c, string str, myClass obj){
 	expr a = 10;
 	expr str = "Hello, world";
 	expr a = add(a, b);
-	return 1;
+	return call obj->myFunc(5);
 }
 !!
 func int setItems(int a, float b, float c, myStruct d, vect<myStruct> ai, vect<int> bi) {

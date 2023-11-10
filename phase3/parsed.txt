@@ -1,6 +1,13 @@
-func int main(int a, float b, char c, string str) : FUNCTION HEAD{
+class myClass{
+	func int myFunc(int abc) : FUNCTION HEAD{
+		expr abc = 10; : EXPRESSION STATEMENT
+		return abc; : RETURN STATEMENT
+	}
+}; : CLASS DEFINITION
+
+func int main(int a, float b, char c, string str, myClass obj) : FUNCTION HEAD{
 	expr a = 10; : EXPRESSION STATEMENT
 	expr str = "Hello, world"; : EXPRESSION STATEMENT
 	expr a = add(a, b); : EXPRESSION STATEMENT
-	return 1; : RETURN STATEMENT
+	return call obj->myFunc(5); : RETURN STATEMENT
 }

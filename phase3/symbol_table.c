@@ -166,12 +166,22 @@ void var_delete()
 
 // FUNCTION SYMBOL TABLE
 
-void printFuncDetails(int ind){
-	printf("Name: %s\n", func_symb[ind].name);
-	printf("Type: %s\n", func_symb[ind].type);
-	printf("Args: ");
-	for(int i=0; i<func_symb[ind].param_no; i++) printf("%s, ", func_symb[ind].args[i]); 
-	printf("\n");
+void printFuncDetails(int cInd, int fInd){
+	if(cInd == -1){
+		printf("Name: %s\n", func_symb[fInd].name);
+		printf("Type: %s\n", func_symb[fInd].type);
+		printf("Args: ");
+		for(int i=0; i<func_symb[fInd].param_no; i++) printf("%s, ", func_symb[fInd].args[i]); 
+		printf("\n");
+	}
+	else{
+		int cl_func_size = class_symb[cInd].cl_func_size;
+		printf("Name: %s\n", class_symb[cInd].func_list[cl_func_size-1].name);
+		printf("Type: %s\n", class_symb[cInd].func_list[cl_func_size-1].type);
+		printf("Args: ");
+		for(int i=0; i<class_symb[cInd].func_list[cl_func_size-1].param_no; i++) printf("%s, ", class_symb[cInd].func_list[cl_func_size-1].args[i]); 
+		printf("\n");
+	}
 }
 
 void func_insert(char* Name, char* Type) // to insert function details at begining
@@ -244,8 +254,8 @@ void class_func_insert(int ind, char* Name, char* Type)
 
     class_symb[ind].func_list[cl_func_size].name = Name;
     class_symb[ind].func_list[cl_func_size].type = Type;
-    class_symb[ind].func_list[cl_func_size].var_start = -1;
-    class_symb[ind].func_list[cl_func_size].param_start = -1;
+    class_symb[ind].func_list[cl_func_size].var_start = 0;
+    class_symb[ind].func_list[cl_func_size].param_start = 0;
     class_symb[ind].func_list[cl_func_size].param_no =0;
     class_symb[ind].cl_func_size++;
 }

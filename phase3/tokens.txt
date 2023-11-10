@@ -1,3 +1,25 @@
+reserved keyword: class
+Identifier : myClass
+Special symbols:	{
+reserved keyword: func
+datatype: int
+Identifier : myFunc
+Special symbols:	(
+datatype: int
+Identifier : abc
+Special symbols:	)
+Special symbols:	{
+reserved keyword: expr
+Identifier : abc
+Special symbols:	=
+constant: 10
+Punctuation : ;
+reserved keyword: return
+Identifier : abc
+Punctuation : ;
+Special symbols:	}
+Special symbols:	}
+Punctuation : ;
 reserved keyword: func
 datatype: int
 Identifier : main
@@ -13,6 +35,9 @@ Identifier : c
 Punctuation : ,
 datatype: string
 Identifier : str
+Punctuation : ,
+Identifier : myClass
+Identifier : obj
 Special symbols:	)
 Special symbols:	{
 reserved keyword: expr
@@ -36,7 +61,13 @@ Identifier : b
 Special symbols:	)
 Punctuation : ;
 reserved keyword: return
-constant: 1
+reserved keyword: call
+Identifier : obj
+Special symbols: ->
+Identifier : myFunc
+Special symbols:	(
+constant: 5
+Special symbols:	)
 Punctuation : ;
 Special symbols:	}
 invalid statement in lexer
