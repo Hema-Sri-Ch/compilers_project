@@ -11,6 +11,7 @@
 	
 	// flags
 	int inClass=0;
+	int inStruct=0;
 	int level=0;  // indicates level of scope
 	int inFunc=0;
 	int currentFuncIndex; // To be used by call statements to grab func details
@@ -28,7 +29,8 @@
 		dataType = 6 --> class
 	*/
 	
-	
+	char* arr[20];
+	int arr_size=0;
 	/*
 		MY ASSUMPTIONS:
 			--> if it is parameter, only type check is feasible, but no attibute check non-standard datatypes
@@ -99,7 +101,7 @@
 %token <str> MAXTOGR
 %token <str> GRTOMATX
 %token <str> SHPATH
-%token <str> SHPATHVAL
+%token <str> SHPATH_VAL
 %token GOTO
 
 %start program_unit
@@ -141,7 +143,7 @@ id						: newid {$$=$1;}
 						| MAXTOGR {$$=$1;}
 						| GRTOMATX {$$=$1;}
 						| SHPATH {$$=$1;}
-						| SHPATHVAL {$$=$1;}
+						| SHPATH_VAL {$$=$1;}
 						;
 						
 class_items				: class_item class_items
@@ -192,77 +194,12 @@ fdtype					: dtype {$$ = $1;}
 param_list				: dtype id ',' param_list {
 							if(inClass == 0) add_args($1);
 							else class_add_args(class_size-1, $1); 
-							var_insert(0, $2, $1, level, dataType);
-							if(dataType == 1){
-								/* arrays are useless here */
-								array_insert($2, "", -1);
-							}
-							
-							else if(dataType == 2){
-								// vector
-								vect_insert($2, "", -1);
-							}
-							
-							else if(dataType == 3){
-								// matrix
-								matrix_insert($2, -1, -1);
-							}
-							
-							else if(dataType == 4){
-								// graph
-								graph_insert($2, -1, -1);
-							}
-							
-							else if(dataType == 5){
-								// struct
-								
-								/* we store what kind of structs are there, but
-									there is no symbol table for each type of struct */
-							}
-							
-							else if(dataType == 6){
-								// class
-								
-								/* we store what kind of classes are there, but
-									there is no symbol table for each type of class */
-							}
+							var_insert(0, level, $2, $1, "", -1, -1);	
 						}
 						| dtype id {
-							add_args($1); 
-							var_insert(0, $2, $1, level, dataType);
-							if(dataType == 1){
-								/* arrays are useless here */
-								array_insert($2, "", -1);
-							}
-							
-							else if(dataType == 2){
-								// vector
-								vect_insert($2, "", -1);
-							}
-							
-							else if(dataType == 3){
-								// matrix
-								matrix_insert($2, -1, -1);
-							}
-							
-							else if(dataType == 4){
-								// graph
-								graph_insert($2, -1, -1);
-							}
-							
-							else if(dataType == 5){
-								// struct
-								
-								/* we store what kind of structs are there, but
-									there is no symbol table for each type of struct */
-							}
-							
-							else if(dataType == 6){
-								// class
-								
-								/* we store what kind of classes are there, but
-									there is no symbol table for each type of class */
-							}
+							if(inClass == 0) add_args($1);
+							else class_add_args(class_size-1, $1); 
+							var_insert(0, level, $2, $1, "", -1, -1);
 						}
 						;
 						
@@ -480,7 +417,9 @@ LHS						: id {
 declr_stmt				: DECLR declr_body ';' {fprintf(fparse, " : DECLARATION STATEMENT");}
 
 declr_body				: DATATYPE id_list
+							
 						| GRAPH graph_and_array_list
+							
 						| VECT '<' dtype '>' id_list
 						| MATRIX matrix_list 
 						| DATATYPE graph_and_array_list
@@ -497,7 +436,15 @@ matrix_list				: id '[' INT_CONST ']' '[' INT_CONST ']' ',' matrix_list
 						;
 
 id_list					: id ',' id_list
+							{
+								arr[arr_size] = $1;
+								arr_size++;
+							}
 						| id
+							{
+								arr[arr_size] = $1;
+								arr_size++;
+							}
 						;
 
 ifcond_stmt				: IF '(' RHS ')' {fprintf(fparse, " : CONDITIONAL STATEMENT");} if_body
@@ -575,7 +522,7 @@ impr					: resultant '.' LENGTH '(' ')'
 graph_impr				: resultant '.' TRAVERSAL '(' remove_body ')'
 						| resultant '.' GRTOMATX '(' ')'
 						| resultant '.' SHPATH '(' remove_body ',' remove_body ')'
-						| resultant '.' SHPATHVAL '(' remove_body ',' remove_body ')'
+						| resultant '.' SHPATH_VAL '(' remove_body ',' remove_body ')'
 						;
 						
 						
