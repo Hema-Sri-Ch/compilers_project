@@ -309,7 +309,16 @@ jump_stmt				: label_stmt
 						| goto_stmt
 						;
 						
-label_stmt				: id ':' function_body {fprintf(fparse, " : LABEL");}
+label_stmt				: id 
+							{
+								if(label_search($1)!=-1) 
+								{
+									printf("Label name already exists\n");
+									exit(1);
+								}
+								else label_insert($1);
+							}
+							':' function_body {fprintf(fparse, " : LABEL");}
 						;
 						
 goto_stmt				: GOTO id ';' {fprintf(fparse, " : GOTO STATEMENT");}

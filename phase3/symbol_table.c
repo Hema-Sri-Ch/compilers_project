@@ -78,12 +78,14 @@ struct data_node var_symb[100];
 struct struct_node struct_symb[20];
 struct class_node class_symb[20];
 struct switch_cases switch_symb[10];
+char* label_symb[20];
 
 int var_size=0;
 int func_size=0;    
 int struct_size=0;
 int class_size=0;
 int switch_size=0;
+int label_size=0;
 
 
 // VARIABLE & PARAMETER SYMBOL TABLE
@@ -340,3 +342,18 @@ void switch_delete()
     switch_size--;
 }
 
+// LABEL SYMBOL TABLE
+void label_insert(char* Name)
+{
+    label_symb[label_size] = Name;
+    label_size++;
+}
+
+int label_search(char* Name)
+{
+    for(int i=0; i<label_size; i++)
+    {
+        if(strcmp(label_symb[i], Name)==0) return i;
+    }
+    return -1;
+}

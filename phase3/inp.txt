@@ -4,8 +4,11 @@ class myClass{
 		expr abc = mul(abc, k);
 		expr str = "c";
 		expr c = 'c';
-		return abc;
-		
+		!! return abc; !!
+		label2 :
+		{
+			expr c = 'l';
+		}
 	}
 };
 
@@ -13,6 +16,10 @@ func int main(int a, float b, char c, string str, myClass obj){
 	
 	expr a = 10;
 	expr str = "Hello, world";
+	label1 :
+	{
+		declr int a;
+	}
 	expr a = add(a, call obj->myFunc(5));
 	loop while(true){
 		if( ((a and b) or add(a, call obj->myFunc(5))) ){
