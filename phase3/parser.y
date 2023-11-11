@@ -20,7 +20,7 @@
 	int callClassIndex=-1;
 	int callFuncIndex=-1;
 	int myIndex = 0; // for argument checking in function calls
-	int returnStmtCount = 0;
+	
 	int dataType;
 	/*
 		dataType = 0 --> standard
@@ -36,6 +36,8 @@
 	int arr_size=0;
 	int dimA[20];
 	int dimB[20];
+	int dummy_size = 0;
+	int newArr[20];
 	/*
 		MY ASSUMPTIONS:
 			--> if it is parameter, only type check is feasible, but no attibute check non-standard datatypes
@@ -54,7 +56,7 @@
 	} Cols;
 }
 
-%type<str> fdtype dtype id id_list graph_and_array_list matrix_list return_stmt RHS constants extra_consts impr matrix_impr graph_impr arith_op logical_op func_calls binary_op unary_op arg_list call_head for_RHS myId vect_append resultant vect_stmt_body remove_body matr_body
+%type<str> fdtype dtype id id_list graph_and_array_list matrix_list return_stmt RHS constants extra_consts impr matrix_impr graph_impr arith_op logical_op func_calls binary_op unary_op arg_list call_head for_RHS myId vect_append resultant vect_stmt_body remove_body int_list float_list bool_list char_list str_list val_list array_const
 %type<details> function function_head func_definition LHS
 %type<Cols> mat_list int_float_list
 
@@ -189,8 +191,7 @@ struct_items			: declr_stmt struct_items
 						| declr_stmt
 						;
 						
-function				: function_head function_body {currentFuncIndex = -1; if(returnStmtCount==0)printf("%d ERROR : Expected atlease one return statement\n", yylineno);
-									returnStmtCount = 0;}
+function				: function_head function_body {currentFuncIndex = -1;}
 						;
 						
 function_head			: func_definition Parameters { 
@@ -377,63 +378,100 @@ remove_body				: INT_CONST {$$="int";}
 vect_append				: RHS
 						| extra_consts
 						;
-return_stmt 			: RETURN RHS';'{ returnStmtCount++;
-					if(inClass==0){		
-						if(strcmp($2,func_symb[currentFuncIndex].type)){printf("%d ERROR : func type and return type are mismatched\n",yylineno);}
-					}
-					else{
-						if(strcmp($2,class_symb[class_size-1].func_list[currentFuncIndex].type)){
-							printf("%d ERROR : func type and return type are mismatched\n",yylineno);
-						}
-					}
-				} {fprintf(fparse, " : RETURN STATEMENT");}
+return_stmt 			: RETURN RHS';'
+							{
+								if(inClass==0)
+								{		
+									if(strcmp($2,func_symb[currentFuncIndex].type))
+									{
+										printf("ERROR : func type and return type are mismatched\n");
+									}
+								}
+								else
+								{
+									if(strcmp($2,class_symb[class_size-1].func_list[currentFuncIndex].type))
+									{
+										printf("ERROR : func type and return type are mismatched\n");
+									}
+								}
+							} 				
+							{fprintf(fparse, " : RETURN STATEMENT");}
 						| RETURN extra_consts ';' 
-						 {	returnStmtCount++;
-							if(inClass==0){
-								if(strcmp($2,func_symb[currentFuncIndex].type)){printf("%d ERROR : func type and return type are mismatched\n",yylineno);}
-							}
-							else{
-								if(strcmp($2,class_symb[class_size-1].func_list[currentFuncIndex].type)){
-									printf("%d ERROR : func type and return type are mismatched\n",yylineno);
+						 	{
+								if(inClass==0)
+								{
+									if(strcmp($2,func_symb[currentFuncIndex].type))
+									{
+										printf("ERROR : func type and return type are mismatched\n");
+									}
 								}
-							}
-						 }{fprintf(fparse, " : RETURN STATEMENT");}
+								else
+								{
+									if(strcmp($2,class_symb[class_size-1].func_list[currentFuncIndex].type))
+									{
+										printf("ERROR : func type and return type are mismatched\n");
+									}
+								}
+						 	}
+							{fprintf(fparse, " : RETURN STATEMENT");}
 						| RETURN graph_impr ';'
-						{	returnStmtCount++;
-							if(inClass==0){
-								if(strcmp($2,func_symb[currentFuncIndex].type)){printf("%d ERROR : func type and return type are mismatched\n",yylineno);}
-							}
-							else{
-								if(strcmp($2,class_symb[class_size-1].func_list[currentFuncIndex].type)){
-									printf("%d ERROR : func type and return type are mismatched\n", yylineno);
+							{
+								if(inClass==0)
+								{
+									if(strcmp($2,func_symb[currentFuncIndex].type))
+									{
+										printf("ERROR : func type and return type are mismatched\n");
+									}
 								}
-							}
-						 } {fprintf(fparse, " : RETURN STATEMENT");}
+								else
+								{
+									if(strcmp($2,class_symb[class_size-1].func_list[currentFuncIndex].type))
+									{
+										printf("ERROR : func type and return type are mismatched\n");
+									}
+								}
+						 	} 
+							{fprintf(fparse, " : RETURN STATEMENT");}
 						| RETURN matrix_impr ';'
-						{	returnStmtCount++;
-							if(inClass==0){
-								if(strcmp($2,func_symb[currentFuncIndex].type)){printf("%d ERROR : func type and return type are mismatched\n",yylineno);}
-							}
-							else{
-								if(strcmp($2,class_symb[class_size-1].func_list[currentFuncIndex].type)){
-									printf("%d ERROR : func type and return type are mismatched\n",yylineno);
+							{
+								if(inClass==0)
+								{
+									if(strcmp($2,func_symb[currentFuncIndex].type))
+									{
+										printf("ERROR : func type and return type are mismatched\n");
+									}
 								}
-							}
-							}  {fprintf(fparse, " : RETURN STATEMENT");}
-						| RETURN vect_stmt_body ';' {
-							 returnStmtCount++;
-							}{fprintf(fparse, " : RETURN STATEMENT");}
-						| RETURN null ';'{
-							returnStmtCount++;
-							if(inClass==0){
-								if(strcmp("void",func_symb[currentFuncIndex].type)){printf("%d ERROR : func type and return type are mismatched\n", yylineno);}
-							}
-							else{
-								if(strcmp("void",class_symb[class_size-1].func_list[currentFuncIndex].type)){
-									printf("%d ERROR : func type and return type are mismatched\n",yylineno);
+								else
+								{
+									if(strcmp($2,class_symb[class_size-1].func_list[currentFuncIndex].type))
+									{
+										printf("ERROR : func type and return type are mismatched\n");
+									}
 								}
+							}  
+							{fprintf(fparse, " : RETURN STATEMENT");}
+						| RETURN vect_stmt_body ';'
+							{
+								fprintf(fparse, " : RETURN STATEMENT");
 							}
-							} {fprintf(fparse, " : RETURN STATEMENT");}
+						| RETURN null ';'
+							{
+								if(inClass==0)
+								{
+									if(strcmp("void",func_symb[currentFuncIndex].type))
+									{
+										printf("ERROR : func type and return type are mismatched\n");
+									}
+								}
+								else
+								{
+									if(strcmp("void",class_symb[class_size-1].func_list[currentFuncIndex].type))
+									{
+										printf("ERROR : func type and return type are mismatched\n");
+									}
+								}
+							} 
+							{fprintf(fparse, " : RETURN STATEMENT");}
 						;
 				
 						
@@ -501,49 +539,66 @@ expr_stmt				: EXPR LHS '=' RHS ';' {
 						| EXPR LHS '=' extra_consts ';'
 							{
 								int dimAval, dimBval;
+								char* element_type;
 								int ind = var_search($2.name);
 								if(ind==-1) 
 								{
 									ind = class_declr_search($2.name, class_size-1);
 									dimAval = class_symb[class_size-1].declr_list[ind].dim_A;
 									dimBval = class_symb[class_size-1].declr_list[ind].dim_B;
+									element_type = class_symb[class_size-1].declr_list[ind].ele_type;
 								}
 								else
 								{
 									dimAval = var_symb[ind].dim_A;
 									dimBval = var_symb[ind].dim_B;
+									element_type = var_symb[ind].ele_type;
 								}
-								
 								 
 
 								if(strcmp("graph", $2.type)==0)
 								{
-									for(int i=0; i<arr_size; i++)
+									for(int i=0; i<dummy_size; i++)
 									{
-										if(dimA[i]>dimAval)
+										if(newArr[i]>dimAval)
 										{
 											printf("%d ERROR: Vertex used is not present in the graph\n", yylineno);
 											exit(1);
 										}
 									}
-									arr_size=0;
+									dummy_size=0;
 								}
 								else if(strcmp("matrix", $2.type)==0)
 								{
-									if(arr_size!=dimAval) 
+									if(dummy_size!=dimAval) 
 									{
 										printf("%d ERROR: Number of rows mismatch\n", yylineno);
 										exit(1);
 									}
-									for(int i=0; i<arr_size; i++)
+									for(int i=0; i<dummy_size; i++)
 									{
-										if(dimA[i]!=dimBval)
+										if(newArr[i]!=dimBval)
 										{
 											printf("%d ERROR: Number of columns mismatch\n", yylineno);
 											exit(1);
 										}
 									}
-									arr_size=0;
+									dummy_size=0;
+								}
+								else if(strcmp("array", $2.type)==0)
+								{
+									if(strcmp(element_type, $4)!=0 && strcmp($4, "any")!=0)
+									{
+										printf("Element-type mismatch in array\n");
+										exit(1);
+									}
+									if(dummy_size!=dimAval)
+									{
+										printf("Array length is not matching\n");
+										exit(1);
+									}
+									
+									dummy_size=0;
 								}
 							}
 							{fprintf(fparse, " : EXPRESSION STATEMENT");}
@@ -817,21 +872,21 @@ declr_body				: DATATYPE id_list
 								{
 									for(int i=0; i<arr_size; i++)
 									{
-										var_insert(1, level, arr[i], "array", $1 , -1, -1);
+										var_insert(1, level, arr[i], "array", $1 , dimA[i], -1);
 									}
 								}
 								else if(inClass==1)
 								{
 									for(int i=0; i<arr_size; i++)
 									{
-										add_class_declrs(arr[i], "array", 1, level, $1, -1, -1);
+										add_class_declrs(arr[i], "array", 1, level, $1, dimA[i], -1);
 									}
 								}
 								else
 								{
 									for(int i=0; i<arr_size; i++)
 									{
-										add_struct_declrs(arr[i], "array", 1, level, $1, -1, -1);
+										add_struct_declrs(arr[i], "array", 1, level, $1, dimA[i], -1);
 									}
 								}
 								arr_size=0;
@@ -878,7 +933,7 @@ graph_and_array_list	: id '[' INT_CONST ']' ',' graph_and_array_list
 								dimA[arr_size] = atoi($3);
 								if(dimA[arr_size]<=0)
 								{
-									printf("Number of vertices in a graph has to be greater than 0\n");
+									printf("Dimension(s) has to be greater than 0\n");
 									exit(1);
 								}
 								arr_size++;
@@ -889,7 +944,7 @@ graph_and_array_list	: id '[' INT_CONST ']' ',' graph_and_array_list
 								dimA[arr_size] = atoi($3);
 								if(dimA[arr_size]<=0)
 								{
-									printf("Number of vertices in a graph has to be greater than 0\n");
+									printf("Dimension(s) has to be greater than 0\n");
 									exit(1);
 								}
 								arr_size++;
@@ -994,7 +1049,7 @@ constants				: INT_CONST {$$="int";}
 						;
 						
 						
-extra_consts			: array_const{$$ = "2";}
+extra_consts			: array_const{$$ = $1;}
 						| graph_const{$$="graph";}
 						| vect_const{$$="vect";}
 						| matrix_const{$$="matrix";}
@@ -1002,14 +1057,25 @@ extra_consts			: array_const{$$ = "2";}
 						;
 
 array_const				: '[' val_list ']'
+							{
+								$$ = $2;
+							}
 						| '[' ']'
+							{
+								$$ = "any";
+							}
 						;
 						
 val_list				: int_list
+							{ $$ = "int";}
 						| float_list
+							{ $$  = "float";}
 						| char_list
+							{ $$ = "char";}
 						| bool_list
+							{ $$ = "bool";}
 						| str_list
+							{ $$ = "string";}
 						;
 
 resultant				: LHS{$$ = $1.type;}
@@ -1036,15 +1102,13 @@ graph_impr				: resultant '.' TRAVERSAL '(' remove_body ')'{$$ = "vect";}
 						;
 						
 						
-matrix_impr				: MATXOP '(' matr_body ',' matr_body ')'{if(strcmp($3,"matrix") || strcmp($5,"matrix")){
-											printf("%d, ERROR : argument is not a matrix\n",yylineno);exit(1);}
-											$$ = "matrix";}
+matrix_impr				: MATXOP '(' matr_body ',' matr_body ')'{$$ = "matrix";}
 						| resultant '.' TRANSPOSE '(' ')' {$$ = "matrix";}
 						| resultant '.' MAXTOGR '(' ')' {$$ = "matrix";}
 						;
 						
-matr_body				: RHS {$$ = $1;}
-						| matrix_impr {$$ = $1;}
+matr_body				: RHS
+						| matrix_impr
 						;
 						
 graph_const				: '{' graph_type1 '}'
@@ -1053,75 +1117,113 @@ graph_const				: '{' graph_type1 '}'
 
 graph_type1				: INT_CONST ':' int_list ';' graph_type1
 							{
-								dimA[arr_size] = atoi($1);
-								arr_size++;
+								newArr[dummy_size] = atoi($1);
+								dummy_size++;
 							}
 						| INT_CONST ':' int_list ';'
 							{
-								dimA[arr_size] = atoi($1);
-								arr_size++;
+								newArr[dummy_size] = atoi($1);
+								dummy_size++;
 							}
 						;
 
 graph_type2				: INT_CONST ':' weight_list ';' graph_type2
 							{
-								dimA[arr_size] = atoi($1);
-								arr_size++;
+								newArr[dummy_size] = atoi($1);
+								dummy_size++;
 							}
 						| INT_CONST ':' weight_list ';'
 							{
-								dimA[arr_size] = atoi($1);
-								arr_size++;
+								newArr[dummy_size] = atoi($1);
+								dummy_size++;
 							}
 						;
 
 int_list				: INT_CONST ',' int_list
 							{
-								dimA[arr_size] = atoi($1);
-								arr_size++;
+								newArr[dummy_size] = atoi($1);
+								dummy_size++;
+							}
+							{
+								$$ = "int";
 							}
 						| INT_CONST
 							{
-								dimA[arr_size] = atoi($1);
-								arr_size++;
+								newArr[dummy_size] = atoi($1);
+								dummy_size++;
+							}
+							{
+								$$ = "int";
 							}
 						;
 
 float_list				: FLOAT_CONST ',' float_list
+							{
+								$$ = "float";
+								dummy_size++;
+							}
 						| FLOAT_CONST
+							{
+								$$ = "float";
+								dummy_size++;
+							}
 						;
 
 char_list				: CHAR_CONST ',' char_list
+							{
+								$$ = "char";
+								dummy_size;
+							}
 						| CHAR_CONST
+							{
+								$$ = "char";
+								dummy_size++;
+							}
 						;
 
 bool_list				: BOOL_CONST ',' bool_list
+							{
+								$$ = "bool";
+								dummy_size;
+							}
 						| BOOL_CONST
+							{
+								$$ = "bool";
+								dummy_size;
+							}
 						;
 
 str_list				: STR_CONST ',' str_list
+							{
+								$$ = "string";
+								dummy_size;
+							}
 						| STR_CONST
+							{
+								$$ = "string";
+								dummy_size++;
+							}
 						;
 
 weight_list				: '(' INT_CONST ',' INT_CONST ')' ',' weight_list
 							{
-								dimA[arr_size] = atoi($2);
-								arr_size++;
+								newArr[dummy_size] = atoi($2);
+								dummy_size++;
 							}
 						| '(' INT_CONST ',' INT_CONST ')'
 							{
-								dimA[arr_size] = atoi($2);
-								arr_size++;
+								newArr[dummy_size] = atoi($2);
+								dummy_size++;
 							}
 						| '(' INT_CONST ',' FLOAT_CONST ')' ',' weight_list
 							{
-								dimA[arr_size] = atoi($2);
-								arr_size++;
+								newArr[dummy_size] = atoi($2);
+								dummy_size++;
 							}
 						| '(' INT_CONST ',' FLOAT_CONST ')'
 							{
-								dimA[arr_size] = atoi($2);
-								arr_size++;
+								newArr[dummy_size] = atoi($2);
+								dummy_size++;
 							}
 						;
 						
@@ -1157,13 +1259,13 @@ int_float_list			: INT_CONST ',' int_float_list
 
 mat_list				: '[' int_float_list ']'';' mat_list
 							{
-								dimA[arr_size]=$2.cols;
-								arr_size++;
+								newArr[dummy_size]=$2.cols;
+								dummy_size++;
 							}
 						| '[' int_float_list ']'';'
 							{
-								dimA[arr_size]=$2.cols;
-								arr_size++;
+								newArr[dummy_size]=$2.cols;
+								dummy_size++;
 							}
 							
 						;
