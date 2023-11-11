@@ -20,6 +20,7 @@
 	int callClassIndex=-1;
 	int callFuncIndex=-1;
 	int myIndex = 0; // for argument checking in function calls
+	int returnStmtCount = 0; //for counting the return statements in a function
 	
 	int dataType;
 	/*
@@ -56,7 +57,7 @@
 	} Cols;
 }
 
-%type<str> fdtype dtype id id_list graph_and_array_list matrix_list return_stmt RHS constants extra_consts impr matrix_impr graph_impr arith_op logical_op func_calls binary_op unary_op arg_list call_head for_RHS myId vect_append resultant vect_stmt_body remove_body int_list float_list bool_list char_list str_list val_list array_const
+%type<str> fdtype dtype id id_list graph_and_array_list matrix_list return_stmt RHS constants extra_consts impr matrix_impr graph_impr arith_op logical_op func_calls binary_op unary_op arg_list call_head for_RHS myId vect_append resultant vect_stmt_body remove_body int_list float_list bool_list char_list str_list val_list array_const matr_body
 %type<details> function function_head func_definition LHS
 %type<Cols> mat_list int_float_list
 
@@ -191,7 +192,8 @@ struct_items			: declr_stmt struct_items
 						| declr_stmt
 						;
 						
-function				: function_head function_body {currentFuncIndex = -1;}
+function				: function_head function_body {currentFuncIndex = -1; if(returnStmtCount==0)printf("%d ERROR : Expected atlease one return statement\n", yylineno);
+									returnStmtCount = 0;}
 						;
 						
 function_head			: func_definition Parameters { 
@@ -411,103 +413,104 @@ vect_append				: RHS {$$=$1;}
 						;
 						
 return_stmt 			: RETURN RHS';'
-							{
+							{	returnStmtCount++;
 								if(inClass==0)
 								{		
 									if(strcmp($2,func_symb[currentFuncIndex].type))
 									{
-										printf("ERROR : func type and return type are mismatched\n");
+										printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 									}
 								}
 								else
 								{
 									if(strcmp($2,class_symb[class_size-1].func_list[currentFuncIndex].type))
 									{
-										printf("ERROR : func type and return type are mismatched\n");
+										printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 									}
 								}
 							} 				
 							{fprintf(fparse, " : RETURN STATEMENT");}
 						| RETURN extra_consts ';' 
-						 	{
+						 	{	returnStmtCount++;
 								if(inClass==0)
 								{
 									if(strcmp($2,func_symb[currentFuncIndex].type))
 									{
-										printf("ERROR : func type and return type are mismatched\n");
+										printf("%d ERROR : func type and return type are mismatched\n", yylineno);
 									}
 								}
 								else
 								{
 									if(strcmp($2,class_symb[class_size-1].func_list[currentFuncIndex].type))
 									{
-										printf("ERROR : func type and return type are mismatched\n");
+										printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 									}
 								}
 						 	}
 							{fprintf(fparse, " : RETURN STATEMENT");}
 						| RETURN graph_impr ';'
-							{
+							{	returnStmtCount++;
 								if(inClass==0)
 								{
 									if(strcmp($2,func_symb[currentFuncIndex].type))
 									{
-										printf("ERROR : func type and return type are mismatched\n");
+										printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 									}
 								}
 								else
 								{
 									if(strcmp($2,class_symb[class_size-1].func_list[currentFuncIndex].type))
 									{
-										printf("ERROR : func type and return type are mismatched\n");
+										printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 									}
 								}
 						 	} 
 							{fprintf(fparse, " : RETURN STATEMENT");}
 						| RETURN matrix_impr ';'
-							{
+							{	returnStmtCount++;
 								if(inClass==0)
 								{
 									if(strcmp($2,func_symb[currentFuncIndex].type))
 									{
-										printf("ERROR : func type and return type are mismatched\n");
+										printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 									}
 								}
 								else
 								{
 									if(strcmp($2,class_symb[class_size-1].func_list[currentFuncIndex].type))
 									{
-										printf("ERROR : func type and return type are mismatched\n");
+										printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 									}
 								}
 							}  
 							{fprintf(fparse, " : RETURN STATEMENT");}
-						| RETURN vect_stmt_body ';'{
+						| RETURN vect_stmt_body ';'
+						{	returnStmtCount++;
 							if(inClass==0){
 								if(strcmp($2,func_symb[currentFuncIndex].type)){
-									printf("ERROR : func type and return type are mismatched\n");
+									printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 								}
 							}
 							else{
 								if(strcmp($2,class_symb[class_size-1].func_list[currentFuncIndex].type)){
-									printf("ERROR : func type and return type are mismatched\n");
+									printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 								}
 							}
 						}
 						| RETURN null ';'
-							{
+							{	returnStmtCount++;
 								if(inClass==0)
 								{
 									if(strcmp("void",func_symb[currentFuncIndex].type))
 									{
-										printf("ERROR : func type and return type are mismatched\n");
+										printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 									}
 								}
 								else
 								{
 									if(strcmp("void",class_symb[class_size-1].func_list[currentFuncIndex].type))
 									{
-										printf("ERROR : func type and return type are mismatched\n");
+										printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 									}
 								}
 							} 
@@ -1151,13 +1154,15 @@ graph_impr				: resultant '.' TRAVERSAL '(' remove_body ')'{$$ = "vect";}
 						;
 						
 						
-matrix_impr				: MATXOP '(' matr_body ',' matr_body ')'{$$ = "matrix";}
+matrix_impr				: MATXOP '(' matr_body ',' matr_body ')'{if(strcmp($3,"matrix") || strcmp($5,"matrix")){
+											printf("%d, ERROR : argument is not a matrix\n",yylineno);exit(1);}
+											$$ = "matrix";}
 						| resultant '.' TRANSPOSE '(' ')' {$$ = "matrix";}
 						| resultant '.' MAXTOGR '(' ')' {$$ = "matrix";}
 						;
 						
-matr_body				: RHS
-						| matrix_impr
+matr_body				: RHS {$$ = $1;}
+						| matrix_impr {$$ = $1;}
 						;
 						
 graph_const				: '{' graph_type1 '}'

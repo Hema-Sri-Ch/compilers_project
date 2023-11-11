@@ -90,6 +90,7 @@
 	int callClassIndex=-1;
 	int callFuncIndex=-1;
 	int myIndex = 0; // for argument checking in function calls
+	int returnStmtCount = 0; //for counting the return statements in a function
 	
 	int dataType;
 	/*
@@ -113,7 +114,7 @@
 			--> if it is parameter, only type check is feasible, but no attibute check non-standard datatypes
 	*/
 
-#line 117 "y.tab.c"
+#line 118 "y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -278,7 +279,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 47 "parser.y"
+#line 48 "parser.y"
 
 	char* str;
 	struct{
@@ -290,7 +291,7 @@ union YYSTYPE
 		int cols;
 	} Cols;
 
-#line 294 "y.tab.c"
+#line 295 "y.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -873,31 +874,31 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   121,   121,   124,   125,   128,   129,   130,   133,   144,
-     133,   147,   148,   149,   150,   151,   152,   153,   154,   155,
-     156,   157,   158,   159,   160,   161,   162,   163,   164,   167,
-     168,   171,   172,   176,   187,   175,   190,   191,   194,   197,
-     206,   230,   231,   235,   236,   240,   241,   245,   267,   274,
-     275,   276,   277,   286,   305,   305,   306,   309,   310,   311,
-     312,   315,   316,   317,   318,   319,   320,   321,   322,   323,
-     324,   325,   326,   329,   332,   333,   337,   336,   348,   351,
-     354,   371,   381,   388,   399,   400,   401,   402,   403,   404,
-     405,   409,   410,   414,   413,   432,   431,   450,   449,   468,
-     467,   485,   498,   497,   519,   522,   523,   526,   529,   530,
-     544,   545,   546,   547,   548,   549,   552,   552,   565,   580,
-     579,   646,   647,   648,   652,   720,   804,   805,   816,   818,
-     843,   868,   893,   918,   943,   979,   990,  1003,  1015,  1029,
-    1034,  1041,  1041,  1056,  1057,  1060,  1060,  1075,  1075,  1078,
-    1078,  1079,  1079,  1084,  1085,  1086,  1087,  1088,  1092,  1093,
-    1094,  1095,  1096,  1097,  1101,  1102,  1103,  1104,  1105,  1108,
-    1112,  1118,  1120,  1122,  1124,  1126,  1130,  1131,  1132,  1133,
-    1134,  1138,  1139,  1140,  1141,  1142,  1143,  1144,  1147,  1148,
-    1149,  1150,  1154,  1155,  1156,  1159,  1160,  1163,  1164,  1167,
-    1172,  1179,  1184,  1192,  1191,  1200,  1199,  1209,  1214,  1221,
-    1226,  1233,  1238,  1245,  1250,  1257,  1262,  1267,  1272,  1279,
-    1282,  1283,  1284,  1285,  1288,  1291,  1295,  1299,  1303,  1309,
-    1314,  1322,  1323,  1326,  1342,  1352,  1366,  1376,  1381,  1399,
-    1412,  1413,  1416,  1450
+       0,   122,   122,   125,   126,   129,   130,   131,   134,   145,
+     134,   148,   149,   150,   151,   152,   153,   154,   155,   156,
+     157,   158,   159,   160,   161,   162,   163,   164,   165,   168,
+     169,   172,   173,   177,   188,   176,   191,   192,   195,   199,
+     208,   232,   233,   237,   238,   242,   243,   247,   269,   276,
+     277,   278,   279,   288,   307,   307,   308,   311,   312,   313,
+     314,   317,   318,   319,   320,   321,   322,   323,   324,   325,
+     326,   327,   328,   331,   334,   335,   339,   338,   350,   353,
+     356,   373,   383,   390,   401,   402,   403,   404,   405,   406,
+     407,   411,   412,   416,   415,   434,   433,   452,   451,   470,
+     469,   487,   501,   500,   522,   525,   526,   529,   532,   533,
+     547,   548,   549,   550,   551,   552,   555,   555,   568,   583,
+     582,   649,   650,   651,   655,   723,   807,   808,   819,   821,
+     846,   871,   896,   921,   946,   982,   993,  1006,  1018,  1032,
+    1037,  1044,  1044,  1059,  1060,  1063,  1063,  1078,  1078,  1081,
+    1081,  1082,  1082,  1087,  1088,  1089,  1090,  1091,  1095,  1096,
+    1097,  1098,  1099,  1100,  1104,  1105,  1106,  1107,  1108,  1111,
+    1115,  1121,  1123,  1125,  1127,  1129,  1133,  1134,  1135,  1136,
+    1137,  1141,  1142,  1143,  1144,  1145,  1146,  1147,  1150,  1151,
+    1152,  1153,  1157,  1160,  1161,  1164,  1165,  1168,  1169,  1172,
+    1177,  1184,  1189,  1197,  1196,  1205,  1204,  1214,  1219,  1226,
+    1231,  1238,  1243,  1250,  1255,  1262,  1267,  1272,  1277,  1284,
+    1287,  1288,  1289,  1290,  1293,  1296,  1300,  1304,  1308,  1314,
+    1319,  1327,  1328,  1331,  1347,  1357,  1371,  1381,  1386,  1404,
+    1417,  1418,  1421,  1455
 };
 #endif
 
@@ -1878,7 +1879,7 @@ yyreduce:
   switch (yyn)
     {
   case 8: /* $@1: %empty  */
-#line 133 "parser.y"
+#line 134 "parser.y"
                                                        {
 							level++; 
 							inClass = 1;
@@ -1891,131 +1892,131 @@ yyreduce:
 							else class_insert((yyvsp[-1].str));
 							
 						}
-#line 1895 "y.tab.c"
+#line 1896 "y.tab.c"
     break;
 
   case 9: /* $@2: %empty  */
-#line 144 "parser.y"
+#line 145 "parser.y"
                                                                   { var_delete(level); level--; inClass = 0; }
-#line 1901 "y.tab.c"
+#line 1902 "y.tab.c"
     break;
 
   case 10: /* class: CLASS id '{' $@1 class_items '}' $@2 ';'  */
-#line 144 "parser.y"
+#line 145 "parser.y"
                                                                                                                    {fprintf(fparse, " : CLASS DEFINITION");}
-#line 1907 "y.tab.c"
+#line 1908 "y.tab.c"
     break;
 
   case 11: /* id: newid  */
-#line 147 "parser.y"
+#line 148 "parser.y"
                                                         {(yyval.str)=(yyvsp[0].str);}
-#line 1913 "y.tab.c"
+#line 1914 "y.tab.c"
     break;
 
   case 12: /* id: APPEND  */
-#line 148 "parser.y"
+#line 149 "parser.y"
                                                          {(yyval.str)=(yyvsp[0].str);}
-#line 1919 "y.tab.c"
+#line 1920 "y.tab.c"
     break;
 
   case 13: /* id: REMOVE  */
-#line 149 "parser.y"
+#line 150 "parser.y"
                                                          {(yyval.str)=(yyvsp[0].str);}
-#line 1925 "y.tab.c"
+#line 1926 "y.tab.c"
     break;
 
   case 14: /* id: LENGTH  */
-#line 150 "parser.y"
+#line 151 "parser.y"
                                                          {(yyval.str)=(yyvsp[0].str);}
-#line 1931 "y.tab.c"
+#line 1932 "y.tab.c"
     break;
 
   case 15: /* id: SORT  */
-#line 151 "parser.y"
+#line 152 "parser.y"
                                                        {(yyval.str)=(yyvsp[0].str);}
-#line 1937 "y.tab.c"
+#line 1938 "y.tab.c"
     break;
 
   case 16: /* id: CLEAR  */
-#line 152 "parser.y"
+#line 153 "parser.y"
                                                         {(yyval.str)=(yyvsp[0].str);}
-#line 1943 "y.tab.c"
+#line 1944 "y.tab.c"
     break;
 
   case 17: /* id: AT  */
-#line 153 "parser.y"
+#line 154 "parser.y"
                                                      {(yyval.str)=(yyvsp[0].str);}
-#line 1949 "y.tab.c"
+#line 1950 "y.tab.c"
     break;
 
   case 18: /* id: TRANSPOSE  */
-#line 154 "parser.y"
+#line 155 "parser.y"
                                                             {(yyval.str)=(yyvsp[0].str);}
-#line 1955 "y.tab.c"
+#line 1956 "y.tab.c"
     break;
 
   case 19: /* id: TRACE  */
-#line 155 "parser.y"
+#line 156 "parser.y"
                                                         {(yyval.str)=(yyvsp[0].str);}
-#line 1961 "y.tab.c"
+#line 1962 "y.tab.c"
     break;
 
   case 20: /* id: TRAVERSAL  */
-#line 156 "parser.y"
+#line 157 "parser.y"
                                                             {(yyval.str)=(yyvsp[0].str);}
-#line 1967 "y.tab.c"
+#line 1968 "y.tab.c"
     break;
 
   case 21: /* id: STRLEN  */
-#line 157 "parser.y"
+#line 158 "parser.y"
                                                          {(yyval.str)=(yyvsp[0].str);}
-#line 1973 "y.tab.c"
+#line 1974 "y.tab.c"
     break;
 
   case 22: /* id: STRCUT  */
-#line 158 "parser.y"
+#line 159 "parser.y"
                                                          {(yyval.str)=(yyvsp[0].str);}
-#line 1979 "y.tab.c"
+#line 1980 "y.tab.c"
     break;
 
   case 23: /* id: STRJOIN  */
-#line 159 "parser.y"
+#line 160 "parser.y"
                                                           {(yyval.str)=(yyvsp[0].str);}
-#line 1985 "y.tab.c"
+#line 1986 "y.tab.c"
     break;
 
   case 24: /* id: STRCMP  */
-#line 160 "parser.y"
+#line 161 "parser.y"
                                                          {(yyval.str)=(yyvsp[0].str);}
-#line 1991 "y.tab.c"
+#line 1992 "y.tab.c"
     break;
 
   case 25: /* id: MAXTOGR  */
-#line 161 "parser.y"
+#line 162 "parser.y"
                                                           {(yyval.str)=(yyvsp[0].str);}
-#line 1997 "y.tab.c"
+#line 1998 "y.tab.c"
     break;
 
   case 26: /* id: GRTOMATX  */
-#line 162 "parser.y"
+#line 163 "parser.y"
                                                            {(yyval.str)=(yyvsp[0].str);}
-#line 2003 "y.tab.c"
+#line 2004 "y.tab.c"
     break;
 
   case 27: /* id: SHPATH  */
-#line 163 "parser.y"
+#line 164 "parser.y"
                                                          {(yyval.str)=(yyvsp[0].str);}
-#line 2009 "y.tab.c"
+#line 2010 "y.tab.c"
     break;
 
   case 28: /* id: SHPATH_VAL  */
-#line 164 "parser.y"
+#line 165 "parser.y"
                                                              {(yyval.str)=(yyvsp[0].str);}
-#line 2015 "y.tab.c"
+#line 2016 "y.tab.c"
     break;
 
   case 33: /* $@3: %empty  */
-#line 176 "parser.y"
+#line 177 "parser.y"
                                                         {
 								level++; 
 								if(class_search((yyvsp[-1].str))!=-1 || struct_search((yyvsp[-1].str))!=-1)
@@ -2027,40 +2028,41 @@ yyreduce:
 								else struct_insert((yyvsp[-1].str));
 								
 							}
-#line 2031 "y.tab.c"
+#line 2032 "y.tab.c"
     break;
 
   case 34: /* $@4: %empty  */
-#line 187 "parser.y"
+#line 188 "parser.y"
                                                                          { var_delete(level); level--;}
-#line 2037 "y.tab.c"
+#line 2038 "y.tab.c"
     break;
 
   case 35: /* struct: STRUCT id '{' $@3 struct_items '}' $@4 ';'  */
-#line 187 "parser.y"
+#line 188 "parser.y"
                                                                                                            {fprintf(fparse, " : STRUCT DEFINITION");}
-#line 2043 "y.tab.c"
+#line 2044 "y.tab.c"
     break;
 
   case 38: /* function: function_head function_body  */
-#line 194 "parser.y"
-                                                                      {currentFuncIndex = -1;}
-#line 2049 "y.tab.c"
+#line 195 "parser.y"
+                                                                      {currentFuncIndex = -1; if(returnStmtCount==0)printf("%d ERROR : Expected atlease one return statement\n", yylineno);
+									returnStmtCount = 0;}
+#line 2051 "y.tab.c"
     break;
 
   case 39: /* function_head: func_definition Parameters  */
-#line 197 "parser.y"
+#line 199 "parser.y"
                                                              { 
 							(yyval.details)=(yyvsp[-1].details); 
 							// if(inClass == 0) printFuncDetails(-1, func_size-1);
 							// else printFuncDetails(class_size-1, -1); 
 							fprintf(fparse, " : FUNCTION HEAD");
 						}
-#line 2060 "y.tab.c"
+#line 2062 "y.tab.c"
     break;
 
   case 40: /* func_definition: FUNC fdtype id  */
-#line 206 "parser.y"
+#line 208 "parser.y"
                                                  {
 							(yyval.details).name = (yyvsp[0].str);
 							(yyval.details).type = (yyvsp[-1].str);
@@ -2083,23 +2085,23 @@ yyreduce:
 								currentFuncIndex = class_symb[class_size-1].cl_func_size - 1;
 							}
 						}
-#line 2087 "y.tab.c"
+#line 2089 "y.tab.c"
     break;
 
   case 43: /* fdtype: dtype  */
-#line 235 "parser.y"
+#line 237 "parser.y"
                                                 {(yyval.str) = (yyvsp[0].str);}
-#line 2093 "y.tab.c"
+#line 2095 "y.tab.c"
     break;
 
   case 44: /* fdtype: VOID  */
-#line 236 "parser.y"
+#line 238 "parser.y"
                                                        {(yyval.str) = (yyvsp[0].str);}
-#line 2099 "y.tab.c"
+#line 2101 "y.tab.c"
     break;
 
   case 47: /* param: dtype id  */
-#line 245 "parser.y"
+#line 247 "parser.y"
                                                    {
 							if(inClass == 0) add_args((yyvsp[-1].str));
 							else class_add_args(class_size-1, (yyvsp[-1].str));
@@ -2122,37 +2124,37 @@ yyreduce:
 							}
 
 						}
-#line 2126 "y.tab.c"
+#line 2128 "y.tab.c"
     break;
 
   case 48: /* param: dtype id '[' ']'  */
-#line 267 "parser.y"
+#line 269 "parser.y"
                                                                    {
 							var_insert(0, level, (yyvsp[-2].str), "array", (yyvsp[-3].str), -1, -1);
 						}
-#line 2134 "y.tab.c"
+#line 2136 "y.tab.c"
     break;
 
   case 49: /* dtype: DATATYPE  */
-#line 274 "parser.y"
+#line 276 "parser.y"
                                                    {(yyval.str) = (yyvsp[0].str); dataType = 0;}
-#line 2140 "y.tab.c"
+#line 2142 "y.tab.c"
     break;
 
   case 50: /* dtype: MATRIX  */
-#line 275 "parser.y"
+#line 277 "parser.y"
                                                          {(yyval.str) = (yyvsp[0].str); dataType = 3;}
-#line 2146 "y.tab.c"
+#line 2148 "y.tab.c"
     break;
 
   case 51: /* dtype: GRAPH  */
-#line 276 "parser.y"
+#line 278 "parser.y"
                                                         {(yyval.str) = (yyvsp[0].str); dataType = 4;}
-#line 2152 "y.tab.c"
+#line 2154 "y.tab.c"
     break;
 
   case 52: /* dtype: VECT '<' dtype '>'  */
-#line 277 "parser.y"
+#line 279 "parser.y"
                                                                      { 
 							char* result;
 							char* A = "*";
@@ -2162,11 +2164,11 @@ yyreduce:
 						    dataType = 2;
 						    (yyval.str) = result;
 						}
-#line 2166 "y.tab.c"
+#line 2168 "y.tab.c"
     break;
 
   case 53: /* dtype: id  */
-#line 286 "parser.y"
+#line 288 "parser.y"
                                                      {
 							int i = struct_search((yyvsp[0].str));
 							if(i < 0) {
@@ -2184,47 +2186,47 @@ yyreduce:
 								(yyval.str) = (yyvsp[0].str);
 							}
 						}
-#line 2188 "y.tab.c"
+#line 2190 "y.tab.c"
     break;
 
   case 54: /* $@5: %empty  */
-#line 305 "parser.y"
+#line 307 "parser.y"
                                       { level++; }
-#line 2194 "y.tab.c"
+#line 2196 "y.tab.c"
     break;
 
   case 55: /* function_body: '{' $@5 statements '}'  */
-#line 305 "parser.y"
+#line 307 "parser.y"
                                                                   {var_delete(level); level--;}
-#line 2200 "y.tab.c"
+#line 2202 "y.tab.c"
     break;
 
   case 68: /* statement: return_stmt  */
-#line 322 "parser.y"
+#line 324 "parser.y"
                                                               {fprintf(fparse," : RETURN STATEMENT");}
-#line 2206 "y.tab.c"
+#line 2208 "y.tab.c"
     break;
 
   case 71: /* statement: BREAK ';'  */
-#line 325 "parser.y"
+#line 327 "parser.y"
                                                             {fprintf(fparse, " : BREAK STATEMENT");}
-#line 2212 "y.tab.c"
+#line 2214 "y.tab.c"
     break;
 
   case 72: /* statement: CONTINUE ';'  */
-#line 326 "parser.y"
+#line 328 "parser.y"
                                                                {fprintf(fparse, " : CONTINUE STATEMENT");}
-#line 2218 "y.tab.c"
+#line 2220 "y.tab.c"
     break;
 
   case 73: /* unary_stmt: unary_op ';'  */
-#line 329 "parser.y"
+#line 331 "parser.y"
                                                        {fprintf(fparse, " : UNARY STATEMENT");}
-#line 2224 "y.tab.c"
+#line 2226 "y.tab.c"
     break;
 
   case 76: /* $@6: %empty  */
-#line 337 "parser.y"
+#line 339 "parser.y"
                                                         {
 								if(label_search((yyvsp[0].str))!=-1) 
 								{
@@ -2233,29 +2235,29 @@ yyreduce:
 								}
 								else label_insert((yyvsp[0].str));
 							}
-#line 2237 "y.tab.c"
+#line 2239 "y.tab.c"
     break;
 
   case 77: /* label_stmt: id $@6 ':' function_body  */
-#line 345 "parser.y"
+#line 347 "parser.y"
                                                                           {fprintf(fparse, " : LABEL");}
-#line 2243 "y.tab.c"
+#line 2245 "y.tab.c"
     break;
 
   case 78: /* goto_stmt: GOTO id ';'  */
-#line 348 "parser.y"
+#line 350 "parser.y"
                                                       {fprintf(fparse, " : GOTO STATEMENT");}
-#line 2249 "y.tab.c"
+#line 2251 "y.tab.c"
     break;
 
   case 79: /* vect_stmt: vect_stmt_body ';'  */
-#line 351 "parser.y"
+#line 353 "parser.y"
                                                              {fprintf(fparse, " : INDEPENDENT METHOD");}
-#line 2255 "y.tab.c"
+#line 2257 "y.tab.c"
     break;
 
   case 80: /* vect_stmt_body: resultant '.' APPEND '(' vect_append ')'  */
-#line 354 "parser.y"
+#line 356 "parser.y"
                                                                            { 
 							if((yyvsp[-5].str)[0] != '*'){
 								printf("%d Error: invalid type for clear\n", yylineno);
@@ -2273,11 +2275,11 @@ yyreduce:
 							} 
 							(yyval.str) = (yyvsp[-5].str);
 						}
-#line 2277 "y.tab.c"
+#line 2279 "y.tab.c"
     break;
 
   case 81: /* vect_stmt_body: resultant '.' REMOVE '(' remove_body ')'  */
-#line 371 "parser.y"
+#line 373 "parser.y"
                                                                                            {
 							if((yyvsp[-5].str)[0] != '*'){
 								printf("%d Error: invalid type for clear\n", yylineno);
@@ -2288,11 +2290,11 @@ yyreduce:
 							} 
 							(yyval.str) = (yyvsp[-5].str);
 						}
-#line 2292 "y.tab.c"
+#line 2294 "y.tab.c"
     break;
 
   case 82: /* vect_stmt_body: resultant '.' SORT '(' ')'  */
-#line 381 "parser.y"
+#line 383 "parser.y"
                                                                              {
 							if((yyvsp[-4].str)[0] != '*'){
 								printf("%d Error: invalid type for sort\n", yylineno);
@@ -2300,11 +2302,11 @@ yyreduce:
 							}
 							(yyval.str) = (yyvsp[-4].str);
 						}
-#line 2304 "y.tab.c"
+#line 2306 "y.tab.c"
     break;
 
   case 83: /* vect_stmt_body: resultant '.' CLEAR '(' ')'  */
-#line 388 "parser.y"
+#line 390 "parser.y"
                                                                               {
 							if((yyvsp[-4].str)[0] != '*'){
 								printf("%d Error: invalid type for clear\n", yylineno);
@@ -2312,223 +2314,223 @@ yyreduce:
 							}
 							(yyval.str) = (yyvsp[-4].str);
 						}
-#line 2316 "y.tab.c"
+#line 2318 "y.tab.c"
     break;
 
   case 84: /* remove_body: INT_CONST  */
-#line 399 "parser.y"
+#line 401 "parser.y"
                                                     {(yyval.str)="int";}
-#line 2322 "y.tab.c"
+#line 2324 "y.tab.c"
     break;
 
   case 85: /* remove_body: FLOAT_CONST  */
-#line 400 "parser.y"
+#line 402 "parser.y"
                                                               {(yyval.str)="float";}
-#line 2328 "y.tab.c"
+#line 2330 "y.tab.c"
     break;
 
   case 86: /* remove_body: LHS  */
-#line 401 "parser.y"
+#line 403 "parser.y"
                                                       {(yyval.str)=(yyvsp[0].details).type;}
-#line 2334 "y.tab.c"
+#line 2336 "y.tab.c"
     break;
 
   case 87: /* remove_body: func_calls  */
-#line 402 "parser.y"
+#line 404 "parser.y"
                                                              {(yyval.str)=(yyvsp[0].str);}
-#line 2340 "y.tab.c"
+#line 2342 "y.tab.c"
     break;
 
   case 88: /* remove_body: arith_op  */
-#line 403 "parser.y"
+#line 405 "parser.y"
                                                            {(yyval.str)=(yyvsp[0].str);}
-#line 2346 "y.tab.c"
+#line 2348 "y.tab.c"
     break;
 
   case 89: /* remove_body: logical_op  */
-#line 404 "parser.y"
+#line 406 "parser.y"
                                                              {(yyval.str)=(yyvsp[0].str);}
-#line 2352 "y.tab.c"
+#line 2354 "y.tab.c"
     break;
 
   case 90: /* remove_body: impr  */
-#line 405 "parser.y"
+#line 407 "parser.y"
                                                        {(yyval.str)=(yyvsp[0].str);}
-#line 2358 "y.tab.c"
+#line 2360 "y.tab.c"
     break;
 
   case 91: /* vect_append: RHS  */
-#line 409 "parser.y"
+#line 411 "parser.y"
                                               {(yyval.str)=(yyvsp[0].str);}
-#line 2364 "y.tab.c"
+#line 2366 "y.tab.c"
     break;
 
   case 92: /* vect_append: extra_consts  */
-#line 410 "parser.y"
+#line 412 "parser.y"
                                                                {(yyval.str)=(yyvsp[0].str);}
-#line 2370 "y.tab.c"
+#line 2372 "y.tab.c"
     break;
 
   case 93: /* $@7: %empty  */
-#line 414 "parser.y"
-                                                        {
+#line 416 "parser.y"
+                                                        {	returnStmtCount++;
 								if(inClass==0)
 								{		
 									if(strcmp((yyvsp[-1].str),func_symb[currentFuncIndex].type))
 									{
-										printf("ERROR : func type and return type are mismatched\n");
+										printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 									}
 								}
 								else
 								{
 									if(strcmp((yyvsp[-1].str),class_symb[class_size-1].func_list[currentFuncIndex].type))
 									{
-										printf("ERROR : func type and return type are mismatched\n");
+										printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 									}
 								}
 							}
-#line 2391 "y.tab.c"
+#line 2393 "y.tab.c"
     break;
 
   case 94: /* return_stmt: RETURN RHS ';' $@7  */
-#line 430 "parser.y"
+#line 432 "parser.y"
                                                         {fprintf(fparse, " : RETURN STATEMENT");}
-#line 2397 "y.tab.c"
+#line 2399 "y.tab.c"
     break;
 
   case 95: /* $@8: %empty  */
-#line 432 "parser.y"
-                                                        {
+#line 434 "parser.y"
+                                                        {	returnStmtCount++;
 								if(inClass==0)
 								{
 									if(strcmp((yyvsp[-1].str),func_symb[currentFuncIndex].type))
 									{
-										printf("ERROR : func type and return type are mismatched\n");
+										printf("%d ERROR : func type and return type are mismatched\n", yylineno);
 									}
 								}
 								else
 								{
 									if(strcmp((yyvsp[-1].str),class_symb[class_size-1].func_list[currentFuncIndex].type))
 									{
-										printf("ERROR : func type and return type are mismatched\n");
+										printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 									}
 								}
 						 	}
-#line 2418 "y.tab.c"
+#line 2420 "y.tab.c"
     break;
 
   case 96: /* return_stmt: RETURN extra_consts ';' $@8  */
-#line 448 "parser.y"
+#line 450 "parser.y"
                                                         {fprintf(fparse, " : RETURN STATEMENT");}
-#line 2424 "y.tab.c"
+#line 2426 "y.tab.c"
     break;
 
   case 97: /* $@9: %empty  */
-#line 450 "parser.y"
-                                                        {
+#line 452 "parser.y"
+                                                        {	returnStmtCount++;
 								if(inClass==0)
 								{
 									if(strcmp((yyvsp[-1].str),func_symb[currentFuncIndex].type))
 									{
-										printf("ERROR : func type and return type are mismatched\n");
+										printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 									}
 								}
 								else
 								{
 									if(strcmp((yyvsp[-1].str),class_symb[class_size-1].func_list[currentFuncIndex].type))
 									{
-										printf("ERROR : func type and return type are mismatched\n");
+										printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 									}
 								}
 						 	}
-#line 2445 "y.tab.c"
+#line 2447 "y.tab.c"
     break;
 
   case 98: /* return_stmt: RETURN graph_impr ';' $@9  */
-#line 466 "parser.y"
+#line 468 "parser.y"
                                                         {fprintf(fparse, " : RETURN STATEMENT");}
-#line 2451 "y.tab.c"
+#line 2453 "y.tab.c"
     break;
 
   case 99: /* $@10: %empty  */
-#line 468 "parser.y"
-                                                        {
+#line 470 "parser.y"
+                                                        {	returnStmtCount++;
 								if(inClass==0)
 								{
 									if(strcmp((yyvsp[-1].str),func_symb[currentFuncIndex].type))
 									{
-										printf("ERROR : func type and return type are mismatched\n");
+										printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 									}
 								}
 								else
 								{
 									if(strcmp((yyvsp[-1].str),class_symb[class_size-1].func_list[currentFuncIndex].type))
 									{
-										printf("ERROR : func type and return type are mismatched\n");
+										printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 									}
 								}
 							}
-#line 2472 "y.tab.c"
+#line 2474 "y.tab.c"
     break;
 
   case 100: /* return_stmt: RETURN matrix_impr ';' $@10  */
-#line 484 "parser.y"
+#line 486 "parser.y"
                                                         {fprintf(fparse, " : RETURN STATEMENT");}
-#line 2478 "y.tab.c"
+#line 2480 "y.tab.c"
     break;
 
   case 101: /* return_stmt: RETURN vect_stmt_body ';'  */
-#line 485 "parser.y"
-                                                                           {
+#line 488 "parser.y"
+                                                {	returnStmtCount++;
 							if(inClass==0){
 								if(strcmp((yyvsp[-1].str),func_symb[currentFuncIndex].type)){
-									printf("ERROR : func type and return type are mismatched\n");
+									printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 								}
 							}
 							else{
 								if(strcmp((yyvsp[-1].str),class_symb[class_size-1].func_list[currentFuncIndex].type)){
-									printf("ERROR : func type and return type are mismatched\n");
+									printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 								}
 							}
 						}
-#line 2495 "y.tab.c"
+#line 2497 "y.tab.c"
     break;
 
   case 102: /* $@11: %empty  */
-#line 498 "parser.y"
-                                                        {
+#line 501 "parser.y"
+                                                        {	returnStmtCount++;
 								if(inClass==0)
 								{
 									if(strcmp("void",func_symb[currentFuncIndex].type))
 									{
-										printf("ERROR : func type and return type are mismatched\n");
+										printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 									}
 								}
 								else
 								{
 									if(strcmp("void",class_symb[class_size-1].func_list[currentFuncIndex].type))
 									{
-										printf("ERROR : func type and return type are mismatched\n");
+										printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 									}
 								}
 							}
-#line 2516 "y.tab.c"
+#line 2518 "y.tab.c"
     break;
 
   case 103: /* return_stmt: RETURN null ';' $@11  */
-#line 514 "parser.y"
+#line 517 "parser.y"
                                                         {fprintf(fparse, " : RETURN STATEMENT");}
-#line 2522 "y.tab.c"
+#line 2524 "y.tab.c"
     break;
 
   case 104: /* loop_stmt: LOOP loop_type  */
-#line 519 "parser.y"
+#line 522 "parser.y"
                                                          {fprintf(fparse, " : LOOP");}
-#line 2528 "y.tab.c"
+#line 2530 "y.tab.c"
     break;
 
   case 109: /* for_expr: EXPR LHS '=' for_RHS  */
-#line 530 "parser.y"
+#line 533 "parser.y"
                                                                        {
 							if(strcmp((yyvsp[-2].details).type, (yyvsp[0].str))){
 								int a = !strcmp((yyvsp[-2].details).type, "int") || !strcmp((yyvsp[-2].details).type, "float") || !strcmp((yyvsp[-2].details).type, "bool");
@@ -2541,47 +2543,47 @@ yyreduce:
 								}
 							}
 						}
-#line 2545 "y.tab.c"
+#line 2547 "y.tab.c"
     break;
 
   case 110: /* for_RHS: arith_op  */
-#line 544 "parser.y"
+#line 547 "parser.y"
                                                    {(yyval.str) = (yyvsp[0].str);}
-#line 2551 "y.tab.c"
+#line 2553 "y.tab.c"
     break;
 
   case 111: /* for_RHS: func_calls  */
-#line 545 "parser.y"
+#line 548 "parser.y"
                                                              {(yyval.str) = (yyvsp[0].str);}
-#line 2557 "y.tab.c"
+#line 2559 "y.tab.c"
     break;
 
   case 112: /* for_RHS: impr  */
-#line 546 "parser.y"
+#line 549 "parser.y"
                                                        {(yyval.str) = "improvised";}
-#line 2563 "y.tab.c"
+#line 2565 "y.tab.c"
     break;
 
   case 113: /* for_RHS: graph_impr  */
-#line 547 "parser.y"
+#line 550 "parser.y"
                                                              {(yyval.str) = "improvised";}
-#line 2569 "y.tab.c"
+#line 2571 "y.tab.c"
     break;
 
   case 114: /* for_RHS: vect_stmt_body  */
-#line 548 "parser.y"
+#line 551 "parser.y"
                                                                  {(yyval.str) = "improvised";}
-#line 2575 "y.tab.c"
+#line 2577 "y.tab.c"
     break;
 
   case 115: /* for_RHS: matrix_impr  */
-#line 549 "parser.y"
+#line 552 "parser.y"
                                                               {(yyval.str) = "improvised";}
-#line 2581 "y.tab.c"
+#line 2583 "y.tab.c"
     break;
 
   case 116: /* $@12: %empty  */
-#line 552 "parser.y"
+#line 555 "parser.y"
                                                           {
 							int a = !strcmp((yyvsp[-1].str), "int") || 
 									!strcmp((yyvsp[-1].str), "float") || 
@@ -2593,11 +2595,11 @@ yyreduce:
 								printf("%d Error : Invalid conditional argument\n", yylineno);
 							}
 						}
-#line 2597 "y.tab.c"
+#line 2599 "y.tab.c"
     break;
 
   case 118: /* expr_stmt: EXPR LHS '=' RHS ';'  */
-#line 565 "parser.y"
+#line 568 "parser.y"
                                                                {
 							if(strcmp((yyvsp[-3].details).type, (yyvsp[-1].str))){
 								int a = !strcmp((yyvsp[-3].details).type, "int") || !strcmp((yyvsp[-3].details).type, "float") || !strcmp((yyvsp[-3].details).type, "bool");
@@ -2612,11 +2614,11 @@ yyreduce:
 							
 							fprintf(fparse, " : EXPRESSION STATEMENT");
 						}
-#line 2616 "y.tab.c"
+#line 2618 "y.tab.c"
     break;
 
   case 119: /* $@13: %empty  */
-#line 580 "parser.y"
+#line 583 "parser.y"
                                                         {
 								int dimAval, dimBval;
 								char* element_type;
@@ -2681,35 +2683,35 @@ yyreduce:
 									dummy_size=0;
 								}
 							}
-#line 2685 "y.tab.c"
+#line 2687 "y.tab.c"
     break;
 
   case 120: /* expr_stmt: EXPR LHS '=' extra_consts ';' $@13  */
-#line 644 "parser.y"
+#line 647 "parser.y"
                                                         {fprintf(fparse, " : EXPRESSION STATEMENT");}
-#line 2691 "y.tab.c"
+#line 2693 "y.tab.c"
     break;
 
   case 121: /* expr_stmt: EXPR LHS '=' graph_impr ';'  */
-#line 646 "parser.y"
+#line 649 "parser.y"
                                                                               {fprintf(fparse, " : EXPRESSION STATEMENT");}
-#line 2697 "y.tab.c"
+#line 2699 "y.tab.c"
     break;
 
   case 122: /* expr_stmt: EXPR LHS '=' matrix_impr ';'  */
-#line 647 "parser.y"
+#line 650 "parser.y"
                                                                                {fprintf(fparse, " : EXPRESSION STATEMENT");}
-#line 2703 "y.tab.c"
+#line 2705 "y.tab.c"
     break;
 
   case 123: /* expr_stmt: EXPR LHS '=' vect_stmt_body ';'  */
-#line 648 "parser.y"
+#line 651 "parser.y"
                                                                                   {fprintf(fparse, " : EXPRESSION STATEMENT");}
-#line 2709 "y.tab.c"
+#line 2711 "y.tab.c"
     break;
 
   case 124: /* LHS: myId  */
-#line 652 "parser.y"
+#line 655 "parser.y"
                                                        {
 
 							classIndex = -1;
@@ -2778,11 +2780,11 @@ yyreduce:
 							
 							
 						}
-#line 2782 "y.tab.c"
+#line 2784 "y.tab.c"
     break;
 
   case 125: /* LHS: LHS ARROW myId  */
-#line 720 "parser.y"
+#line 723 "parser.y"
                                                                  {
 							char* dType = (yyvsp[-2].details).type;
 							
@@ -2864,17 +2866,17 @@ yyreduce:
 								}
 							}
 						}
-#line 2868 "y.tab.c"
+#line 2870 "y.tab.c"
     break;
 
   case 126: /* myId: id  */
-#line 804 "parser.y"
+#line 807 "parser.y"
                                              {(yyval.str)=(yyvsp[0].str);}
-#line 2874 "y.tab.c"
+#line 2876 "y.tab.c"
     break;
 
   case 127: /* myId: id '[' RHS ']'  */
-#line 805 "parser.y"
+#line 808 "parser.y"
                                                                 {
 							int a = !strcmp((yyvsp[-1].str), "int") || !strcmp((yyvsp[-1].str), "float");
 							if(!a){
@@ -2883,17 +2885,17 @@ yyreduce:
 							}
 							(yyval.str) = (yyvsp[-3].str);
 						}
-#line 2887 "y.tab.c"
+#line 2889 "y.tab.c"
     break;
 
   case 128: /* declr_stmt: DECLR declr_body ';'  */
-#line 816 "parser.y"
+#line 819 "parser.y"
                                                                {fprintf(fparse, " : DECLARATION STATEMENT");}
-#line 2893 "y.tab.c"
+#line 2895 "y.tab.c"
     break;
 
   case 129: /* declr_body: DATATYPE id_list  */
-#line 819 "parser.y"
+#line 822 "parser.y"
                                                         {
 								if(currentFuncIndex!=-1)
 								{
@@ -2918,11 +2920,11 @@ yyreduce:
 								}
 								arr_size =0;
 							}
-#line 2922 "y.tab.c"
+#line 2924 "y.tab.c"
     break;
 
   case 130: /* declr_body: GRAPH graph_and_array_list  */
-#line 844 "parser.y"
+#line 847 "parser.y"
                                                         {
 								if(currentFuncIndex!=-1)
 								{
@@ -2947,11 +2949,11 @@ yyreduce:
 								}
 								arr_size=0;
 							}
-#line 2951 "y.tab.c"
+#line 2953 "y.tab.c"
     break;
 
   case 131: /* declr_body: VECT '<' dtype '>' id_list  */
-#line 869 "parser.y"
+#line 872 "parser.y"
                                                         {
 								if(currentFuncIndex!=-1)
 								{
@@ -2976,11 +2978,11 @@ yyreduce:
 								}
 								arr_size=0;
 							}
-#line 2980 "y.tab.c"
+#line 2982 "y.tab.c"
     break;
 
   case 132: /* declr_body: MATRIX matrix_list  */
-#line 894 "parser.y"
+#line 897 "parser.y"
                                                         {
 								if(currentFuncIndex!=-1)
 								{
@@ -3005,11 +3007,11 @@ yyreduce:
 								}
 								arr_size=0;
 							}
-#line 3009 "y.tab.c"
+#line 3011 "y.tab.c"
     break;
 
   case 133: /* declr_body: DATATYPE graph_and_array_list  */
-#line 919 "parser.y"
+#line 922 "parser.y"
                                                         {
 								if(currentFuncIndex!=-1)
 								{
@@ -3034,11 +3036,11 @@ yyreduce:
 								}
 								arr_size=0;
 							}
-#line 3038 "y.tab.c"
+#line 3040 "y.tab.c"
     break;
 
   case 134: /* declr_body: id id_list  */
-#line 944 "parser.y"
+#line 947 "parser.y"
                                                         {
 								if(class_search((yyvsp[-1].str))!=-1 || struct_search((yyvsp[-1].str))!=-1)
 								{
@@ -3072,11 +3074,11 @@ yyreduce:
 									exit(1);
 								}
 							}
-#line 3076 "y.tab.c"
+#line 3078 "y.tab.c"
     break;
 
   case 135: /* graph_and_array_list: id '[' INT_CONST ']' ',' graph_and_array_list  */
-#line 980 "parser.y"
+#line 983 "parser.y"
                                                         {
 								arr[arr_size] = (yyvsp[-5].str);
 								dimA[arr_size] = atoi((yyvsp[-3].str));
@@ -3087,11 +3089,11 @@ yyreduce:
 								}
 								arr_size++;
 							}
-#line 3091 "y.tab.c"
+#line 3093 "y.tab.c"
     break;
 
   case 136: /* graph_and_array_list: id '[' INT_CONST ']'  */
-#line 991 "parser.y"
+#line 994 "parser.y"
                                                         {
 								arr[arr_size] = (yyvsp[-3].str);
 								dimA[arr_size] = atoi((yyvsp[-1].str));
@@ -3102,11 +3104,11 @@ yyreduce:
 								}
 								arr_size++;
 							}
-#line 3106 "y.tab.c"
+#line 3108 "y.tab.c"
     break;
 
   case 137: /* matrix_list: id '[' INT_CONST ']' '[' INT_CONST ']' ',' matrix_list  */
-#line 1004 "parser.y"
+#line 1007 "parser.y"
                                                         {
 								arr[arr_size] = (yyvsp[-8].str);
 								dimA[arr_size] = atoi((yyvsp[-6].str));
@@ -3118,11 +3120,11 @@ yyreduce:
 								}
 								arr_size++;
 							}
-#line 3122 "y.tab.c"
+#line 3124 "y.tab.c"
     break;
 
   case 138: /* matrix_list: id '[' INT_CONST ']' '[' INT_CONST ']'  */
-#line 1016 "parser.y"
+#line 1019 "parser.y"
                                                         {
 								arr[arr_size] = (yyvsp[-6].str);
 								dimA[arr_size] = atoi((yyvsp[-4].str));
@@ -3134,29 +3136,29 @@ yyreduce:
 								}
 								arr_size++;
 							}
-#line 3138 "y.tab.c"
+#line 3140 "y.tab.c"
     break;
 
   case 139: /* id_list: id ',' id_list  */
-#line 1030 "parser.y"
+#line 1033 "parser.y"
                                                         {
 								arr[arr_size] = (yyvsp[-2].str);
 								arr_size++;
 							}
-#line 3147 "y.tab.c"
+#line 3149 "y.tab.c"
     break;
 
   case 140: /* id_list: id  */
-#line 1035 "parser.y"
+#line 1038 "parser.y"
                                                         {
 								arr[arr_size] = (yyvsp[0].str);
 								arr_size++;
 							}
-#line 3156 "y.tab.c"
+#line 3158 "y.tab.c"
     break;
 
   case 141: /* $@14: %empty  */
-#line 1041 "parser.y"
+#line 1044 "parser.y"
                                                          {
 							int a = !strcmp((yyvsp[-1].str), "int") || 
 									!strcmp((yyvsp[-1].str), "float") || 
@@ -3169,11 +3171,11 @@ yyreduce:
 							}
 							fprintf(fparse, " : CONDITIONAL STATEMENT");
 						}
-#line 3173 "y.tab.c"
+#line 3175 "y.tab.c"
     break;
 
   case 145: /* $@15: %empty  */
-#line 1060 "parser.y"
+#line 1063 "parser.y"
                                                              {
 							int a = !strcmp((yyvsp[-1].str), "int") || 
 									!strcmp((yyvsp[-1].str), "float") || 
@@ -3186,519 +3188,533 @@ yyreduce:
 							}
 							fprintf(fparse, " : CONDITIONAL STATEMENT");
 						}
-#line 3190 "y.tab.c"
+#line 3192 "y.tab.c"
     break;
 
   case 147: /* $@16: %empty  */
-#line 1075 "parser.y"
+#line 1078 "parser.y"
                                               {switch_insert(level); level++;}
-#line 3196 "y.tab.c"
+#line 3198 "y.tab.c"
     break;
 
   case 148: /* switch_body: '{' $@16 cases DEFAULT ':' function_body '}'  */
-#line 1075 "parser.y"
+#line 1078 "parser.y"
                                                                                                                    { var_delete(level); level--; switch_delete();}
-#line 3202 "y.tab.c"
+#line 3204 "y.tab.c"
     break;
 
   case 149: /* $@17: %empty  */
-#line 1078 "parser.y"
+#line 1081 "parser.y"
                                                                 {add_case(level-1, (yyvsp[0].str));}
-#line 3208 "y.tab.c"
+#line 3210 "y.tab.c"
     break;
 
   case 151: /* $@18: %empty  */
-#line 1079 "parser.y"
+#line 1082 "parser.y"
                                                                   {add_case(level-1, (yyvsp[0].str));}
-#line 3214 "y.tab.c"
+#line 3216 "y.tab.c"
     break;
 
   case 153: /* RHS: constants  */
-#line 1084 "parser.y"
+#line 1087 "parser.y"
                                                             {(yyval.str)=(yyvsp[0].str);}
-#line 3220 "y.tab.c"
+#line 3222 "y.tab.c"
     break;
 
   case 154: /* RHS: arith_op  */
-#line 1085 "parser.y"
+#line 1088 "parser.y"
                                                            {(yyval.str)=(yyvsp[0].str);}
-#line 3226 "y.tab.c"
+#line 3228 "y.tab.c"
     break;
 
   case 155: /* RHS: logical_op  */
-#line 1086 "parser.y"
+#line 1089 "parser.y"
                                                              {(yyval.str)=(yyvsp[0].str);}
-#line 3232 "y.tab.c"
+#line 3234 "y.tab.c"
     break;
 
   case 156: /* RHS: func_calls  */
-#line 1087 "parser.y"
+#line 1090 "parser.y"
                                                              {(yyval.str)=(yyvsp[0].str);}
-#line 3238 "y.tab.c"
+#line 3240 "y.tab.c"
     break;
 
   case 157: /* RHS: impr  */
-#line 1088 "parser.y"
+#line 1091 "parser.y"
                                                        {(yyval.str) = (yyvsp[0].str);}
-#line 3244 "y.tab.c"
+#line 3246 "y.tab.c"
     break;
 
   case 158: /* constants: INT_CONST  */
-#line 1092 "parser.y"
+#line 1095 "parser.y"
                                                     {(yyval.str)="int";}
-#line 3250 "y.tab.c"
+#line 3252 "y.tab.c"
     break;
 
   case 159: /* constants: FLOAT_CONST  */
-#line 1093 "parser.y"
+#line 1096 "parser.y"
                                                               {(yyval.str)="float";}
-#line 3256 "y.tab.c"
+#line 3258 "y.tab.c"
     break;
 
   case 160: /* constants: CHAR_CONST  */
-#line 1094 "parser.y"
+#line 1097 "parser.y"
                                                              {(yyval.str)="char";}
-#line 3262 "y.tab.c"
+#line 3264 "y.tab.c"
     break;
 
   case 161: /* constants: STR_CONST  */
-#line 1095 "parser.y"
+#line 1098 "parser.y"
                                                             {(yyval.str)="string";}
-#line 3268 "y.tab.c"
+#line 3270 "y.tab.c"
     break;
 
   case 162: /* constants: BOOL_CONST  */
-#line 1096 "parser.y"
+#line 1099 "parser.y"
                                                              {(yyval.str) = "bool";}
-#line 3274 "y.tab.c"
+#line 3276 "y.tab.c"
     break;
 
   case 163: /* constants: LHS  */
-#line 1097 "parser.y"
+#line 1100 "parser.y"
                                                       {(yyval.str) = (yyvsp[0].details).type;}
-#line 3280 "y.tab.c"
+#line 3282 "y.tab.c"
     break;
 
   case 164: /* extra_consts: array_const  */
-#line 1101 "parser.y"
+#line 1104 "parser.y"
                                              {(yyval.str) = (yyvsp[0].str);}
-#line 3286 "y.tab.c"
+#line 3288 "y.tab.c"
     break;
 
   case 165: /* extra_consts: graph_const  */
-#line 1102 "parser.y"
+#line 1105 "parser.y"
                                                              {(yyval.str)="graph";}
-#line 3292 "y.tab.c"
+#line 3294 "y.tab.c"
     break;
 
   case 166: /* extra_consts: vect_const  */
-#line 1103 "parser.y"
+#line 1106 "parser.y"
                                                             {(yyval.str)="vect";}
-#line 3298 "y.tab.c"
+#line 3300 "y.tab.c"
     break;
 
   case 167: /* extra_consts: matrix_const  */
-#line 1104 "parser.y"
+#line 1107 "parser.y"
                                                               {(yyval.str)="matrix";}
-#line 3304 "y.tab.c"
+#line 3306 "y.tab.c"
     break;
 
   case 168: /* extra_consts: '{' '}'  */
-#line 1105 "parser.y"
+#line 1108 "parser.y"
                                                          {(yyval.str)="1";}
-#line 3310 "y.tab.c"
+#line 3312 "y.tab.c"
     break;
 
   case 169: /* array_const: '[' val_list ']'  */
-#line 1109 "parser.y"
+#line 1112 "parser.y"
                                                         {
 								(yyval.str) = (yyvsp[-1].str);
 							}
-#line 3318 "y.tab.c"
+#line 3320 "y.tab.c"
     break;
 
   case 170: /* array_const: '[' ']'  */
-#line 1113 "parser.y"
+#line 1116 "parser.y"
                                                         {
 								(yyval.str) = "any";
 							}
-#line 3326 "y.tab.c"
+#line 3328 "y.tab.c"
     break;
 
   case 171: /* val_list: int_list  */
-#line 1119 "parser.y"
+#line 1122 "parser.y"
                                                         { (yyval.str) = "int";}
-#line 3332 "y.tab.c"
+#line 3334 "y.tab.c"
     break;
 
   case 172: /* val_list: float_list  */
-#line 1121 "parser.y"
+#line 1124 "parser.y"
                                                         { (yyval.str)  = "float";}
-#line 3338 "y.tab.c"
+#line 3340 "y.tab.c"
     break;
 
   case 173: /* val_list: char_list  */
-#line 1123 "parser.y"
+#line 1126 "parser.y"
                                                         { (yyval.str) = "char";}
-#line 3344 "y.tab.c"
+#line 3346 "y.tab.c"
     break;
 
   case 174: /* val_list: bool_list  */
-#line 1125 "parser.y"
+#line 1128 "parser.y"
                                                         { (yyval.str) = "bool";}
-#line 3350 "y.tab.c"
+#line 3352 "y.tab.c"
     break;
 
   case 175: /* val_list: str_list  */
-#line 1127 "parser.y"
+#line 1130 "parser.y"
                                                         { (yyval.str) = "string";}
-#line 3356 "y.tab.c"
+#line 3358 "y.tab.c"
     break;
 
   case 176: /* resultant: LHS  */
-#line 1130 "parser.y"
+#line 1133 "parser.y"
                                              {(yyval.str) = (yyvsp[0].details).type;}
-#line 3362 "y.tab.c"
+#line 3364 "y.tab.c"
     break;
 
   case 177: /* resultant: matrix_impr  */
-#line 1131 "parser.y"
+#line 1134 "parser.y"
                                                               {(yyval.str) = (yyvsp[0].str);}
-#line 3368 "y.tab.c"
+#line 3370 "y.tab.c"
     break;
 
   case 178: /* resultant: graph_impr  */
-#line 1132 "parser.y"
+#line 1135 "parser.y"
                                                              {(yyval.str) = (yyvsp[0].str);}
-#line 3374 "y.tab.c"
+#line 3376 "y.tab.c"
     break;
 
   case 179: /* resultant: vect_stmt_body  */
-#line 1133 "parser.y"
+#line 1136 "parser.y"
                                                                  {(yyval.str) = (yyvsp[0].str);}
-#line 3380 "y.tab.c"
+#line 3382 "y.tab.c"
     break;
 
   case 180: /* resultant: impr  */
-#line 1134 "parser.y"
+#line 1137 "parser.y"
                                                        {(yyval.str) = (yyvsp[0].str);}
-#line 3386 "y.tab.c"
+#line 3388 "y.tab.c"
     break;
 
   case 181: /* impr: resultant '.' LENGTH '(' ')'  */
-#line 1138 "parser.y"
+#line 1141 "parser.y"
                                                                       {(yyval.str) = "int";}
-#line 3392 "y.tab.c"
+#line 3394 "y.tab.c"
     break;
 
   case 182: /* impr: resultant '.' AT '(' remove_body ')'  */
-#line 1139 "parser.y"
+#line 1142 "parser.y"
                                                                                       {(yyval.str) = "0";}
-#line 3398 "y.tab.c"
+#line 3400 "y.tab.c"
     break;
 
   case 183: /* impr: resultant '.' TRACE '(' ')'  */
-#line 1140 "parser.y"
+#line 1143 "parser.y"
                                                                               {(yyval.str) = "int";}
-#line 3404 "y.tab.c"
+#line 3406 "y.tab.c"
     break;
 
   case 184: /* impr: resultant '.' STRLEN '(' ')'  */
-#line 1141 "parser.y"
+#line 1144 "parser.y"
                                                                               {(yyval.str) = "int";}
-#line 3410 "y.tab.c"
+#line 3412 "y.tab.c"
     break;
 
   case 185: /* impr: STRCMP '(' RHS ',' RHS ')'  */
-#line 1142 "parser.y"
+#line 1145 "parser.y"
                                                                              {(yyval.str) = "bool";}
-#line 3416 "y.tab.c"
+#line 3418 "y.tab.c"
     break;
 
   case 186: /* impr: resultant '.' STRCUT '(' remove_body ',' remove_body ')'  */
-#line 1143 "parser.y"
+#line 1146 "parser.y"
                                                                                                           {(yyval.str) = "string";}
-#line 3422 "y.tab.c"
+#line 3424 "y.tab.c"
     break;
 
   case 187: /* impr: STRJOIN '(' RHS ',' RHS ')'  */
-#line 1144 "parser.y"
+#line 1147 "parser.y"
                                                                              {(yyval.str) =  "string";}
-#line 3428 "y.tab.c"
+#line 3430 "y.tab.c"
     break;
 
   case 188: /* graph_impr: resultant '.' TRAVERSAL '(' remove_body ')'  */
-#line 1147 "parser.y"
+#line 1150 "parser.y"
                                                                                      {(yyval.str) = "vect";}
-#line 3434 "y.tab.c"
+#line 3436 "y.tab.c"
     break;
 
   case 189: /* graph_impr: resultant '.' GRTOMATX '(' ')'  */
-#line 1148 "parser.y"
+#line 1151 "parser.y"
                                                                                 {(yyval.str) = "matrix";}
-#line 3440 "y.tab.c"
+#line 3442 "y.tab.c"
     break;
 
   case 190: /* graph_impr: resultant '.' SHPATH '(' remove_body ',' remove_body ')'  */
-#line 1149 "parser.y"
+#line 1152 "parser.y"
                                                                                                           {(yyval.str) = "vect";}
-#line 3446 "y.tab.c"
+#line 3448 "y.tab.c"
     break;
 
   case 191: /* graph_impr: resultant '.' SHPATH_VAL '(' remove_body ',' remove_body ')'  */
-#line 1150 "parser.y"
+#line 1153 "parser.y"
                                                                                                                {(yyval.str) = "int";}
-#line 3452 "y.tab.c"
+#line 3454 "y.tab.c"
     break;
 
   case 192: /* matrix_impr: MATXOP '(' matr_body ',' matr_body ')'  */
-#line 1154 "parser.y"
-                                                                                {(yyval.str) = "matrix";}
-#line 3458 "y.tab.c"
+#line 1157 "parser.y"
+                                                                                {if(strcmp((yyvsp[-3].str),"matrix") || strcmp((yyvsp[-1].str),"matrix")){
+											printf("%d, ERROR : argument is not a matrix\n",yylineno);exit(1);}
+											(yyval.str) = "matrix";}
+#line 3462 "y.tab.c"
     break;
 
   case 193: /* matrix_impr: resultant '.' TRANSPOSE '(' ')'  */
-#line 1155 "parser.y"
+#line 1160 "parser.y"
                                                                                   {(yyval.str) = "matrix";}
-#line 3464 "y.tab.c"
+#line 3468 "y.tab.c"
     break;
 
   case 194: /* matrix_impr: resultant '.' MAXTOGR '(' ')'  */
-#line 1156 "parser.y"
+#line 1161 "parser.y"
                                                                                 {(yyval.str) = "matrix";}
-#line 3470 "y.tab.c"
+#line 3474 "y.tab.c"
+    break;
+
+  case 195: /* matr_body: RHS  */
+#line 1164 "parser.y"
+                                              {(yyval.str) = (yyvsp[0].str);}
+#line 3480 "y.tab.c"
+    break;
+
+  case 196: /* matr_body: matrix_impr  */
+#line 1165 "parser.y"
+                                                              {(yyval.str) = (yyvsp[0].str);}
+#line 3486 "y.tab.c"
     break;
 
   case 199: /* graph_type1: INT_CONST ':' int_list ';' graph_type1  */
-#line 1168 "parser.y"
+#line 1173 "parser.y"
                                                         {
 								newArr[dummy_size] = atoi((yyvsp[-4].str));
 								dummy_size++;
 							}
-#line 3479 "y.tab.c"
+#line 3495 "y.tab.c"
     break;
 
   case 200: /* graph_type1: INT_CONST ':' int_list ';'  */
-#line 1173 "parser.y"
+#line 1178 "parser.y"
                                                         {
 								newArr[dummy_size] = atoi((yyvsp[-3].str));
 								dummy_size++;
 							}
-#line 3488 "y.tab.c"
+#line 3504 "y.tab.c"
     break;
 
   case 201: /* graph_type2: INT_CONST ':' weight_list ';' graph_type2  */
-#line 1180 "parser.y"
+#line 1185 "parser.y"
                                                         {
 								newArr[dummy_size] = atoi((yyvsp[-4].str));
 								dummy_size++;
 							}
-#line 3497 "y.tab.c"
+#line 3513 "y.tab.c"
     break;
 
   case 202: /* graph_type2: INT_CONST ':' weight_list ';'  */
-#line 1185 "parser.y"
+#line 1190 "parser.y"
                                                         {
 								newArr[dummy_size] = atoi((yyvsp[-3].str));
 								dummy_size++;
 							}
-#line 3506 "y.tab.c"
+#line 3522 "y.tab.c"
     break;
 
   case 203: /* $@19: %empty  */
-#line 1192 "parser.y"
+#line 1197 "parser.y"
                                                         {
 								newArr[dummy_size] = atoi((yyvsp[-2].str));
 								dummy_size++;
 							}
-#line 3515 "y.tab.c"
+#line 3531 "y.tab.c"
     break;
 
   case 204: /* int_list: INT_CONST ',' int_list $@19  */
-#line 1196 "parser.y"
+#line 1201 "parser.y"
                                                         {
 								(yyval.str) = "int";
 							}
-#line 3523 "y.tab.c"
+#line 3539 "y.tab.c"
     break;
 
   case 205: /* $@20: %empty  */
-#line 1200 "parser.y"
+#line 1205 "parser.y"
                                                         {
 								newArr[dummy_size] = atoi((yyvsp[0].str));
 								dummy_size++;
 							}
-#line 3532 "y.tab.c"
+#line 3548 "y.tab.c"
     break;
 
   case 206: /* int_list: INT_CONST $@20  */
-#line 1204 "parser.y"
+#line 1209 "parser.y"
                                                         {
 								(yyval.str) = "int";
 							}
-#line 3540 "y.tab.c"
+#line 3556 "y.tab.c"
     break;
 
   case 207: /* float_list: FLOAT_CONST ',' float_list  */
-#line 1210 "parser.y"
-                                                        {
-								(yyval.str) = "float";
-								dummy_size++;
-							}
-#line 3549 "y.tab.c"
-    break;
-
-  case 208: /* float_list: FLOAT_CONST  */
 #line 1215 "parser.y"
                                                         {
 								(yyval.str) = "float";
 								dummy_size++;
 							}
-#line 3558 "y.tab.c"
+#line 3565 "y.tab.c"
+    break;
+
+  case 208: /* float_list: FLOAT_CONST  */
+#line 1220 "parser.y"
+                                                        {
+								(yyval.str) = "float";
+								dummy_size++;
+							}
+#line 3574 "y.tab.c"
     break;
 
   case 209: /* char_list: CHAR_CONST ',' char_list  */
-#line 1222 "parser.y"
+#line 1227 "parser.y"
                                                         {
 								(yyval.str) = "char";
 								dummy_size;
 							}
-#line 3567 "y.tab.c"
+#line 3583 "y.tab.c"
     break;
 
   case 210: /* char_list: CHAR_CONST  */
-#line 1227 "parser.y"
+#line 1232 "parser.y"
                                                         {
 								(yyval.str) = "char";
 								dummy_size++;
 							}
-#line 3576 "y.tab.c"
+#line 3592 "y.tab.c"
     break;
 
   case 211: /* bool_list: BOOL_CONST ',' bool_list  */
-#line 1234 "parser.y"
-                                                        {
-								(yyval.str) = "bool";
-								dummy_size;
-							}
-#line 3585 "y.tab.c"
-    break;
-
-  case 212: /* bool_list: BOOL_CONST  */
 #line 1239 "parser.y"
                                                         {
 								(yyval.str) = "bool";
 								dummy_size;
 							}
-#line 3594 "y.tab.c"
+#line 3601 "y.tab.c"
+    break;
+
+  case 212: /* bool_list: BOOL_CONST  */
+#line 1244 "parser.y"
+                                                        {
+								(yyval.str) = "bool";
+								dummy_size;
+							}
+#line 3610 "y.tab.c"
     break;
 
   case 213: /* str_list: STR_CONST ',' str_list  */
-#line 1246 "parser.y"
+#line 1251 "parser.y"
                                                         {
 								(yyval.str) = "string";
 								dummy_size;
 							}
-#line 3603 "y.tab.c"
+#line 3619 "y.tab.c"
     break;
 
   case 214: /* str_list: STR_CONST  */
-#line 1251 "parser.y"
+#line 1256 "parser.y"
                                                         {
 								(yyval.str) = "string";
 								dummy_size++;
 							}
-#line 3612 "y.tab.c"
+#line 3628 "y.tab.c"
     break;
 
   case 215: /* weight_list: '(' INT_CONST ',' INT_CONST ')' ',' weight_list  */
-#line 1258 "parser.y"
+#line 1263 "parser.y"
                                                         {
 								newArr[dummy_size] = atoi((yyvsp[-5].str));
 								dummy_size++;
 							}
-#line 3621 "y.tab.c"
+#line 3637 "y.tab.c"
     break;
 
   case 216: /* weight_list: '(' INT_CONST ',' INT_CONST ')'  */
-#line 1263 "parser.y"
+#line 1268 "parser.y"
                                                         {
 								newArr[dummy_size] = atoi((yyvsp[-3].str));
 								dummy_size++;
 							}
-#line 3630 "y.tab.c"
+#line 3646 "y.tab.c"
     break;
 
   case 217: /* weight_list: '(' INT_CONST ',' FLOAT_CONST ')' ',' weight_list  */
-#line 1268 "parser.y"
+#line 1273 "parser.y"
                                                         {
 								newArr[dummy_size] = atoi((yyvsp[-5].str));
 								dummy_size++;
 							}
-#line 3639 "y.tab.c"
+#line 3655 "y.tab.c"
     break;
 
   case 218: /* weight_list: '(' INT_CONST ',' FLOAT_CONST ')'  */
-#line 1273 "parser.y"
+#line 1278 "parser.y"
                                                         {
 								newArr[dummy_size] = atoi((yyvsp[-3].str));
 								dummy_size++;
-							}
-#line 3648 "y.tab.c"
-    break;
-
-  case 225: /* int_float_list: INT_CONST ',' int_float_list  */
-#line 1292 "parser.y"
-                                                        {
-								(yyval.Cols).cols = (yyvsp[0].Cols).cols+1;
-							}
-#line 3656 "y.tab.c"
-    break;
-
-  case 226: /* int_float_list: FLOAT_CONST ',' int_float_list  */
-#line 1296 "parser.y"
-                                                        {
-								(yyval.Cols).cols = (yyvsp[0].Cols).cols+1;
 							}
 #line 3664 "y.tab.c"
     break;
 
-  case 227: /* int_float_list: INT_CONST  */
-#line 1300 "parser.y"
+  case 225: /* int_float_list: INT_CONST ',' int_float_list  */
+#line 1297 "parser.y"
                                                         {
-								(yyval.Cols).cols=1;
+								(yyval.Cols).cols = (yyvsp[0].Cols).cols+1;
 							}
 #line 3672 "y.tab.c"
     break;
 
-  case 228: /* int_float_list: FLOAT_CONST  */
-#line 1304 "parser.y"
+  case 226: /* int_float_list: FLOAT_CONST ',' int_float_list  */
+#line 1301 "parser.y"
                                                         {
-								(yyval.Cols).cols=1;
+								(yyval.Cols).cols = (yyvsp[0].Cols).cols+1;
 							}
 #line 3680 "y.tab.c"
     break;
 
+  case 227: /* int_float_list: INT_CONST  */
+#line 1305 "parser.y"
+                                                        {
+								(yyval.Cols).cols=1;
+							}
+#line 3688 "y.tab.c"
+    break;
+
+  case 228: /* int_float_list: FLOAT_CONST  */
+#line 1309 "parser.y"
+                                                        {
+								(yyval.Cols).cols=1;
+							}
+#line 3696 "y.tab.c"
+    break;
+
   case 229: /* mat_list: '[' int_float_list ']' ';' mat_list  */
-#line 1310 "parser.y"
+#line 1315 "parser.y"
                                                         {
 								newArr[dummy_size]=(yyvsp[-3].Cols).cols;
 								dummy_size++;
 							}
-#line 3689 "y.tab.c"
+#line 3705 "y.tab.c"
     break;
 
   case 230: /* mat_list: '[' int_float_list ']' ';'  */
-#line 1315 "parser.y"
+#line 1320 "parser.y"
                                                         {
 								newArr[dummy_size]=(yyvsp[-2].Cols).cols;
 								dummy_size++;
 							}
-#line 3698 "y.tab.c"
+#line 3714 "y.tab.c"
     break;
 
   case 233: /* binary_op: ARITHOP '(' RHS ',' RHS ')'  */
-#line 1326 "parser.y"
+#line 1331 "parser.y"
                                                                       {
 							if(!strcmp((yyvsp[-3].str), "int") || !strcmp((yyvsp[-3].str), "bool")|| !strcmp((yyvsp[-3].str), "float")){
 								if(!strcmp((yyvsp[-1].str), "int") || !strcmp((yyvsp[-1].str), "bool") || !strcmp((yyvsp[-1].str), "float")){
@@ -3713,11 +3729,11 @@ yyreduce:
 								printf("%d Error: Invalid argument for arithmetic operation\n", yylineno);
 							}
 						}
-#line 3717 "y.tab.c"
+#line 3733 "y.tab.c"
     break;
 
   case 234: /* unary_op: UNARYOP '(' RHS ')'  */
-#line 1342 "parser.y"
+#line 1347 "parser.y"
                                                               {
 							if(!strcmp((yyvsp[-1].str), "int") || !strcmp((yyvsp[-1].str), "bool")|| !strcmp((yyvsp[-1].str), "float")){
 								(yyval.str) = "int";
@@ -3726,11 +3742,11 @@ yyreduce:
 								printf("%d Error: Invalid argument for arithmetic operation\n", yylineno);
 							}
 						}
-#line 3730 "y.tab.c"
+#line 3746 "y.tab.c"
     break;
 
   case 235: /* logical_op: '(' RHS LOGOP RHS ')'  */
-#line 1352 "parser.y"
+#line 1357 "parser.y"
                                                                 {
 							if(!strcmp((yyvsp[-3].str), "int") || !strcmp((yyvsp[-3].str), "bool")|| !strcmp((yyvsp[-3].str), "float")){
 								if(!strcmp((yyvsp[-1].str), "int") || !strcmp((yyvsp[-1].str), "bool") || !strcmp((yyvsp[-1].str), "float")){
@@ -3745,11 +3761,11 @@ yyreduce:
 								printf("%d Error: Invalid argument for arithmetic operation\n", yylineno);
 							}
 						}
-#line 3749 "y.tab.c"
+#line 3765 "y.tab.c"
     break;
 
   case 236: /* logical_op: NOT '(' RHS ')'  */
-#line 1366 "parser.y"
+#line 1371 "parser.y"
                                                                   {
 							if(!strcmp((yyvsp[-1].str), "int") || !strcmp((yyvsp[-1].str), "bool")|| !strcmp((yyvsp[-1].str), "float")){
 								(yyval.str) = "int";
@@ -3758,17 +3774,17 @@ yyreduce:
 								printf("%d Error: Invalid argument for arithmetic operation\n", yylineno);
 							}
 						}
-#line 3762 "y.tab.c"
+#line 3778 "y.tab.c"
     break;
 
   case 237: /* call_stmt: func_calls ';'  */
-#line 1376 "parser.y"
+#line 1381 "parser.y"
                                                          {fprintf(fparse, " : CALL STATEMENT"); classIndex = -1;}
-#line 3768 "y.tab.c"
+#line 3784 "y.tab.c"
     break;
 
   case 238: /* func_calls: call_head arguments  */
-#line 1381 "parser.y"
+#line 1386 "parser.y"
                                                               {
 							(yyval.str) = (yyvsp[-1].str);
 							
@@ -3784,11 +3800,11 @@ yyreduce:
 							callFuncIndex = -1;
 							myIndex = 0;
 						}
-#line 3788 "y.tab.c"
+#line 3804 "y.tab.c"
     break;
 
   case 239: /* call_head: CALL LHS  */
-#line 1399 "parser.y"
+#line 1404 "parser.y"
                                                     {
 							callClassIndex = classIndex;
 							callFuncIndex = funcIndex;
@@ -3800,11 +3816,11 @@ yyreduce:
 							}
 							myIndex = 0;
 						}
-#line 3804 "y.tab.c"
+#line 3820 "y.tab.c"
     break;
 
   case 242: /* arg_list: RHS  */
-#line 1416 "parser.y"
+#line 1421 "parser.y"
                                               {
 
 							// tot size; list
@@ -3839,11 +3855,11 @@ yyreduce:
 								else myIndex++;
 							}
 						}
-#line 3843 "y.tab.c"
+#line 3859 "y.tab.c"
     break;
 
   case 243: /* arg_list: arg_list ',' RHS  */
-#line 1450 "parser.y"
+#line 1455 "parser.y"
                                                                    {
 							int maxSize;
 							if(callClassIndex == -1) maxSize = func_symb[callFuncIndex].param_no;
@@ -3875,11 +3891,11 @@ yyreduce:
 								else myIndex++;
 							}
 						}
-#line 3879 "y.tab.c"
+#line 3895 "y.tab.c"
     break;
 
 
-#line 3883 "y.tab.c"
+#line 3899 "y.tab.c"
 
       default: break;
     }
@@ -4072,7 +4088,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 1483 "parser.y"
+#line 1488 "parser.y"
 
 
 /*
