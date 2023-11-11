@@ -13,7 +13,7 @@ class myClass{
 	declr myStructB cItemB;
 	func int myFunc(int abc, int k, string str, char c){
 		declr myStructB myObj;
-		expr myObj = cItemB;
+		!! expr myObj = cItemB; !!
 		expr cItemB->itemD->itemA = 10;
 		!! expr cItemB->itemD->itemA = 10; !!
 		declr int a;

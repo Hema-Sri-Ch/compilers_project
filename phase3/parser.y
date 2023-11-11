@@ -512,7 +512,6 @@ expr_stmt				: EXPR LHS '=' RHS ';' {
 						
 LHS						: myId {
 							// indicates it is independent function(for call statements)
-							
 							classIndex = -1; // stores index of LHS dataType(class)
 							int i = var_search($1);
 							// printf("%s - %d\n", $1, i);
@@ -547,30 +546,7 @@ LHS						: myId {
 							}
 						}
 						| LHS ARROW myId {
-							int ind = var_search($1.name);
-							char* dType;
-							if(ind < 0){
-								if(inClass){
-									ind = class_declr_search($1.name, class_size-1); // search in current class
-									if(ind < 0){
-										// statement is in class, yet LHS not in symbol table
-										printf("Error: Accessing undeclared identifier %s\n", $1.name);
-										exit(1);
-									}
-									
-									else{
-										dType = class_symb[class_size-1].declr_list[ind].type;
-										classIndex=class_size-1;
-									}
-								}
-								
-								else{
-									// statement not in class & LHS not in symbol table
-									printf("Error: Accessing undeclared identifier %s\n", $1.name);
-									exit(1);
-								}
-							}
-							else dType = var_symb[ind].type;
+							char* dType = $1.type;
 							
 							// check if dType is declared in struct or in class
 							int i = struct_search(dType);
@@ -611,8 +587,6 @@ LHS						: myId {
 							else {
 								// item defined in struct, now check its attributes
 								int j = struct_declr_search($3, i);
-								printf("%s AND %s\n", $3, struct_symb[i].name);
-								printStructNode(struct_symb[i]);
 								if(j < 0){
 								
 									// item is not attribute of this struct

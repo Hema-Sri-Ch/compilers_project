@@ -56,11 +56,7 @@ reserved keyword: declr
 Identifier : myStructB
 Identifier : myObj
 Punctuation : ;
-reserved keyword: expr
-Identifier : myObj
-Special symbols:	=
-Identifier : cItemB
-Punctuation : ;
+comment: !! expr myObj = cItemB; !!
 reserved keyword: expr
 Identifier : cItemB
 Special symbols: ->
@@ -68,3 +64,248 @@ Identifier : itemD
 Special symbols: ->
 Identifier : itemA
 Special symbols:	=
+constant: 10
+Punctuation : ;
+comment: !! expr cItemB->itemD->itemA = 10; !!
+reserved keyword: declr
+datatype: int
+Identifier : a
+Punctuation : ;
+reserved keyword: expr
+Identifier : abc
+Special symbols:	=
+constant: 10
+Punctuation : ;
+reserved keyword: expr
+Identifier : str
+Special symbols:	=
+constant: "c"
+Punctuation : ;
+reserved keyword: expr
+Identifier : c
+Special symbols:	=
+constant: 'c'
+Punctuation : ;
+comment: !! return abc; !!
+Identifier : label3
+Punctuation : :
+Special symbols:	{
+reserved keyword: expr
+Identifier : c
+Special symbols:	=
+constant: 'l'
+Punctuation : ;
+Special symbols:	}
+reserved keyword: declr
+datatype: int
+Identifier : a
+Punctuation : ,
+Identifier : b
+Punctuation : ;
+reserved keyword: expr
+Identifier : a
+Special symbols:	=
+constant: 10
+Punctuation : ;
+reserved keyword: switch
+Special symbols:	(
+operator: add
+Special symbols:	(
+Identifier : a
+Punctuation : ,
+Identifier : b
+Special symbols:	)
+Special symbols:	)
+Special symbols:	{
+reserved keyword: case
+constant: 1
+Punctuation : :
+Special symbols:	{
+Special symbols:	}
+reserved keyword: case
+constant: 2
+Punctuation : :
+Special symbols:	{
+Special symbols:	}
+reserved keyword: case
+constant: 3
+Punctuation : :
+Special symbols:	{
+Special symbols:	}
+reserved keyword: default
+Punctuation : :
+Special symbols:	{
+Special symbols:	}
+Special symbols:	}
+reserved keyword: switch
+Special symbols:	(
+operator: add
+Special symbols:	(
+Identifier : a
+Punctuation : ,
+Identifier : b
+Special symbols:	)
+Special symbols:	)
+Special symbols:	{
+reserved keyword: case
+constant: 1
+Punctuation : :
+Special symbols:	{
+Special symbols:	}
+reserved keyword: case
+constant: 2
+Punctuation : :
+Special symbols:	{
+Special symbols:	}
+reserved keyword: case
+constant: 3
+Punctuation : :
+Special symbols:	{
+Special symbols:	}
+reserved keyword: default
+Punctuation : :
+Special symbols:	{
+Special symbols:	}
+Special symbols:	}
+Special symbols:	}
+Special symbols:	}
+Punctuation : ;
+reserved keyword: func
+datatype: int
+Identifier : main
+Special symbols:	(
+datatype: int
+Identifier : a
+Punctuation : ,
+datatype: float
+Identifier : b
+Punctuation : ,
+datatype: char
+Identifier : c
+Punctuation : ,
+datatype: string
+Identifier : str
+Punctuation : ,
+Identifier : myClass
+Identifier : obj
+Special symbols:	)
+Special symbols:	{
+reserved keyword: expr
+Identifier : a
+Special symbols:	=
+constant: 10
+Punctuation : ;
+reserved keyword: expr
+Identifier : str
+Special symbols:	=
+constant: "Hello, world"
+Punctuation : ;
+Identifier : label1
+Punctuation : :
+Special symbols:	{
+reserved keyword: declr
+datatype: int
+Identifier : a
+Punctuation : ;
+Special symbols:	}
+reserved keyword: expr
+Identifier : a
+Special symbols:	=
+operator: add
+Special symbols:	(
+Identifier : a
+Punctuation : ,
+reserved keyword: call
+Identifier : obj
+Special symbols: ->
+Identifier : myFunc
+Special symbols:	(
+constant: 5
+Special symbols:	)
+Special symbols:	)
+Punctuation : ;
+reserved keyword: loop
+reserved keyword: while
+Special symbols:	(
+constant: true
+Special symbols:	)
+Special symbols:	{
+reserved keyword: if
+Special symbols:	(
+Special symbols:	(
+Special symbols:	(
+Identifier : a
+reserved keyword: and
+Identifier : b
+Special symbols:	)
+reserved keyword: or
+operator: add
+Special symbols:	(
+Identifier : a
+Punctuation : ,
+reserved keyword: call
+Identifier : obj
+Special symbols: ->
+Identifier : myFunc
+Special symbols:	(
+constant: 5
+Special symbols:	)
+Special symbols:	)
+Special symbols:	)
+Special symbols:	)
+Special symbols:	{
+reserved keyword: call
+Identifier : obj
+Special symbols: ->
+Identifier : myFunc
+Special symbols:	(
+constant: 5
+Special symbols:	)
+Punctuation : ;
+Special symbols:	}
+reserved keyword: call
+Identifier : obj
+Special symbols: ->
+Identifier : myFunc
+Special symbols:	(
+constant: 5
+Special symbols:	)
+Punctuation : ;
+Special symbols:	}
+Special symbols:	}
+comment: !!
+func int setItems(int a, float b, float c, myStruct d, vect<myStruct> ai, vect<int> bi) {
+		expr itemA = a;
+		expr itemB = b;
+		expr itemC = c;
+		expr itemD = d;
+		return null;
+}
+	
+func int main()
+{
+	declr int a;
+	expr a = 10;
+	expr abc->def->ghi->k = 0;
+	expr a = call obj->abc->def->a();
+	return 10;
+}
+
+
+func vect<myStruct> matr_add (matrix A, matrix B){
+    return add_matx(A, B);
+}
+
+func vect<M> boo(int num, float nums) {
+	return mul(num, (num gt 10));
+}
+	
+func vect<int> foo(int p, int q) {
+	expr a = add(sItem1, mul(p, (q and call boo(q))));
+	declr vect<int> a;
+	sItem2.append(10);
+	expr itemD->sItem1 = sub(a, sItem2.append(call boo((a lt itemD->sItem3.strlen()))).sort().length());
+	return itemD;
+}
+
+!!

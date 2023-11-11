@@ -105,7 +105,7 @@ void var_insert(int Flag, int Level, char* Name, char* Type, char* Ele_type, int
     var_symb[var_size].dim_A = Dim_A;
     var_symb[var_size].dim_B = Dim_B;
     var_symb[var_size].ele_type = Ele_type;
-    printVarNode(var_symb[var_size]);
+    // printVarNode(var_symb[var_size]);
     var_size++;
 }
 
