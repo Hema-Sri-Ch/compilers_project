@@ -1,6 +1,40 @@
+reserved keyword: struct
+Identifier : myStructA
+Special symbols:	{
+reserved keyword: declr
+datatype: int
+Identifier : itemA
+Punctuation : ;
+reserved keyword: declr
+datatype: string
+Identifier : itemB
+Punctuation : ;
+Special symbols:	}
+Punctuation : ;
+reserved keyword: struct
+Identifier : myStructB
+Special symbols:	{
+reserved keyword: declr
+datatype: int
+Identifier : itemC
+Punctuation : ;
+reserved keyword: declr
+Identifier : myStructA
+Identifier : itemD
+Punctuation : ;
+Special symbols:	}
+Punctuation : ;
 reserved keyword: class
 Identifier : myClass
 Special symbols:	{
+reserved keyword: declr
+datatype: int
+Identifier : cItemA
+Punctuation : ;
+reserved keyword: declr
+Identifier : myStructB
+Identifier : cItemB
+Punctuation : ;
 reserved keyword: func
 datatype: int
 Identifier : myFunc
@@ -18,136 +52,19 @@ datatype: char
 Identifier : c
 Special symbols:	)
 Special symbols:	{
-reserved keyword: expr
-Identifier : abc
-Special symbols:	=
-constant: 10
-Punctuation : ;
-reserved keyword: expr
-Identifier : abc
-Special symbols:	=
-operator: mul
-Special symbols:	(
-Identifier : abc
-Punctuation : ,
-Identifier : k
-Special symbols:	)
-Punctuation : ;
-reserved keyword: expr
-Identifier : str
-Special symbols:	=
-constant: "c"
-Punctuation : ;
-reserved keyword: expr
-Identifier : c
-Special symbols:	=
-constant: 'c'
-Punctuation : ;
-comment: !! return abc; !!
-Identifier : label2
-Punctuation : :
-Special symbols:	{
-reserved keyword: expr
-Identifier : c
-Special symbols:	=
-constant: 'l'
-Punctuation : ;
-Special symbols:	}
-Special symbols:	}
-Special symbols:	}
-Punctuation : ;
-reserved keyword: func
-datatype: int
-Identifier : main
-Special symbols:	(
-datatype: int
-Identifier : a
-Punctuation : ,
-datatype: float
-Identifier : b
-Punctuation : ,
-datatype: char
-Identifier : c
-Punctuation : ,
-datatype: string
-Identifier : str
-Punctuation : ,
-Identifier : myClass
-Identifier : obj
-Special symbols:	)
-Special symbols:	{
 reserved keyword: declr
-reserved keyword: graph
-Identifier : G
-Special symbols:	[
-constant: 10
-Special symbols:	]
+Identifier : myStructB
+Identifier : myObj
 Punctuation : ;
 reserved keyword: expr
-Identifier : G
+Identifier : myObj
 Special symbols:	=
-Special symbols:	{
-constant: 1
-Punctuation : :
-constant: 2
-Punctuation : ,
-constant: 3
-Punctuation : ;
-constant: 4
-Punctuation : :
-constant: 7
-Punctuation : ,
-constant: 8
-Punctuation : ;
-Special symbols:	}
-Punctuation : ;
-reserved keyword: declr
-reserved keyword: matrix
-Identifier : M
-Special symbols:	[
-constant: 4
-Special symbols:	]
-Special symbols:	[
-constant: 4
-Special symbols:	]
+Identifier : cItemB
 Punctuation : ;
 reserved keyword: expr
-Identifier : M
+Identifier : cItemB
+Special symbols: ->
+Identifier : itemD
+Special symbols: ->
+Identifier : itemA
 Special symbols:	=
-Special symbols:	[
-Special symbols:	[
-constant: 1
-Punctuation : ,
-constant: 2
-Punctuation : ,
-constant: 4
-Punctuation : ,
-constant: 5
-Special symbols:	]
-Punctuation : ;
-Special symbols:	[
-constant: 1
-Punctuation : ,
-constant: 2
-Punctuation : ,
-constant: 3
-Punctuation : ,
-constant: 4
-Special symbols:	]
-Punctuation : ;
-Special symbols:	[
-constant: 1
-Punctuation : ,
-constant: 1
-Punctuation : ,
-constant: 1
-Punctuation : ,
-constant: 1
-Special symbols:	]
-Punctuation : ;
-Special symbols:	[
-constant: 1.3
-Special symbols:	]
-Punctuation : ;
-Special symbols:	]
-Punctuation : ;

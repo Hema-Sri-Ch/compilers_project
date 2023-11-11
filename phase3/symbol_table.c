@@ -105,7 +105,7 @@ void var_insert(int Flag, int Level, char* Name, char* Type, char* Ele_type, int
     var_symb[var_size].dim_A = Dim_A;
     var_symb[var_size].dim_B = Dim_B;
     var_symb[var_size].ele_type = Ele_type;
-    // printVarNode(var_symb[var_size]);
+    printVarNode(var_symb[var_size]);
     var_size++;
 }
 
@@ -266,6 +266,12 @@ int class_search(char* Name)
 
 // STRUCT SYMBOL TABLE
 
+void printStructNode(struct struct_node node){
+	printf("Name: %s\n", node.name);
+	printf("Struct args: ");
+	for(int i=0; i<node.list_size; i++) printf("%s: %s; ", node.list[i].name, node.list[i].type);
+	printf("\n");
+}
 
 void struct_insert(char* Name)
 {
@@ -322,15 +328,17 @@ void switch_insert(int Level)
     switch_size++;
 }
 
-void add_case(int Level, int case_no)
+void add_case(int Level, char* Case_no)
 {
+	int case_no = atoi(Case_no);
     int case_size = switch_symb[switch_size-1].case_size;
 
     for(int i=0; i<case_size; i++)
     {
         if(case_no==switch_symb[switch_size-1].case_list[i])
         {
-            return; //EXIT STATEMENT
+        	printf("Error: Duplicate cases in switch\n");
+            exit(1); //EXIT STATEMENT
         }
     }
     switch_symb[switch_size-1].case_list[case_size] = case_no;
@@ -339,6 +347,7 @@ void add_case(int Level, int case_no)
 
 void switch_delete()
 {
+	switch_symb[switch_size-1].case_size = 0;
     switch_size--;
 }
 

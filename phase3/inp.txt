@@ -1,31 +1,72 @@
+struct myStructA{
+	declr int itemA;
+	declr string itemB;
+};
+
+struct myStructB{
+	declr int itemC;
+	declr myStructA itemD;
+};
+
 class myClass{
+	declr int cItemA;
+	declr myStructB cItemB;
 	func int myFunc(int abc, int k, string str, char c){
+		declr myStructB myObj;
+		expr myObj = cItemB;
+		expr cItemB->itemD->itemA = 10;
+		!! expr cItemB->itemD->itemA = 10; !!
+		declr int a;
 		expr abc = 10;
-		expr abc = mul(abc, k);
 		expr str = "c";
 		expr c = 'c';
 		!! return abc; !!
-		label2 :
+		label3 :
 		{
 			expr c = 'l';
+		}
+		declr int a, b;
+		expr a = 10;
+		switch(add(a, b)){
+			case 1:{
+			
+			}
+			
+			case 2:{
+			
+			}
+			
+			case 3:{
+			
+			}
+			
+			default:{
+			
+			}
+		}
+		
+		switch(add(a, b)){
+			case 1:{
+			
+			}
+			
+			case 2:{
+			
+			}
+			
+			case 3:{
+			
+			}
+			
+			default:{
+			
+			}
 		}
 	}
 };
 
 func int main(int a, float b, char c, string str, myClass obj){
-	declr graph G[10];
-	expr G = {
-		1: 2,3;
-		4: 7,8;
-	};
-	declr matrix M[4][4];
-	expr M = 
-	[
-		[1,2,4,5];
-		[1,2,3,4];
-		[1,1,1,1];
-		[1.3];
-	];
+	
 	expr a = 10;
 	expr str = "Hello, world";
 	label1 :

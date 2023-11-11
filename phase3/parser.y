@@ -14,7 +14,7 @@
 	int inStruct=0;
 	int level=0;  // indicates level of scope
 	int inFunc=0;
-	int currentFuncIndex; // To be used by call statements to grab func details
+	int currentFuncIndex = -1; // To be used by call statements to grab func details
 	int classIndex = -1; // To be used by call statements to grab func details
 	int funcIndex = -1;
 	
@@ -201,9 +201,14 @@ function_head			: func_definition Parameters {
 func_definition			: FUNC fdtype id {
 							$$.name = $3;
 							$$.type = $2;
-							if(inClass == 0) func_insert($3, $2);
-							else class_func_insert(class_size-1, $3, $2);
-							currentFuncIndex = func_size-1;
+							if(inClass == 0) {
+								func_insert($3, $2);
+								currentFuncIndex = func_size - 1;
+							}
+							else {
+								class_func_insert(class_size-1, $3, $2);
+								currentFuncIndex = class_symb[class_size-1].cl_func_size - 1;
+							}
 						}
 						;
 						
@@ -506,44 +511,80 @@ expr_stmt				: EXPR LHS '=' RHS ';' {
 						
 						
 LHS						: myId {
-							// printf("%s\n", $1);
-							classIndex = -1; // indicates it is independent function(for call statements)
+							// indicates it is independent function(for call statements)
+							
+							classIndex = -1; // stores index of LHS dataType(class)
 							int i = var_search($1);
-							printf("%s - %d\n", $1, i);
-							if( i < 0){
-								printf("Error: Accessing undeclared identifier %s\n", $1);
-								exit(1);
+							// printf("%s - %d\n", $1, i);
+							if(i < 0){
+							
+								if(inClass){
+									i = class_declr_search($1, class_size-1); // search in current class
+									if(i < 0){
+										// statement is in class, yet LHS not in symbol table
+										printf("Error: Accessing undeclared identifier %s\n", $1);
+										exit(1);
+									}
+									
+									else{
+										$$.name = $1;
+										$$.type = class_symb[class_size-1].declr_list[i].type;
+										classIndex=class_size-1;
+									}
+								}
+								
+								else{
+									// statement not in class & LHS not in symbol table
+									printf("Error: Accessing undeclared identifier %s\n", $1);
+									exit(1);
+								}
 							}
+							
 							else{
+								// myId exists in var_symb ==> declared inside function
 								$$.name = $1;
 								$$.type = var_symb[i].type;
-								
 							}
 						}
-						| LHS ARROW myId 
-						{
+						| LHS ARROW myId {
 							int ind = var_search($1.name);
-							
-							if(ind < 0)
-							{
-								printf("Error: Accessing undefined identifier %s\n", $1.name);
-								exit(1);
+							char* dType;
+							if(ind < 0){
+								if(inClass){
+									ind = class_declr_search($1.name, class_size-1); // search in current class
+									if(ind < 0){
+										// statement is in class, yet LHS not in symbol table
+										printf("Error: Accessing undeclared identifier %s\n", $1.name);
+										exit(1);
+									}
+									
+									else{
+										dType = class_symb[class_size-1].declr_list[ind].type;
+										classIndex=class_size-1;
+									}
+								}
+								
+								else{
+									// statement not in class & LHS not in symbol table
+									printf("Error: Accessing undeclared identifier %s\n", $1.name);
+									exit(1);
+								}
 							}
-							char* dType = var_symb[ind].type;
+							else dType = var_symb[ind].type;
+							
+							// check if dType is declared in struct or in class
 							int i = struct_search(dType);
-							if(i < 0)
-							{
+							if(i < 0){
 								i = class_search(dType);
-								if(i < 0)
-								{
+								if(i < 0){
 									
 									// item is not defined in class and struct
 									printf("Error: Accessing undefined datatype %s\n", $1.name);
 									exit(1);
 								}
 								
-								else
-								{
+								else{
+									
 									int j = class_declr_search($3, i);
 									int k = class_func_search($3, i);
 									if(j < 0 && k < 0){
@@ -568,8 +609,10 @@ LHS						: myId {
 							}
 							
 							else {
-								// item defined in struct
+								// item defined in struct, now check its attributes
 								int j = struct_declr_search($3, i);
+								printf("%s AND %s\n", $3, struct_symb[i].name);
+								printStructNode(struct_symb[i]);
 								if(j < 0){
 								
 									// item is not attribute of this struct
@@ -596,6 +639,7 @@ myId					: id {$$=$1;}
 							$$ = $1;
 						}
 						;
+
 
 declr_stmt				: DECLR declr_body ';' {fprintf(fparse, " : DECLARATION STATEMENT");}
 
@@ -856,11 +900,11 @@ switch_stmt				: SWITCH '(' RHS ')' {
 						;
 						
 
-switch_body				: '{' {level++;} cases DEFAULT ':' function_body '}' { var_delete(level); level--;}
+switch_body				: '{' {switch_insert(level); level++;} cases DEFAULT ':' function_body '}' { var_delete(level); level--; switch_delete();}
 						;
 
-cases					: CASE INT_CONST ':' function_body cases
-						| CASE INT_CONST ':' function_body
+cases					: cases CASE INT_CONST  {add_case(level-1, $3);} ':' function_body 
+						| CASE INT_CONST  {add_case(level-1, $2);} ':' function_body
 						;
 
 						
