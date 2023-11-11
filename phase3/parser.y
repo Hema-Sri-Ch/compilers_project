@@ -45,11 +45,15 @@
 		char* name;
 		char* type;
 	} details;
-	
+	struct
+	{
+		int cols;
+	} Cols;
 }
 
 %type<str> fdtype dtype id id_list graph_and_array_list matrix_list return_stmt RHS constants extra_consts impr matrix_impr graph_impr arith_op logical_op func_calls binary_op unary_op arg_list call_head for_RHS myId
 %type<details> function function_head func_definition LHS
+%type<Cols> mat_list int_float_list
 
 %token <str> newid
 %token <str> INT_CONST
@@ -453,7 +457,48 @@ expr_stmt				: EXPR LHS '=' RHS ';' {
 							
 							fprintf(fparse, " : EXPRESSION STATEMENT");
 						}
-						| EXPR LHS '=' extra_consts ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
+						| EXPR LHS '=' extra_consts ';'
+							{
+								if(classIndex==-1)
+								{
+									if(strcmp("graph", $2.type)==0)
+									{
+										int ind = var_search($2.name);
+										int dimAval = var_symb[ind].dim_A;
+										for(int i=0; i<arr_size; i++)
+										{
+											if(dimA[i]>dimAval)
+											{
+												printf("ERROR: Vertex used is not present in the graph\n");
+												exit(1);
+											}
+										}
+										arr_size=0;
+									}
+									else if(strcmp("matrix", $2.type)==0)
+									{
+										int ind = var_search($2.name);
+										int rows = var_symb[ind].dim_A;
+										int columns = var_symb[ind].dim_B;
+										if(arr_size!=rows) 
+										{
+											printf("ERROR: Number of rows mismatch\n");
+											exit(1);
+										}
+										for(int i=0; i<arr_size; i++)
+										{
+											if(dimA[i]!=columns)
+											{
+												printf("ERROR: Number of columns mismatch\n");
+												exit(1);
+											}
+										}
+										arr_size=0;
+									}
+								}
+							}
+							{fprintf(fparse, " : EXPRESSION STATEMENT");}
+
 						| EXPR LHS '=' graph_impr ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
 						| EXPR LHS '=' matrix_impr ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
 						| EXPR LHS '=' vect_stmt_body ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
@@ -472,28 +517,33 @@ LHS						: myId {
 							else{
 								$$.name = $1;
 								$$.type = var_symb[i].type;
+								
 							}
 						}
-						| LHS ARROW myId {
+						| LHS ARROW myId 
+						{
 							int ind = var_search($1.name);
 							
-							if(ind < 0){
+							if(ind < 0)
+							{
 								printf("Error: Accessing undefined identifier %s\n", $1.name);
 								exit(1);
 							}
 							char* dType = var_symb[ind].type;
 							int i = struct_search(dType);
-							if(i < 0){
+							if(i < 0)
+							{
 								i = class_search(dType);
-								if(i < 0){
+								if(i < 0)
+								{
 									
 									// item is not defined in class and struct
 									printf("Error: Accessing undefined datatype %s\n", $1.name);
 									exit(1);
 								}
 								
-								else{
-									
+								else
+								{
 									int j = class_declr_search($3, i);
 									int k = class_func_search($3, i);
 									if(j < 0 && k < 0){
@@ -887,15 +937,39 @@ graph_const				: '{' graph_type1 '}'
 						;
 
 graph_type1				: INT_CONST ':' int_list ';' graph_type1
+							{
+								dimA[arr_size] = atoi($1);
+								arr_size++;
+							}
 						| INT_CONST ':' int_list ';'
+							{
+								dimA[arr_size] = atoi($1);
+								arr_size++;
+							}
 						;
 
 graph_type2				: INT_CONST ':' weight_list ';' graph_type2
+							{
+								dimA[arr_size] = atoi($1);
+								arr_size++;
+							}
 						| INT_CONST ':' weight_list ';'
+							{
+								dimA[arr_size] = atoi($1);
+								arr_size++;
+							}
 						;
 
 int_list				: INT_CONST ',' int_list
+							{
+								dimA[arr_size] = atoi($1);
+								arr_size++;
+							}
 						| INT_CONST
+							{
+								dimA[arr_size] = atoi($1);
+								arr_size++;
+							}
 						;
 
 float_list				: FLOAT_CONST ',' float_list
@@ -915,9 +989,25 @@ str_list				: STR_CONST ',' str_list
 						;
 
 weight_list				: '(' INT_CONST ',' INT_CONST ')' ',' weight_list
+							{
+								dimA[arr_size] = atoi($2);
+								arr_size++;
+							}
 						| '(' INT_CONST ',' INT_CONST ')'
+							{
+								dimA[arr_size] = atoi($2);
+								arr_size++;
+							}
 						| '(' INT_CONST ',' FLOAT_CONST ')' ',' weight_list
+							{
+								dimA[arr_size] = atoi($2);
+								arr_size++;
+							}
 						| '(' INT_CONST ',' FLOAT_CONST ')'
+							{
+								dimA[arr_size] = atoi($2);
+								arr_size++;
+							}
 						;
 						
 vect_const				: '{' vect_list '}'
@@ -933,13 +1023,34 @@ matrix_const			: '[' mat_list ']'
 						;
 
 int_float_list			: INT_CONST ',' int_float_list
+							{
+								$$.cols = $3.cols+1;
+							}
 						| FLOAT_CONST ',' int_float_list
+							{
+								$$.cols = $3.cols+1;
+							}
 						| INT_CONST
+							{
+								$$.cols=1;
+							}
 						| FLOAT_CONST
+							{
+								$$.cols=1;
+							}
 						;
 
 mat_list				: '[' int_float_list ']'';' mat_list
+							{
+								dimA[arr_size]=$2.cols;
+								arr_size++;
+							}
 						| '[' int_float_list ']'';'
+							{
+								dimA[arr_size]=$2.cols;
+								arr_size++;
+							}
+							
 						;
 						
 arith_op				: binary_op

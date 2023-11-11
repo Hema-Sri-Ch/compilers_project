@@ -182,9 +182,12 @@ union YYSTYPE
 		char* name;
 		char* type;
 	} details;
-	
+	struct
+	{
+		int cols;
+	} Cols;
 
-#line 188 "y.tab.h"
+#line 191 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

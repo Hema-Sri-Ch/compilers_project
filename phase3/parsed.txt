@@ -1,0 +1,28 @@
+class myClass{
+	func int myFunc(int abc, int k, string str, char c) : FUNCTION HEAD{
+		expr abc = 10; : EXPRESSION STATEMENT
+		expr abc = mul(abc, k); : EXPRESSION STATEMENT
+		expr str = "c"; : EXPRESSION STATEMENT
+		expr c = 'c'; : EXPRESSION STATEMENT
+		!! return abc; !!
+		label2 :
+		{
+			expr c = 'l'; : EXPRESSION STATEMENT
+		} : LABEL
+	}
+}; : CLASS DEFINITION
+
+func int main(int a, float b, char c, string str, myClass obj) : FUNCTION HEAD{
+	declr graph G[10]; : DECLARATION STATEMENT
+	expr G = {
+		1: 2,3;
+		4: 7,8;
+	}; : EXPRESSION STATEMENT
+	declr matrix M[4][4]; : DECLARATION STATEMENT
+	expr M = 
+	[
+		[1,2,4,5];
+		[1,2,3,4];
+		[1,1,1,1];
+		[1.3];
+	];

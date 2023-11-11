@@ -13,7 +13,19 @@ class myClass{
 };
 
 func int main(int a, float b, char c, string str, myClass obj){
-	
+	declr graph G[10];
+	expr G = {
+		1: 2,3;
+		4: 7,8;
+	};
+	declr matrix M[4][4];
+	expr M = 
+	[
+		[1,2,4,5];
+		[1,2,3,4];
+		[1,1,1,1];
+		[1.3];
+	];
 	expr a = 10;
 	expr str = "Hello, world";
 	label1 :
