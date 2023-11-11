@@ -1,3 +1,4 @@
+
 struct myStructA{
 	declr int itemA;
 	declr string itemB;
@@ -15,9 +16,15 @@ class someClass{
 	func int foo(myStructA Hey, string hey){
 		expr Hey->itemB = hey;
 		declr int k;
+		return 89;
 	}
 	func int boo(){
 		declr int k;
+	}
+	
+	func myStructA flah(){
+		declr myStructA item;
+		return item;
 	}
 };
 
@@ -30,6 +37,7 @@ class myClass{
 	func int foo(myStructA Hey, string hey){
 		expr Hey->itemB = hey;
 		declr int k;
+		return k;
 	}
 	
 	func int boo(myStructB yo){
@@ -39,14 +47,16 @@ class myClass{
 	
 	func int myFunc(int abc, int k, string str, char c){
 		declr myStructB myObj;
-		!! expr myObj = cItemB; !!
+		 expr myObj = cItemB; 
 		expr cItemB->itemD->itemA = 10;
-		!! expr cItemB->itemD->itemA = 10; !!
+		expr cItemB->itemD->itemA = 10;
 		declr int a;
 		expr abc = 10;
 		expr str = "c";
 		expr c = 'c';
-		!! return abc; !!
+		return abc;
+		
+		return cItemB->itemD->itemA;
 		label3 :
 		{
 			expr c = 'l';

@@ -1,3 +1,4 @@
+
 struct myStructA{
 	declr int itemA; : DECLARATION STATEMENT
 	declr string itemB; : DECLARATION STATEMENT
@@ -15,9 +16,15 @@ class someClass{
 	func int foo(myStructA Hey, string hey) : FUNCTION HEAD{
 		expr Hey->itemB = hey; : EXPRESSION STATEMENT
 		declr int k; : DECLARATION STATEMENT
+		return 89; : RETURN STATEMENT
 	}
 	func int boo() : FUNCTION HEAD{
 		declr int k; : DECLARATION STATEMENT
+	}
+	
+	func myStructA flah() : FUNCTION HEAD{
+		declr myStructA item; : DECLARATION STATEMENT
+		return item; : RETURN STATEMENT
 	}
 }; : CLASS DEFINITION
 
@@ -30,6 +37,7 @@ class myClass{
 	func int foo(myStructA Hey, string hey) : FUNCTION HEAD{
 		expr Hey->itemB = hey; : EXPRESSION STATEMENT
 		declr int k; : DECLARATION STATEMENT
+		return k; : RETURN STATEMENT
 	}
 	
 	func int boo(myStructB yo) : FUNCTION HEAD{
@@ -39,14 +47,16 @@ class myClass{
 	
 	func int myFunc(int abc, int k, string str, char c) : FUNCTION HEAD{
 		declr myStructB myObj; : DECLARATION STATEMENT
-		!! expr myObj = cItemB; !!
+		 expr myObj = cItemB; : EXPRESSION STATEMENT 
 		expr cItemB->itemD->itemA = 10; : EXPRESSION STATEMENT
-		!! expr cItemB->itemD->itemA = 10; !!
+		expr cItemB->itemD->itemA = 10; : EXPRESSION STATEMENT
 		declr int a; : DECLARATION STATEMENT
 		expr abc = 10; : EXPRESSION STATEMENT
 		expr str = "c"; : EXPRESSION STATEMENT
 		expr c = 'c'; : EXPRESSION STATEMENT
-		!! return abc; !!
+		return abc; : RETURN STATEMENT
+		
+		return cItemB->itemD->itemA; : RETURN STATEMENT
 		label3 :
 		{
 			expr c = 'l'; : EXPRESSION STATEMENT

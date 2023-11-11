@@ -54,7 +54,7 @@
 	} Cols;
 }
 
-%type<str> fdtype dtype id id_list graph_and_array_list matrix_list return_stmt RHS constants extra_consts impr matrix_impr graph_impr arith_op logical_op func_calls binary_op unary_op arg_list call_head for_RHS myId
+%type<str> fdtype dtype id id_list graph_and_array_list matrix_list return_stmt RHS constants extra_consts impr matrix_impr graph_impr arith_op logical_op func_calls binary_op unary_op arg_list call_head for_RHS myId vect_append resultant vect_stmt_body remove_body
 %type<details> function function_head func_definition LHS
 %type<Cols> mat_list int_float_list
 
@@ -339,68 +339,96 @@ goto_stmt				: GOTO id ';' {fprintf(fparse, " : GOTO STATEMENT");}
 vect_stmt				: vect_stmt_body ';' {fprintf(fparse, " : INDEPENDENT METHOD");}
 						;
 
-vect_stmt_body			: resultant '.' APPEND '(' vect_append ')'
-						| resultant '.' REMOVE '(' remove_body ')'
-						| resultant '.' SORT '(' ')'
-						| resultant '.' CLEAR '(' ')'
+vect_stmt_body			: resultant '.' APPEND '(' vect_append ')' { 
+					if(strcmp($1,$5)){printf("ERROR: appending the wrong dtype\n");} 
+					$$ = $1;
+				}
+						| resultant '.' REMOVE '(' remove_body ')' {
+						
+						}
+						| resultant '.' SORT '(' ')' {
+							if($1[0] != '*'){
+								printf("%d Error: invalid type for sort\n", yylineno);
+								exit(1);
+							}
+							$$ = $1;
+						}
+						| resultant '.' CLEAR '(' ')' {
+							if($1[0] != '*'){
+								printf("%d Error: invalid type for clear\n", yylineno);
+								exit(1);
+							}
+							$$ = $1;
+						}
 						;
 						
 
-remove_body				: INT_CONST
-						| FLOAT_CONST
-						| LHS
-						| func_calls
-						| arith_op
-						| logical_op
-						| impr
+remove_body				: INT_CONST {$$="int";}
+						| FLOAT_CONST {$$="float";}
+						| LHS {$$=$1.type;}
+						| func_calls {$$=$1;}
+						| arith_op {$$=$1;}
+						| logical_op {$$=$1;}
+						| impr {$$=$1;}
 						;
 						
 						
 vect_append				: RHS
 						| extra_consts
 						;
-return_stmt 			: RETURN RHS';'{if(inClass==0){
-								if(strcmp($2,func_symb[currentFuncIndex].type)){printf("error\n");}
-							}
-							else{
-								if(strcmp($2,class_symb[class_size-1].func_list[currentFuncIndex-1].type)){
-									printf("error\n");
-								}
-							}
-							} {fprintf(fparse, " : RETURN STATEMENT");}
+return_stmt 			: RETURN RHS';'{
+					if(inClass==0){		
+						if(strcmp($2,func_symb[currentFuncIndex].type)){printf("ERROR : func type and return type are mismatched\n");}
+					}
+					else{
+						if(strcmp($2,class_symb[class_size-1].func_list[currentFuncIndex].type)){
+							printf("ERROR : func type and return type are mismatched\n");
+						}
+					}
+				} {fprintf(fparse, " : RETURN STATEMENT");}
 						| RETURN extra_consts ';' 
 						 {
 							if(inClass==0){
-								if(strcmp($2,func_symb[currentFuncIndex].type)){printf("error\n");}
+								if(strcmp($2,func_symb[currentFuncIndex].type)){printf("ERROR : func type and return type are mismatched\n");}
 							}
 							else{
-								if(strcmp($2,class_symb[class_size-1].func_list[currentFuncIndex-1].type)){
-									printf("error\n");
+								if(strcmp($2,class_symb[class_size-1].func_list[currentFuncIndex].type)){
+									printf("ERROR : func type and return type are mismatched\n");
 								}
 							}
 						 }{fprintf(fparse, " : RETURN STATEMENT");}
 						| RETURN graph_impr ';'
 						{
 							if(inClass==0){
-								if(strcmp($2,func_symb[currentFuncIndex].type)){printf("error\n");}
+								if(strcmp($2,func_symb[currentFuncIndex].type)){printf("ERROR : func type and return type are mismatched\n");}
 							}
 							else{
-								if(strcmp($2,class_symb[class_size-1].func_list[currentFuncIndex-1].type)){
-									printf("error\n");
+								if(strcmp($2,class_symb[class_size-1].func_list[currentFuncIndex].type)){
+									printf("ERROR : func type and return type are mismatched\n");
 								}
 							}
 						 } {fprintf(fparse, " : RETURN STATEMENT");}
 						| RETURN matrix_impr ';'{if(inClass==0){
-								if(strcmp($2,func_symb[currentFuncIndex].type)){printf("error\n");}
+								if(strcmp($2,func_symb[currentFuncIndex].type)){printf("ERROR : func type and return type are mismatched\n");}
 							}
 							else{
-								if(strcmp($2,class_symb[class_size-1].func_list[currentFuncIndex-1].type)){
-									printf("error\n");
+								if(strcmp($2,class_symb[class_size-1].func_list[currentFuncIndex].type)){
+									printf("ERROR : func type and return type are mismatched\n");
 								}
 							}
 							}  {fprintf(fparse, " : RETURN STATEMENT");}
-						| RETURN vect_stmt_body ';' {fprintf(fparse, " : RETURN STATEMENT");}
-						| RETURN null ';' {fprintf(fparse, " : RETURN STATEMENT");}
+						| RETURN vect_stmt_body ';'{
+							fprintf(fparse, " : RETURN STATEMENT");
+						}
+						| RETURN null ';'{if(inClass==0){
+								if(strcmp("void",func_symb[currentFuncIndex].type)){printf("ERROR : func type and return type are mismatched\n");}
+							}
+							else{
+								if(strcmp("void",class_symb[class_size-1].func_list[currentFuncIndex].type)){
+									printf("ERROR : func type and return type are mismatched\n");
+								}
+							}
+							} {fprintf(fparse, " : RETURN STATEMENT");}
 						;
 				
 						
@@ -530,7 +558,19 @@ LHS						: myId {
 									
 									else{
 										$$.name = $1;
-										$$.type = class_symb[class_size-1].declr_list[i].type;
+										// $$.type = class_symb[class_size-1].declr_list[i].type;
+										if(strcmp(class_symb[class_size-1].declr_list[i].type, "vect") == 0){
+										    char* result;
+										    char* A = "*";
+										    result = (char*)malloc(strlen(A) + strlen(class_symb[class_size-1].declr_list[i].ele_type) + 1);
+										    strcpy(result, A);
+										    strcat(result, class_symb[class_size-1].declr_list[i].ele_type);
+										    // dataType = 2;
+						   				     $$.type = result;
+										}
+										else {
+											$$.type = class_symb[class_size-1].declr_list[i].type;
+										}
 										classIndex=class_size-1;
 									}
 								}
@@ -545,7 +585,19 @@ LHS						: myId {
 							else{
 								// myId exists in var_symb ==> declared inside function
 								$$.name = $1;
-								$$.type = var_symb[i].type;
+								// $$.type = var_symb[i].type;
+								if(!strcmp(var_symb[i].type, "vect")){
+									char* result;
+									char* A = "*";
+									result = (char*)malloc(strlen(A) + strlen(var_symb[i].ele_type) + 1);
+									 strcpy(result, A);
+					     			    	strcat(result, var_symb[i].ele_type);
+										    // dataType = 2;
+						   			$$.type = result;
+								}
+								else{
+									$$.type = var_symb[i].type;
+								}
 							}
 						}
 						| LHS ARROW myId {
@@ -575,6 +627,19 @@ LHS						: myId {
 									if(j >= 0){
 										$$.name = $3;
 										$$.type = class_symb[i].declr_list[j].type;
+										
+										if(strcmp(class_symb[i].declr_list[j].type, "vect") == 0){
+										    char* result;
+										    char* A = "*";
+										    result = (char*)malloc(strlen(A) + strlen(class_symb[i].declr_list[j].ele_type) + 1);
+										    strcpy(result, A);
+										    strcat(result, class_symb[i].declr_list[j].type);
+										    // dataType = 2;
+						   				     $$.type = result;
+										}
+										else {
+											$$.type = class_symb[i].declr_list[j].type;	
+										}
 									}
 								
 									else if(k >= 0){
@@ -600,7 +665,19 @@ LHS						: myId {
 								
 								else{
 									$$.name = $3;
-									$$.type = struct_symb[i].list[j].type;
+									// $$.type = struct_symb[i].list[j].type;
+									if(!strcmp(struct_symb[i].list[j].type, "vect")){
+										char* result;
+										    char* A = "*";
+										    result = (char*)malloc(strlen(A) + strlen(struct_symb[i].list[j].ele_type) + 1);
+										    strcpy(result, A);
+										    strcat(result, struct_symb[i].list[j].ele_type);
+										    // dataType = 2;
+						   				     $$.type = result;
+									}
+									else{
+										$$.type = struct_symb[i].list[j].type;
+									}
 								}
 							}
 						}
@@ -922,12 +999,13 @@ val_list				: int_list
 						| str_list
 						;
 
-resultant				: LHS
-						| matrix_impr 
-						| graph_impr
-						| vect_stmt_body
-						| impr
-						;		
+resultant				: LHS{$$ = $1.type;}
+						| matrix_impr {$$ = $1;}
+						| graph_impr {$$ = $1;}
+						| vect_stmt_body {$$ = $1;}
+						| impr {$$ = $1;}
+						;				
+						
 						
 impr					: resultant '.' LENGTH '(' ')'{$$ = "int";}
 						| resultant '.' AT '(' remove_body ')'{$$ = "0";}
