@@ -495,42 +495,50 @@ expr_stmt				: EXPR LHS '=' RHS ';' {
 						}
 						| EXPR LHS '=' extra_consts ';'
 							{
-								if(classIndex==-1)
+								int dimAval, dimBval;
+								int ind = var_search($2.name);
+								if(ind==-1) 
 								{
-									if(strcmp("graph", $2.type)==0)
+									ind = class_declr_search($2.name, class_size-1);
+									dimAval = class_symb[class_size-1].declr_list[ind].dim_A;
+									dimBval = class_symb[class_size-1].declr_list[ind].dim_B;
+								}
+								else
+								{
+									dimAval = var_symb[ind].dim_A;
+									dimBval = var_symb[ind].dim_B;
+								}
+								
+								 
+
+								if(strcmp("graph", $2.type)==0)
+								{
+									for(int i=0; i<arr_size; i++)
 									{
-										int ind = var_search($2.name);
-										int dimAval = var_symb[ind].dim_A;
-										for(int i=0; i<arr_size; i++)
+										if(dimA[i]>dimAval)
 										{
-											if(dimA[i]>dimAval)
-											{
-												printf("%d ERROR: Vertex used is not present in the graph\n", yylineno);
-												exit(1);
-											}
-										}
-										arr_size=0;
-									}
-									else if(strcmp("matrix", $2.type)==0)
-									{
-										int ind = var_search($2.name);
-										int rows = var_symb[ind].dim_A;
-										int columns = var_symb[ind].dim_B;
-										if(arr_size!=rows) 
-										{
-											printf("%d ERROR: Number of rows mismatch\n", yylineno);
+											printf("%d ERROR: Vertex used is not present in the graph\n", yylineno);
 											exit(1);
 										}
-										for(int i=0; i<arr_size; i++)
-										{
-											if(dimA[i]!=columns)
-											{
-												printf("%d ERROR: Number of columns mismatch\n", yylineno);
-												exit(1);
-											}
-										}
-										arr_size=0;
 									}
+									arr_size=0;
+								}
+								else if(strcmp("matrix", $2.type)==0)
+								{
+									if(arr_size!=dimAval) 
+									{
+										printf("%d ERROR: Number of rows mismatch\n", yylineno);
+										exit(1);
+									}
+									for(int i=0; i<arr_size; i++)
+									{
+										if(dimA[i]!=dimBval)
+										{
+											printf("%d ERROR: Number of columns mismatch\n", yylineno);
+											exit(1);
+										}
+									}
+									arr_size=0;
 								}
 							}
 							{fprintf(fparse, " : EXPRESSION STATEMENT");}
