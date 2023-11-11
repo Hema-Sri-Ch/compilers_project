@@ -106,31 +106,8 @@ class myClass{
 
 func int main(int a, myClass obj, float b, char c, string str){
 	
-	expr a = 10;
-	expr str = "Hello, world";
-	expr a = obj->cItemB->itemD->itemA;
-	declr myStructA hey;
-	expr a = call obj->foo(hey, "Hey");
-	declr myStructB Yo;
-	call obj->boo(Yo);
-	
-	call obj->cItemC->foo(hey, "Hey");
-	expr a = call obj->cItemC->boo();
-	label1 :
-	{
-		declr int a;
-	}
-	expr a = add(a, call obj->myFunc(5, (true or false), str, c));
-	loop while(true){
-		declr int i;
-		if( ((a and b) or add(a, call obj->myFunc(5, 10, "Hema", 'c'))) ){
-			
-			call obj->myFunc(5, add(a, 10.0), "Hema", 'c');
-			
-		}
-		declr int i;
-		call obj->myFunc(i, 10, "Hema", 'c');
-	}
+	declr int arr[3];
+	expr arr = [1,2,3];
 	
 }
 
@@ -144,20 +121,5 @@ func int main()
 }
 
 
-func vect<myStruct> matr_add (matrix A, matrix B){
-    return add_matx(A, B);
-}
-
-func vect<M> boo(int num, float nums) {
-	return mul(num, (num gt 10));
-}
-	
-func vect<int> foo(int p, int q) {
-	expr a = add(sItem1, mul(p, (q and call boo(q))));
-	declr vect<int> a;
-	sItem2.append(10);
-	expr itemD->sItem1 = sub(a, sItem2.append(call boo((a lt itemD->sItem3.strlen()))).sort().length());
-	return itemD;
-}
 
 
