@@ -22,7 +22,7 @@ Special symbols:	>
 Identifier : v1
 Punctuation : ;
 reserved keyword: return
-Identifier : v1
+Identifier : v
 Punctuation : ;
 Special symbols:	}
 reserved keyword: struct
@@ -137,9 +137,12 @@ reserved keyword: declr
 datatype: int
 Identifier : k
 Punctuation : ;
+reserved keyword: return
+Identifier : k
+Punctuation : ;
 Special symbols:	}
 reserved keyword: func
-datatype: int
+reserved keyword: matrix
 Identifier : boo
 Special symbols:	(
 Special symbols:	)
@@ -147,6 +150,9 @@ Special symbols:	{
 reserved keyword: declr
 datatype: int
 Identifier : k
+Punctuation : ;
+reserved keyword: return
+Identifier : M
 Punctuation : ;
 Special symbols:	}
 Special symbols:	}
@@ -188,6 +194,9 @@ reserved keyword: declr
 datatype: int
 Identifier : k
 Punctuation : ;
+reserved keyword: return
+Identifier : k
+Punctuation : ;
 Special symbols:	}
 reserved keyword: func
 datatype: int
@@ -206,6 +215,9 @@ reserved keyword: return
 Identifier : yo
 Special symbols: ->
 Identifier : itemC
+Punctuation : ;
+reserved keyword: return
+constant: 10
 Punctuation : ;
 Special symbols:	}
 reserved keyword: func
@@ -229,5 +241,312 @@ reserved keyword: declr
 datatype: int
 Identifier : a
 Punctuation : ,
-Identifier : a
+Identifier : b
 Punctuation : ;
+reserved keyword: declr
+Identifier : myStructB
+Identifier : myObj
+Punctuation : ;
+comment: !! expr myObj = cItemB; !!
+reserved keyword: expr
+Identifier : cItemB
+Special symbols: ->
+Identifier : itemD
+Special symbols: ->
+Identifier : itemA
+Special symbols:	=
+constant: 10
+Punctuation : ;
+comment: !! expr cItemB->itemD->itemA = 10; !!
+reserved keyword: declr
+datatype: int
+Identifier : dslkf
+Punctuation : ;
+reserved keyword: expr
+Identifier : abc
+Special symbols:	=
+constant: 10
+Punctuation : ;
+reserved keyword: expr
+Identifier : str
+Special symbols:	=
+constant: "c"
+Punctuation : ;
+reserved keyword: expr
+Identifier : c
+Special symbols:	=
+constant: 'c'
+Punctuation : ;
+Identifier : label3
+Punctuation : :
+Special symbols:	{
+reserved keyword: expr
+Identifier : c
+Special symbols:	=
+constant: 'l'
+Punctuation : ;
+Special symbols:	}
+reserved keyword: declr
+datatype: int
+Identifier : i0
+Punctuation : ,
+Identifier : i1
+Punctuation : ;
+reserved keyword: expr
+Identifier : a
+Special symbols:	=
+constant: 10
+Punctuation : ;
+reserved keyword: switch
+Special symbols:	(
+operator: add
+Special symbols:	(
+Identifier : a
+Punctuation : ,
+Identifier : b
+Special symbols:	)
+Special symbols:	)
+Special symbols:	{
+reserved keyword: case
+constant: 1
+Punctuation : :
+Special symbols:	{
+Special symbols:	}
+reserved keyword: case
+constant: 2
+Punctuation : :
+Special symbols:	{
+reserved keyword: switch
+Special symbols:	(
+operator: add
+Special symbols:	(
+Identifier : a
+Punctuation : ,
+Identifier : b
+Special symbols:	)
+Special symbols:	)
+Special symbols:	{
+reserved keyword: case
+constant: 1
+Punctuation : :
+Special symbols:	{
+Special symbols:	}
+reserved keyword: case
+constant: 2
+Punctuation : :
+Special symbols:	{
+Special symbols:	}
+reserved keyword: case
+constant: 3
+Punctuation : :
+Special symbols:	{
+Special symbols:	}
+reserved keyword: default
+Punctuation : :
+Special symbols:	{
+Special symbols:	}
+Special symbols:	}
+Special symbols:	}
+reserved keyword: case
+constant: 3
+Punctuation : :
+Special symbols:	{
+Special symbols:	}
+reserved keyword: default
+Punctuation : :
+Special symbols:	{
+Special symbols:	}
+Special symbols:	}
+reserved keyword: declr
+reserved keyword: matrix
+Identifier : A
+Special symbols:	[
+constant: 2
+Special symbols:	]
+Special symbols:	[
+constant: 2
+Special symbols:	]
+Punctuation : ,
+Identifier : B
+Special symbols:	[
+constant: 2
+Special symbols:	]
+Special symbols:	[
+constant: 2
+Special symbols:	]
+Punctuation : ,
+Identifier : C
+Special symbols:	[
+constant: 2
+Special symbols:	]
+Special symbols:	[
+constant: 2
+Special symbols:	]
+Punctuation : ;
+reserved keyword: return
+reserved keyword: add_matx
+Special symbols:	(
+Identifier : A
+Punctuation : ,
+Identifier : B
+Special symbols:	)
+Punctuation : .
+Identifier: trace
+Special symbols:	(
+Special symbols:	)
+Punctuation : ;
+reserved keyword: expr
+Identifier : C
+Special symbols:	=
+reserved keyword: add_matx
+Special symbols:	(
+Identifier : A
+Punctuation : ,
+Identifier : B
+Special symbols:	)
+Punctuation : ;
+reserved keyword: return
+constant: 1
+Punctuation : ;
+Special symbols:	}
+Special symbols:	}
+Punctuation : ;
+reserved keyword: func
+datatype: int
+Identifier : main
+Special symbols:	(
+datatype: int
+Identifier : a
+Punctuation : ,
+Identifier : myClass
+Identifier : obj
+Punctuation : ,
+datatype: float
+Identifier : b
+Punctuation : ,
+datatype: char
+Identifier : c
+Punctuation : ,
+datatype: string
+Identifier : str
+Special symbols:	)
+Special symbols:	{
+reserved keyword: declr
+datatype: int
+Identifier : arr
+Special symbols:	[
+constant: 3
+Special symbols:	]
+Punctuation : ;
+reserved keyword: expr
+Identifier : arr
+Special symbols:	=
+Special symbols:	[
+constant: 1
+Punctuation : ,
+constant: 2
+Punctuation : ,
+constant: 3
+Special symbols:	]
+Punctuation : ;
+reserved keyword: declr
+reserved keyword: matrix
+Identifier : M1
+Special symbols:	[
+constant: 2
+Special symbols:	]
+Special symbols:	[
+constant: 3
+Special symbols:	]
+Punctuation : ,
+Identifier : M2
+Special symbols:	[
+constant: 2
+Special symbols:	]
+Special symbols:	[
+constant: 3
+Special symbols:	]
+Punctuation : ;
+reserved keyword: expr
+Identifier : M1
+Special symbols:	=
+Special symbols:	[
+Special symbols:	[
+constant: 1
+Punctuation : ,
+constant: 2
+Punctuation : ,
+constant: 3
+Special symbols:	]
+Punctuation : ;
+Special symbols:	[
+constant: 1.0
+Punctuation : ,
+constant: 2.0
+Punctuation : ,
+constant: 3.0
+Special symbols:	]
+Punctuation : ;
+Special symbols:	]
+Punctuation : ;
+reserved keyword: expr
+Identifier : M2
+Special symbols:	=
+Special symbols:	[
+Special symbols:	[
+constant: 4
+Punctuation : ,
+constant: 5
+Punctuation : ,
+constant: 6
+Special symbols:	]
+Punctuation : ;
+Special symbols:	[
+constant: 1.0
+Punctuation : ,
+constant: 2.0
+Punctuation : ,
+constant: 3.0
+Special symbols:	]
+Punctuation : ;
+Special symbols:	]
+Punctuation : ;
+reserved keyword: declr
+reserved keyword: matrix
+Identifier : M3
+Special symbols:	[
+constant: 2
+Special symbols:	]
+Special symbols:	[
+constant: 3
+Special symbols:	]
+Punctuation : ;
+reserved keyword: expr
+Identifier : M3
+Special symbols:	=
+reserved keyword: add_matx
+Special symbols:	(
+Identifier : M1
+Punctuation : ,
+Identifier : M2
+Special symbols:	)
+Punctuation : ;
+reserved keyword: expr
+Identifier : M3
+Special symbols:	=
+reserved keyword: add_matx
+Special symbols:	(
+reserved keyword: add_matx
+Special symbols:	(
+Identifier : M1
+Punctuation : ,
+Identifier : M2
+Special symbols:	)
+Punctuation : ,
+Identifier : M2
+Special symbols:	)
+Punctuation : ;
+reserved keyword: return
+constant: 0
+Punctuation : ;
+Special symbols:	}

@@ -1,7 +1,9 @@
 func vect<int> foo(){
 	declr vect<int>v;
 	declr vect<string>v1;
-	return v1; }
+	return v;
+}
+
 struct myStructA{
 	declr int itemA;
 	declr string itemB;
@@ -32,9 +34,11 @@ class someClass{
 		];
 		expr Hey->itemB = hey;
 		declr int k;
+		return k;
 	}
-	func int boo(){
+	func matrix boo(){
 		declr int k;
+		return M;
 	}
 };
 
@@ -47,20 +51,22 @@ class myClass{
 	func int foo(myStructA Hey, string hey){
 		expr Hey->itemB = hey;
 		declr int k;
+		return k;
 	}
 	
 	func int boo(myStructB yo){
 		expr cItemB = yo;
 		return yo->itemC;
+		return 10;
 	}
 	
 	func int myFunc(int abc, int k, string str, char c){
-		declr int a, a;
+		declr int a, b;
 		declr myStructB myObj;
 		!! expr myObj = cItemB; !!
 		expr cItemB->itemD->itemA = 10;
 		!! expr cItemB->itemD->itemA = 10; !!
-		declr int a;
+		declr int dslkf;
 		expr abc = 10;
 		expr str = "c";
 		expr c = 'c';
@@ -69,7 +75,7 @@ class myClass{
 		{
 			expr c = 'l';
 		}
-		declr int a, b;
+		declr int i0, i1;
 		expr a = 10;
 		switch(add(a, b)){
 			case 1:{
@@ -104,14 +110,30 @@ class myClass{
 			
 			}
 		}
-		
+		declr matrix A[2][2], B[2][2], C[2][2];
+		return add_matx(A, B).trace();
+		expr C = add_matx(A, B);
+		return 1;
 	}
+	
 };
 
 func int main(int a, myClass obj, float b, char c, string str){
 	
 	declr int arr[3];
 	expr arr = [1,2,3];
+	
+	declr matrix M1[2][3], M2[2][3];
+	expr M1 = [[1, 2, 3]; [1.0, 2.0, 3.0];]; 
+	
+	expr M2 = [[4, 5, 6]; [1.0, 2.0, 3.0];];
+	
+	
+	declr matrix M3[2][3];
+	expr M3 = add_matx(M1, M2);
+	expr M3 = add_matx(add_matx(M1, M2), M2);
+	
+	return 0;
 	
 }
 

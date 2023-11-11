@@ -551,8 +551,8 @@ for_RHS					: arith_op {$$ = $1;}
 						| func_calls {$$ = $1;}
 						| impr {$$ = "improvised";}
 						| graph_impr {$$ = "improvised";}
-						| vect_stmt_body {$$ = "improvised";}
-						| matrix_impr {$$ = "improvised";}
+						| vect_stmt_body {$$ = $1;}
+						| matrix_impr {$$ = $1;}
 						;
 
 while_loop				: WHILE '('RHS')' {
@@ -648,9 +648,33 @@ expr_stmt				: EXPR LHS '=' RHS ';' {
 							}
 							{fprintf(fparse, " : EXPRESSION STATEMENT");}
 
-						| EXPR LHS '=' graph_impr ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
-						| EXPR LHS '=' matrix_impr ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
-						| EXPR LHS '=' vect_stmt_body ';' {fprintf(fparse, " : EXPRESSION STATEMENT");}
+						| EXPR LHS '=' graph_impr ';' {
+							if(strcmp($2.type, $4)){
+								int a = !strcmp($2.type, "int") || !strcmp($2.type, "float") || !strcmp($2.type, "bool");
+								int b = !strcmp($4, "int") || !strcmp($4, "float") || !strcmp($4, "bool");
+							
+								if(!(a && b)){
+									printf("%d Error: Expression statement, type mismatch\n", yylineno);
+									exit(1);
+								}
+							}
+							
+							fprintf(fparse, " : EXPRESSION STATEMENT");
+						}
+						| EXPR LHS '=' matrix_impr ';' {
+							if(strcmp($2.type, $4)){
+								printf("%d Error: Expression statement, type mismatch\n", yylineno);
+								exit(1);
+							}
+							fprintf(fparse, " : EXPRESSION STATEMENT");
+						}
+						| EXPR LHS '=' vect_stmt_body ';' {
+							if(strcmp($2.type, $4)) {
+								printf("%d Error: Expression statement, type mismatch\n", yylineno);
+								exit(1);
+							}
+							fprintf(fparse, " : EXPRESSION STATEMENT");
+						}
 						;
 						
 						
@@ -685,6 +709,7 @@ LHS						: myId {
 								else {
 									$$.type = class_symb[class_size-1].declr_list[j].type;
 								}
+								// printf("%s : %s\n", $$.name, $$.type);
 								classIndex=class_size-1;
 							}
 							
@@ -703,6 +728,7 @@ LHS						: myId {
 								else{
 									$$.type = var_symb[i].type;
 								}
+								// printf("%s : %s\n", $$.name, $$.type);
 							}
 							
 							// class function
@@ -711,6 +737,7 @@ LHS						: myId {
 								$$.type = class_symb[class_size-1].func_list[l].type;
 								classIndex = class_size-1;
 								funcIndex = l;
+								// printf("%s : %s\n", $$.name, $$.type);
 							}
 							
 							// normal funciton
@@ -718,6 +745,7 @@ LHS						: myId {
 								$$.name = $1;
 								$$.type = func_symb[k].type;
 								funcIndex = k;
+								// printf("%s : %s\n", $$.name, $$.type);
 							}
 							
 							
@@ -1260,9 +1288,30 @@ resultant				: LHS{$$ = $1.type;}
 						;				
 						
 						
-impr					: resultant '.' LENGTH '(' ')'{$$ = "int";}
-						| resultant '.' AT '(' remove_body ')'{$$ = "0";}
-						| resultant '.' TRACE '(' ')' {$$ = "int";}
+impr					: resultant '.' LENGTH '(' ')'{
+							if($1[0] != '*'){
+								printf("%d Error: invalid type for 'length'\n", yylineno);
+								exit(1);
+							}
+							$$ = "int";
+						}
+						| resultant '.' AT '(' remove_body ')'{
+							if($1[0] != '*'){
+								printf("%d Error: invalid type for 'at'\n", yylineno);
+								exit(1);
+							}
+							if(!strcmp("int", $5) || !strcmp("float", $5) || !strcmp("bool", $5)){
+								printf("%d ERROR: appending the wrong dtype\n", yylineno);
+							} 
+							strncpy($$, $1 + 1, strlen($1));
+						}
+						| resultant '.' TRACE '(' ')' {
+							if(strcmp("matrix", $1)){
+								printf("%d Error: invalid type for trace\n", yylineno);
+								exit(1);
+							}
+							$$ = "int";
+						}
 						| resultant '.' STRLEN '(' ')'{$$ = "int";}
 						| STRCMP '(' RHS ',' RHS ')' {$$ = "bool";}
 						| resultant '.' STRCUT '(' remove_body ',' remove_body ')'{$$ = "string";}
@@ -1278,9 +1327,9 @@ graph_impr				: resultant '.' TRAVERSAL '(' remove_body ')'{$$ = "vect";}
 						
 matrix_impr				: MATXOP '(' matr_body ',' matr_body ')'{if(strcmp($3,"matrix") || strcmp($5,"matrix")){
 											printf("%d, ERROR : argument is not a matrix\n",yylineno);exit(1);}
-											$$ = "matrix";}
+											$$ = $3;}
 						| resultant '.' TRANSPOSE '(' ')' {$$ = "matrix";}
-						| resultant '.' MAXTOGR '(' ')' {$$ = "matrix";}
+						| resultant '.' MAXTOGR '(' ')' {$$ = "graph";}
 						;
 						
 matr_body				: RHS {$$ = $1;}
@@ -1631,7 +1680,7 @@ int yyerror(const char *msg)
 }
 
 int main() {
- 	FILE* fp = fopen("inp.txt", "r");
+ 	FILE* fp = fopen("inp.vgm", "r");
     yyin = fp;
     fparse = fopen("parsed.txt", "w");
  	FILE* ft = fopen("tokens.txt", "w");

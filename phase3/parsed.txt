@@ -1,7 +1,9 @@
 func vect<int> foo() : FUNCTION HEAD{
 	declr vect<int>v; : DECLARATION STATEMENT
 	declr vect<string>v1; : DECLARATION STATEMENT
-	return v1; : RETURN STATEMENT : RETURN STATEMENT }
+	return v; : RETURN STATEMENT : RETURN STATEMENT
+}
+
 struct myStructA{
 	declr int itemA; : DECLARATION STATEMENT
 	declr string itemB; : DECLARATION STATEMENT
@@ -32,9 +34,11 @@ class someClass{
 		]; : EXPRESSION STATEMENT
 		expr Hey->itemB = hey; : EXPRESSION STATEMENT
 		declr int k; : DECLARATION STATEMENT
+		return k; : RETURN STATEMENT : RETURN STATEMENT
 	}
-	func int boo() : FUNCTION HEAD{
+	func matrix boo() : FUNCTION HEAD{
 		declr int k; : DECLARATION STATEMENT
+		return M; : RETURN STATEMENT : RETURN STATEMENT
 	}
 }; : CLASS DEFINITION
 
@@ -47,12 +51,90 @@ class myClass{
 	func int foo(myStructA Hey, string hey) : FUNCTION HEAD{
 		expr Hey->itemB = hey; : EXPRESSION STATEMENT
 		declr int k; : DECLARATION STATEMENT
+		return k; : RETURN STATEMENT : RETURN STATEMENT
 	}
 	
 	func int boo(myStructB yo) : FUNCTION HEAD{
 		expr cItemB = yo; : EXPRESSION STATEMENT
 		return yo->itemC; : RETURN STATEMENT : RETURN STATEMENT
+		return 10; : RETURN STATEMENT : RETURN STATEMENT
 	}
 	
 	func int myFunc(int abc, int k, string str, char c) : FUNCTION HEAD{
-		declr int a, a;
+		declr int a, b; : DECLARATION STATEMENT
+		declr myStructB myObj; : DECLARATION STATEMENT
+		!! expr myObj = cItemB; !!
+		expr cItemB->itemD->itemA = 10; : EXPRESSION STATEMENT
+		!! expr cItemB->itemD->itemA = 10; !!
+		declr int dslkf; : DECLARATION STATEMENT
+		expr abc = 10; : EXPRESSION STATEMENT
+		expr str = "c"; : EXPRESSION STATEMENT
+		expr c = 'c'; : EXPRESSION STATEMENT
+		
+		label3 :
+		{
+			expr c = 'l'; : EXPRESSION STATEMENT
+		} : LABEL
+		declr int i0, i1; : DECLARATION STATEMENT
+		expr a = 10; : EXPRESSION STATEMENT
+		switch(add(a, b)) : CONDITIONAL STATEMENT{
+			case 1:{
+			
+			}
+			
+			case 2:{
+				switch(add(a, b)) : CONDITIONAL STATEMENT{
+					case 1:{
+				
+					}
+				
+					case 2:{
+					
+					}
+				
+					case 3:{
+					
+					}
+					
+					default:{
+				
+					}
+				}
+			}
+			
+			case 3:{
+			
+			}
+			
+			default:{
+			
+			}
+		}
+		declr matrix A[2][2], B[2][2], C[2][2]; : DECLARATION STATEMENT
+		return add_matx(A, B).trace(); : RETURN STATEMENT : RETURN STATEMENT
+		expr C = add_matx(A, B); : EXPRESSION STATEMENT
+		return 1; : RETURN STATEMENT : RETURN STATEMENT
+	}
+	
+}; : CLASS DEFINITION
+
+func int main(int a, myClass obj, float b, char c, string str) : FUNCTION HEAD{
+	
+	declr int arr[3]; : DECLARATION STATEMENT
+	expr arr = [1,2,3]; : EXPRESSION STATEMENT
+	
+	declr matrix M1[2][3], M2[2][3]; : DECLARATION STATEMENT
+	expr M1 = [[1, 2, 3]; [1.0, 2.0, 3.0];]; : EXPRESSION STATEMENT 
+	
+	expr M2 = [[4, 5, 6]; [1.0, 2.0, 3.0];]; : EXPRESSION STATEMENT
+	
+	
+	declr matrix M3[2][3]; : DECLARATION STATEMENT
+	expr M3 = add_matx(M1, M2); : EXPRESSION STATEMENT
+	expr M3 = add_matx(add_matx(M1, M2), M2); : EXPRESSION STATEMENT
+	
+	return 0; : RETURN STATEMENT : RETURN STATEMENT
+	
+}
+
+
