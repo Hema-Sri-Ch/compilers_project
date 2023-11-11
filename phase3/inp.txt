@@ -112,14 +112,3 @@ func int main(int a, myClass obj, float b, char c, string str){
 }
 
 
-	
-func int main()
-{
-	declr int a;
-	expr a = 10;
-	return 10;
-}
-
-
-
-

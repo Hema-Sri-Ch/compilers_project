@@ -48,7 +48,7 @@ class myClass{
 	
 	func int boo(myStructB yo) : FUNCTION HEAD{
 		expr cItemB = yo; : EXPRESSION STATEMENT
-		return yo->itemC; : RETURN STATEMENT
+		return yo->itemC; : RETURN STATEMENT : RETURN STATEMENT
 	}
 	
 	func int myFunc(int abc, int k, string str, char c) : FUNCTION HEAD{
@@ -112,22 +112,3 @@ func int main(int a, myClass obj, float b, char c, string str) : FUNCTION HEAD{
 }
 
 
-	
-func int main() : FUNCTION HEAD
-{
-	declr int a; : DECLARATION STATEMENT
-	expr a = 10; : EXPRESSION STATEMENT
-	return 10; : RETURN STATEMENT
-}
-
-
-func vect<myStruct> matr_add (matrix A, matrix B) : FUNCTION HEAD{
-    return add_matx(A, B); : RETURN STATEMENT
-}
-
-func vect<M> boo(int num, float nums) : FUNCTION HEAD {
-	return mul(num, (num gt 10)); : RETURN STATEMENT
-}
-	
-func vect<int> foo(int p, int q) : FUNCTION HEAD {
-	expr a = add(sItem1,

@@ -207,10 +207,20 @@ func_definition			: FUNC fdtype id {
 							$$.name = $3;
 							$$.type = $2;
 							if(inClass == 0) {
+								int i = func_search($3);
+								if(i >= 0) {
+									printf("%d ERROR : function name %s already declared\n", yylineno, $3);
+									exit(1);
+								}
 								func_insert($3, $2);
 								currentFuncIndex = func_size - 1;
 							}
 							else {
+								int i = class_func_search($3, class_size-1);
+								if(i >= 0) {
+									printf("%d ERROR : function name %s already declared\n", yylineno, $3);
+									exit(1);
+								}
 								class_func_insert(class_size-1, $3, $2);
 								currentFuncIndex = class_symb[class_size-1].cl_func_size - 1;
 							}
@@ -309,7 +319,7 @@ statement				: expr_stmt
 						| switch_stmt
 						| jump_stmt
 						| loop_stmt
-						| return_stmt
+						| return_stmt {fprintf(fparse," : RETURN STATEMENT");}
 						| unary_stmt
 						| vect_stmt
 						| BREAK ';' {fprintf(fparse, " : BREAK STATEMENT");}
@@ -342,11 +352,31 @@ vect_stmt				: vect_stmt_body ';' {fprintf(fparse, " : INDEPENDENT METHOD");}
 						;
 
 vect_stmt_body			: resultant '.' APPEND '(' vect_append ')' { 
-					if(strcmp($1,$5)){printf("ERROR: appending the wrong dtype\n");} 
-					$$ = $1;
-				}
+							if($1[0] != '*'){
+								printf("%d Error: invalid type for clear\n", yylineno);
+								exit(1);
+							}
+							char* myType;
+							strncpy(myType, $1 + 1, strlen($1));
+							if(strcmp(myType, $5)){
+								int a = !strcmp(myType, "float") && (!strcmp($5, "int") || !strcmp($5, "bool"));
+								int b = !strcmp(myType, "int") && (!strcmp($5, "bool"));
+								int c = !strcmp(myType, "bool") && (!strcmp($5, "float") || !strcmp($5, "int") || !strcmp($5, "char") || !strcmp($5, "string"));
+								if(!(a || b || c)){
+									printf("%d ERROR: appending the wrong dtype; expected %s; given %s\n", yylineno, myType, $5);
+								}
+							} 
+							$$ = $1;
+						}
 						| resultant '.' REMOVE '(' remove_body ')' {
-						
+							if($1[0] != '*'){
+								printf("%d Error: invalid type for clear\n", yylineno);
+								exit(1);
+							}
+							if(!strcmp("int", $5) || !strcmp("float", $5) || !strcmp("bool", $5)){
+								printf("%d ERROR: appending the wrong dtype\n", yylineno);
+							} 
+							$$ = $1;
 						}
 						| resultant '.' SORT '(' ')' {
 							if($1[0] != '*'){
@@ -364,6 +394,7 @@ vect_stmt_body			: resultant '.' APPEND '(' vect_append ')' {
 						}
 						;
 						
+						
 
 remove_body				: INT_CONST {$$="int";}
 						| FLOAT_CONST {$$="float";}
@@ -375,9 +406,10 @@ remove_body				: INT_CONST {$$="int";}
 						;
 						
 						
-vect_append				: RHS
-						| extra_consts
+vect_append				: RHS {$$=$1;}
+						| extra_consts {$$=$1;}
 						;
+						
 return_stmt 			: RETURN RHS';'
 							{
 								if(inClass==0)
@@ -450,10 +482,18 @@ return_stmt 			: RETURN RHS';'
 								}
 							}  
 							{fprintf(fparse, " : RETURN STATEMENT");}
-						| RETURN vect_stmt_body ';'
-							{
-								fprintf(fparse, " : RETURN STATEMENT");
+						| RETURN vect_stmt_body ';'{
+							if(inClass==0){
+								if(strcmp($2,func_symb[currentFuncIndex].type)){
+									printf("ERROR : func type and return type are mismatched\n");
+								}
 							}
+							else{
+								if(strcmp($2,class_symb[class_size-1].func_list[currentFuncIndex].type)){
+									printf("ERROR : func type and return type are mismatched\n");
+								}
+							}
+						}
 						| RETURN null ';'
 							{
 								if(inClass==0)
@@ -610,50 +650,42 @@ expr_stmt				: EXPR LHS '=' RHS ';' {
 						
 						
 LHS						: myId {
-							// indicates it is independent function(for call statements)
-							classIndex = -1; // stores index of LHS dataType(class)
+
+							classIndex = -1;
 							int i = var_search($1);
-							// printf("%s - %d\n", $1, i);
-							if(i < 0){
+							int j, l;
+							if(inClass) j = class_declr_search($1, class_size-1);
+							else j = -1;
+							int k = func_search($1);
+							if(inClass) l = class_func_search($1, class_size-1);
+							else l = -1;
 							
-								if(inClass){
-									i = class_declr_search($1, class_size-1); // search in current class
-									if(i < 0){
-										// statement is in class, yet LHS not in symbol table
-										printf("%d Error: Accessing undeclared identifier %s\n", yylineno, $1);
-										exit(1);
-									}
-									
-									else{
-										$$.name = $1;
-										// $$.type = class_symb[class_size-1].declr_list[i].type;
-										if(strcmp(class_symb[class_size-1].declr_list[i].type, "vect") == 0){
-										    char* result;
-										    char* A = "*";
-										    result = (char*)malloc(strlen(A) + strlen(class_symb[class_size-1].declr_list[i].ele_type) + 1);
-										    strcpy(result, A);
-										    strcat(result, class_symb[class_size-1].declr_list[i].ele_type);
-										    // dataType = 2;
-						   				     $$.type = result;
-										}
-										else {
-											$$.type = class_symb[class_size-1].declr_list[i].type;
-										}
-										classIndex=class_size-1;
-									}
-								}
-								
-								else{
-									// statement not in class & LHS not in symbol table
-									printf("%d Error: Accessing undeclared identifier %s\n", yylineno, $1);
-									exit(1);
-								}
+							if(i<0 && j<0 && k<0 && l<0){
+								printf("%d Error: Accessing undeclared identifier/function %s\n", yylineno, $1);
 							}
 							
-							else{
-								// myId exists in var_symb ==> declared inside function
+							// class declare variable (class attirbute)
+							if(j>=0) {
 								$$.name = $1;
-								// $$.type = var_symb[i].type;
+								// $$.type = class_symb[class_size-1].declr_list[i].type;
+								if(strcmp(class_symb[class_size-1].declr_list[j].type, "vect") == 0) {
+								    char* result;
+									char* A = "*";
+								    result = (char*)malloc(strlen(A) + strlen(class_symb[class_size-1].declr_list[j].ele_type) + 1);
+								    strcpy(result, A);
+								    strcat(result, class_symb[class_size-1].declr_list[j].ele_type);
+										    // dataType = 2;
+				   				     $$.type = result;
+								}
+								else {
+									$$.type = class_symb[class_size-1].declr_list[j].type;
+								}
+								classIndex=class_size-1;
+							}
+							
+							// declare variable
+							else if(i>=0){
+								$$.name = $1;
 								if(!strcmp(var_symb[i].type, "vect")){
 									char* result;
 									char* A = "*";
@@ -667,6 +699,23 @@ LHS						: myId {
 									$$.type = var_symb[i].type;
 								}
 							}
+							
+							// class function
+							else if(l >= 0){
+								$$.name = $1;
+								$$.type = class_symb[class_size-1].func_list[l].type;
+								classIndex = class_size-1;
+								funcIndex = l;
+							}
+							
+							// normal funciton
+							else if(k >= 0){
+								$$.name = $1;
+								$$.type = func_symb[k].type;
+								funcIndex = k;
+							}
+							
+							
 						}
 						| LHS ARROW myId {
 							char* dType = $1.type;
