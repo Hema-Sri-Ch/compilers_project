@@ -14,11 +14,11 @@ struct myStructB{
 
 
 class someClass{
-	declr int a;
-	declr int b;
+	
 	
 	declr matrix M[2][3];
 	func int foo(myStructA Hey, string hey){
+		
 		declr graph G[10];
 		expr G =
 		{
@@ -55,6 +55,7 @@ class myClass{
 	}
 	
 	func int myFunc(int abc, int k, string str, char c){
+		declr int a, a;
 		declr myStructB myObj;
 		!! expr myObj = cItemB; !!
 		expr cItemB->itemD->itemA = 10;

@@ -136,7 +136,7 @@ class					: CLASS id '{' {
 							inClass = 1;
 							if(class_search($2)!=-1 || struct_search($2)!=-1)
 							{
-								printf("Struct or class name already exists\n");
+								printf("%d ERROR: Struct or class name already exists\n", yylineno);
 								exit(1);
 							}
 								
@@ -178,7 +178,7 @@ struct					: STRUCT id '{'
 								level++; 
 								if(class_search($2)!=-1 || struct_search($2)!=-1)
 								{
-									printf("Struct or class name already exists\n");
+									printf("%d ERROR: Struct or class name already exists\n", yylineno);
 									exit(1);
 								}
 								
@@ -192,8 +192,12 @@ struct_items			: declr_stmt struct_items
 						| declr_stmt
 						;
 						
-function				: function_head function_body {currentFuncIndex = -1; if(returnStmtCount==0)printf("%d ERROR : Expected atlease one return statement\n", yylineno);
-									returnStmtCount = 0;}
+function				: function_head function_body 
+							{
+								currentFuncIndex = -1; 
+								if(returnStmtCount==0)	printf("%d ERROR : Expected atlease one return statement\n", yylineno);
+								returnStmtCount = 0;
+							}
 						;
 						
 function_head			: func_definition Parameters { 
@@ -339,7 +343,7 @@ label_stmt				: id
 							{
 								if(label_search($1)!=-1) 
 								{
-									printf("Label name already exists\n");
+									printf("%d ERROR: Label name already exists\n", yylineno);
 									exit(1);
 								}
 								else label_insert($1);
@@ -536,7 +540,6 @@ for_expr				: unary_op
 								int b = !strcmp($4, "int") || !strcmp($4, "float") || !strcmp($4, "bool");
 							
 								if(!(a && b)){
-									printf("%s:%s != <name>:%s\n", $2.name, $2.type, $4);
 									printf("%d Error: Expression statement, type mismatch\n", yylineno);
 									exit(1);
 								}
@@ -571,7 +574,6 @@ expr_stmt				: EXPR LHS '=' RHS ';' {
 								int b = !strcmp($4, "int") || !strcmp($4, "float") || !strcmp($4, "bool");
 							
 								if(!(a && b)){
-									printf("%s:%s != <name>:%s\n", $2.name, $2.type, $4);
 									printf("%d Error: Expression statement, type mismatch\n", yylineno);
 									exit(1);
 								}
@@ -632,12 +634,12 @@ expr_stmt				: EXPR LHS '=' RHS ';' {
 								{
 									if(strcmp(element_type, $4)!=0 && strcmp($4, "any")!=0)
 									{
-										printf("Element-type mismatch in array\n");
+										printf("%d ERROR: Element-type mismatch in array\n", yylineno);
 										exit(1);
 									}
 									if(dummy_size!=dimAval)
 									{
-										printf("Array length is not matching\n");
+										printf("%d ERROR: Array length is not matching\n", yylineno);
 										exit(1);
 									}
 									
@@ -824,6 +826,16 @@ declr_body				: DATATYPE id_list
 								{
 									for(int i=0; i<arr_size; i++)
 									{
+										if(inClass==1 && class_declr_search(arr[i], class_size-1)!=-1)
+										{
+											printf("%d ERROR: Variable already declared\n", yylineno);
+											exit(1);
+										}
+										if(var_search(arr[i])!=-1)
+										{
+											printf("%d ERROR: Variable already declared\n", yylineno);
+											exit(1);
+										}
 										var_insert(1, level, arr[i], $1, "" , -1, -1);
 									}
 								}
@@ -831,6 +843,11 @@ declr_body				: DATATYPE id_list
 								{
 									for(int i=0; i<arr_size; i++)
 									{
+										if(class_declr_search(arr[i], class_size-1)!=-1)
+										{
+											printf("%d ERROR: Variable already declared\n", yylineno);
+											exit(1);
+										}
 										add_class_declrs(arr[i], $1, 1, level, "", -1, -1);
 									}
 								}
@@ -838,6 +855,11 @@ declr_body				: DATATYPE id_list
 								{
 									for(int i=0; i<arr_size; i++)
 									{
+										if(struct_declr_search(arr[i], struct_size-1)!=-1)
+										{
+											printf("%d ERROR: Variable already declared\n", yylineno);
+											exit(1);
+										}
 										add_struct_declrs(arr[i], $1, 1, level, "", -1, -1);
 									}
 								}
@@ -849,6 +871,16 @@ declr_body				: DATATYPE id_list
 								{
 									for(int i=0; i<arr_size; i++)
 									{
+										if(inClass==1 && class_declr_search(arr[i], class_size-1)!=-1)
+										{
+											printf("%d ERROR: Variable already declared\n", yylineno);
+											exit(1);
+										}
+										if(var_search(arr[i])!=-1)
+										{
+											printf("%d ERROR: Variable already declared\n", yylineno);
+											exit(1);
+										}
 										var_insert(1, level, arr[i], $1, "" , dimA[i], -1);
 									}
 								}
@@ -856,6 +888,11 @@ declr_body				: DATATYPE id_list
 								{
 									for(int i=0; i<arr_size; i++)
 									{
+										if(class_declr_search(arr[i], class_size-1)!=-1)
+										{
+											printf("%d ERROR: Variable already declared\n", yylineno);
+											exit(1);
+										}
 										add_class_declrs(arr[i], $1, 1, level, "", dimA[i], -1);
 									}
 								}
@@ -863,6 +900,11 @@ declr_body				: DATATYPE id_list
 								{
 									for(int i=0; i<arr_size; i++)
 									{
+										if(struct_declr_search(arr[i], struct_size-1)!=-1)
+										{
+											printf("%d ERROR: Variable already declared\n", yylineno);
+											exit(1);
+										}
 										add_struct_declrs(arr[i], $1, 1, level, "", dimA[i], -1);
 									}
 								}
@@ -874,6 +916,16 @@ declr_body				: DATATYPE id_list
 								{
 									for(int i=0; i<arr_size; i++)
 									{
+										if(inClass==1 && class_declr_search(arr[i], class_size-1)!=-1)
+										{
+											printf("%d ERROR: Variable already declared\n", yylineno);
+											exit(1);
+										}
+										if(var_search(arr[i])!=-1)
+										{
+											printf("%d : Variable already declared\n", yylineno);
+											exit(1);
+										}
 										var_insert(1, level, arr[i], $1, $3, -1, -1);
 									}
 								}
@@ -881,6 +933,11 @@ declr_body				: DATATYPE id_list
 								{
 									for(int i=0; i<arr_size; i++)
 									{
+										if(class_declr_search(arr[i], class_size-1)!=-1)
+										{
+											printf("%d ERROR: Variable already declared\n", yylineno);
+											exit(1);
+										}
 										add_class_declrs(arr[i], $1, 1, level, $3, -1, -1);
 									}
 								}
@@ -888,6 +945,11 @@ declr_body				: DATATYPE id_list
 								{
 									for(int i=0; i<arr_size; i++)
 									{
+										if(struct_declr_search(arr[i], struct_size-1)!=-1)
+										{
+											printf("%d ERROR: Variable already declared\n", yylineno);
+											exit(1);
+										}
 										add_struct_declrs(arr[i], $1, 1, level, $3, -1, -1);
 									}
 								}
@@ -899,6 +961,16 @@ declr_body				: DATATYPE id_list
 								{
 									for(int i=0; i<arr_size; i++)
 									{
+										if(inClass==1 && class_declr_search(arr[i], class_size-1)!=-1)
+										{
+											printf("%d ERROR: Variable already declared\n", yylineno);
+											exit(1);
+										}
+										if(var_search(arr[i])!=-1)
+										{
+											printf("%d ERROR: Variable already declared\n", yylineno);
+											exit(1);
+										}
 										var_insert(1, level, arr[i], $1, "" , dimA[i], dimB[i]);
 									}
 								}
@@ -906,6 +978,11 @@ declr_body				: DATATYPE id_list
 								{
 									for(int i=0; i<arr_size; i++)
 									{
+										if(class_declr_search(arr[i], class_size-1)!=-1)
+										{
+											printf("%d ERROR: Variable already declared\n", yylineno);
+											exit(1);
+										}
 										add_class_declrs(arr[i], $1, 1, level, "", dimA[i], dimB[i]);
 									}
 								}
@@ -913,6 +990,11 @@ declr_body				: DATATYPE id_list
 								{
 									for(int i=0; i<arr_size; i++)
 									{
+										if(struct_declr_search(arr[i], struct_size-1)!=-1)
+										{
+											printf("%d ERROR: Variable already declared\n", yylineno);
+											exit(1);
+										}
 										add_struct_declrs(arr[i], $1, 1, level, "", dimA[i], dimB[i]);
 									}
 								}
@@ -924,6 +1006,16 @@ declr_body				: DATATYPE id_list
 								{
 									for(int i=0; i<arr_size; i++)
 									{
+										if(inClass==1 && class_declr_search(arr[i], class_size-1)!=-1)
+										{
+											printf("%d ERROR: Variable already declared\n", yylineno);
+											exit(1);
+										}
+										if(var_search(arr[i])!=-1)
+										{
+											printf("%d ERROR: Variable already declared\n", yylineno);
+											exit(1);
+										}
 										var_insert(1, level, arr[i], "array", $1 , dimA[i], -1);
 									}
 								}
@@ -931,6 +1023,11 @@ declr_body				: DATATYPE id_list
 								{
 									for(int i=0; i<arr_size; i++)
 									{
+										if(class_declr_search(arr[i], class_size-1)!=-1)
+										{
+											printf("%d ERROR: Variable already declared\n", yylineno);
+											exit(1);
+										}
 										add_class_declrs(arr[i], "array", 1, level, $1, dimA[i], -1);
 									}
 								}
@@ -938,6 +1035,11 @@ declr_body				: DATATYPE id_list
 								{
 									for(int i=0; i<arr_size; i++)
 									{
+										if(struct_declr_search(arr[i], struct_size-1)!=-1)
+										{
+											printf("%d ERROR: Variable already declared\n", yylineno);
+											exit(1);
+										}
 										add_struct_declrs(arr[i], "array", 1, level, $1, dimA[i], -1);
 									}
 								}
@@ -951,6 +1053,16 @@ declr_body				: DATATYPE id_list
 									{
 										for(int i=0; i<arr_size; i++)
 										{
+											if(inClass==1 && class_declr_search(arr[i], class_size-1)!=-1)
+											{
+												printf("%d ERROR: Variable already declared\n", yylineno);
+												exit(1);
+											}
+											if(var_search(arr[i])!=-1)
+											{
+												printf("%d ERROR: Variable already declared\n", yylineno);
+												exit(1);
+											}
 											var_insert(1, level, arr[i], $1, "", -1, -1);
 										}
 									}
@@ -958,6 +1070,11 @@ declr_body				: DATATYPE id_list
 									{
 										for(int i=0; i<arr_size; i++)
 										{
+											if(class_declr_search(arr[i], class_size-1)!=-1)
+											{
+												printf("%d ERROR: Variable already declared\n", yylineno);
+												exit(1);
+											}
 											add_class_declrs(arr[i], $1, 1, level, "", -1, -1);
 										}
 									}
@@ -965,6 +1082,11 @@ declr_body				: DATATYPE id_list
 									{
 										for(int i=0; i<arr_size; i++)
 										{
+											if(struct_declr_search(arr[i], struct_size-1)!=-1)
+											{
+												printf("%d ERROR: Variable already declared\n", yylineno);
+												exit(1);
+											}
 											add_struct_declrs(arr[i], $1, 1, level, "", -1, -1);
 										}
 									}
@@ -973,7 +1095,7 @@ declr_body				: DATATYPE id_list
 								else
 								{
 									arr_size=0;
-									printf("No struct or class with that name is defined\n");
+									printf("%d ERROR: No struct or class with that name is defined\n", yylineno);
 									exit(1);
 								}
 							}
@@ -985,7 +1107,7 @@ graph_and_array_list	: id '[' INT_CONST ']' ',' graph_and_array_list
 								dimA[arr_size] = atoi($3);
 								if(dimA[arr_size]<=0)
 								{
-									printf("Dimension(s) has to be greater than 0\n");
+									printf("%d ERROR: Dimension(s) has to be greater than 0\n", yylineno);
 									exit(1);
 								}
 								arr_size++;
@@ -996,7 +1118,7 @@ graph_and_array_list	: id '[' INT_CONST ']' ',' graph_and_array_list
 								dimA[arr_size] = atoi($3);
 								if(dimA[arr_size]<=0)
 								{
-									printf("Dimension(s) has to be greater than 0\n");
+									printf("%d ERROR: Dimension(s) has to be greater than 0\n", yylineno);
 									exit(1);
 								}
 								arr_size++;
@@ -1010,7 +1132,7 @@ matrix_list				: id '[' INT_CONST ']' '[' INT_CONST ']' ',' matrix_list
 								dimB[arr_size] = atoi($6);
 								if(dimA[arr_size]<=0 || dimB[arr_size]<=0)
 								{
-									printf("No of rows or columns has to be positive\n");
+									printf("%d ERROR: No of rows or columns has to be positive\n", yylineno);
 									exit(1);
 								}
 								arr_size++;
@@ -1022,7 +1144,7 @@ matrix_list				: id '[' INT_CONST ']' '[' INT_CONST ']' ',' matrix_list
 								dimB[arr_size] = atoi($6);
 								if(dimA[arr_size]<=0 || dimB[arr_size]<=0)
 								{
-									printf("No of rows or columns has to be positive\n");
+									printf("%d ERROR: No of rows or columns has to be positive\n", yylineno);
 									exit(1);
 								}
 								arr_size++;

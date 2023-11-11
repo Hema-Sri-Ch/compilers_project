@@ -14,11 +14,11 @@ struct myStructB{
 
 
 class someClass{
-	declr int a; : DECLARATION STATEMENT
-	declr int b; : DECLARATION STATEMENT
+	
 	
 	declr matrix M[2][3]; : DECLARATION STATEMENT
 	func int foo(myStructA Hey, string hey) : FUNCTION HEAD{
+		
 		declr graph G[10]; : DECLARATION STATEMENT
 		expr G =
 		{
@@ -55,63 +55,4 @@ class myClass{
 	}
 	
 	func int myFunc(int abc, int k, string str, char c) : FUNCTION HEAD{
-		declr myStructB myObj; : DECLARATION STATEMENT
-		!! expr myObj = cItemB; !!
-		expr cItemB->itemD->itemA = 10; : EXPRESSION STATEMENT
-		!! expr cItemB->itemD->itemA = 10; !!
-		declr int a; : DECLARATION STATEMENT
-		expr abc = 10; : EXPRESSION STATEMENT
-		expr str = "c"; : EXPRESSION STATEMENT
-		expr c = 'c'; : EXPRESSION STATEMENT
-		
-		label3 :
-		{
-			expr c = 'l'; : EXPRESSION STATEMENT
-		} : LABEL
-		declr int a, b; : DECLARATION STATEMENT
-		expr a = 10; : EXPRESSION STATEMENT
-		switch(add(a, b)) : CONDITIONAL STATEMENT{
-			case 1:{
-			
-			}
-			
-			case 2:{
-				switch(add(a, b)) : CONDITIONAL STATEMENT{
-					case 1:{
-				
-					}
-				
-					case 2:{
-					
-					}
-				
-					case 3:{
-					
-					}
-					
-					default:{
-				
-					}
-				}
-			}
-			
-			case 3:{
-			
-			}
-			
-			default:{
-			
-			}
-		}
-		
-	}
-}; : CLASS DEFINITION
-
-func int main(int a, myClass obj, float b, char c, string str) : FUNCTION HEAD{
-	
-	declr int arr[3]; : DECLARATION STATEMENT
-	expr arr = [1,2,3]; : EXPRESSION STATEMENT
-	
-}
-
-
+		declr int a, a;
