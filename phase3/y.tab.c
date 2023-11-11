@@ -888,12 +888,12 @@ static const yytype_int16 yyrline[] =
      985,   986,   987,   988,   992,   993,   994,   995,   996,   999,
     1000,  1003,  1004,  1005,  1006,  1007,  1010,  1011,  1012,  1013,
     1014,  1018,  1019,  1020,  1021,  1022,  1023,  1024,  1027,  1028,
-    1029,  1030,  1034,  1035,  1036,  1039,  1040,  1043,  1044,  1047,
-    1052,  1059,  1064,  1071,  1076,  1083,  1084,  1087,  1088,  1091,
-    1092,  1095,  1096,  1099,  1104,  1109,  1114,  1121,  1124,  1125,
-    1126,  1127,  1130,  1133,  1137,  1141,  1145,  1151,  1156,  1164,
-    1165,  1168,  1184,  1194,  1208,  1218,  1223,  1241,  1254,  1255,
-    1258,  1292
+    1029,  1030,  1034,  1037,  1038,  1041,  1042,  1045,  1046,  1049,
+    1054,  1061,  1066,  1073,  1078,  1085,  1086,  1089,  1090,  1093,
+    1094,  1097,  1098,  1101,  1106,  1111,  1116,  1123,  1126,  1127,
+    1128,  1129,  1132,  1135,  1139,  1143,  1147,  1153,  1158,  1166,
+    1167,  1170,  1186,  1196,  1210,  1220,  1225,  1243,  1256,  1257,
+    1260,  1294
 };
 #endif
 
@@ -3286,164 +3286,178 @@ yyreduce:
 
   case 192: /* matrix_impr: MATXOP '(' matr_body ',' matr_body ')'  */
 #line 1034 "parser.y"
-                                                                                {(yyval.str) = "matrix";}
-#line 3291 "y.tab.c"
+                                                                                {if(strcmp((yyvsp[-3].str),"matrix") || strcmp((yyvsp[-1].str),"matrix")){
+											printf("%d, ERROR : argument is not a matrix\n",yylineno);exit(1);}
+											(yyval.str) = "matrix";}
+#line 3293 "y.tab.c"
     break;
 
   case 193: /* matrix_impr: resultant '.' TRANSPOSE '(' ')'  */
-#line 1035 "parser.y"
+#line 1037 "parser.y"
                                                                                   {(yyval.str) = "matrix";}
-#line 3297 "y.tab.c"
+#line 3299 "y.tab.c"
     break;
 
   case 194: /* matrix_impr: resultant '.' MAXTOGR '(' ')'  */
-#line 1036 "parser.y"
+#line 1038 "parser.y"
                                                                                 {(yyval.str) = "matrix";}
-#line 3303 "y.tab.c"
+#line 3305 "y.tab.c"
+    break;
+
+  case 195: /* matr_body: RHS  */
+#line 1041 "parser.y"
+                                              {(yyval.str) = (yyvsp[0].str);}
+#line 3311 "y.tab.c"
+    break;
+
+  case 196: /* matr_body: matrix_impr  */
+#line 1042 "parser.y"
+                                                              {(yyval.str) = (yyvsp[0].str);}
+#line 3317 "y.tab.c"
     break;
 
   case 199: /* graph_type1: INT_CONST ':' int_list ';' graph_type1  */
-#line 1048 "parser.y"
+#line 1050 "parser.y"
                                                         {
 								dimA[arr_size] = atoi((yyvsp[-4].str));
 								arr_size++;
 							}
-#line 3312 "y.tab.c"
+#line 3326 "y.tab.c"
     break;
 
   case 200: /* graph_type1: INT_CONST ':' int_list ';'  */
-#line 1053 "parser.y"
+#line 1055 "parser.y"
                                                         {
 								dimA[arr_size] = atoi((yyvsp[-3].str));
 								arr_size++;
 							}
-#line 3321 "y.tab.c"
+#line 3335 "y.tab.c"
     break;
 
   case 201: /* graph_type2: INT_CONST ':' weight_list ';' graph_type2  */
-#line 1060 "parser.y"
+#line 1062 "parser.y"
                                                         {
 								dimA[arr_size] = atoi((yyvsp[-4].str));
 								arr_size++;
 							}
-#line 3330 "y.tab.c"
+#line 3344 "y.tab.c"
     break;
 
   case 202: /* graph_type2: INT_CONST ':' weight_list ';'  */
-#line 1065 "parser.y"
+#line 1067 "parser.y"
                                                         {
 								dimA[arr_size] = atoi((yyvsp[-3].str));
 								arr_size++;
 							}
-#line 3339 "y.tab.c"
+#line 3353 "y.tab.c"
     break;
 
   case 203: /* int_list: INT_CONST ',' int_list  */
-#line 1072 "parser.y"
+#line 1074 "parser.y"
                                                         {
 								dimA[arr_size] = atoi((yyvsp[-2].str));
 								arr_size++;
 							}
-#line 3348 "y.tab.c"
+#line 3362 "y.tab.c"
     break;
 
   case 204: /* int_list: INT_CONST  */
-#line 1077 "parser.y"
+#line 1079 "parser.y"
                                                         {
 								dimA[arr_size] = atoi((yyvsp[0].str));
 								arr_size++;
 							}
-#line 3357 "y.tab.c"
+#line 3371 "y.tab.c"
     break;
 
   case 213: /* weight_list: '(' INT_CONST ',' INT_CONST ')' ',' weight_list  */
-#line 1100 "parser.y"
+#line 1102 "parser.y"
                                                         {
 								dimA[arr_size] = atoi((yyvsp[-5].str));
 								arr_size++;
 							}
-#line 3366 "y.tab.c"
+#line 3380 "y.tab.c"
     break;
 
   case 214: /* weight_list: '(' INT_CONST ',' INT_CONST ')'  */
-#line 1105 "parser.y"
+#line 1107 "parser.y"
                                                         {
 								dimA[arr_size] = atoi((yyvsp[-3].str));
 								arr_size++;
 							}
-#line 3375 "y.tab.c"
+#line 3389 "y.tab.c"
     break;
 
   case 215: /* weight_list: '(' INT_CONST ',' FLOAT_CONST ')' ',' weight_list  */
-#line 1110 "parser.y"
+#line 1112 "parser.y"
                                                         {
 								dimA[arr_size] = atoi((yyvsp[-5].str));
 								arr_size++;
 							}
-#line 3384 "y.tab.c"
+#line 3398 "y.tab.c"
     break;
 
   case 216: /* weight_list: '(' INT_CONST ',' FLOAT_CONST ')'  */
-#line 1115 "parser.y"
+#line 1117 "parser.y"
                                                         {
 								dimA[arr_size] = atoi((yyvsp[-3].str));
 								arr_size++;
 							}
-#line 3393 "y.tab.c"
+#line 3407 "y.tab.c"
     break;
 
   case 223: /* int_float_list: INT_CONST ',' int_float_list  */
-#line 1134 "parser.y"
+#line 1136 "parser.y"
                                                         {
 								(yyval.Cols).cols = (yyvsp[0].Cols).cols+1;
 							}
-#line 3401 "y.tab.c"
+#line 3415 "y.tab.c"
     break;
 
   case 224: /* int_float_list: FLOAT_CONST ',' int_float_list  */
-#line 1138 "parser.y"
+#line 1140 "parser.y"
                                                         {
 								(yyval.Cols).cols = (yyvsp[0].Cols).cols+1;
 							}
-#line 3409 "y.tab.c"
+#line 3423 "y.tab.c"
     break;
 
   case 225: /* int_float_list: INT_CONST  */
-#line 1142 "parser.y"
+#line 1144 "parser.y"
                                                         {
 								(yyval.Cols).cols=1;
 							}
-#line 3417 "y.tab.c"
+#line 3431 "y.tab.c"
     break;
 
   case 226: /* int_float_list: FLOAT_CONST  */
-#line 1146 "parser.y"
+#line 1148 "parser.y"
                                                         {
 								(yyval.Cols).cols=1;
 							}
-#line 3425 "y.tab.c"
+#line 3439 "y.tab.c"
     break;
 
   case 227: /* mat_list: '[' int_float_list ']' ';' mat_list  */
-#line 1152 "parser.y"
+#line 1154 "parser.y"
                                                         {
 								dimA[arr_size]=(yyvsp[-3].Cols).cols;
 								arr_size++;
 							}
-#line 3434 "y.tab.c"
+#line 3448 "y.tab.c"
     break;
 
   case 228: /* mat_list: '[' int_float_list ']' ';'  */
-#line 1157 "parser.y"
+#line 1159 "parser.y"
                                                         {
 								dimA[arr_size]=(yyvsp[-2].Cols).cols;
 								arr_size++;
 							}
-#line 3443 "y.tab.c"
+#line 3457 "y.tab.c"
     break;
 
   case 231: /* binary_op: ARITHOP '(' RHS ',' RHS ')'  */
-#line 1168 "parser.y"
+#line 1170 "parser.y"
                                                                       {
 							if(!strcmp((yyvsp[-3].str), "int") || !strcmp((yyvsp[-3].str), "bool")|| !strcmp((yyvsp[-3].str), "float")){
 								if(!strcmp((yyvsp[-1].str), "int") || !strcmp((yyvsp[-1].str), "bool") || !strcmp((yyvsp[-1].str), "float")){
@@ -3458,11 +3472,11 @@ yyreduce:
 								printf("%d Error: Invalid argument for arithmetic operation\n", yylineno);
 							}
 						}
-#line 3462 "y.tab.c"
+#line 3476 "y.tab.c"
     break;
 
   case 232: /* unary_op: UNARYOP '(' RHS ')'  */
-#line 1184 "parser.y"
+#line 1186 "parser.y"
                                                               {
 							if(!strcmp((yyvsp[-1].str), "int") || !strcmp((yyvsp[-1].str), "bool")|| !strcmp((yyvsp[-1].str), "float")){
 								(yyval.str) = "int";
@@ -3471,11 +3485,11 @@ yyreduce:
 								printf("%d Error: Invalid argument for arithmetic operation\n", yylineno);
 							}
 						}
-#line 3475 "y.tab.c"
+#line 3489 "y.tab.c"
     break;
 
   case 233: /* logical_op: '(' RHS LOGOP RHS ')'  */
-#line 1194 "parser.y"
+#line 1196 "parser.y"
                                                                 {
 							if(!strcmp((yyvsp[-3].str), "int") || !strcmp((yyvsp[-3].str), "bool")|| !strcmp((yyvsp[-3].str), "float")){
 								if(!strcmp((yyvsp[-1].str), "int") || !strcmp((yyvsp[-1].str), "bool") || !strcmp((yyvsp[-1].str), "float")){
@@ -3490,11 +3504,11 @@ yyreduce:
 								printf("%d Error: Invalid argument for arithmetic operation\n", yylineno);
 							}
 						}
-#line 3494 "y.tab.c"
+#line 3508 "y.tab.c"
     break;
 
   case 234: /* logical_op: NOT '(' RHS ')'  */
-#line 1208 "parser.y"
+#line 1210 "parser.y"
                                                                   {
 							if(!strcmp((yyvsp[-1].str), "int") || !strcmp((yyvsp[-1].str), "bool")|| !strcmp((yyvsp[-1].str), "float")){
 								(yyval.str) = "int";
@@ -3503,17 +3517,17 @@ yyreduce:
 								printf("%d Error: Invalid argument for arithmetic operation\n", yylineno);
 							}
 						}
-#line 3507 "y.tab.c"
+#line 3521 "y.tab.c"
     break;
 
   case 235: /* call_stmt: func_calls ';'  */
-#line 1218 "parser.y"
+#line 1220 "parser.y"
                                                          {fprintf(fparse, " : CALL STATEMENT"); classIndex = -1;}
-#line 3513 "y.tab.c"
+#line 3527 "y.tab.c"
     break;
 
   case 236: /* func_calls: call_head arguments  */
-#line 1223 "parser.y"
+#line 1225 "parser.y"
                                                               {
 							(yyval.str) = (yyvsp[-1].str);
 							
@@ -3529,11 +3543,11 @@ yyreduce:
 							callFuncIndex = -1;
 							myIndex = 0;
 						}
-#line 3533 "y.tab.c"
+#line 3547 "y.tab.c"
     break;
 
   case 237: /* call_head: CALL LHS  */
-#line 1241 "parser.y"
+#line 1243 "parser.y"
                                                     {
 							callClassIndex = classIndex;
 							callFuncIndex = funcIndex;
@@ -3545,11 +3559,11 @@ yyreduce:
 							}
 							myIndex = 0;
 						}
-#line 3549 "y.tab.c"
+#line 3563 "y.tab.c"
     break;
 
   case 240: /* arg_list: RHS  */
-#line 1258 "parser.y"
+#line 1260 "parser.y"
                                               {
 
 							// tot size; list
@@ -3584,11 +3598,11 @@ yyreduce:
 								else myIndex++;
 							}
 						}
-#line 3588 "y.tab.c"
+#line 3602 "y.tab.c"
     break;
 
   case 241: /* arg_list: arg_list ',' RHS  */
-#line 1292 "parser.y"
+#line 1294 "parser.y"
                                                                    {
 							int maxSize;
 							if(callClassIndex == -1) maxSize = func_symb[callFuncIndex].param_no;
@@ -3620,11 +3634,11 @@ yyreduce:
 								else myIndex++;
 							}
 						}
-#line 3624 "y.tab.c"
+#line 3638 "y.tab.c"
     break;
 
 
-#line 3628 "y.tab.c"
+#line 3642 "y.tab.c"
 
       default: break;
     }
@@ -3817,7 +3831,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 1325 "parser.y"
+#line 1327 "parser.y"
 
 
 /*

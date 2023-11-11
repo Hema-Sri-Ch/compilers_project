@@ -54,7 +54,7 @@
 	} Cols;
 }
 
-%type<str> fdtype dtype id id_list graph_and_array_list matrix_list return_stmt RHS constants extra_consts impr matrix_impr graph_impr arith_op logical_op func_calls binary_op unary_op arg_list call_head for_RHS myId vect_append resultant vect_stmt_body remove_body
+%type<str> fdtype dtype id id_list graph_and_array_list matrix_list return_stmt RHS constants extra_consts impr matrix_impr graph_impr arith_op logical_op func_calls binary_op unary_op arg_list call_head for_RHS myId vect_append resultant vect_stmt_body remove_body matr_body
 %type<details> function function_head func_definition LHS
 %type<Cols> mat_list int_float_list
 
@@ -1031,13 +1031,15 @@ graph_impr				: resultant '.' TRAVERSAL '(' remove_body ')'{$$ = "vect";}
 						;
 						
 						
-matrix_impr				: MATXOP '(' matr_body ',' matr_body ')'{$$ = "matrix";}
+matrix_impr				: MATXOP '(' matr_body ',' matr_body ')'{if(strcmp($3,"matrix") || strcmp($5,"matrix")){
+											printf("%d, ERROR : argument is not a matrix\n",yylineno);exit(1);}
+											$$ = "matrix";}
 						| resultant '.' TRANSPOSE '(' ')' {$$ = "matrix";}
 						| resultant '.' MAXTOGR '(' ')' {$$ = "matrix";}
 						;
 						
-matr_body				: RHS
-						| matrix_impr
+matr_body				: RHS {$$ = $1;}
+						| matrix_impr {$$ = $1;}
 						;
 						
 graph_const				: '{' graph_type1 '}'
