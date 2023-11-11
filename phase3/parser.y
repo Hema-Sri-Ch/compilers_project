@@ -17,6 +17,9 @@
 	int currentFuncIndex = -1; // To be used by call statements to grab func details
 	int classIndex = -1; // To be used by call statements to grab func details
 	int funcIndex = -1;
+	int callClassIndex=-1;
+	int callFuncIndex=-1;
+	int myIndex = 0; // for argument checking in function calls
 	
 	int dataType;
 	/*
@@ -186,13 +189,13 @@ struct_items			: declr_stmt struct_items
 						| declr_stmt
 						;
 						
-function				: function_head function_body
+function				: function_head function_body {currentFuncIndex = -1;}
 						;
 						
 function_head			: func_definition Parameters { 
 							$$=$1; 
-							if(inClass == 0) printFuncDetails(-1, func_size-1);
-							else printFuncDetails(class_size-1, -1); 
+							// if(inClass == 0) printFuncDetails(-1, func_size-1);
+							// else printFuncDetails(class_size-1, -1); 
 							fprintf(fparse, " : FUNCTION HEAD");
 						}
 						;
@@ -273,7 +276,7 @@ dtype					: DATATYPE {$$ = $1; dataType = 0;}
 							if(i < 0) {
 								i = class_search($1);
 								if(i < 0){
-									printf("Error: Using undefined datatype %s\n", $1);
+									printf("%d Error: Using undefined datatype %s\n", yylineno, $1);
 								}
 								else{
 									dataType = 6;
@@ -420,7 +423,7 @@ for_expr				: unary_op
 							
 								if(!(a && b)){
 									printf("%s:%s != <name>:%s\n", $2.name, $2.type, $4);
-									printf("Error: Expression statement, type mismatch\n");
+									printf("%d Error: Expression statement, type mismatch\n", yylineno);
 									exit(1);
 								}
 							}
@@ -443,7 +446,7 @@ while_loop				: WHILE '('RHS')' {
 									!strcmp($3, "char")
 									;
 							if(!a) {
-								printf("Error : Invalid conditional argument\n");
+								printf("%d Error : Invalid conditional argument\n", yylineno);
 							}
 						} function_body
 						;
@@ -455,7 +458,7 @@ expr_stmt				: EXPR LHS '=' RHS ';' {
 							
 								if(!(a && b)){
 									printf("%s:%s != <name>:%s\n", $2.name, $2.type, $4);
-									printf("Error: Expression statement, type mismatch\n");
+									printf("%d Error: Expression statement, type mismatch\n", yylineno);
 									exit(1);
 								}
 							}
@@ -474,7 +477,7 @@ expr_stmt				: EXPR LHS '=' RHS ';' {
 										{
 											if(dimA[i]>dimAval)
 											{
-												printf("ERROR: Vertex used is not present in the graph\n");
+												printf("%d ERROR: Vertex used is not present in the graph\n", yylineno);
 												exit(1);
 											}
 										}
@@ -487,14 +490,14 @@ expr_stmt				: EXPR LHS '=' RHS ';' {
 										int columns = var_symb[ind].dim_B;
 										if(arr_size!=rows) 
 										{
-											printf("ERROR: Number of rows mismatch\n");
+											printf("%d ERROR: Number of rows mismatch\n", yylineno);
 											exit(1);
 										}
 										for(int i=0; i<arr_size; i++)
 										{
 											if(dimA[i]!=columns)
 											{
-												printf("ERROR: Number of columns mismatch\n");
+												printf("%d ERROR: Number of columns mismatch\n", yylineno);
 												exit(1);
 											}
 										}
@@ -521,7 +524,7 @@ LHS						: myId {
 									i = class_declr_search($1, class_size-1); // search in current class
 									if(i < 0){
 										// statement is in class, yet LHS not in symbol table
-										printf("Error: Accessing undeclared identifier %s\n", $1);
+										printf("%d Error: Accessing undeclared identifier %s\n", yylineno, $1);
 										exit(1);
 									}
 									
@@ -534,7 +537,7 @@ LHS						: myId {
 								
 								else{
 									// statement not in class & LHS not in symbol table
-									printf("Error: Accessing undeclared identifier %s\n", $1);
+									printf("%d Error: Accessing undeclared identifier %s\n", yylineno, $1);
 									exit(1);
 								}
 							}
@@ -555,7 +558,7 @@ LHS						: myId {
 								if(i < 0){
 									
 									// item is not defined in class and struct
-									printf("Error: Accessing undefined datatype %s\n", $1.name);
+									printf("%d Error: Accessing undefined datatype %s\n", yylineno, dType);
 									exit(1);
 								}
 								
@@ -564,7 +567,8 @@ LHS						: myId {
 									int j = class_declr_search($3, i);
 									int k = class_func_search($3, i);
 									if(j < 0 && k < 0){
-										printf("Error: Accessing undefined function/attribute of class %s\n", $1.name);
+										printf("%d Error: Accessing undefined function/attribute %s of class %s\n", yylineno,$3, $1.type);
+										// printClassNode(class_symb[i]);
 										exit(1);
 									}
 									
@@ -590,7 +594,7 @@ LHS						: myId {
 								if(j < 0){
 								
 									// item is not attribute of this struct
-									printf("Error: Accessing undefined attribute of struct %s\n", $1.name);
+									printf("%d Error: Accessing undefined attribute of struct %s\n", yylineno, $1.name);
 									exit(1);
 								}
 								
@@ -607,7 +611,7 @@ myId					: id {$$=$1;}
 						| id '[' RHS ']'{
 							int a = !strcmp($3, "int") || !strcmp($3, "float");
 							if(!a){
-								printf("Error: invalid array index\n");
+								printf("%d Error: invalid array index\n", yylineno);
 								exit(1);
 							}
 							$$ = $1;
@@ -848,7 +852,7 @@ ifcond_stmt				: IF '(' RHS ')' {
 									!strcmp($3, "char")
 									;
 							if(!a) {
-								printf("Error : Invalid conditional argument\n");
+								printf("%d Error : Invalid conditional argument\n", yylineno);
 							}
 							fprintf(fparse, " : CONDITIONAL STATEMENT");
 						} if_body
@@ -867,7 +871,7 @@ switch_stmt				: SWITCH '(' RHS ')' {
 									!strcmp($3, "char")
 									;
 							if(!a) {
-								printf("Error : Invalid conditional argument\n");
+								printf("%d Error : Invalid conditional argument\n", yylineno);
 							}
 							fprintf(fparse, " : CONDITIONAL STATEMENT");
 						} switch_body
@@ -1082,11 +1086,11 @@ binary_op				: ARITHOP '(' RHS ',' RHS ')' {
 									else $$ = "int";
 								}
 								else{
-									printf("Error: Invalid argument for arithmetic operation\n");
+									printf("%d Error: Invalid argument for arithmetic operation\n", yylineno);
 								}
 							}
 							else{
-								printf("Error: Invalid argument for arithmetic operation\n");
+								printf("%d Error: Invalid argument for arithmetic operation\n", yylineno);
 							}
 						}
 						;
@@ -1096,7 +1100,7 @@ unary_op				: UNARYOP '(' RHS ')' {
 								$$ = "int";
 							}
 							else{
-								printf("Error: Invalid argument for arithmetic operation\n");
+								printf("%d Error: Invalid argument for arithmetic operation\n", yylineno);
 							}
 						}
 						;
@@ -1108,11 +1112,11 @@ logical_op				: '(' RHS LOGOP RHS ')' {
 									else $$ = "int";
 								}
 								else{
-									printf("Error: Invalid argument for arithmetic operation\n");
+									printf("%d Error: Invalid argument for arithmetic operation\n", yylineno);
 								}
 							}
 							else{
-								printf("Error: Invalid argument for arithmetic operation\n");
+								printf("%d Error: Invalid argument for arithmetic operation\n", yylineno);
 							}
 						}
 						| NOT '(' RHS ')' {
@@ -1120,7 +1124,7 @@ logical_op				: '(' RHS LOGOP RHS ')' {
 								$$ = "int";
 							}
 							else{
-								printf("Error: Invalid argument for arithmetic operation\n");
+								printf("%d Error: Invalid argument for arithmetic operation\n", yylineno);
 							}
 						}
 						;
@@ -1130,24 +1134,34 @@ call_stmt				: func_calls ';' {fprintf(fparse, " : CALL STATEMENT"); classIndex 
 						
 						
 						
-func_calls				: call_head arguments {$$ = $1;}
+func_calls				: call_head arguments {
+							$$ = $1;
+							
+							int num;
+							if(callClassIndex == -1) num = func_symb[callFuncIndex].param_no;
+							else num = class_symb[callClassIndex].func_list[callFuncIndex].param_no;
+							if(myIndex < num) {
+								printf("%d Error : Too few functional arguments;\n Expected number of arguments: %d;\n Provided number of arguments: %d\n", yylineno  , num, myIndex);
+								exit(1);
+							}
+							// restore indices to -1 (to be redefined by LHS)
+							callClassIndex = -1;
+							callFuncIndex = -1;
+							myIndex = 0;
+						}
 						;
 						
 						
 call_head				: CALL LHS  {
-							if(classIndex == -1){
-								$$ = func_symb[funcIndex].type;
-								
-								// restore index to -1 (to be redegined by LHS)
-								funcIndex = -1;
+							callClassIndex = classIndex;
+							callFuncIndex = funcIndex;
+							if(callClassIndex == -1){
+								$$ = func_symb[callFuncIndex].type;
 							}
 							else{
-								$$ = class_symb[classIndex].func_list[funcIndex].type;
-								
-								// restore indices to -1 (to be redefined by LHS)
-								classIndex = -1;
-								funcIndex = -1;
+								$$ = class_symb[callClassIndex].func_list[callFuncIndex].type;
 							}
+							myIndex = 0;
 						}
 						;
 						
@@ -1155,8 +1169,71 @@ arguments				: '(' arg_list ')'
 						| '(' ')'
 						;
 						
-arg_list				: RHS ',' arg_list
-						| RHS
+arg_list				: RHS {
+
+							// tot size; list
+							
+							int maxSize;
+							if(callClassIndex == -1) maxSize = func_symb[callFuncIndex].param_no;
+							else maxSize = class_symb[callClassIndex].func_list[callFuncIndex].param_no;
+							
+							if(myIndex >= maxSize){
+								printf("%d Error: Excess functional arguments for function %s\n", yylineno, func_symb[callFuncIndex].name);
+								exit(1);
+							}
+							
+							else{
+								char* myType;
+								if(callClassIndex == -1) myType = func_symb[callFuncIndex].args[myIndex];
+								else myType = class_symb[callClassIndex].func_list[callFuncIndex].args[myIndex];
+								
+								if(strcmp(myType, $1)){
+									// type mismatched. Now check if it is ignorable or not
+									int a = !strcmp(myType, "int") || !strcmp(myType, "float") || !strcmp(myType, "bool");
+									int b = !strcmp($1, "int") || !strcmp($1, "float") || !strcmp($1, "bool");
+									
+									if(!(a && b)){
+										printf("%d Error: for argument-%d expected argument type: %s, given argument type %s\n", yylineno, myIndex+1, myType, $1);
+										// exit(1);
+									}
+									
+									else myIndex++;
+								}
+								
+								else myIndex++;
+							}
+						}
+						| arg_list ',' RHS {
+							int maxSize;
+							if(callClassIndex == -1) maxSize = func_symb[callFuncIndex].param_no;
+							else maxSize = class_symb[callClassIndex].func_list[callFuncIndex].param_no;
+							
+							if(myIndex >= maxSize){
+								printf("%d Error: Excess functional arguments for function %s\n", yylineno, func_symb[callFuncIndex].name);
+								exit(1);
+							}
+							
+							else{
+								char* myType;
+								if(callClassIndex == -1) myType = func_symb[callFuncIndex].args[myIndex];
+								else myType = class_symb[callClassIndex].func_list[callFuncIndex].args[myIndex];
+								
+								if(strcmp(myType, $3)){
+									// type mismatched. Now check if it is ignorable or not
+									int a = !strcmp(myType, "int") || !strcmp(myType, "float") || !strcmp(myType, "bool");
+									int b = !strcmp($3, "int") || !strcmp($3, "float") || !strcmp($3, "bool");
+									
+									if(!(a && b)){
+										printf("%d Error: for argument-%d expected argument type: %s, given argument type %s\n", yylineno, myIndex, myType, $3);
+										// exit(1);
+									}
+									
+									else myIndex++;
+								}
+								
+								else myIndex++;
+							}
+						}
 						;
 
 %%

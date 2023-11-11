@@ -186,6 +186,17 @@ int func_search(char* Name) // returns index of the function from its symbol tab
 
 // CLASS SYMBOL TABLE
 
+void printClassNode(struct class_node node){
+	printf("Name: %s\n", node.name);
+	printf("Attributes: ");
+	for(int i=0; i<node.declr_size; i++) printf("%s, ", node.declr_list[i].name);
+	printf("\n");
+	printf("Functions: ");
+	for(int i=0; i<node.cl_func_size; i++) printf("%s ", node.func_list[i].name);
+	printf("\n");
+}
+
+
 void class_insert(char* Name)
 {
     class_symb[class_size].name = Name;

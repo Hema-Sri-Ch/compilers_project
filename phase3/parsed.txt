@@ -8,9 +8,35 @@ struct myStructB{
 	declr myStructA itemD; : DECLARATION STATEMENT
 }; : STRUCT DEFINITION
 
+
+class someClass{
+	declr int a; : DECLARATION STATEMENT
+	declr int b; : DECLARATION STATEMENT
+	func int foo(myStructA Hey, string hey) : FUNCTION HEAD{
+		expr Hey->itemB = hey; : EXPRESSION STATEMENT
+		declr int k; : DECLARATION STATEMENT
+	}
+	func int boo() : FUNCTION HEAD{
+		declr int k; : DECLARATION STATEMENT
+	}
+}; : CLASS DEFINITION
+
+
 class myClass{
 	declr int cItemA; : DECLARATION STATEMENT
 	declr myStructB cItemB; : DECLARATION STATEMENT
+	declr someClass cItemC; : DECLARATION STATEMENT
+	
+	func int foo(myStructA Hey, string hey) : FUNCTION HEAD{
+		expr Hey->itemB = hey; : EXPRESSION STATEMENT
+		declr int k; : DECLARATION STATEMENT
+	}
+	
+	func int boo(myStructB yo) : FUNCTION HEAD{
+		expr cItemB = yo; : EXPRESSION STATEMENT
+		return yo->itemC; : RETURN STATEMENT
+	}
+	
 	func int myFunc(int abc, int k, string str, char c) : FUNCTION HEAD{
 		declr myStructB myObj; : DECLARATION STATEMENT
 		!! expr myObj = cItemB; !!
@@ -33,7 +59,23 @@ class myClass{
 			}
 			
 			case 2:{
-			
+				switch(add(a, b)) : CONDITIONAL STATEMENT{
+					case 1:{
+				
+					}
+				
+					case 2:{
+					
+					}
+				
+					case 3:{
+					
+					}
+					
+					default:{
+				
+					}
+				}
 			}
 			
 			case 3:{
@@ -45,45 +87,39 @@ class myClass{
 			}
 		}
 		
-		switch(add(a, b)) : CONDITIONAL STATEMENT{
-			case 1:{
-			
-			}
-			
-			case 2:{
-			
-			}
-			
-			case 3:{
-			
-			}
-			
-			default:{
-			
-			}
-		}
 	}
 }; : CLASS DEFINITION
 
-func int main(int a, float b, char c, string str, myClass obj) : FUNCTION HEAD{
+func int main(int a, myClass obj, float b, char c, string str) : FUNCTION HEAD{
 	
 	expr a = 10; : EXPRESSION STATEMENT
 	expr str = "Hello, world"; : EXPRESSION STATEMENT
+	expr a = obj->cItemB->itemD->itemA; : EXPRESSION STATEMENT
+	declr myStructA hey; : DECLARATION STATEMENT
+	expr a = call obj->foo(hey, "Hey"); : EXPRESSION STATEMENT
+	declr myStructB Yo; : DECLARATION STATEMENT
+	call obj->boo(Yo); : CALL STATEMENT
+	
+	call obj->cItemC->foo(hey, "Hey"); : CALL STATEMENT
+	expr a = call obj->cItemC->boo(); : EXPRESSION STATEMENT
 	label1 :
 	{
 		declr int a; : DECLARATION STATEMENT
 	} : LABEL
-	expr a = add(a, call obj->myFunc(5)); : EXPRESSION STATEMENT
+	expr a = add(a, call obj->myFunc(5, (true or false), str, c)); : EXPRESSION STATEMENT
 	loop while(true){
-		if( ((a and b) or add(a, call obj->myFunc(5))) ) : CONDITIONAL STATEMENT{
+		declr int i; : DECLARATION STATEMENT
+		if( ((a and b) or add(a, call obj->myFunc(5, 10, "Hema", 'c'))) ) : CONDITIONAL STATEMENT{
 			
-			call obj->myFunc(5); : CALL STATEMENT
+			call obj->myFunc(5, add(a, 10.0), "Hema", 'c'); : CALL STATEMENT
 			
 		}
-		call obj->myFunc(5); : CALL STATEMENT
+		declr int i; : DECLARATION STATEMENT
+		call obj->myFunc(i, 10, "Hema", 'c'); : CALL STATEMENT
 	} : LOOP
 	
 }
+
 
 !!
 func int setItems(int a, float b, float c, myStruct d, vect<myStruct> ai, vect<int> bi) {

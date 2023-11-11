@@ -25,6 +25,53 @@ Punctuation : ;
 Special symbols:	}
 Punctuation : ;
 reserved keyword: class
+Identifier : someClass
+Special symbols:	{
+reserved keyword: declr
+datatype: int
+Identifier : a
+Punctuation : ;
+reserved keyword: declr
+datatype: int
+Identifier : b
+Punctuation : ;
+reserved keyword: func
+datatype: int
+Identifier : foo
+Special symbols:	(
+Identifier : myStructA
+Identifier : Hey
+Punctuation : ,
+datatype: string
+Identifier : hey
+Special symbols:	)
+Special symbols:	{
+reserved keyword: expr
+Identifier : Hey
+Special symbols: ->
+Identifier : itemB
+Special symbols:	=
+Identifier : hey
+Punctuation : ;
+reserved keyword: declr
+datatype: int
+Identifier : k
+Punctuation : ;
+Special symbols:	}
+reserved keyword: func
+datatype: int
+Identifier : boo
+Special symbols:	(
+Special symbols:	)
+Special symbols:	{
+reserved keyword: declr
+datatype: int
+Identifier : k
+Punctuation : ;
+Special symbols:	}
+Special symbols:	}
+Punctuation : ;
+reserved keyword: class
 Identifier : myClass
 Special symbols:	{
 reserved keyword: declr
@@ -35,6 +82,52 @@ reserved keyword: declr
 Identifier : myStructB
 Identifier : cItemB
 Punctuation : ;
+reserved keyword: declr
+Identifier : someClass
+Identifier : cItemC
+Punctuation : ;
+reserved keyword: func
+datatype: int
+Identifier : foo
+Special symbols:	(
+Identifier : myStructA
+Identifier : Hey
+Punctuation : ,
+datatype: string
+Identifier : hey
+Special symbols:	)
+Special symbols:	{
+reserved keyword: expr
+Identifier : Hey
+Special symbols: ->
+Identifier : itemB
+Special symbols:	=
+Identifier : hey
+Punctuation : ;
+reserved keyword: declr
+datatype: int
+Identifier : k
+Punctuation : ;
+Special symbols:	}
+reserved keyword: func
+datatype: int
+Identifier : boo
+Special symbols:	(
+Identifier : myStructB
+Identifier : yo
+Special symbols:	)
+Special symbols:	{
+reserved keyword: expr
+Identifier : cItemB
+Special symbols:	=
+Identifier : yo
+Punctuation : ;
+reserved keyword: return
+Identifier : yo
+Special symbols: ->
+Identifier : itemC
+Punctuation : ;
+Special symbols:	}
 reserved keyword: func
 datatype: int
 Identifier : myFunc
@@ -126,17 +219,6 @@ reserved keyword: case
 constant: 2
 Punctuation : :
 Special symbols:	{
-Special symbols:	}
-reserved keyword: case
-constant: 3
-Punctuation : :
-Special symbols:	{
-Special symbols:	}
-reserved keyword: default
-Punctuation : :
-Special symbols:	{
-Special symbols:	}
-Special symbols:	}
 reserved keyword: switch
 Special symbols:	(
 operator: add
@@ -168,6 +250,17 @@ Special symbols:	{
 Special symbols:	}
 Special symbols:	}
 Special symbols:	}
+reserved keyword: case
+constant: 3
+Punctuation : :
+Special symbols:	{
+Special symbols:	}
+reserved keyword: default
+Punctuation : :
+Special symbols:	{
+Special symbols:	}
+Special symbols:	}
+Special symbols:	}
 Special symbols:	}
 Punctuation : ;
 reserved keyword: func
@@ -177,6 +270,9 @@ Special symbols:	(
 datatype: int
 Identifier : a
 Punctuation : ,
+Identifier : myClass
+Identifier : obj
+Punctuation : ,
 datatype: float
 Identifier : b
 Punctuation : ,
@@ -185,9 +281,6 @@ Identifier : c
 Punctuation : ,
 datatype: string
 Identifier : str
-Punctuation : ,
-Identifier : myClass
-Identifier : obj
 Special symbols:	)
 Special symbols:	{
 reserved keyword: expr
@@ -199,6 +292,70 @@ reserved keyword: expr
 Identifier : str
 Special symbols:	=
 constant: "Hello, world"
+Punctuation : ;
+reserved keyword: expr
+Identifier : a
+Special symbols:	=
+Identifier : obj
+Special symbols: ->
+Identifier : cItemB
+Special symbols: ->
+Identifier : itemD
+Special symbols: ->
+Identifier : itemA
+Punctuation : ;
+reserved keyword: declr
+Identifier : myStructA
+Identifier : hey
+Punctuation : ;
+reserved keyword: expr
+Identifier : a
+Special symbols:	=
+reserved keyword: call
+Identifier : obj
+Special symbols: ->
+Identifier : foo
+Special symbols:	(
+Identifier : hey
+Punctuation : ,
+constant: "Hey"
+Special symbols:	)
+Punctuation : ;
+reserved keyword: declr
+Identifier : myStructB
+Identifier : Yo
+Punctuation : ;
+reserved keyword: call
+Identifier : obj
+Special symbols: ->
+Identifier : boo
+Special symbols:	(
+Identifier : Yo
+Special symbols:	)
+Punctuation : ;
+reserved keyword: call
+Identifier : obj
+Special symbols: ->
+Identifier : cItemC
+Special symbols: ->
+Identifier : foo
+Special symbols:	(
+Identifier : hey
+Punctuation : ,
+constant: "Hey"
+Special symbols:	)
+Punctuation : ;
+reserved keyword: expr
+Identifier : a
+Special symbols:	=
+reserved keyword: call
+Identifier : obj
+Special symbols: ->
+Identifier : cItemC
+Special symbols: ->
+Identifier : boo
+Special symbols:	(
+Special symbols:	)
 Punctuation : ;
 Identifier : label1
 Punctuation : :
@@ -221,6 +378,16 @@ Special symbols: ->
 Identifier : myFunc
 Special symbols:	(
 constant: 5
+Punctuation : ,
+Special symbols:	(
+constant: true
+reserved keyword: or
+constant: false
+Special symbols:	)
+Punctuation : ,
+Identifier : str
+Punctuation : ,
+Identifier : c
 Special symbols:	)
 Special symbols:	)
 Punctuation : ;
@@ -230,6 +397,10 @@ Special symbols:	(
 constant: true
 Special symbols:	)
 Special symbols:	{
+reserved keyword: declr
+datatype: int
+Identifier : i
+Punctuation : ;
 reserved keyword: if
 Special symbols:	(
 Special symbols:	(
@@ -249,6 +420,12 @@ Special symbols: ->
 Identifier : myFunc
 Special symbols:	(
 constant: 5
+Punctuation : ,
+constant: 10
+Punctuation : ,
+constant: "Hema"
+Punctuation : ,
+constant: 'c'
 Special symbols:	)
 Special symbols:	)
 Special symbols:	)
@@ -260,15 +437,36 @@ Special symbols: ->
 Identifier : myFunc
 Special symbols:	(
 constant: 5
+Punctuation : ,
+operator: add
+Special symbols:	(
+Identifier : a
+Punctuation : ,
+constant: 10.0
+Special symbols:	)
+Punctuation : ,
+constant: "Hema"
+Punctuation : ,
+constant: 'c'
 Special symbols:	)
 Punctuation : ;
 Special symbols:	}
+reserved keyword: declr
+datatype: int
+Identifier : i
+Punctuation : ;
 reserved keyword: call
 Identifier : obj
 Special symbols: ->
 Identifier : myFunc
 Special symbols:	(
-constant: 5
+Identifier : i
+Punctuation : ,
+constant: 10
+Punctuation : ,
+constant: "Hema"
+Punctuation : ,
+constant: 'c'
 Special symbols:	)
 Punctuation : ;
 Special symbols:	}

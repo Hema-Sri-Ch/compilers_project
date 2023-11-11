@@ -8,9 +8,35 @@ struct myStructB{
 	declr myStructA itemD;
 };
 
+
+class someClass{
+	declr int a;
+	declr int b;
+	func int foo(myStructA Hey, string hey){
+		expr Hey->itemB = hey;
+		declr int k;
+	}
+	func int boo(){
+		declr int k;
+	}
+};
+
+
 class myClass{
 	declr int cItemA;
 	declr myStructB cItemB;
+	declr someClass cItemC;
+	
+	func int foo(myStructA Hey, string hey){
+		expr Hey->itemB = hey;
+		declr int k;
+	}
+	
+	func int boo(myStructB yo){
+		expr cItemB = yo;
+		return yo->itemC;
+	}
+	
 	func int myFunc(int abc, int k, string str, char c){
 		declr myStructB myObj;
 		!! expr myObj = cItemB; !!
@@ -33,7 +59,23 @@ class myClass{
 			}
 			
 			case 2:{
-			
+				switch(add(a, b)){
+					case 1:{
+				
+					}
+				
+					case 2:{
+					
+					}
+				
+					case 3:{
+					
+					}
+					
+					default:{
+				
+					}
+				}
 			}
 			
 			case 3:{
@@ -45,45 +87,39 @@ class myClass{
 			}
 		}
 		
-		switch(add(a, b)){
-			case 1:{
-			
-			}
-			
-			case 2:{
-			
-			}
-			
-			case 3:{
-			
-			}
-			
-			default:{
-			
-			}
-		}
 	}
 };
 
-func int main(int a, float b, char c, string str, myClass obj){
+func int main(int a, myClass obj, float b, char c, string str){
 	
 	expr a = 10;
 	expr str = "Hello, world";
+	expr a = obj->cItemB->itemD->itemA;
+	declr myStructA hey;
+	expr a = call obj->foo(hey, "Hey");
+	declr myStructB Yo;
+	call obj->boo(Yo);
+	
+	call obj->cItemC->foo(hey, "Hey");
+	expr a = call obj->cItemC->boo();
 	label1 :
 	{
 		declr int a;
 	}
-	expr a = add(a, call obj->myFunc(5));
+	expr a = add(a, call obj->myFunc(5, (true or false), str, c));
 	loop while(true){
-		if( ((a and b) or add(a, call obj->myFunc(5))) ){
+		declr int i;
+		if( ((a and b) or add(a, call obj->myFunc(5, 10, "Hema", 'c'))) ){
 			
-			call obj->myFunc(5);
+			call obj->myFunc(5, add(a, 10.0), "Hema", 'c');
 			
 		}
-		call obj->myFunc(5);
+		declr int i;
+		call obj->myFunc(i, 10, "Hema", 'c');
 	}
 	
 }
+
 
 !!
 func int setItems(int a, float b, float c, myStruct d, vect<myStruct> ai, vect<int> bi) {
