@@ -378,42 +378,42 @@ vect_append				: RHS
 						;
 return_stmt 			: RETURN RHS';'{
 					if(inClass==0){		
-						if(strcmp($2,func_symb[currentFuncIndex].type)){printf("ERROR : func type and return type are mismatched\n");}
+						if(strcmp($2,func_symb[currentFuncIndex].type)){printf("%d ERROR : func type and return type are mismatched\n",yylineno);}
 					}
 					else{
 						if(strcmp($2,class_symb[class_size-1].func_list[currentFuncIndex].type)){
-							printf("ERROR : func type and return type are mismatched\n");
+							printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 						}
 					}
 				} {fprintf(fparse, " : RETURN STATEMENT");}
 						| RETURN extra_consts ';' 
 						 {
 							if(inClass==0){
-								if(strcmp($2,func_symb[currentFuncIndex].type)){printf("ERROR : func type and return type are mismatched\n");}
+								if(strcmp($2,func_symb[currentFuncIndex].type)){printf("%d ERROR : func type and return type are mismatched\n",yylineno);}
 							}
 							else{
 								if(strcmp($2,class_symb[class_size-1].func_list[currentFuncIndex].type)){
-									printf("ERROR : func type and return type are mismatched\n");
+									printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 								}
 							}
 						 }{fprintf(fparse, " : RETURN STATEMENT");}
 						| RETURN graph_impr ';'
 						{
 							if(inClass==0){
-								if(strcmp($2,func_symb[currentFuncIndex].type)){printf("ERROR : func type and return type are mismatched\n");}
+								if(strcmp($2,func_symb[currentFuncIndex].type)){printf("%d ERROR : func type and return type are mismatched\n",yylineno);}
 							}
 							else{
 								if(strcmp($2,class_symb[class_size-1].func_list[currentFuncIndex].type)){
-									printf("ERROR : func type and return type are mismatched\n");
+									printf("%d ERROR : func type and return type are mismatched\n", yylineno);
 								}
 							}
 						 } {fprintf(fparse, " : RETURN STATEMENT");}
 						| RETURN matrix_impr ';'{if(inClass==0){
-								if(strcmp($2,func_symb[currentFuncIndex].type)){printf("ERROR : func type and return type are mismatched\n");}
+								if(strcmp($2,func_symb[currentFuncIndex].type)){printf("%d ERROR : func type and return type are mismatched\n",yylineno);}
 							}
 							else{
 								if(strcmp($2,class_symb[class_size-1].func_list[currentFuncIndex].type)){
-									printf("ERROR : func type and return type are mismatched\n");
+									printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 								}
 							}
 							}  {fprintf(fparse, " : RETURN STATEMENT");}
@@ -421,11 +421,11 @@ return_stmt 			: RETURN RHS';'{
 							fprintf(fparse, " : RETURN STATEMENT");
 						}
 						| RETURN null ';'{if(inClass==0){
-								if(strcmp("void",func_symb[currentFuncIndex].type)){printf("ERROR : func type and return type are mismatched\n");}
+								if(strcmp("void",func_symb[currentFuncIndex].type)){printf("%d ERROR : func type and return type are mismatched\n", yylineno);}
 							}
 							else{
 								if(strcmp("void",class_symb[class_size-1].func_list[currentFuncIndex].type)){
-									printf("ERROR : func type and return type are mismatched\n");
+									printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 								}
 							}
 							} {fprintf(fparse, " : RETURN STATEMENT");}

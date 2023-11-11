@@ -1,3 +1,4 @@
+
 struct myStructA{
 	declr int itemA;
 	declr string itemB;
@@ -24,7 +25,7 @@ class someClass{
 		};
 		expr M =
 		[
-			[1,3,4];
+			[1,3,4];[1,4,5];
 		];
 		expr Hey->itemB = hey;
 		declr int k;
@@ -134,21 +135,11 @@ func int main(int a, myClass obj, float b, char c, string str){
 }
 
 
-!!
-func int setItems(int a, float b, float c, myStruct d, vect<myStruct> ai, vect<int> bi) {
-		expr itemA = a;
-		expr itemB = b;
-		expr itemC = c;
-		expr itemD = d;
-		return null;
-}
 	
 func int main()
 {
 	declr int a;
 	expr a = 10;
-	expr abc->def->ghi->k = 0;
-	expr a = call obj->abc->def->a();
 	return 10;
 }
 
@@ -169,4 +160,4 @@ func vect<int> foo(int p, int q) {
 	return itemD;
 }
 
-!!
+

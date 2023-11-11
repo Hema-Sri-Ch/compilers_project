@@ -2319,11 +2319,11 @@ yyreduce:
 #line 379 "parser.y"
                                                {
 					if(inClass==0){		
-						if(strcmp((yyvsp[-1].str),func_symb[currentFuncIndex].type)){printf("ERROR : func type and return type are mismatched\n");}
+						if(strcmp((yyvsp[-1].str),func_symb[currentFuncIndex].type)){printf("%d ERROR : func type and return type are mismatched\n",yylineno);}
 					}
 					else{
 						if(strcmp((yyvsp[-1].str),class_symb[class_size-1].func_list[currentFuncIndex].type)){
-							printf("ERROR : func type and return type are mismatched\n");
+							printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 						}
 					}
 				}
@@ -2340,11 +2340,11 @@ yyreduce:
 #line 390 "parser.y"
                                                  {
 							if(inClass==0){
-								if(strcmp((yyvsp[-1].str),func_symb[currentFuncIndex].type)){printf("ERROR : func type and return type are mismatched\n");}
+								if(strcmp((yyvsp[-1].str),func_symb[currentFuncIndex].type)){printf("%d ERROR : func type and return type are mismatched\n",yylineno);}
 							}
 							else{
 								if(strcmp((yyvsp[-1].str),class_symb[class_size-1].func_list[currentFuncIndex].type)){
-									printf("ERROR : func type and return type are mismatched\n");
+									printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 								}
 							}
 						 }
@@ -2361,11 +2361,11 @@ yyreduce:
 #line 401 "parser.y"
                                                 {
 							if(inClass==0){
-								if(strcmp((yyvsp[-1].str),func_symb[currentFuncIndex].type)){printf("ERROR : func type and return type are mismatched\n");}
+								if(strcmp((yyvsp[-1].str),func_symb[currentFuncIndex].type)){printf("%d ERROR : func type and return type are mismatched\n",yylineno);}
 							}
 							else{
 								if(strcmp((yyvsp[-1].str),class_symb[class_size-1].func_list[currentFuncIndex].type)){
-									printf("ERROR : func type and return type are mismatched\n");
+									printf("%d ERROR : func type and return type are mismatched\n", yylineno);
 								}
 							}
 						 }
@@ -2381,11 +2381,11 @@ yyreduce:
   case 99: /* $@10: %empty  */
 #line 411 "parser.y"
                                                                         {if(inClass==0){
-								if(strcmp((yyvsp[-1].str),func_symb[currentFuncIndex].type)){printf("ERROR : func type and return type are mismatched\n");}
+								if(strcmp((yyvsp[-1].str),func_symb[currentFuncIndex].type)){printf("%d ERROR : func type and return type are mismatched\n",yylineno);}
 							}
 							else{
 								if(strcmp((yyvsp[-1].str),class_symb[class_size-1].func_list[currentFuncIndex].type)){
-									printf("ERROR : func type and return type are mismatched\n");
+									printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 								}
 							}
 							}
@@ -2409,11 +2409,11 @@ yyreduce:
   case 102: /* $@11: %empty  */
 #line 423 "parser.y"
                                                                  {if(inClass==0){
-								if(strcmp("void",func_symb[currentFuncIndex].type)){printf("ERROR : func type and return type are mismatched\n");}
+								if(strcmp("void",func_symb[currentFuncIndex].type)){printf("%d ERROR : func type and return type are mismatched\n", yylineno);}
 							}
 							else{
 								if(strcmp("void",class_symb[class_size-1].func_list[currentFuncIndex].type)){
-									printf("ERROR : func type and return type are mismatched\n");
+									printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 								}
 							}
 							}
