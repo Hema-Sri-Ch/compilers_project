@@ -60,7 +60,7 @@ class myClass{
 		expr abc = 10; : EXPRESSION STATEMENT
 		expr str = "c"; : EXPRESSION STATEMENT
 		expr c = 'c'; : EXPRESSION STATEMENT
-		!! return abc; !!
+		
 		label3 :
 		{
 			expr c = 'l'; : EXPRESSION STATEMENT

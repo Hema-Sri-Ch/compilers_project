@@ -60,7 +60,7 @@ class myClass{
 		expr abc = 10;
 		expr str = "c";
 		expr c = 'c';
-		!! return abc; !!
+		
 		label3 :
 		{
 			expr c = 'l';

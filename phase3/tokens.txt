@@ -240,7 +240,6 @@ Identifier : c
 Special symbols:	=
 constant: 'c'
 Punctuation : ;
-comment: !! return abc; !!
 Identifier : label3
 Punctuation : :
 Special symbols:	{
