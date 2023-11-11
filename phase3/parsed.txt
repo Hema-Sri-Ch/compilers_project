@@ -1,4 +1,7 @@
-
+func vect<int> foo() : FUNCTION HEAD{
+	declr vect<int>v; : DECLARATION STATEMENT
+	declr vect<string>v1; : DECLARATION STATEMENT
+	return v1; : RETURN STATEMENT : RETURN STATEMENT }
 struct myStructA{
 	declr int itemA; : DECLARATION STATEMENT
 	declr string itemB; : DECLARATION STATEMENT

@@ -1,4 +1,7 @@
-
+func vect<int> foo(){
+	declr vect<int>v;
+	declr vect<string>v1;
+	return v1; }
 struct myStructA{
 	declr int itemA;
 	declr string itemB;

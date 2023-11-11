@@ -1,3 +1,30 @@
+reserved keyword: func
+reserved keyword: vect
+Special symbols:	<
+datatype: int
+Special symbols:	>
+Identifier : foo
+Special symbols:	(
+Special symbols:	)
+Special symbols:	{
+reserved keyword: declr
+reserved keyword: vect
+Special symbols:	<
+datatype: int
+Special symbols:	>
+Identifier : v
+Punctuation : ;
+reserved keyword: declr
+reserved keyword: vect
+Special symbols:	<
+datatype: string
+Special symbols:	>
+Identifier : v1
+Punctuation : ;
+reserved keyword: return
+Identifier : v1
+Punctuation : ;
+Special symbols:	}
 reserved keyword: struct
 Identifier : myStructA
 Special symbols:	{
