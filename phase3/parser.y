@@ -253,8 +253,13 @@ param					: dtype id {
 							else class_add_args(class_size-1, $1);
 							if(dataType == 0) var_insert(0, level, $2, $1, "", -1, -1);
 							else if(dataType == 2){
-								strncpy($1, $1 + 1, strlen($1)-1);
-								var_insert(0, level, $2, "vect", $1, -1, -1);
+							
+							
+								char* myType = (char*)malloc(strlen($1)+1);
+								strncpy(myType, $1 + 1, strlen($1));
+								myType[strlen($1)] = '\0';
+								var_insert(0, level, $2, "vect", myType, -1, -1);
+								free(myType);
 							}
 							else if(dataType == 3) {
 								var_insert(0, level, $2, "matrix", "", -1, -1);
@@ -358,45 +363,69 @@ vect_stmt				: vect_stmt_body ';' {fprintf(fparse, " : INDEPENDENT METHOD");}
 						;
 
 vect_stmt_body			: resultant '.' APPEND '(' vect_append ')' { 
+							// printf("%d::Initial resultant - %s\n",yylineno, $1);
 							if($1[0] != '*'){
 								printf("%d Error: invalid type for clear\n", yylineno);
 								exit(1);
 							}
-							char* myType;
-							strncpy(myType, $1 + 1, strlen($1));
-							if(strcmp(myType, $5)){
-								int a = !strcmp(myType, "float") && (!strcmp($5, "int") || !strcmp($5, "bool"));
-								int b = !strcmp(myType, "int") && (!strcmp($5, "bool"));
-								int c = !strcmp(myType, "bool") && (!strcmp($5, "float") || !strcmp($5, "int") || !strcmp($5, "char") || !strcmp($5, "string"));
-								if(!(a || b || c)){
-									printf("%d ERROR: appending the wrong dtype; expected %s; given %s\n", yylineno, myType, $5);
+							
+							else{
+								char* myType = (char*)malloc(strlen($1)+1);
+								strncpy(myType, $1 + 1, strlen($1));
+								myType[strlen($1)] = '\0';
+								if(strcmp(myType, $5)){
+									int a = !strcmp(myType, "float") && (!strcmp($5, "int") || !strcmp($5, "bool"));
+									int b = !strcmp(myType, "int") && (!strcmp($5, "bool"));
+									int c = !strcmp(myType, "bool") && (!strcmp($5, "float") || !strcmp($5, "int") || !strcmp($5, "char") || !strcmp($5, "string"));
+									if(!(a || b || c)){
+										printf("%d ERROR: appending the wrong dtype; expected %s; given %s\n", yylineno, myType, $5);
+										free(myType);
+										exit(1);
+									}
 								}
-							} 
-							$$ = $1;
+								
+								else{
+									// printf("%d::resultant: %s; appending: %s\n", yylineno, $1, $5);
+									$$ = $1;
+									free(myType);
+								}
+							}
 						}
 						| resultant '.' REMOVE '(' remove_body ')' {
+							// printf("%d::Initial resultant - %s\n",yylineno, $1);
 							if($1[0] != '*'){
 								printf("%d Error: invalid type for clear\n", yylineno);
 								exit(1);
 							}
-							if(!strcmp("int", $5) || !strcmp("float", $5) || !strcmp("bool", $5)){
-								printf("%d ERROR: appending the wrong dtype\n", yylineno);
-							} 
-							$$ = $1;
+							
+							else{
+								if(!(!strcmp("int", $5) || !strcmp("float", $5) || !strcmp("bool", $5))){
+									printf("%d ERROR: providing invalid index type %s to vector remove\n", yylineno, $5);
+									exit(1);
+								} else {
+									$$ = $1;
+								}
+							}
 						}
 						| resultant '.' SORT '(' ')' {
+							// printf("%d::Initial resultant - %s\n",yylineno, $1);
 							if($1[0] != '*'){
 								printf("%d Error: invalid type for sort\n", yylineno);
 								exit(1);
 							}
-							$$ = $1;
+							else {
+								$$ = $1;
+							}
 						}
 						| resultant '.' CLEAR '(' ')' {
+							// printf("%d::Initial resultant - %s\n", yylineno, $1);
 							if($1[0] != '*'){
 								printf("%d Error: invalid type for clear\n", yylineno);
 								exit(1);
 							}
-							$$ = $1;
+							else{
+								$$ = $1;
+							}
 						}
 						;
 						
@@ -696,7 +725,6 @@ LHS						: myId {
 							// class declare variable (class attirbute)
 							if(j>=0) {
 								$$.name = $1;
-								// $$.type = class_symb[class_size-1].declr_list[i].type;
 								if(strcmp(class_symb[class_size-1].declr_list[j].type, "vect") == 0) {
 								    char* result;
 									char* A = "*";
@@ -720,8 +748,8 @@ LHS						: myId {
 									char* result;
 									char* A = "*";
 									result = (char*)malloc(strlen(A) + strlen(var_symb[i].ele_type) + 1);
-									 strcpy(result, A);
-					     			    	strcat(result, var_symb[i].ele_type);
+									strcpy(result, A);
+					     	    	strcat(result, var_symb[i].ele_type);
 										    // dataType = 2;
 						   			$$.type = result;
 								}
@@ -747,6 +775,8 @@ LHS						: myId {
 								funcIndex = k;
 								// printf("%s : %s\n", $$.name, $$.type);
 							}
+							
+							// printf("%d:: LHS.name - %s; LHS.type - %s\n", yylineno, $$.name, $$.type);
 							
 							
 						}
@@ -1289,28 +1319,44 @@ resultant				: LHS{$$ = $1.type;}
 						
 						
 impr					: resultant '.' LENGTH '(' ')'{
+							//printf("%d::Initial resultant type: %s\n",yylineno, $1);
 							if($1[0] != '*'){
-								printf("%d Error: invalid type for 'length'\n", yylineno);
+								printf("%d Error: invalid type for 'at'\n", yylineno);
 								exit(1);
+							} else {
+								$$ = "int";
 							}
-							$$ = "int";
 						}
 						| resultant '.' AT '(' remove_body ')'{
+							//printf("%d::Initial resultant type: %s\n",yylineno, $1);
 							if($1[0] != '*'){
 								printf("%d Error: invalid type for 'at'\n", yylineno);
 								exit(1);
 							}
-							if(!strcmp("int", $5) || !strcmp("float", $5) || !strcmp("bool", $5)){
-								printf("%d ERROR: appending the wrong dtype\n", yylineno);
+							else {
+								if (!(!strcmp("int", $5) || !strcmp("float", $5) || !strcmp("bool", $5))){
+									printf("%d ERROR: appending the wrong dtype\n", yylineno);
+									exit(1);
+								}
+								else{
+									char* myType = (char*)malloc(strlen($1)+1);
+									strncpy(myType, $1 + 1, strlen($1));
+									myType[strlen($1)] = '\0';
+									$$ = myType;
+									free(myType);
+								}
 							} 
-							strncpy($$, $1 + 1, strlen($1));
+							
+							// printf("%d::resultant - %s, index - %s, returning - %s\n", yylineno, $1, $5, $$);
 						}
 						| resultant '.' TRACE '(' ')' {
+							//printf("%d::Initial resultant type: %s\n",yylineno, $1);
 							if(strcmp("matrix", $1)){
 								printf("%d Error: invalid type for trace\n", yylineno);
 								exit(1);
+							}else{
+								$$ = "int";
 							}
-							$$ = "int";
 						}
 						| resultant '.' STRLEN '(' ')'{$$ = "int";}
 						| STRCMP '(' RHS ',' RHS ')' {$$ = "bool";}
@@ -1603,9 +1649,19 @@ arg_list				: RHS {
 							}
 							
 							else{
-								char* myType;
-								if(callClassIndex == -1) myType = func_symb[callFuncIndex].args[myIndex];
-								else myType = class_symb[callClassIndex].func_list[callFuncIndex].args[myIndex];
+								char* myType = NULL;
+								if(callClassIndex == -1) {
+									int k = strlen(func_symb[callFuncIndex].args[myIndex]);
+									myType = (char*)malloc(k+1);
+									myType = func_symb[callFuncIndex].args[myIndex];
+									myType[k] = '\0';
+								}
+								else {
+									int k = strlen(class_symb[callClassIndex].func_list[callFuncIndex].args[myIndex]);
+									myType = (char*)malloc(k+1);
+									myType = class_symb[callClassIndex].func_list[callFuncIndex].args[myIndex];
+									myType[k]='\0';
+								}
 								
 								if(strcmp(myType, $1)){
 									// type mismatched. Now check if it is ignorable or not
@@ -1614,13 +1670,19 @@ arg_list				: RHS {
 									
 									if(!(a && b)){
 										printf("%d Error: for argument-%d expected argument type: %s, given argument type %s\n", yylineno, myIndex+1, myType, $1);
-										// exit(1);
+										free(myType);
+										exit(1);
 									}
 									
-									else myIndex++;
+									else {
+										myIndex++;
+										free(myType);
+									}
 								}
 								
 								else myIndex++;
+								free(myType);
+								
 							}
 						}
 						| arg_list ',' RHS {
@@ -1635,8 +1697,18 @@ arg_list				: RHS {
 							
 							else{
 								char* myType;
-								if(callClassIndex == -1) myType = func_symb[callFuncIndex].args[myIndex];
-								else myType = class_symb[callClassIndex].func_list[callFuncIndex].args[myIndex];
+								if(callClassIndex == -1) {
+									int k = strlen(func_symb[callFuncIndex].args[myIndex]);
+									myType = (char*)malloc(k+1);
+									myType = func_symb[callFuncIndex].args[myIndex];
+									myType[k] = '\0';
+								}
+								else {
+									int k = strlen(class_symb[callClassIndex].func_list[callFuncIndex].args[myIndex]);
+									myType = (char*)malloc(k+1);
+									myType = class_symb[callClassIndex].func_list[callFuncIndex].args[myIndex];
+									myType[k]='\0';
+								}
 								
 								if(strcmp(myType, $3)){
 									// type mismatched. Now check if it is ignorable or not
@@ -1645,13 +1717,15 @@ arg_list				: RHS {
 									
 									if(!(a && b)){
 										printf("%d Error: for argument-%d expected argument type: %s, given argument type %s\n", yylineno, myIndex, myType, $3);
-										// exit(1);
+										free(myType);
+										exit(1);
 									}
 									
 									else myIndex++;
 								}
 								
 								else myIndex++;
+								free(myType);
 							}
 						}
 						;

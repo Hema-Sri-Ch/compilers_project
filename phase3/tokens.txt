@@ -21,8 +21,141 @@ datatype: string
 Special symbols:	>
 Identifier : v1
 Punctuation : ;
+reserved keyword: expr
+Identifier : v
+Special symbols:	=
+Identifier : v
+Punctuation : .
+Identifier: append
+Special symbols:	(
+constant: 4
+Special symbols:	)
+Punctuation : .
+Identifier: append
+Special symbols:	(
+constant: 5
+Special symbols:	)
+Punctuation : .
+Identifier: sort
+Special symbols:	(
+Special symbols:	)
+Punctuation : ;
+reserved keyword: expr
+Identifier : v
+Special symbols:	=
+Identifier : v
+Punctuation : .
+Identifier: remove
+Special symbols:	(
+constant: 0
+Special symbols:	)
+Punctuation : .
+Identifier: remove
+Special symbols:	(
+constant: 0
+Special symbols:	)
+Punctuation : ;
+Identifier : v
+Punctuation : .
+Identifier: sort
+Special symbols:	(
+Special symbols:	)
+Punctuation : ;
+Identifier : v
+Punctuation : .
+Identifier: append
+Special symbols:	(
+constant: 5
+Special symbols:	)
+Punctuation : .
+Identifier: sort
+Special symbols:	(
+Special symbols:	)
+Punctuation : ;
+Identifier : v
+Punctuation : .
+Identifier: clear
+Special symbols:	(
+Special symbols:	)
+Punctuation : ;
 reserved keyword: return
 Identifier : v
+Punctuation : ;
+Special symbols:	}
+reserved keyword: func
+reserved keyword: vect
+Special symbols:	<
+datatype: int
+Special symbols:	>
+Identifier : vectConcat
+Special symbols:	(
+Special symbols:	)
+Special symbols:	{
+reserved keyword: declr
+reserved keyword: vect
+Special symbols:	<
+datatype: int
+Special symbols:	>
+Identifier : vecA
+Punctuation : ,
+Identifier : vecB
+Punctuation : ;
+reserved keyword: declr
+datatype: int
+Identifier : k
+Punctuation : ,
+Identifier : i
+Punctuation : ;
+reserved keyword: expr
+Identifier : k
+Special symbols:	=
+Identifier : vecB
+Punctuation : .
+Identifier: length
+Special symbols:	(
+Special symbols:	)
+Punctuation : ;
+reserved keyword: loop
+reserved keyword: for
+Special symbols:	(
+reserved keyword: expr
+Identifier : i
+Special symbols:	=
+constant: 0
+Punctuation : ;
+Special symbols:	(
+Identifier : i
+reserved keyword: lt
+Identifier : k
+Special symbols:	)
+Punctuation : ;
+reserved keyword: incr
+Special symbols:	(
+Identifier : i
+Special symbols:	)
+Special symbols:	)
+Special symbols:	{
+Identifier : vecA
+Punctuation : .
+Identifier: append
+Special symbols:	(
+Identifier : vecB
+Punctuation : .
+Identifier: at
+Special symbols:	(
+Identifier : i
+Special symbols:	)
+Special symbols:	)
+Punctuation : ;
+Special symbols:	}
+Identifier : vecA
+Punctuation : .
+Identifier: sort
+Special symbols:	(
+Special symbols:	)
+Punctuation : ;
+reserved keyword: return
+Identifier : vecA
 Punctuation : ;
 Special symbols:	}
 reserved keyword: struct
@@ -247,7 +380,11 @@ reserved keyword: declr
 Identifier : myStructB
 Identifier : myObj
 Punctuation : ;
-comment: !! expr myObj = cItemB; !!
+reserved keyword: expr
+Identifier : myObj
+Special symbols:	=
+Identifier : cItemB
+Punctuation : ;
 reserved keyword: expr
 Identifier : cItemB
 Special symbols: ->
@@ -257,7 +394,6 @@ Identifier : itemA
 Special symbols:	=
 constant: 10
 Punctuation : ;
-comment: !! expr cItemB->itemD->itemA = 10; !!
 reserved keyword: declr
 datatype: int
 Identifier : dslkf
@@ -415,9 +551,6 @@ reserved keyword: func
 datatype: int
 Identifier : main
 Special symbols:	(
-datatype: int
-Identifier : a
-Punctuation : ,
 Identifier : myClass
 Identifier : obj
 Punctuation : ,
@@ -431,6 +564,10 @@ datatype: string
 Identifier : str
 Special symbols:	)
 Special symbols:	{
+reserved keyword: declr
+datatype: int
+Identifier : a
+Punctuation : ;
 reserved keyword: declr
 datatype: int
 Identifier : arr

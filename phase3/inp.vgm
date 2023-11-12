@@ -1,7 +1,27 @@
 func vect<int> foo(){
 	declr vect<int>v;
 	declr vect<string>v1;
+	
+	expr v = v.append(4).append(5).sort();
+	
+	expr v = v.remove(0).remove(0);
+	
+	v.sort();
+	v.append(5).sort();
+	v.clear();
 	return v;
+}
+
+func vect<int> vectConcat() {
+	declr vect<int> vecA,vecB;
+	declr int k, i;
+	expr k = vecB.length();
+	
+	loop for(expr i = 0; (i lt k); incr(i)){
+		vecA.append(vecB.at(i));
+	}
+	vecA.sort();
+	return vecA;
 }
 
 struct myStructA{
@@ -63,9 +83,8 @@ class myClass{
 	func int myFunc(int abc, int k, string str, char c){
 		declr int a, b;
 		declr myStructB myObj;
-		!! expr myObj = cItemB; !!
+		expr myObj = cItemB;
 		expr cItemB->itemD->itemA = 10;
-		!! expr cItemB->itemD->itemA = 10; !!
 		declr int dslkf;
 		expr abc = 10;
 		expr str = "c";
@@ -118,9 +137,11 @@ class myClass{
 	
 };
 
-func int main(int a, myClass obj, float b, char c, string str){
+func int main(myClass obj, float b, char c, string str){
+	declr int a;
 	
 	declr int arr[3];
+
 	expr arr = [1,2,3];
 	
 	declr matrix M1[2][3], M2[2][3];
@@ -136,5 +157,3 @@ func int main(int a, myClass obj, float b, char c, string str){
 	return 0;
 	
 }
-
-
