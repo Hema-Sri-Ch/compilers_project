@@ -578,8 +578,8 @@ for_expr				: unary_op
 						
 for_RHS					: arith_op {$$ = $1;}
 						| func_calls {$$ = $1;}
-						| impr {$$ = "improvised";}
-						| graph_impr {$$ = "improvised";}
+						| impr {$$ = $1;}
+						| graph_impr {$$ = $1;}
 						| vect_stmt_body {$$ = $1;}
 						| matrix_impr {$$ = $1;}
 						;
