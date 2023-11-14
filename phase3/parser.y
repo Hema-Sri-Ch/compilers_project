@@ -1358,24 +1358,130 @@ impr					: resultant '.' LENGTH '(' ')'{
 								$$ = "int";
 							}
 						}
-						| resultant '.' STRLEN '(' ')'{$$ = "int";}
-						| STRCMP '(' RHS ',' RHS ')' {$$ = "bool";}
-						| resultant '.' STRCUT '(' remove_body ',' remove_body ')'{$$ = "string";}
-						| STRJOIN '(' RHS ',' RHS ')'{$$ =  "string";}
+						| resultant '.' STRLEN '(' ')'
+							{
+								$$ = "int";
+								if(strcmp($1, "string"))
+								{
+									printf("%d ERROR: Method defined for string datatype only\n", yylineno);
+									exit(1);
+								}
+							}
+						| STRCMP '(' RHS ',' RHS ')' 
+							{
+								$$ = "bool";
+								if(strcmp($3, "string") || strcmp($5, "string"))
+								{
+									printf("%d ERROR: Arguments have to be strings\n", yylineno);
+									exit(1);
+								}
+							}
+						| resultant '.' STRCUT '(' remove_body ',' remove_body ')'
+							{
+								$$ = "string";
+								if(strcmp($1, "string"))
+								{
+									printf("%d ERROR: Method defined for string datatype only\n", yylineno);
+									exit(1);
+								}
+								if(strcmp($5, "int") || strcmp($7, "int"))
+								{
+									printf("%d ERROR: Arguments have to be intergers\n", yylineno);
+									exit(1);
+								}
+							}
+						| STRJOIN '(' RHS ',' RHS ')'
+							{
+								$$ =  "string";
+								if(strcmp($3, "string") || strcmp($5, "string"))
+								{
+									printf("%d ERROR: Arguments have to be strings\n", yylineno);
+									exit(1);
+								}
+							}
 						;
 						
-graph_impr				: resultant '.' TRAVERSAL '(' remove_body ')'{$$ = "vect";}
-						| resultant '.' GRTOMATX '(' ')'{$$ = "matrix";}
-						| resultant '.' SHPATH '(' remove_body ',' remove_body ')'{$$ = "vect";}
-						| resultant '.' SHPATH_VAL '(' remove_body ',' remove_body ')' {$$ = "int";}
+graph_impr				: resultant '.' TRAVERSAL '(' remove_body ')'
+							{
+								$$ = "*int";
+								if(strcmp($1,"graph"))
+								{
+									printf("%d ERROR: Traversals are defined only for graph datatype\n", yylineno);
+									exit(1);
+								}
+								if(strcmp($5, "int"))
+								{
+									printf("%d ERROR: Argument has to be an integer\n", yylineno);
+									exit(1);
+								}
+							}
+						| resultant '.' GRTOMATX '(' ')'
+							{
+								$$ = "matrix";
+								if(strcmp($1,"graph"))
+								{
+									printf("%d ERROR: Method applicable only for graph datatype\n", yylineno);
+									exit(1);
+								}
+							}
+						| resultant '.' SHPATH '(' remove_body ',' remove_body ')'
+							{
+								$$ = "*int";
+								if(strcmp($1,"graph"))
+								{
+									printf("%d ERROR: Method applicable only for graph datatype\n", yylineno);
+									exit(1);
+								}
+								if(strcmp($5,"graph") || strcmp($7, "graph"))
+								{
+									printf("%d ERROR: Arguments should be integers\n", yylineno);
+									exit(1);
+								}
+							}
+						| resultant '.' SHPATH_VAL '(' remove_body ',' remove_body ')' 
+							{
+								$$ = "int";
+								if(strcmp($1,"graph"))
+								{
+									printf("%d ERROR: Method applicable only for graph datatype\n", yylineno);
+									exit(1);
+								}
+								if(strcmp($5,"graph") || strcmp($7, "graph"))
+								{
+									printf("%d ERROR: Arguments should be integers\n", yylineno);
+									exit(1);
+								}
+							}
 						;
 						
 						
-matrix_impr				: MATXOP '(' matr_body ',' matr_body ')'{if(strcmp($3,"matrix") || strcmp($5,"matrix")){
-											printf("%d, ERROR : argument is not a matrix\n",yylineno);exit(1);}
-											$$ = $3;}
-						| resultant '.' TRANSPOSE '(' ')' {$$ = "matrix";}
-						| resultant '.' MAXTOGR '(' ')' {$$ = "graph";}
+matrix_impr				: MATXOP '(' matr_body ',' matr_body ')'
+							{
+								if(strcmp($3,"matrix") || strcmp($5,"matrix"))
+								{
+									printf("%d, ERROR : argument is not a matrix\n",yylineno);
+									exit(1);
+								}
+								$$ = "matrix";
+							}
+						| resultant '.' TRANSPOSE '(' ')' 
+							{
+								$$ = "matrix";
+								if(strcmp($1, "matrix"))
+								{
+									printf("%d ERROR: Method defined for matrix datatype only\n", yylineno);
+									exit(1);
+								}
+							}
+						| resultant '.' MAXTOGR '(' ')' 
+							{
+								$$ = "graph";
+								if(strcmp($1, "matrix"))
+								{
+									printf("%d ERROR: Method defined for matrix datatype only\n", yylineno);
+									exit(1);
+								}
+							}
 						;
 						
 matr_body				: RHS {$$ = $1;}
@@ -1553,10 +1659,12 @@ binary_op				: ARITHOP '(' RHS ',' RHS ')' {
 								}
 								else{
 									printf("%d Error: Invalid argument for arithmetic operation\n", yylineno);
+									exit(1);
 								}
 							}
 							else{
 								printf("%d Error: Invalid argument for arithmetic operation\n", yylineno);
+								exit(1);
 							}
 						}
 						;
@@ -1567,6 +1675,7 @@ unary_op				: UNARYOP '(' RHS ')' {
 							}
 							else{
 								printf("%d Error: Invalid argument for arithmetic operation\n", yylineno);
+								exit(1);
 							}
 						}
 						;
@@ -1579,10 +1688,12 @@ logical_op				: '(' RHS LOGOP RHS ')' {
 								}
 								else{
 									printf("%d Error: Invalid argument for arithmetic operation\n", yylineno);
+									exit(1);
 								}
 							}
 							else{
 								printf("%d Error: Invalid argument for arithmetic operation\n", yylineno);
+								exit(1);
 							}
 						}
 						| NOT '(' RHS ')' {
@@ -1591,6 +1702,7 @@ logical_op				: '(' RHS LOGOP RHS ')' {
 							}
 							else{
 								printf("%d Error: Invalid argument for arithmetic operation\n", yylineno);
+								exit(1);
 							}
 						}
 						;
