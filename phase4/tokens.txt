@@ -5,6 +5,11 @@ datatype: int
 Special symbols:	>
 Identifier : foo
 Special symbols:	(
+reserved keyword: vect
+Special symbols:	<
+datatype: int
+Special symbols:	>
+Identifier : myVec
 Special symbols:	)
 Special symbols:	{
 reserved keyword: declr
@@ -591,9 +596,29 @@ Punctuation : ,
 constant: 3
 Special symbols:	]
 Punctuation : ;
+comment: !!	expr myArr = [1, 2, 3];!!
+reserved keyword: declr
+reserved keyword: matrix
+Identifier : M1
+Special symbols:	[
+constant: 2
+Special symbols:	]
+Special symbols:	[
+constant: 3
+Special symbols:	]
+Punctuation : ,
+Identifier : M2
+Special symbols:	[
+constant: 2
+Special symbols:	]
+Special symbols:	[
+constant: 3
+Special symbols:	]
+Punctuation : ;
 reserved keyword: expr
-Identifier : myArr
+Identifier : M1
 Special symbols:	=
+Special symbols:	[
 Special symbols:	[
 constant: 1
 Punctuation : ,
@@ -602,3 +627,74 @@ Punctuation : ,
 constant: 3
 Special symbols:	]
 Punctuation : ;
+Special symbols:	[
+constant: 1.0
+Punctuation : ,
+constant: 2.0
+Punctuation : ,
+constant: 3.0
+Special symbols:	]
+Punctuation : ;
+Special symbols:	]
+Punctuation : ;
+reserved keyword: expr
+Identifier : M2
+Special symbols:	=
+Special symbols:	[
+Special symbols:	[
+constant: 4
+Punctuation : ,
+constant: 5
+Punctuation : ,
+constant: 6
+Special symbols:	]
+Punctuation : ;
+Special symbols:	[
+constant: 1.0
+Punctuation : ,
+constant: 2.0
+Punctuation : ,
+constant: 3.0
+Special symbols:	]
+Punctuation : ;
+Special symbols:	]
+Punctuation : ;
+reserved keyword: declr
+reserved keyword: matrix
+Identifier : M3
+Special symbols:	[
+constant: 2
+Special symbols:	]
+Special symbols:	[
+constant: 3
+Special symbols:	]
+Punctuation : ;
+reserved keyword: expr
+Identifier : M3
+Special symbols:	=
+reserved keyword: add_matx
+Special symbols:	(
+Identifier : M1
+Punctuation : ,
+Identifier : M2
+Special symbols:	)
+Punctuation : ;
+reserved keyword: expr
+Identifier : M3
+Special symbols:	=
+reserved keyword: add_matx
+Special symbols:	(
+reserved keyword: add_matx
+Special symbols:	(
+Identifier : M1
+Punctuation : ,
+Identifier : M2
+Special symbols:	)
+Punctuation : ,
+Identifier : M2
+Special symbols:	)
+Punctuation : ;
+reserved keyword: return
+constant: 0
+Punctuation : ;
+Special symbols:	}

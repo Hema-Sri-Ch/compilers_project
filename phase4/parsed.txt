@@ -1,4 +1,4 @@
-func vect<int> foo() : FUNCTION HEAD{
+func vect<int> foo(vect<int> myVec) : FUNCTION HEAD{
 	declr vect<int>v; : DECLARATION STATEMENT
 	declr vect<string>v1; : DECLARATION STATEMENT
 	
@@ -143,4 +143,18 @@ func int main(myClass obj, float b, char c, string str, int myArr[]) : FUNCTION 
 	declr int arr[3]; : DECLARATION STATEMENT
 
 	expr arr = [1,2,3]; : EXPRESSION STATEMENT
-	expr myArr = [1, 2, 3];
+!!	expr myArr = [1, 2, 3];!!
+	
+	declr matrix M1[2][3], M2[2][3]; : DECLARATION STATEMENT
+	expr M1 = [[1, 2, 3]; [1.0, 2.0, 3.0];]; : EXPRESSION STATEMENT 
+	
+	expr M2 = [[4, 5, 6]; [1.0, 2.0, 3.0];]; : EXPRESSION STATEMENT
+	
+	
+	declr matrix M3[2][3]; : DECLARATION STATEMENT
+	expr M3 = add_matx(M1, M2); : EXPRESSION STATEMENT
+	expr M3 = add_matx(add_matx(M1, M2), M2); : EXPRESSION STATEMENT
+	
+	return 0; : RETURN STATEMENT : RETURN STATEMENT
+	
+}

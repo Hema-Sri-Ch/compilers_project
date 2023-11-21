@@ -1,4 +1,4 @@
-func vect<int> foo(){
+func vect<int> foo(vect<int> myVec){
 	declr vect<int>v;
 	declr vect<string>v1;
 	
@@ -143,7 +143,7 @@ func int main(myClass obj, float b, char c, string str, int myArr[]){
 	declr int arr[3];
 
 	expr arr = [1,2,3];
-	expr myArr = [1, 2, 3];
+!!	expr myArr = [1, 2, 3];!!
 	
 	declr matrix M1[2][3], M2[2][3];
 	expr M1 = [[1, 2, 3]; [1.0, 2.0, 3.0];]; 
