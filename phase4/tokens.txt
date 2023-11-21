@@ -26,6 +26,69 @@ datatype: string
 Special symbols:	>
 Identifier : v1
 Punctuation : ;
+reserved keyword: declr
+datatype: int
+Identifier : a
+Punctuation : ,
+Identifier : b
+Punctuation : ,
+Identifier : myInt
+Punctuation : ;
+reserved keyword: declr
+datatype: bool
+Identifier : myBool1
+Punctuation : ,
+Identifier : myBool2
+Punctuation : ;
+reserved keyword: declr
+datatype: int
+Identifier : ans
+Punctuation : ;
+reserved keyword: expr
+Identifier : ans
+Special symbols:	=
+operator: add
+Special symbols:	(
+Identifier : a
+Punctuation : ,
+operator: sub
+Special symbols:	(
+Identifier : b
+Punctuation : ,
+operator: mul
+Special symbols:	(
+Identifier : myInt
+Punctuation : ,
+operator: exp
+Special symbols:	(
+constant: 10
+Punctuation : ,
+constant: 2
+Special symbols:	)
+Special symbols:	)
+Special symbols:	)
+Special symbols:	)
+Punctuation : ;
+reserved keyword: expr
+Identifier : ans
+Special symbols:	=
+reserved keyword: not
+Special symbols:	(
+Special symbols:	(
+Identifier : myBool1
+reserved keyword: or
+Special symbols:	(
+Identifier : myBool2
+reserved keyword: and
+Special symbols:	(
+Identifier : a
+reserved keyword: lt
+Identifier : b
+Special symbols:	)
+Special symbols:	)
+Special symbols:	)
+Special symbols:	)
+Punctuation : ;
 reserved keyword: expr
 Identifier : v
 Special symbols:	=

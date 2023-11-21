@@ -256,6 +256,7 @@
 	fprintf(yyout, "reserved keyword: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
 	// printf("reserved keyword: %s\n", yytext);
+	yylval.str=strdup(yytext);
     return LOGOP;
 }
 
@@ -263,6 +264,7 @@
 	fprintf(yyout, "operator: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
 	// printf("operator: %s\n", yytext);
+	yylval.str=strdup(yytext);
     return ARITHOP;
 }
 
@@ -277,6 +279,7 @@
 	fprintf(yyout, "reserved keyword: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
 	// printf("reserved keyword: %s\n", yytext);
+	yylval.str=strdup(yytext);
     return UNARYOP;
 }
 

@@ -1,6 +1,12 @@
 func vect<int> foo(vect<int> myVec) : FUNCTION HEAD{
 	declr vect<int>v; : DECLARATION STATEMENT
 	declr vect<string>v1; : DECLARATION STATEMENT
+	declr int a, b, myInt; : DECLARATION STATEMENT
+	declr bool myBool1, myBool2; : DECLARATION STATEMENT
+	declr int ans; : DECLARATION STATEMENT
+	
+	expr ans = add(a, sub(b, mul(myInt, exp(10, 2)))); : EXPRESSION STATEMENT
+	expr ans = not((myBool1 or (myBool2 and (a lt b)))); : EXPRESSION STATEMENT
 	
 	expr v = v.append(4).append(5).sort(); : EXPRESSION STATEMENT
 	

@@ -1,6 +1,12 @@
 func vect<int> foo(vect<int> myVec){
 	declr vect<int>v;
 	declr vect<string>v1;
+	declr int a, b, myInt;
+	declr bool myBool1, myBool2;
+	declr int ans;
+	
+	expr ans = add(a, sub(b, mul(myInt, exp(10, 2))));
+	expr ans = not((myBool1 or (myBool2 and (a lt b))));
 	
 	expr v = v.append(4).append(5).sort();
 	

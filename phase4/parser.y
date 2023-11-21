@@ -69,10 +69,10 @@
 
 %token <str> newid
 %token <str> INT_CONST
-%token  FLOAT_CONST
-%token CHAR_CONST
-%token STR_CONST
-%token BOOL_CONST
+%token <str> FLOAT_CONST
+%token <str> CHAR_CONST
+%token <str> STR_CONST
+%token <str> BOOL_CONST
 %token ARROW
 %token PUNC
 %token <str> DATATYPE
@@ -90,10 +90,10 @@
 %token DEFAULT
 %token CLASS
 %token STRUCT
-%token LOGOP
-%token ARITHOP
+%token <str> LOGOP
+%token <str> ARITHOP
 %token NOT
-%token UNARYOP
+%token <str> UNARYOP
 %token DECLR
 %token EXPR
 %token CALL
@@ -659,7 +659,7 @@ expr_stmt				: EXPR LHS '=' RHS ';' {
 									exit(1);
 								}
 							}
-							
+							fprintf(fIR, "%s = %s;\n", $2.text, $4.text);
 							fprintf(fparse, " : EXPRESSION STATEMENT");
 						}
 						| EXPR LHS '=' extra_consts ';'
@@ -760,7 +760,6 @@ expr_stmt				: EXPR LHS '=' RHS ';' {
 						
 						
 LHS						: myId {
-
 							classIndex = -1;
 							int i = var_search($1.str);
 							int j, l;
@@ -830,9 +829,11 @@ LHS						: myId {
 							
 							// printf("%d:: LHS.name - %s; LHS.type - %s\n", yylineno, $$.name, $$.type);
 							
+							$$.text = $1.text;
 							
 						}
 						| LHS ARROW myId {
+						
 							char* dType = $1.type;
 							
 							// check if dType is declared in struct or in class
@@ -912,11 +913,17 @@ LHS						: myId {
 									}
 								}
 							}
+							
+							char* myText = (char*)malloc(strlen($1.text)+strlen($3.text)+2);
+							strcpy(myText, $1.text);
+							strcat(myText, ".");
+							strcat(myText, $3.text);
+							$$.text = myText;
 						}
 						;
 						
 						
-myId					: id {$$.str=$1.str;}
+myId					: id {$$.str=$1.str; $$.text = $1.text;}
 						| id '[' RHS ']'{
 							int a = !strcmp($3.str, "int") || !strcmp($3.str, "float");
 							if(!a){
@@ -924,6 +931,13 @@ myId					: id {$$.str=$1.str;}
 								exit(1);
 							}
 							$$.str = $1.str;
+							
+							char* myText = (char*)malloc(strlen($1.text)+strlen($3.text)+3);
+							strcpy(myText, $1.text);
+							strcat(myText, "[");
+							strcat(myText, $3.text);
+							strcat(myText, "]");
+							$$.text = myText;
 						}
 						;
 
@@ -1318,20 +1332,20 @@ cases					: cases CASE INT_CONST  {add_case(level-1, $3);} ':' function_body
 
 						
 						
-RHS						: constants {$$.str=$1.str;}
-						| arith_op {$$.str=$1.str;}
-						| logical_op {$$.str=$1.str;}
-						| func_calls {$$.str=$1.str;}
-						| impr {$$.str = $1.str;}
+RHS						: constants {$$.str=$1.str; $$.text = $1.text;}
+						| arith_op {$$.str=$1.str; $$.text = $1.text; printf("%s\n", $1.text);}
+						| logical_op {$$.str=$1.str; $$.text = $1.text; printf("%s\n", $1.text);}
+						| func_calls {$$.str=$1.str; $$.text = $1.text;}
+						| impr {$$.str = $1.str; $$.text = $1.text;}
 						;						
 
 						
-constants				: INT_CONST {$$.str="int";}
-						| FLOAT_CONST {$$.str="float";}
-						| CHAR_CONST {$$.str="char";}
-						| STR_CONST {$$.str="string";}
-						| BOOL_CONST {$$.str = "bool";}
-						| LHS {$$.str = $1.type;}
+constants				: INT_CONST {$$.str="int"; $$.text = $1;}
+						| FLOAT_CONST {$$.str="float"; $$.text = $1;}
+						| CHAR_CONST {$$.str="char"; $$.text = $1;}
+						| STR_CONST {$$.str="string"; $$.text = $1;}
+						| BOOL_CONST {$$.str = "bool"; $$.text = $1;}
+						| LHS {$$.str = $1.type; $$.text = $1.text;}
 						;
 						
 						
@@ -1719,6 +1733,34 @@ binary_op				: ARITHOP '(' RHS ',' RHS ')' {
 								printf("%d Error: Invalid argument for arithmetic operation\n", yylineno);
 								exit(1);
 							}
+							
+							if(!strcmp($1, "exp")) {
+								char* myText = (char*)malloc(strlen($3.text)+strlen($5.text)+7);
+								strcpy(myText, "pow(");
+								strcat(myText, $3.text);
+								strcat(myText, ",");
+								strcat(myText, $5.text);
+								strcat(myText, ")");
+								$$.text = myText;
+							}
+							
+							else{
+								char* symb = (char*)malloc(2);
+								if(!strcmp($1, "add")) symb = "+";
+								else if(!strcmp($1, "sub")) symb = "-";
+								else if(!strcmp($1, "mul")) symb = "*";
+								else if(!strcmp($1, "div")) symb = "/";
+								char* myText = (char*)malloc(strlen($3.text) + strlen($5.text) + 4);
+								strcpy(myText, "(");
+								strcat(myText, $3.text);
+								strcat(myText, symb);
+								strcat(myText, $5.text);
+								strcat(myText, ")");
+								$$.text = myText;
+							
+							}
+							
+							
 						}
 						;
 						
@@ -1730,6 +1772,15 @@ unary_op				: UNARYOP '(' RHS ')' {
 								printf("%d Error: Invalid argument for arithmetic operation\n", yylineno);
 								exit(1);
 							}
+							
+							char* symb = (char*)malloc(3);
+							if(!strcmp($1, "incr")) symb = "++";
+							else if(!strcmp($1, "decr")) symb = "--";
+							
+							char* myText = (char*)malloc(strlen($3.text)+strlen(symb)+1);
+							strcpy(myText, $3.text);
+							strcat(myText, symb);
+							$$.text = myText;
 						}
 						;
 						
@@ -1748,6 +1799,24 @@ logical_op				: '(' RHS LOGOP RHS ')' {
 								printf("%d Error: Invalid argument for arithmetic operation\n", yylineno);
 								exit(1);
 							}
+							
+							char* symb = (char*)malloc(3);
+							if(!strcmp($3, "or")) symb = "||";
+							else if(!strcmp($3, "and")) symb = "&&";
+							else if(!strcmp($3, "lt")) symb = "<";
+							else if(!strcmp($3, "lte")) symb = "<=";
+							else if(!strcmp($3, "gt")) symb = ">";
+							else if(!strcmp($3, "get")) symb = ">=";
+							else if(!strcmp($3, "eq")) symb = "=";
+							else if(!strcmp($3, "neq")) symb = "!=";
+							
+							char* myText = (char*)malloc(strlen($2.text)+strlen($4.text)+strlen(symb)+3);
+							strcpy(myText, "(");
+							strcat(myText, $2.text);
+							strcat(myText, symb);
+							strcat(myText, $4.text);
+							strcat(myText, ")");
+							$$.text = myText;
 						}
 						| NOT '(' RHS ')' {
 							if(!strcmp($3.str, "int") || !strcmp($3.str, "bool")|| !strcmp($3.str, "float")){
@@ -1757,6 +1826,12 @@ logical_op				: '(' RHS LOGOP RHS ')' {
 								printf("%d Error: Invalid argument for arithmetic operation\n", yylineno);
 								exit(1);
 							}
+							
+							char* myText = (char*)malloc(strlen($3.text)+4);
+							strcpy(myText, "!(");
+							strcat(myText, $3.text);
+							strcat(myText, ")");
+							$$.text = myText;
 						}
 						;
 
