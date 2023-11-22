@@ -672,6 +672,16 @@ Special symbols:	}
 Special symbols:	}
 Punctuation : ;
 reserved keyword: func
+datatype: string
+Identifier : getStr
+Special symbols:	(
+Special symbols:	)
+Special symbols:	{
+reserved keyword: return
+constant: "Hello, World!\n"
+Punctuation : ;
+Special symbols:	}
+reserved keyword: func
 datatype: int
 Identifier : main
 Special symbols:	(
@@ -693,6 +703,85 @@ Special symbols:	[
 Special symbols:	]
 Special symbols:	)
 Special symbols:	{
+reserved keyword: declr
+datatype: string
+Identifier : str1
+Punctuation : ,
+Identifier : str2
+Punctuation : ,
+Identifier : str3
+Punctuation : ;
+reserved keyword: declr
+datatype: int
+Identifier : len
+Punctuation : ;
+reserved keyword: expr
+Identifier : str3
+Special symbols:	=
+reserved keyword: call
+Identifier : getStr
+Special symbols:	(
+Special symbols:	)
+Punctuation : ;
+reserved keyword: expr
+Identifier : len
+Special symbols:	=
+reserved keyword: call
+Identifier : getStr
+Special symbols:	(
+Special symbols:	)
+Punctuation : .
+Identifier: strlen
+Special symbols:	(
+Special symbols:	)
+Punctuation : ;
+reserved keyword: expr
+Identifier : len
+Special symbols:	=
+Identifier : str1
+Punctuation : .
+Identifier: strlen
+Special symbols:	(
+Special symbols:	)
+Punctuation : ;
+reserved keyword: expr
+Identifier : len
+Special symbols:	=
+Identifier: strcmp
+Special symbols:	(
+Identifier : str1
+Punctuation : ,
+reserved keyword: call
+Identifier : getStr
+Special symbols:	(
+Special symbols:	)
+Special symbols:	)
+Punctuation : ;
+reserved keyword: expr
+Identifier : str1
+Special symbols:	=
+Identifier: strjoin
+Special symbols:	(
+Identifier : str2
+Punctuation : .
+Identifier: strcut
+Special symbols:	(
+constant: 0
+Punctuation : ,
+constant: 5
+Special symbols:	)
+Punctuation : ,
+Identifier: strjoin
+Special symbols:	(
+Identifier : str3
+Punctuation : ,
+reserved keyword: call
+Identifier : getStr
+Special symbols:	(
+Special symbols:	)
+Special symbols:	)
+Special symbols:	)
+Punctuation : ;
 reserved keyword: declr
 datatype: int
 Identifier : a

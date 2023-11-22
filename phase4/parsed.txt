@@ -5,6 +5,7 @@ func vect<int> foo(vect<int> myVec) : FUNCTION HEAD{
 	declr bool myBool1, myBool2; : DECLARATION STATEMENT
 	declr int ans; : DECLARATION STATEMENT
 	
+	
 	expr ans = add(a, sub(b, mul(myInt, exp(10, 2)))); : EXPRESSION STATEMENT
 	expr ans = not((myBool1 or (myBool2 and (a lt b)))); : EXPRESSION STATEMENT
 	
@@ -148,7 +149,25 @@ class myClass{
 	
 }; : CLASS DEFINITION
 
+func string getStr() : FUNCTION HEAD{
+	return "Hello, World!\n"; : RETURN STATEMENT : RETURN STATEMENT
+}
+
 func int main(myClass obj, float b, char c, string str, int myArr[]) : FUNCTION HEAD{
+
+	
+	declr string str1, str2, str3; : DECLARATION STATEMENT
+	declr int len; : DECLARATION STATEMENT
+	expr str3 = call getStr(); : EXPRESSION STATEMENT
+	expr len = call getStr().strlen(); : EXPRESSION STATEMENT
+	expr len = str1.strlen(); : EXPRESSION STATEMENT
+	
+	
+	expr len = strcmp(str1, call getStr()); : EXPRESSION STATEMENT
+	
+	expr str1 = strjoin(str2.strcut(0, 5), strjoin(str3, call getStr())); : EXPRESSION STATEMENT
+	
+	
 	declr int a; : DECLARATION STATEMENT
 	
 	declr int arr[3]; : DECLARATION STATEMENT

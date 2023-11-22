@@ -127,6 +127,14 @@ a = 10;
 { }
 { }
 }
+string getStr ()
+{
+}
 int main ( class myClass obj, float b, char c, string str, int myArr[] )
 {
+str3 = getStr();
+len = strlen(getStr());
+len = strlen(str1);
+len = strcmp(str1, getStr());
+str1 = (str2.substr(0, 5);+(str3+getStr()));
 }

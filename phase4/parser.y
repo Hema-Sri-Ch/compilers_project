@@ -63,7 +63,7 @@
 	} Cols;
 }
 
-%type<Str> fdtype dtype id id_list graph_and_array_list matrix_list return_stmt RHS constants extra_consts impr matrix_impr graph_impr arith_op logical_op func_calls binary_op unary_op arg_list call_head for_RHS myId vect_append resultant vect_stmt_body remove_body int_list float_list bool_list char_list str_list val_list array_const matr_body param param_list Parameters
+%type<Str> fdtype dtype id id_list graph_and_array_list matrix_list return_stmt RHS constants extra_consts impr matrix_impr graph_impr arith_op logical_op func_calls binary_op unary_op arg_list call_head for_RHS myId vect_append resultant vect_stmt_body remove_body int_list float_list bool_list char_list str_list val_list array_const matr_body param param_list Parameters arguments
 %type<details> function function_head func_definition LHS
 %type<Cols> mat_list int_float_list
 
@@ -1409,8 +1409,8 @@ cases					: cases CASE INT_CONST  {add_case(level-1, $3);} ':' function_body
 						
 						
 RHS						: constants {$$.str=$1.str; $$.text = $1.text;}
-						| arith_op {$$.str=$1.str; $$.text = $1.text; printf("%s\n", $1.text);}
-						| logical_op {$$.str=$1.str; $$.text = $1.text; printf("%s\n", $1.text);}
+						| arith_op {$$.str=$1.str; $$.text = $1.text;}
+						| logical_op {$$.str=$1.str; $$.text = $1.text;}
 						| func_calls {$$.str=$1.str; $$.text = $1.text;}
 						| impr {$$.str = $1.str; $$.text = $1.text;}
 						;						
@@ -1458,6 +1458,7 @@ resultant				: LHS{$$.str = $1.type; $$.text = $1.text;}
 						| graph_impr {$$.str = $1.str;}
 						| vect_stmt_body {$$.str = $1.str; $$.text = $1.text;}
 						| impr {$$.str = $1.str; $$.text = $1.text;}
+						| func_calls{$$.str = $1.str; $$.text = $1.text;}
 						;				
 						
 						
@@ -1473,7 +1474,8 @@ impr					: resultant '.' LENGTH '(' ')'{
 								char* myText = (char*)malloc(strlen($1.text)+8);
 								strcpy(myText, $1.text);
 								strcat(myText, ".size()");
-								$$.text = myText;
+								strcpy($$.text, myText);
+								free(myText);;
 								
 							}
 						}
@@ -1492,16 +1494,16 @@ impr					: resultant '.' LENGTH '(' ')'{
 									char* myType = (char*)malloc(strlen($1.str)+1);
 									strncpy(myType, $1.str + 1, strlen($1.str));
 									myType[strlen($1.str)] = '\0';
-									$$.str = myType;
-									
+									strcpy($$.str, myType);
 									char* myText = (char*)malloc(strlen($1.text) + strlen($5.text) + 3);
 									strcpy(myText, $1.text);
 									strcat(myText, "[");
 									strcat(myText, $5.text);
 									strcat(myText, "]");
-									$$.text = myText;
+									strcpy($$.text, myText);
 									
-//									free(myType);
+									free(myType);
+									free(myText);
 								}
 							} 
 							
@@ -1524,6 +1526,14 @@ impr					: resultant '.' LENGTH '(' ')'{
 									printf("%d ERROR: Method defined for string datatype only\n", yylineno);
 									exit(1);
 								}
+								
+								char* myText = (char*)malloc(strlen("strlen()") + strlen($1.text));
+								strcpy(myText, "strlen(");
+								strcat(myText, $1.text);
+								strcat(myText, ")");
+								
+								strcpy($$.text, myText);
+								free(myText);
 							}
 						| STRCMP '(' RHS ',' RHS ')' 
 							{
@@ -1533,6 +1543,17 @@ impr					: resultant '.' LENGTH '(' ')'{
 									printf("%d ERROR: Arguments have to be strings\n", yylineno);
 									exit(1);
 								}
+								
+								
+								char* myText = (char*)malloc(strlen("strcmp(, )") + strlen($3.text) + strlen($5.text));
+								strcpy(myText, "strcmp(");
+								strcat(myText, $3.text);
+								strcat(myText, ", ");
+								strcat(myText, $5.text);
+								strcat(myText, ")");
+								
+								$$.text = myText;
+								
 							}
 						| resultant '.' STRCUT '(' remove_body ',' remove_body ')'
 							{
@@ -1547,6 +1568,16 @@ impr					: resultant '.' LENGTH '(' ')'{
 									printf("%d ERROR: Arguments have to be intergers\n", yylineno);
 									exit(1);
 								}
+								
+								char* myText = (char*)malloc(strlen($1.text) + strlen(".substr(, )") + strlen($5.text) + strlen($7.text) + 1);
+								strcpy(myText, $1.text);
+								strcat(myText, ".substr(");
+								strcat(myText, $5.text);
+								strcat(myText, ", ");
+								strcat(myText, $7.text);
+								strcat(myText, ");");
+								
+								$$.text = myText;
 							}
 						| STRJOIN '(' RHS ',' RHS ')'
 							{
@@ -1556,6 +1587,16 @@ impr					: resultant '.' LENGTH '(' ')'{
 									printf("%d ERROR: Arguments have to be strings\n", yylineno);
 									exit(1);
 								}
+								
+								char* myText = (char*)malloc( strlen($3.text) + strlen($5.text) + 4);
+								strcpy(myText, "(");
+								strcat(myText, $3.text);
+								strcat(myText, "+");
+								strcat(myText, $5.text);
+								strcat(myText, ")");
+								
+								$$.text = myText;
+								
 							}
 						;
 						
@@ -1927,7 +1968,7 @@ logical_op				: '(' RHS LOGOP RHS ')' {
 						;
 
 						
-call_stmt				: func_calls ';' {fprintf(fparse, " : CALL STATEMENT"); classIndex = -1;}
+call_stmt				: func_calls ';' {fprintf(fparse, " : CALL STATEMENT"); classIndex = -1; }
 						;
 						
 						
@@ -1946,6 +1987,13 @@ func_calls				: call_head arguments {
 							callClassIndex = -1;
 							callFuncIndex = -1;
 							myIndex = 0;
+							
+							char* myText = (char*)malloc(strlen($1.text) + strlen($2.text) + 1);
+							strcpy(myText, $1.text);
+							strcat(myText, $2.text);
+							
+							strcpy($$.text, myText);
+							free(myText);
 						}
 						;
 						
@@ -1960,11 +2008,20 @@ call_head				: CALL LHS  {
 								$$.str = class_symb[callClassIndex].func_list[callFuncIndex].type;
 							}
 							myIndex = 0;
+							
+							$$.text = $2.text;
 						}
 						;
 						
-arguments				: '(' arg_list ')'
-						| '(' ')'
+arguments				: '(' arg_list ')' {
+							char* myText = (char*)malloc(strlen($2.text) + 3);
+							strcpy(myText, "(");
+							strcat(myText, $2.text);
+							strcat(myText, ")");
+							strcpy($$.text, myText);
+							free(myText);
+						}
+						| '(' ')' {$$.text = "()";}
 						;
 						
 arg_list				: RHS {
@@ -2016,6 +2073,8 @@ arg_list				: RHS {
 								free(myType);
 								
 							}
+							
+							$$.text = $1.text;
 						}
 						| arg_list ',' RHS {
 							int maxSize;
@@ -2059,6 +2118,12 @@ arg_list				: RHS {
 								else myIndex++;
 								free(myType);
 							}
+							char* myText = (char*)malloc(strlen($1.text) + strlen($3.text) + 3);
+							strcpy(myText, $1.text);
+							strcat(myText, ", ");
+							strcat(myText, $3.text);
+							strcpy($$.text, myText);
+							free(myText);
 						}
 						;
 

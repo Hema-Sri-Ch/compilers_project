@@ -5,6 +5,7 @@ func vect<int> foo(vect<int> myVec){
 	declr bool myBool1, myBool2;
 	declr int ans;
 	
+	
 	expr ans = add(a, sub(b, mul(myInt, exp(10, 2))));
 	expr ans = not((myBool1 or (myBool2 and (a lt b))));
 	
@@ -148,7 +149,25 @@ class myClass{
 	
 };
 
+func string getStr(){
+	return "Hello, World!\n";
+}
+
 func int main(myClass obj, float b, char c, string str, int myArr[]){
+
+	
+	declr string str1, str2, str3;
+	declr int len;
+	expr str3 = call getStr();
+	expr len = call getStr().strlen();
+	expr len = str1.strlen();
+	
+	
+	expr len = strcmp(str1, call getStr());
+	
+	expr str1 = strjoin(str2.strcut(0, 5), strjoin(str3, call getStr()));
+	
+	
 	declr int a;
 	
 	declr int arr[3];
