@@ -108,6 +108,18 @@ Identifier: sort
 Special symbols:	(
 Special symbols:	)
 Punctuation : ;
+Identifier : v
+Punctuation : .
+Identifier: append
+Special symbols:	(
+operator: add
+Special symbols:	(
+Identifier : a
+Punctuation : ,
+constant: true
+Special symbols:	)
+Special symbols:	)
+Punctuation : ;
 reserved keyword: expr
 Identifier : v
 Special symbols:	=
@@ -121,6 +133,38 @@ Punctuation : .
 Identifier: remove
 Special symbols:	(
 constant: 0
+Special symbols:	)
+Punctuation : ;
+reserved keyword: expr
+Identifier : ans
+Special symbols:	=
+Identifier : v
+Punctuation : .
+Identifier: length
+Special symbols:	(
+Special symbols:	)
+Punctuation : ;
+reserved keyword: expr
+Identifier : ans
+Special symbols:	=
+Identifier : v
+Punctuation : .
+Identifier: append
+Special symbols:	(
+constant: 4
+Special symbols:	)
+Punctuation : .
+Identifier: append
+Special symbols:	(
+constant: 5
+Special symbols:	)
+Punctuation : .
+Identifier: sort
+Special symbols:	(
+Special symbols:	)
+Punctuation : .
+Identifier: length
+Special symbols:	(
 Special symbols:	)
 Punctuation : ;
 Identifier : v
@@ -173,6 +217,8 @@ datatype: int
 Identifier : k
 Punctuation : ,
 Identifier : i
+Punctuation : ,
+Identifier : j
 Punctuation : ;
 reserved keyword: expr
 Identifier : k
@@ -213,6 +259,16 @@ Identifier: at
 Special symbols:	(
 Identifier : i
 Special symbols:	)
+Special symbols:	)
+Punctuation : ;
+reserved keyword: expr
+Identifier : j
+Special symbols:	=
+Identifier : vecB
+Punctuation : .
+Identifier: at
+Special symbols:	(
+Identifier : i
 Special symbols:	)
 Punctuation : ;
 Special symbols:	}

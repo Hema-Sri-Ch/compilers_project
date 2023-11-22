@@ -362,8 +362,8 @@ dtype					: DATATYPE {$$.str = $1; $$.text=$1; dataType = 0;}
 						}
 						;
 						
-function_body			: '{' { level++; } statements '}' {var_delete(level); level--;}
-						| '{' '}'
+function_body			: '{' { level++; fprintf(fIR, "{\n");} statements '}' {var_delete(level); level--; fprintf(fIR, "}\n");}
+						| '{' '}' { fprintf(fIR, "{ }\n");}
 						;
 						
 statements				: statement statements
@@ -436,9 +436,26 @@ vect_stmt_body			: resultant '.' APPEND '(' vect_append ')' {
 								else{
 									// printf("%d::resultant: %s; appending: %s\n", yylineno, $1, $5);
 									$$.str = $1.str;
-									free(myType);
+									
 								}
+								
+								char* myText = (char*)malloc(256);
+								strcpy(myText, "{\n\tvector<");
+								strcat(myText, myType);
+								strcat(myText, "> temp = ");
+								strcat(myText, $1.text);
+								strcat(myText, ";\n\ttemp.push_back(");
+								strcat(myText, $5.text);
+								strcat(myText, ");\n\t");
+								strcat(myText, $1.text);
+								strcat(myText, " = temp;\n}");
+								fprintf(fIR, "%s\n", myText);
+								$$.text = $1.text;
+								
+								free(myType);
+								free(myText);
 							}
+							
 						}
 						| resultant '.' REMOVE '(' remove_body ')' {
 							// printf("%d::Initial resultant - %s\n",yylineno, $1);
@@ -453,6 +470,27 @@ vect_stmt_body			: resultant '.' APPEND '(' vect_append ')' {
 									exit(1);
 								} else {
 									$$.str = $1.str;
+									
+									char* myType = (char*)malloc(strlen($1.str)+1);
+									strncpy(myType, $1.str + 1, strlen($1.str));
+									myType[strlen($1.str)] = '\0';
+								
+								
+									char* myText = (char*)malloc(512);
+									strcpy(myText, "{\n\tvector<");
+									strcat(myText, myType);
+									strcat(myText, "> temp = ");
+									strcat(myText, $1.text);
+									strcat(myText, ";\n\ttemp.erase(temp.begin()+");
+									strcat(myText, $5.text);
+									strcat(myText, ");\n\t");
+									strcat(myText, $1.text);
+									strcat(myText, " = temp;\n}");
+									fprintf(fIR, "%s\n", myText);
+									$$.text = $1.text;
+									
+									free(myType);
+									free(myText);
 								}
 							}
 						}
@@ -464,6 +502,25 @@ vect_stmt_body			: resultant '.' APPEND '(' vect_append ')' {
 							}
 							else {
 								$$.str = $1.str;
+								
+								char* myType = (char*)malloc(strlen($1.str)+1);
+								strncpy(myType, $1.str + 1, strlen($1.str));
+								myType[strlen($1.str)] = '\0';
+								
+								
+								char* myText = (char*)malloc(256);
+								strcpy(myText, "{\n\tvector<");
+								strcat(myText, myType);
+								strcat(myText, "> temp = ");
+								strcat(myText, $1.text);
+								strcat(myText, ";\n\tsort(temp.begin(), temp.end());\n\t");
+								strcat(myText, $1.text);
+								strcat(myText, " = temp;\n}");
+								fprintf(fIR, "%s\n", myText);
+								$$.text = $1.text;
+								
+								free(myType);
+								free(myText);
 							}
 						}
 						| resultant '.' CLEAR '(' ')' {
@@ -474,23 +531,42 @@ vect_stmt_body			: resultant '.' APPEND '(' vect_append ')' {
 							}
 							else{
 								$$.str = $1.str;
+								
+								char* myType = (char*)malloc(strlen($1.str)+1);
+								strncpy(myType, $1.str + 1, strlen($1.str));
+								myType[strlen($1.str)] = '\0';
+								
+								
+								char* myText = (char*)malloc(256);
+								strcpy(myText, "{\n\tvector<");
+								strcat(myText, myType);
+								strcat(myText, "> temp = ");
+								strcat(myText, $1.text);
+								strcat(myText, ";\n\ttemp.clear();\n\t");
+								strcat(myText, $1.text);
+								strcat(myText, " = temp;\n}");
+								fprintf(fIR, "%s\n", myText);
+								$$.text = $1.text;
+								
+								free(myType);
+								free(myText);
 							}
 						}
 						;
 						
 						
-remove_body				: INT_CONST {$$.str="int";}
-						| FLOAT_CONST {$$.str="float";}
-						| LHS {$$.str=$1.type;}
-						| func_calls {$$.str=$1.str;}
-						| arith_op {$$.str=$1.str;}
-						| logical_op {$$.str=$1.str;}
-						| impr {$$.str=$1.str;}
+remove_body				: INT_CONST {$$.str="int"; $$.text = $1;}
+						| FLOAT_CONST {$$.str="float"; $$.text = $1;}
+						| LHS {$$.str=$1.type; $$.text = $1.text;}
+						| func_calls {$$.str=$1.str; $$.text = $1.text;}
+						| arith_op {$$.str=$1.str; $$.text = $1.text;}
+						| logical_op {$$.str=$1.str; $$.text = $1.text;}
+						| impr {$$.str=$1.str; $$.text = $1.text;}
 						;
 						
 						
-vect_append				: RHS {$$.str=$1.str;}
-						| extra_consts {$$.str=$1.str;}
+vect_append				: RHS {$$.str=$1.str; $$.text = $1.text;}
+						| extra_consts {$$.str=$1.str; $$.text = $1.text;}
 						;
 						
 						
@@ -1377,11 +1453,11 @@ val_list				: int_list
 						| str_list
 							{ $$.str = "string";}
 						;
-resultant				: LHS{$$.str = $1.type;}
+resultant				: LHS{$$.str = $1.type; $$.text = $1.text;}
 						| matrix_impr {$$.str = $1.str;}
 						| graph_impr {$$.str = $1.str;}
-						| vect_stmt_body {$$.str = $1.str;}
-						| impr {$$.str = $1.str;}
+						| vect_stmt_body {$$.str = $1.str; $$.text = $1.text;}
+						| impr {$$.str = $1.str; $$.text = $1.text;}
 						;				
 						
 						
@@ -1392,6 +1468,13 @@ impr					: resultant '.' LENGTH '(' ')'{
 								exit(1);
 							} else {
 								$$.str = "int";
+								
+								
+								char* myText = (char*)malloc(strlen($1.text)+8);
+								strcpy(myText, $1.text);
+								strcat(myText, ".size()");
+								$$.text = myText;
+								
 							}
 						}
 						| resultant '.' AT '(' remove_body ')'{
@@ -1410,7 +1493,15 @@ impr					: resultant '.' LENGTH '(' ')'{
 									strncpy(myType, $1.str + 1, strlen($1.str));
 									myType[strlen($1.str)] = '\0';
 									$$.str = myType;
-									free(myType);
+									
+									char* myText = (char*)malloc(strlen($1.text) + strlen($5.text) + 3);
+									strcpy(myText, $1.text);
+									strcat(myText, "[");
+									strcat(myText, $5.text);
+									strcat(myText, "]");
+									$$.text = myText;
+									
+//									free(myType);
 								}
 							} 
 							

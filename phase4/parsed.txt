@@ -9,8 +9,12 @@ func vect<int> foo(vect<int> myVec) : FUNCTION HEAD{
 	expr ans = not((myBool1 or (myBool2 and (a lt b)))); : EXPRESSION STATEMENT
 	
 	expr v = v.append(4).append(5).sort(); : EXPRESSION STATEMENT
+	v.append(add(a, true)); : INDEPENDENT METHOD
 	
 	expr v = v.remove(0).remove(0); : EXPRESSION STATEMENT
+	
+	expr ans = v.length(); : EXPRESSION STATEMENT
+	expr ans = v.append(4).append(5).sort().length(); : EXPRESSION STATEMENT
 	
 	v.sort(); : INDEPENDENT METHOD
 	v.append(5).sort(); : INDEPENDENT METHOD
@@ -20,11 +24,12 @@ func vect<int> foo(vect<int> myVec) : FUNCTION HEAD{
 
 func vect<int> vectConcat() : FUNCTION HEAD {
 	declr vect<int> vecA,vecB; : DECLARATION STATEMENT
-	declr int k, i; : DECLARATION STATEMENT
+	declr int k, i, j; : DECLARATION STATEMENT
 	expr k = vecB.length(); : EXPRESSION STATEMENT
 	
 	loop for(expr i = 0; : EXPRESSION STATEMENT (i lt k); incr(i)){
 		vecA.append(vecB.at(i)); : INDEPENDENT METHOD
+		expr j = vecB.at(i); : EXPRESSION STATEMENT
 	} : LOOP
 	vecA.sort(); : INDEPENDENT METHOD
 	return vecA; : RETURN STATEMENT : RETURN STATEMENT

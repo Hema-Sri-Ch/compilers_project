@@ -9,8 +9,12 @@ func vect<int> foo(vect<int> myVec){
 	expr ans = not((myBool1 or (myBool2 and (a lt b))));
 	
 	expr v = v.append(4).append(5).sort();
+	v.append(add(a, true));
 	
 	expr v = v.remove(0).remove(0);
+	
+	expr ans = v.length();
+	expr ans = v.append(4).append(5).sort().length();
 	
 	v.sort();
 	v.append(5).sort();
@@ -20,11 +24,12 @@ func vect<int> foo(vect<int> myVec){
 
 func vect<int> vectConcat() {
 	declr vect<int> vecA,vecB;
-	declr int k, i;
+	declr int k, i, j;
 	expr k = vecB.length();
 	
 	loop for(expr i = 0; (i lt k); incr(i)){
 		vecA.append(vecB.at(i));
+		expr j = vecB.at(i);
 	}
 	vecA.sort();
 	return vecA;
