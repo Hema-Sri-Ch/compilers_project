@@ -148,7 +148,9 @@ class					: CLASS id '{' {
 								
 							else class_insert($2.str);
 							
-						} class_items '}' { var_delete(level); level--; inClass = 0; } ';' {fprintf(fparse, " : CLASS DEFINITION");}
+							fprintf(fIR, "class %s {\n", $2.text);
+							
+						} class_items '}' { var_delete(level); level--; inClass = 0; fprintf(fIR, "};\n");} ';' {fprintf(fparse, " : CLASS DEFINITION");}
 						;
 
 id						: newid {$$.str=$1; $$.text=$1;}
@@ -171,8 +173,8 @@ id						: newid {$$.str=$1; $$.text=$1;}
 						| SHPATH_VAL {$$.str=$1; $$.text=$1;}
 						;
 						
-class_items				: class_item class_items
-						| class_item
+class_items				: class_item {fprintf(fIR, "\n");}class_items
+						| class_item {fprintf(fIR, "\n");}
 						;
 						
 class_item				: declr_stmt
@@ -189,13 +191,13 @@ struct					: STRUCT id '{'
 								}
 								
 								else struct_insert($2.str);
-								
+								fprintf(fIR, "struct %s {\n", $2.text);
 							} 
-							struct_items '}' { var_delete(level); level--;}';' {fprintf(fparse, " : STRUCT DEFINITION");}
+							struct_items '}' { var_delete(level); level--; fprintf(fIR, "};\n");}';' {fprintf(fparse, " : STRUCT DEFINITION");}
 						;
 						
-struct_items			: declr_stmt struct_items
-						| declr_stmt
+struct_items			: declr_stmt {fprintf(fIR, "\n");} struct_items
+						| declr_stmt {fprintf(fIR, "\n");}
 						;
 						
 function				: function_head function_body 
@@ -366,8 +368,8 @@ function_body			: '{' { level++; fprintf(fIR, "{\n");} statements '}' {var_delet
 						| '{' '}' { fprintf(fIR, "{ }\n");}
 						;
 						
-statements				: statement statements
-						| statement
+statements				: statement {fprintf(fIR, "\n");} statements
+						| statement {fprintf(fIR, "\n");}
 						| function_body statements
 						| function_body
 						;
@@ -386,7 +388,7 @@ statement				: expr_stmt
 						| CONTINUE ';' {fprintf(fparse, " : CONTINUE STATEMENT");}
 						;
 						
-unary_stmt				: unary_op ';' {fprintf(fparse, " : UNARY STATEMENT");}
+unary_stmt				: unary_op ';' {fprintf(fparse, " : UNARY STATEMENT"); fprintf(fIR, "%s;", $1.text);}
 						;
 						
 jump_stmt				: label_stmt
@@ -401,11 +403,13 @@ label_stmt				: id
 									exit(1);
 								}
 								else label_insert($1.str);
+								
+								fprintf(fIR, "%s: ", $1.text);
 							}
 							':' function_body {fprintf(fparse, " : LABEL");}
 						;
 						
-goto_stmt				: GOTO id ';' {fprintf(fparse, " : GOTO STATEMENT");}
+goto_stmt				: GOTO id ';' {fprintf(fparse, " : GOTO STATEMENT"); fprintf(fIR, "goto %s;", $2.text);}
 						;
 
 vect_stmt				: vect_stmt_body ';' {fprintf(fparse, " : INDEPENDENT METHOD");}
@@ -572,7 +576,45 @@ vect_append				: RHS {$$.str=$1.str; $$.text = $1.text;}
 						
 return_stmt 			: RETURN RHS';'
 							{	returnStmtCount++;
-								if(inClass==0)
+							
+								if(inClass == 0){
+									char* A = $2.str;
+									char* B = func_symb[currentFuncIndex].type;
+									
+									if(strcmp(A, B)){
+										int a = !strcmp(A, "int") || !strcmp(A, "float") || !strcmp(A, "bool");
+										int b = !strcmp(B, "int") || !strcmp(B, "float") || !strcmp(B, "bool");
+										
+										int c = !strcmp(A, "bool");
+										int d = !strcmp(B, "int") || !strcmp(B, "float") || !strcmp(B, "bool") || !strcmp(B, "char") || !strcmp(B, "string");
+										
+										if(!(a&&b  ||  c&&d) ){
+											printf("%d Warning: return type mismatched\n", yylineno);
+										}
+									}
+								}
+								
+								else {
+									char* A = $2.str;
+									char* B = class_symb[class_size-1].func_list[currentFuncIndex].type;
+									
+									if(strcmp(A, B)){
+										int a = !strcmp(A, "int") || !strcmp(A, "float") || !strcmp(A, "bool");
+										int b = !strcmp(B, "int") || !strcmp(B, "float") || !strcmp(B, "bool");
+										
+										int c = !strcmp(A, "bool");
+										int d = !strcmp(B, "int") || !strcmp(B, "float") || !strcmp(B, "bool") || !strcmp(B, "char") || !strcmp(B, "string");
+										
+										if(!(a&&b  ||  c&&d) ){
+											printf("%d Warning: return type mismatched\n", yylineno);
+										}
+									}
+								
+								}
+								
+								fprintf(fIR, "return %s;", $2.text);
+							
+							/*	if(inClass==0)
 								{		
 									if(strcmp($2.str,func_symb[currentFuncIndex].type))
 									{
@@ -585,7 +627,7 @@ return_stmt 			: RETURN RHS';'
 									{
 										printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 									}
-								}
+								}*/
 							} 				
 							{fprintf(fparse, " : RETURN STATEMENT");}
 						| RETURN extra_consts ';' 
@@ -604,56 +646,128 @@ return_stmt 			: RETURN RHS';'
 										printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 									}
 								}
+								
+								
+								fprintf(fIR, "return %s;", $2.text);
 						 	}
 							{fprintf(fparse, " : RETURN STATEMENT");}
 						| RETURN graph_impr ';'
 							{	returnStmtCount++;
-								if(inClass==0)
-								{
-									if(strcmp($2.str,func_symb[currentFuncIndex].type))
-									{
-										printf("%d ERROR : func type and return type are mismatched\n",yylineno);
+								if(inClass == 0){
+									char* A = $2.str;
+									char* B = func_symb[currentFuncIndex].type;
+									
+									if(strcmp(A, B)){
+										int a = !strcmp(A, "int") || !strcmp(A, "float") || !strcmp(A, "bool");
+										int b = !strcmp(B, "int") || !strcmp(B, "float") || !strcmp(B, "bool");
+										
+										int c = !strcmp(A, "bool");
+										int d = !strcmp(B, "int") || !strcmp(B, "float") || !strcmp(B, "bool") || !strcmp(B, "char") || !strcmp(B, "string");
+										
+										if(!(a&&b  ||  c&&d) ){
+											printf("%d Warning: return type mismatched\n", yylineno);
+										}
 									}
 								}
-								else
-								{
-									if(strcmp($2.str,class_symb[class_size-1].func_list[currentFuncIndex].type))
-									{
-										printf("%d ERROR : func type and return type are mismatched\n",yylineno);
+								
+								else {
+									char* A = $2.str;
+									char* B = class_symb[class_size-1].func_list[currentFuncIndex].type;
+									
+									if(strcmp(A, B)){
+										int a = !strcmp(A, "int") || !strcmp(A, "float") || !strcmp(A, "bool");
+										int b = !strcmp(B, "int") || !strcmp(B, "float") || !strcmp(B, "bool");
+										
+										int c = !strcmp(A, "bool");
+										int d = !strcmp(B, "int") || !strcmp(B, "float") || !strcmp(B, "bool") || !strcmp(B, "char") || !strcmp(B, "string");
+										
+										if(!(a&&b  ||  c&&d) ){
+											printf("%d Warning: return type mismatched\n", yylineno);
+										}
 									}
 								}
+								
+								
+								fprintf(fIR, "return %s;", $2.text);
 						 	} 
 							{fprintf(fparse, " : RETURN STATEMENT");}
 						| RETURN matrix_impr ';'
 							{	returnStmtCount++;
-								if(inClass==0)
-								{
-									if(strcmp($2.str,func_symb[currentFuncIndex].type))
-									{
-										printf("%d ERROR : func type and return type are mismatched\n",yylineno);
+								if(inClass == 0){
+									char* A = $2.str;
+									char* B = func_symb[currentFuncIndex].type;
+									
+									if(strcmp(A, B)){
+										int a = !strcmp(A, "int") || !strcmp(A, "float") || !strcmp(A, "bool");
+										int b = !strcmp(B, "int") || !strcmp(B, "float") || !strcmp(B, "bool");
+										
+										int c = !strcmp(A, "bool");
+										int d = !strcmp(B, "int") || !strcmp(B, "float") || !strcmp(B, "bool") || !strcmp(B, "char") || !strcmp(B, "string");
+										
+										if(!(a&&b  ||  c&&d) ){
+											printf("%d Warning: return type mismatched\n", yylineno);
+										}
 									}
 								}
-								else
-								{
-									if(strcmp($2.str,class_symb[class_size-1].func_list[currentFuncIndex].type))
-									{
-										printf("%d ERROR : func type and return type are mismatched\n",yylineno);
+								
+								else {
+									char* A = $2.str;
+									char* B = class_symb[class_size-1].func_list[currentFuncIndex].type;
+									
+									if(strcmp(A, B)){
+										int a = !strcmp(A, "int") || !strcmp(A, "float") || !strcmp(A, "bool");
+										int b = !strcmp(B, "int") || !strcmp(B, "float") || !strcmp(B, "bool");
+										
+										int c = !strcmp(A, "bool");
+										int d = !strcmp(B, "int") || !strcmp(B, "float") || !strcmp(B, "bool") || !strcmp(B, "char") || !strcmp(B, "string");
+										
+										if(!(a&&b  ||  c&&d) ){
+											printf("%d Warning: return type mismatched\n", yylineno);
+										}
 									}
 								}
+								
+								fprintf(fIR, "return %s;", $2.text);
 							}  
 							{fprintf(fparse, " : RETURN STATEMENT");}
 						| RETURN vect_stmt_body ';'
 						{	returnStmtCount++;
-							if(inClass==0){
-								if(strcmp($2.str,func_symb[currentFuncIndex].type)){
-									printf("%d ERROR : func type and return type are mismatched\n",yylineno);
+							if(inClass == 0){
+									char* A = $2.str;
+									char* B = func_symb[currentFuncIndex].type;
+									
+									if(strcmp(A, B)){
+										int a = !strcmp(A, "int") || !strcmp(A, "float") || !strcmp(A, "bool");
+										int b = !strcmp(B, "int") || !strcmp(B, "float") || !strcmp(B, "bool");
+										
+										int c = !strcmp(A, "bool");
+										int d = !strcmp(B, "int") || !strcmp(B, "float") || !strcmp(B, "bool") || !strcmp(B, "char") || !strcmp(B, "string");
+										
+										if(!(a&&b  ||  c&&d) ){
+											printf("%d Warning: return type mismatched\n", yylineno);
+										}
+									}
 								}
-							}
-							else{
-								if(strcmp($2.str,class_symb[class_size-1].func_list[currentFuncIndex].type)){
-									printf("%d ERROR : func type and return type are mismatched\n",yylineno);
+								
+								else {
+									char* A = $2.str;
+									char* B = class_symb[class_size-1].func_list[currentFuncIndex].type;
+									
+									if(strcmp(A, B)){
+										int a = !strcmp(A, "int") || !strcmp(A, "float") || !strcmp(A, "bool");
+										int b = !strcmp(B, "int") || !strcmp(B, "float") || !strcmp(B, "bool");
+										
+										int c = !strcmp(A, "bool");
+										int d = !strcmp(B, "int") || !strcmp(B, "float") || !strcmp(B, "bool") || !strcmp(B, "char") || !strcmp(B, "string");
+										
+										if(!(a&&b  ||  c&&d) ){
+											printf("%d Warning: return type mismatched\n", yylineno);
+										}
+									}
 								}
-							}
+								
+								
+								fprintf(fIR, "return %s;", $2.text);
 						}
 						| RETURN null ';'
 							{	returnStmtCount++;
@@ -671,7 +785,10 @@ return_stmt 			: RETURN RHS';'
 										printf("%d ERROR : func type and return type are mismatched\n",yylineno);
 									}
 								}
-							} 
+								
+								
+								fprintf(fIR, "return NULL;");
+							}
 							{fprintf(fparse, " : RETURN STATEMENT");}
 						;
 				
@@ -685,10 +802,15 @@ loop_type				: for_loop
 						| while_loop
 						;
 				
-for_loop				: FOR '(' expr_stmt logical_op ';' for_expr ')' function_body
+for_loop				: FOR '(' {fprintf(fIR, "for(");} for_in ')'{fprintf(fIR, ") ");} function_body
 						;
 
-for_expr				: unary_op
+
+for_in					: expr_stmt logical_op ';' {fprintf(fIR, "%s; ", $2.text);} for_expr 
+						;
+						
+
+for_expr				: unary_op {fprintf(fIR, "%s ", $1.text);}
 						| EXPR LHS '=' for_RHS {
 							if(strcmp($2.type, $4.str)){
 								int a = !strcmp($2.type, "int") || !strcmp($2.type, "float") || !strcmp($2.type, "bool");
@@ -698,17 +820,19 @@ for_expr				: unary_op
 									printf("%d Error: Expression statement, type mismatch\n", yylineno);
 									exit(1);
 								}
+								
+								fprintf(fIR, "%s = %s", $2.text, $4.text);
 							}
 						}
 						;
 						
 						
-for_RHS					: arith_op {$$.str = $1.str;}
-						| func_calls {$$.str = $1.str;}
-						| impr {$$.str = $1.str;}
-						| graph_impr {$$.str = $1.str;}
-						| vect_stmt_body {$$.str = $1.str;}
-						| matrix_impr {$$.str = $1.str;}
+for_RHS					: arith_op {$$.str = $1.str; $$.text = $1.text; }
+						| func_calls {$$.str = $1.str; $$.text = $1.text; }
+						| impr {$$.str = $1.str; $$.text = $1.text; }
+						| graph_impr {$$.str = $1.str; $$.text = $1.text; }
+						| vect_stmt_body {$$.str = $1.str; $$.text = $1.text; }
+						| matrix_impr {$$.str = $1.str; $$.text = $1.text; }
 						;
 
 while_loop				: WHILE '('RHS')' {
@@ -721,6 +845,8 @@ while_loop				: WHILE '('RHS')' {
 							if(!a) {
 								printf("%d Error : Invalid conditional argument\n", yylineno);
 							}
+							
+							fprintf(fIR, "while(%s) ", $3.text);
 						} function_body
 						;
 						
@@ -735,7 +861,7 @@ expr_stmt				: EXPR LHS '=' RHS ';' {
 									exit(1);
 								}
 							}
-							fprintf(fIR, "%s = %s;\n", $2.text, $4.text);
+							fprintf(fIR, "%s = %s;", $2.text, $4.text);
 							fprintf(fparse, " : EXPRESSION STATEMENT");
 						}
 						| EXPR LHS '=' extra_consts ';'
@@ -831,6 +957,7 @@ expr_stmt				: EXPR LHS '=' RHS ';' {
 								exit(1);
 							}
 							fprintf(fparse, " : EXPRESSION STATEMENT");
+							fprintf(fIR, "%s = %s;", $2.text, $4.text);
 						}
 						;
 						
@@ -1020,7 +1147,7 @@ myId					: id {$$.str=$1.str; $$.text = $1.text;}
 
 
 
-declr_stmt				: DECLR declr_body ';' {fprintf(fparse, " : DECLARATION STATEMENT");}
+declr_stmt				: DECLR declr_body ';' {fprintf(fparse, " : DECLARATION STATEMENT"); fprintf(fIR, ";");}
 
 declr_body				: DATATYPE id_list
 							{
@@ -1066,6 +1193,9 @@ declr_body				: DATATYPE id_list
 									}
 								}
 								arr_size =0;
+								
+								fprintf(fIR, "%s %s", $1, $2.text);
+								
 							}
 						| GRAPH graph_and_array_list
 							{
@@ -1156,6 +1286,8 @@ declr_body				: DATATYPE id_list
 									}
 								}
 								arr_size=0;
+								fprintf(fIR, "vector<%s> %s", $3.text, $5.text);
+								
 							}
 						| MATRIX matrix_list 
 							{
@@ -1202,7 +1334,7 @@ declr_body				: DATATYPE id_list
 								}
 								arr_size=0;
 							}
-						| DATATYPE graph_and_array_list
+						| DATATYPE  graph_and_array_list
 							{
 								if(currentFuncIndex!=-1)
 								{
@@ -1246,6 +1378,9 @@ declr_body				: DATATYPE id_list
 									}
 								}
 								arr_size=0;
+								
+								
+								
 							}
 						| id id_list
 							{
@@ -1293,6 +1428,14 @@ declr_body				: DATATYPE id_list
 										}
 									}
 									arr_size =0;
+									
+									{
+										int a = class_search($1.str);
+										int b = struct_search($1.str);
+										if(a > b) fprintf(fIR, "class %s ", $1.text);
+										else fprintf(fIR, "struct %s ", $1.text);
+									}
+									fprintf(fIR, "%s", $2.text);
 								}
 								else
 								{
@@ -1303,7 +1446,7 @@ declr_body				: DATATYPE id_list
 							}
 						;
 
-graph_and_array_list	: id '[' INT_CONST ']' ',' graph_and_array_list
+graph_and_array_list	: id '[' INT_CONST ']' ','
 							{
 								arr[arr_size] = $1.str;
 								dimA[arr_size] = atoi($3);
@@ -1313,7 +1456,9 @@ graph_and_array_list	: id '[' INT_CONST ']' ',' graph_and_array_list
 									exit(1);
 								}
 								arr_size++;
-							}
+								
+								fprintf(fIR, "%s[%s], ", $1.text, $3);
+							} graph_and_array_list
 						| id '[' INT_CONST ']'
 							{
 								arr[arr_size] = $1.str;
@@ -1324,10 +1469,12 @@ graph_and_array_list	: id '[' INT_CONST ']' ',' graph_and_array_list
 									exit(1);
 								}
 								arr_size++;
+								
+								fprintf(fIR, "%s[%s]", $1.text, $3);
 							}
 						;
 
-matrix_list				: id '[' INT_CONST ']' '[' INT_CONST ']' ',' matrix_list
+matrix_list				: id '[' INT_CONST ']' '[' INT_CONST ']' ',' 
 							{
 								arr[arr_size] = $1.str;
 								dimA[arr_size] = atoi($3);
@@ -1338,7 +1485,9 @@ matrix_list				: id '[' INT_CONST ']' '[' INT_CONST ']' ',' matrix_list
 									exit(1);
 								}
 								arr_size++;
-							}
+								
+								fprintf(fIR, "%s[%s][%s], ", $1.text, $3, $6);
+							} matrix_list
 						| id '[' INT_CONST ']' '[' INT_CONST ']'
 							{
 								arr[arr_size] = $1.str;
@@ -1350,18 +1499,29 @@ matrix_list				: id '[' INT_CONST ']' '[' INT_CONST ']' ',' matrix_list
 									exit(1);
 								}
 								arr_size++;
+								
+								fprintf(fIR, "%s[%s][%s]", $1.text, $3, $6);
 							}
 						;
 
-id_list					: id ',' id_list
+id_list					: id_list ',' id
 							{
-								arr[arr_size] = $1.str;
+								arr[arr_size] = $3.str;
 								arr_size++;
+								
+								char* myText = (char*)malloc(strlen($1.text)+strlen($3.text)+2);
+								strcpy(myText, $1.text);
+								strcat(myText, ", ");
+								strcat(myText, $3.text);
+								//strcpy($$.text, myText);
+								//free(myText);
+								$$.text = myText;
 							}
 						| id
 							{
 								arr[arr_size] = $1.str;
 								arr_size++;
+								$$.text = $1.text;
 							}
 						;
 
@@ -1375,12 +1535,13 @@ ifcond_stmt				: IF '(' RHS ')' {
 							if(!a) {
 								printf("%d Error : Invalid conditional argument\n", yylineno);
 							}
+							fprintf(fIR, "if(%s)", $3.text);
 							fprintf(fparse, " : CONDITIONAL STATEMENT");
 						} if_body
 						;
 						
 						
-if_body					: function_body ELSE function_body
+if_body					: function_body ELSE {fprintf(fIR, "else ");}function_body
 						| function_body
 						;
 
@@ -1394,16 +1555,18 @@ switch_stmt				: SWITCH '(' RHS ')' {
 							if(!a) {
 								printf("%d Error : Invalid conditional argument\n", yylineno);
 							}
+							
+							fprintf(fIR, "SWITCH (%s)", $3.text);
 							fprintf(fparse, " : CONDITIONAL STATEMENT");
 						} switch_body
 						;
 												
 
-switch_body				: '{' {switch_insert(level); level++;} cases DEFAULT ':' function_body '}' { var_delete(level); level--; switch_delete();}
+switch_body				: '{' {switch_insert(level); level++; fprintf(fIR, "{\n");} cases DEFAULT ':' {fprintf(fIR, "default:\n");} function_body '}' { var_delete(level); level--; switch_delete(); fprintf(fIR, "}\n");}
 						;
 
-cases					: cases CASE INT_CONST  {add_case(level-1, $3);} ':' function_body 
-						| CASE INT_CONST  {add_case(level-1, $2);} ':' function_body
+cases					: cases CASE INT_CONST  {add_case(level-1, $3); fprintf(fIR, "case %s:\n", $3); } ':' function_body 
+						| CASE INT_CONST  {add_case(level-1, $2); fprintf(fIR, "case %s:\n", $2); } ':' function_body
 						;
 
 						
