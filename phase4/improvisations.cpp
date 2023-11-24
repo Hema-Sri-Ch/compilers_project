@@ -115,6 +115,11 @@ public:
 		{
 			return 0;
 		}
+		if(weight<0)
+		{
+			cout << "Weight has to be non-negative\n";
+			exit(1);
+		}
 		weightedEdges[u].push_back({v,weight});
 		return 1;
 	}
@@ -147,19 +152,74 @@ public:
 		return res;
 	}
 
-	// vector<int> shortest_path(int n, int m)
-	// {
-	// 	if(n > vertices || m > vertices)
-	// 	{
-	// 		cout << "Invalid labelled node\n";
-	// 		exit(1);
-	// 	}
-	// 	if(flag==0)
-	// 	{
-	// 		cout << "Not a weighted graph\n";
-	// 		exit(1);
-	// 	}
-	// }
+	void shortest_path_func(int n, int m, vector<int>& path, int& value)
+	{
+		if(n > vertices || m > vertices)
+		{
+			cout << "Invalid labelled node\n";
+			exit(1);
+		}
+		if(flag==0)
+		{
+			cout << "Not a weighted graph\n";
+			exit(1);
+		}
+		priority_queue<pair<double,int>, vector<pair<double,int>>, greater<pair<double,int>> > pq;
+		vector<int> dist (vertices+1, 1e9), parent(vertices+1);
+		for(int i=1; i<vertices; i++) parent[i]=i;
+		dist[n]=0;
+		pq.push({0,1});
+		while(!pq.empty())
+		{
+			auto it = pq.top();
+			int node = it.second;
+			double dis = it.first;
+			pq.pop();
+			for(auto it: weightedEdges[node])
+			{
+				int adjNode = it.first;
+				double edW = it.second;
+				if(dis+edW<dist[adjNode])
+				{
+					dist[adjNode] = dis+edW;
+					pq.push({dis+edW, adjNode});
+					parent[adjNode] = node;
+				}
+			}
+		}
+		if(dist[m]==1e9)
+		{
+			path = {};
+			value = -1;
+			return;
+		}
+		value = dist[m];
+		int node = m;
+		while(parent[node]!=node)
+		{
+			path.push_back(node);
+			node = parent[node];
+		}
+		path.push_back(n);
+		reverse(path.begin(), path.end());
+		return;
+	}
+
+	int shortest_path_value(int n, int m)
+	{
+		vector<int> path;
+		int value;
+		shortest_path_func(n,m,path,value);
+		return value;
+	}
+
+	vector<int> shortest_path(int n, int m)
+	{
+		vector<int> path;
+		int value;
+		shortest_path_func(n,m,path,value);
+		return path;
+	}
 
 };
 
