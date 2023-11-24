@@ -23,6 +23,12 @@
     return MATXOP;
 }
 
+"print" {
+	fprintf(yyout, "reserved keyword: %s\n", yytext);
+    fprintf(fparse, "%s", yytext);
+	return PRINT;
+}
+
 "matxtograph" {
 	fprintf(yyout, "Identifier: %s\n", yytext);
     fprintf(fparse, "%s", yytext);

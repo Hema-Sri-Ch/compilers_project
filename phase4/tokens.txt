@@ -44,6 +44,18 @@ reserved keyword: declr
 datatype: int
 Identifier : ans
 Punctuation : ;
+reserved keyword: print
+Special symbols:	(
+Identifier : ans
+Punctuation : ,
+Identifier : a
+Special symbols:	)
+Punctuation : ;
+reserved keyword: print
+Special symbols:	(
+constant: "Hello, world\n"
+Special symbols:	)
+Punctuation : ;
 reserved keyword: expr
 Identifier : ans
 Special symbols:	=

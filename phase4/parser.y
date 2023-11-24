@@ -141,7 +141,7 @@ void freeStringArray(char** array, size_t count) {
 	} Cols;
 }
 
-%type<Str> fdtype dtype id id_list graph_and_array_list matrix_list return_stmt RHS constants extra_consts impr matrix_impr graph_impr arith_op logical_op func_calls binary_op unary_op arg_list call_head for_RHS myId vect_append resultant vect_stmt_body remove_body int_list float_list bool_list char_list str_list val_list array_const matr_body param param_list Parameters arguments vect_list vect_item vect_const weight_list matrix_const
+%type<Str> fdtype dtype id id_list graph_and_array_list matrix_list return_stmt RHS constants extra_consts impr matrix_impr graph_impr arith_op logical_op func_calls binary_op unary_op arg_list call_head for_RHS myId vect_append resultant vect_stmt_body remove_body int_list float_list bool_list char_list str_list val_list array_const matr_body param param_list Parameters arguments vect_list vect_item vect_const weight_list matrix_const print_body print_constants graph_const graph_type1 graph_type2
 %type<details> function function_head func_definition LHS
 %type<Cols> mat_list int_float_list
 
@@ -199,6 +199,7 @@ void freeStringArray(char** array, size_t count) {
 %token <str> SHPATH
 %token <str> SHPATH_VAL
 %token GOTO
+%token PRINT
 
 %start program_unit
 
@@ -482,6 +483,48 @@ statement				: expr_stmt
 						| vect_stmt
 						| BREAK ';' {fprintf(fparse, " : BREAK STATEMENT");}
 						| CONTINUE ';' {fprintf(fparse, " : CONTINUE STATEMENT");}
+						| print_stmt
+						;
+
+print_stmt				: PRINT '(' print_body ')' ';'
+						 {
+							fprintf(fparse, " : PRINT STATEMENT");
+							printTabs();
+							fprintf(fIR, "cout << %s << endl;", $3.text);
+							
+						 }
+						;
+
+print_body				: print_body ',' print_constants
+							{
+								char* myText = (char*)malloc(strlen($1.text)+strlen($3.text)+3);
+								strcpy(myText, $1.text);
+								strcat(myText, " << ");
+								strcat(myText, $3.text);
+								$$.text = myText;
+							}
+						| print_constants
+							{
+								$$.text = $1.text;
+							}
+						;
+
+print_constants			: constants {
+							int a = !(strcmp($1.str, "int")) || !(strcmp($1.str, "float")) || !(strcmp($1.str, "char")) || !(strcmp($1.str, "string")) || !(strcmp($1.str, "bool"));
+
+							if(!a){
+								printf("%d Error: Invalid argument as print object\n", yylineno);
+								exit(1);
+							}
+							$$.text = $1.text;
+						}
+						| extra_consts {
+							char* myText = (char*)malloc(strlen($1.text)+3);
+							strcpy(myText, "\"");
+							strcat(myText, $1.text);
+							strcat(myText, "\"");
+							$$.text = myText;
+						}
 						;
 						
 unary_stmt				: unary_op ';' {fprintf(fparse, " : UNARY STATEMENT"); printTabs(); fprintf(fIR, "%s;", $1.text);}
@@ -997,8 +1040,8 @@ expr_stmt				: EXPR LHS '=' RHS ';' {
 										}
 									}
 									dummy_size=0;
-									printTabs();
-									fprintf(fIR, "%s = %s;", $2.text, $4.text);
+									// printTabs();
+									// fprintf(fIR, "%s = %s;", $2.text, $4.text);
 								}
 								else if(strcmp("matrix", $2.type)==0)
 								{
@@ -1784,7 +1827,7 @@ constants				: INT_CONST {$$.str="int"; $$.text = $1;}
 						
 						
 extra_consts			: array_const{$$.str = $1.str; $$.text = $1.text;}
-						| graph_const{$$.str="graph";}
+						| graph_const{$$.str="graph"; $$.text = $1.text;}
 						| vect_const{
 							char* myType = (char*)malloc(strlen($1.str)+2);
 							strcpy(myType, "*");
@@ -2094,28 +2137,54 @@ matr_body				: RHS {$$.str = $1.str;}
 						| matrix_impr {$$.str = $1.str;}
 						;
 						
-graph_const				: '{' graph_type1 '}' {printTabs();fprintf(fIR, "%s.setFlag(0);\n", LeftName);} 
-						| '{' graph_type2 '}' {printTabs();fprintf(fIR, "%s.setFlag(1);\n", LeftName);}
+graph_const				: '{' graph_type1 '}' {
+								printTabs();
+								fprintf(fIR, "%s.setFlag(0);\n", LeftName);
+								char* myText = (char*)malloc(strlen($2.text)+3);
+								strcpy(myText, "{");
+								strcat(myText, $2.text);
+								strcat(myText, "}");
+								$$.text = myText;
+							} 
+						| '{' graph_type2 '}' {
+								printTabs();
+								fprintf(fIR, "%s.setFlag(1);\n", LeftName);
+								char* myText = (char*)malloc(strlen($2.text)+3);
+								strcpy(myText, "{");
+								strcat(myText, $2.text);
+								strcat(myText, "}");
+								$$.text = myText;
+							}
 						;
 
-graph_type1				: INT_CONST ':' int_list ';' graph_type1
+graph_type1				: graph_type1 INT_CONST ':' int_list ';'
 							{
 								
-								newArr[dummy_size] = atoi($1);
+								newArr[dummy_size] = atoi($2);
 								dummy_size++;
 								int size;
-								int* intArray = splitStringToIntArray($3.text, &size);
+								int* intArray = splitStringToIntArray($4.text, &size);
 								
 								if (intArray != NULL) {
        								for (int i = 0; i < size; ++i) {
        									printTabs();
-          							 	fprintf(fIR, "%s.addEdge(%s, %d);\n", LeftName, $1, intArray[i]);
+          							 	fprintf(fIR, "%s.addEdge(%s, %d);\n", LeftName, $2, intArray[i]);
         							}
 
        								free(intArray); // Don't forget to free the allocated memory
     							} else {
         							printf("Memory allocation failed.\n");
 							    }
+
+								char* myText = (char*)malloc(strlen($1.text)+strlen(": ; ")+strlen($2)+strlen($4.text)+1);
+								strcpy(myText, $1.text);
+								strcat(myText, " ");
+								strcat(myText, $2);
+								strcat(myText, ": ");
+								strcat(myText, $4.text);
+								strcat(myText, ";");
+
+								$$.text = myText;
 								
 							}
 						| INT_CONST ':' int_list ';'
@@ -2135,25 +2204,44 @@ graph_type1				: INT_CONST ':' int_list ';' graph_type1
     							} else {
         							printf("Memory allocation failed.\n");
 							    }
+
+
+								char* myText = (char*)malloc(strlen($1)+strlen(": ; ")+strlen($3.text)+1);
+								strcpy(myText, $1);
+								strcat(myText, ": ");
+								strcat(myText, $3.text);
+								strcat(myText, "; ");
+
+								$$.text = myText;
 							}
 						;
 
-graph_type2				: INT_CONST ':' weight_list ';' graph_type2
+graph_type2				: graph_type2 INT_CONST ':' weight_list ';'
 							{
-								newArr[dummy_size] = atoi($1);
+								newArr[dummy_size] = atoi($2);
 								dummy_size++;
 								size_t count;
 								const char* delimiter = ",";
-   								char** result = splitString($3.text, delimiter, &count);
+   								char** result = splitString($4.text, delimiter, &count);
 
     							// Print the result
     							for (size_t i = 0; i < count; i=i+2) {
     								printTabs();
-       								fprintf(fIR, "%s.addWeightedEdge(%s, %s, %s);\n", LeftName, $1, result[i], result[i+1]);
+       								fprintf(fIR, "%s.addWeightedEdge(%s, %s, %s);\n", LeftName, $2, result[i], result[i+1]);
     							}
 
     							// Free the allocated memory
     							freeStringArray(result, count);
+
+								char* myText = (char*)malloc(strlen($1.text)+strlen(": ; ")+strlen($2)+strlen($4.text)+1);
+								strcpy(myText, $1.text);
+								strcat(myText, " ");
+								strcat(myText, $2);
+								strcat(myText, ": ");
+								strcat(myText, $4.text);
+								strcat(myText, ";");
+
+								$$.text = myText;
 							}
 						| INT_CONST ':' weight_list ';'
 							{
@@ -2171,6 +2259,14 @@ graph_type2				: INT_CONST ':' weight_list ';' graph_type2
 
     							// Free the allocated memory
     							freeStringArray(result, count);
+
+								char* myText = (char*)malloc(strlen($1)+strlen(": ; ")+strlen($3.text)+1);
+								strcpy(myText, $1);
+								strcat(myText, ": ");
+								strcat(myText, $3.text);
+								strcat(myText, "; ");
+
+								$$.text = myText;
 							}
 						;
 

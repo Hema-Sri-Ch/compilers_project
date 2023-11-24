@@ -4,7 +4,9 @@ func vect<int> foo(vect<int> myVec) : FUNCTION HEAD{
 	declr int a, b, myInt; : DECLARATION STATEMENT
 	declr bool myBool1, myBool2; : DECLARATION STATEMENT
 	declr int ans; : DECLARATION STATEMENT
-	
+	print(ans, a); : PRINT STATEMENT
+
+	print("Hello, world\n"); : PRINT STATEMENT
 	
 	expr ans = add(a, sub(b, mul(myInt, exp(10, 2)))); : EXPRESSION STATEMENT
 	expr ans = not((myBool1 or (myBool2 and (a lt b)))); : EXPRESSION STATEMENT

@@ -4,7 +4,9 @@ func vect<int> foo(vect<int> myVec){
 	declr int a, b, myInt;
 	declr bool myBool1, myBool2;
 	declr int ans;
-	
+	print(ans, a);
+
+	print("Hello, world\n");
 	
 	expr ans = add(a, sub(b, mul(myInt, exp(10, 2))));
 	expr ans = not((myBool1 or (myBool2 and (a lt b))));

@@ -107,7 +107,8 @@ extern int yydebug;
     GRTOMATX = 308,                /* GRTOMATX  */
     SHPATH = 309,                  /* SHPATH  */
     SHPATH_VAL = 310,              /* SHPATH_VAL  */
-    GOTO = 311                     /* GOTO  */
+    GOTO = 311,                    /* GOTO  */
+    PRINT = 312                    /* PRINT  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -170,6 +171,7 @@ extern int yydebug;
 #define SHPATH 309
 #define SHPATH_VAL 310
 #define GOTO 311
+#define PRINT 312
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -193,7 +195,7 @@ union YYSTYPE
 		char* text;
 	} Cols;
 
-#line 197 "y.tab.h"
+#line 199 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

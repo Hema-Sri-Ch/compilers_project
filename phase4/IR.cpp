@@ -9,6 +9,8 @@ vector<int> foo ( vector<int> myVec )
 		int a, b, myInt;
 		bool myBool1, myBool2;
 		int ans;
+		cout << ans << a << endl;
+		cout << "Hello, world\n" << endl;
 		ans = (a+(b-(myInt*pow(10,2))));
 		ans = !((myBool1||(myBool2&&(a<b))));
 		{vector<int> temp = v;temp.push_back(4);v = temp;}
@@ -64,19 +66,19 @@ class someClass {
 	int foo ( struct myStructA Hey, string hey )
 		{
 			graph G(10);
-			G.addEdge(3, 2);
-			G.addEdge(3, 4);
-			G.addEdge(3, 1);
 			G.addEdge(2, 4);
 			G.addEdge(2, 5);
+			G.addEdge(3, 1);
+			G.addEdge(3, 2);
+			G.addEdge(3, 4);
 			G.setFlag(0);
-			G = (null);
+
 			graph G2(4);
-			G2.addWeightedEdge(1, 2, 9);
 			G2.addWeightedEdge(2, 1, 3);
 			G2.addWeightedEdge(2, 4, 3.15);
+			G2.addWeightedEdge(1, 2, 9);
 			G2.setFlag(1);
-			G2 = (null);
+
 			vector<int> gvv;
 			gvv = G2.bfs(4);
 
