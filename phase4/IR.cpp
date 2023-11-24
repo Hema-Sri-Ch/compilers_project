@@ -62,8 +62,8 @@ class someClass {
 	int foo ( struct myStructA Hey, string hey )
 		{
 			graph G[10];
-
-
+			G = (null);
+			M = (null);
 			Hey.itemB = hey;
 			int k;
 			return k;
@@ -110,12 +110,12 @@ class myClass {
 
 			int i0, i1;
 			a = 10;
-			SWITCH ((a+b)){
+			switchH ((a+b)){
 				case 1:
 				{ }
 				case 2:
 				{
-					SWITCH ((a+b)){
+					switchH ((a+b)){
 						case 1:
 						{ }
 						case 2:
@@ -152,15 +152,15 @@ int main ( class myClass obj, float b, char c, string str, int myArr[] )
 		len = strlen(getStr());
 		len = strlen(str1);
 		vector<int> myVec;
-
+		myVec = {1, 2, 3, 4, 5};
 		len = strcmp(str1, getStr());
 		str1 = (str2.substr(0, 5);+(str3+getStr()));
 		int a;
 		int arr[3];
-
+		arr = [1, 2, 3];
 		matrix M1[2][3], M2[2][3];
-
-
+		M1 = (null);
+		M2 = (null);
 		matrix M3[2][3];
 
 

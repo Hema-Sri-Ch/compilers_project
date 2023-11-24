@@ -37,14 +37,14 @@
     return GRTOMATX;
 }
 
-"shpath_val" {
+"shortest_path_value" {
 	fprintf(yyout, "Identifier: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
     yylval.str=strdup(yytext);
     return SHPATH_VAL;
 }
 
-"shpath" {
+"shortest_path" {
 	fprintf(yyout, "Identifier: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
     yylval.str=strdup(yytext);

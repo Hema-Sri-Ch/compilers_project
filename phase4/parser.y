@@ -950,6 +950,9 @@ expr_stmt				: EXPR LHS '=' RHS ';' {
 									printf("%d Error: Expression statement type mismatch %s != %s\n", yylineno, $2.type, $4.str);
 									exit(1);
 								}
+								
+								printTabs();
+								fprintf(fIR, "%s = %s;", $2.text, $4.text);
 							}
 							{fprintf(fparse, " : EXPRESSION STATEMENT");}
 
@@ -1626,7 +1629,7 @@ switch_stmt				: SWITCH '(' RHS ')' {
 								printf("%d Error : Invalid conditional argument\n", yylineno);
 							}
 							printTabs();
-							fprintf(fIR, "SWITCH (%s)", $3.text);
+							fprintf(fIR, "switchH (%s)", $3.text);
 							fprintf(fparse, " : CONDITIONAL STATEMENT");
 						} switch_body
 						;
@@ -1658,38 +1661,47 @@ constants				: INT_CONST {$$.str="int"; $$.text = $1;}
 						;
 						
 						
-extra_consts			: array_const{$$.str = $1.str;}
+extra_consts			: array_const{$$.str = $1.str; $$.text = $1.text;}
 						| graph_const{$$.str="graph";}
 						| vect_const{
 							char* myType = (char*)malloc(strlen($1.str)+2);
 							strcpy(myType, "*");
 							strcat(myType, $1.str);
 							$$.str = myType;
+							 $$.text = $1.text;
 						}
 						| matrix_const{$$.str="matrix";}
-						| '{' '}'{$$.str="1";}
+						| '{' '}'{$$.str="1"; $$.text = "{}";}
 						;
 
 array_const				: '[' val_list ']'
 							{
 								$$.str = $2.str;
+								
+								char* myText = (char*)malloc(strlen($2.text)+3);
+								strcpy(myText, "[");
+								strcat(myText, $2.text);
+								strcat(myText, "]");
+								
+								$$.text = myText;
 							}
 						| '[' ']'
 							{
 								$$.str = "any";
+								$$.text = "[]";
 							}
 						;
 						
 val_list				: int_list
-							{ $$.str = "int";}
+							{ $$.str = "int"; $$.text = $1.text;}
 						| float_list
-							{ $$.str  = "float";}
+							{ $$.str  = "float"; $$.text = $1.text;}
 						| char_list
-							{ $$.str = "char";}
+							{ $$.str = "char"; $$.text = $1.text;}
 						| bool_list
-							{ $$.str = "bool";}
+							{ $$.str = "bool"; $$.text = $1.text;}
 						| str_list
-							{ $$.str = "string";}
+							{ $$.str = "string"; $$.text = $1.text;}
 						;
 resultant				: LHS{$$.str = $1.type; $$.text = $1.text;}
 						| matrix_impr {$$.str = $1.str;}
@@ -1869,7 +1881,7 @@ graph_impr				: resultant '.' TRAVERSAL '(' remove_body ')'
 									printf("%d ERROR: Method applicable only for graph datatype\n", yylineno);
 									exit(1);
 								}
-								if(strcmp($5.str,"graph") || strcmp($7.str, "graph"))
+								if(strcmp($5.str,"int") || strcmp($7.str, "int"))
 								{
 									printf("%d ERROR: Arguments should be integers\n", yylineno);
 									exit(1);
@@ -1883,7 +1895,7 @@ graph_impr				: resultant '.' TRAVERSAL '(' remove_body ')'
 									printf("%d ERROR: Method applicable only for graph datatype\n", yylineno);
 									exit(1);
 								}
-								if(strcmp($5.str,"graph") || strcmp($7.str, "graph"))
+								if(strcmp($5.str,"int") || strcmp($7.str, "int"))
 								{
 									printf("%d ERROR: Arguments should be integers\n", yylineno);
 									exit(1);
@@ -1953,13 +1965,18 @@ graph_type2				: INT_CONST ':' weight_list ';' graph_type2
 							}
 						;
 
-int_list				: INT_CONST ',' int_list
+int_list				: int_list ',' INT_CONST
 							{
-								newArr[dummy_size] = atoi($1);
+								newArr[dummy_size] = atoi($3);
 								dummy_size++;
 							}
 							{
 								$$.str = "int";
+								char* myText = (char*)malloc(strlen($1.text)+strlen($3)+3);
+								strcpy(myText, $1.text);
+								strcat(myText, ", ");
+								strcat(myText, $3);
+								$$.text = myText;
 							}
 						| INT_CONST
 							{
@@ -1968,54 +1985,79 @@ int_list				: INT_CONST ',' int_list
 							}
 							{
 								$$.str = "int";
+								$$.text = $1;
 							}
 						;
 
-float_list				: FLOAT_CONST ',' float_list
+float_list				: float_list ',' FLOAT_CONST 
 							{
 								$$.str = "float";
 								dummy_size++;
+								char* myText = (char*)malloc(strlen($1.text)+strlen($3)+3);
+								strcpy(myText, $1.text);
+								strcat(myText, ", ");
+								strcat(myText, $3);
+								$$.text = myText;
 							}
 						| FLOAT_CONST
 							{
 								$$.str = "float";
 								dummy_size++;
+								$$.text = $1;
 							}
 						;
 
-char_list				: CHAR_CONST ',' char_list
+char_list				: char_list ',' CHAR_CONST
 							{
 								$$.str = "char";
 								dummy_size;
+								char* myText = (char*)malloc(strlen($1.text)+strlen($3)+3);
+								strcpy(myText, $1.text);
+								strcat(myText, ", ");
+								strcat(myText, $3);
+								$$.text = myText;
 							}
 						| CHAR_CONST
 							{
 								$$.str = "char";
 								dummy_size++;
+								$$.text = $1;
 							}
 						;
 
-bool_list				: BOOL_CONST ',' bool_list
+bool_list				: bool_list ',' BOOL_CONST
 							{
 								$$.str = "bool";
 								dummy_size;
+								char* myText = (char*)malloc(strlen($1.text)+strlen($3)+3);
+								strcpy(myText, $1.text);
+								strcat(myText, ", ");
+								strcat(myText, $3);
+								$$.text = myText;
 							}
 						| BOOL_CONST
 							{
 								$$.str = "bool";
 								dummy_size;
+								$$.text = $1;
 							}
 						;
 
-str_list				: STR_CONST ',' str_list
+str_list				: str_list ',' STR_CONST
 							{
 								$$.str = "string";
 								dummy_size;
+								char* myText = (char*)malloc(strlen($1.text)+strlen($3)+3);
+								strcpy(myText, $1.text);
+								strcat(myText, ", ");
+								strcat(myText, $3);
+								$$.text = myText;
 							}
 						| STR_CONST
 							{
 								$$.str = "string";
 								dummy_size++;
+								$$.text = $1;
 							}
 						;
 
@@ -2041,7 +2083,14 @@ weight_list				: '(' INT_CONST ',' INT_CONST ')' ',' weight_list
 							}
 						;
 						
-vect_const				: '{' vect_list '}' {$$.str = $2.str;}
+vect_const				: '{' vect_list '}' {
+							$$.str = $2.str;
+							char* myText = (char*)malloc(strlen($2.text)+3);
+							strcpy(myText, "{");
+							strcat(myText, $2.text);
+							strcat(myText, "}");
+							$$.text = myText;
+						}
 						;
 
 vect_list				: vect_list ',' vect_item {
@@ -2055,14 +2104,21 @@ vect_list				: vect_list ',' vect_item {
 									exit(1);
 								}
 							}
+							
+							char* myText = (char*)malloc(strlen($1.text)+strlen($3.text)+3);
+							strcpy(myText, $1.text);
+							strcat(myText, ", ");
+							strcat(myText, $3.text);
+							$$.text = myText;
 						}
 						| vect_item {
 							$$.str = $1.str;
+							$$.text = $1.text;
 						}
 						;
 						
-vect_item				: constants {$$.str = $1.str;}
-						| extra_consts {$$.str = $1.str;}
+vect_item				: constants {$$.str = $1.str; $$.text = $1.text;}
+						| extra_consts {$$.str = $1.str; $$.text = $1.text;}
 						;
 						
 matrix_const			: '[' mat_list ']'
