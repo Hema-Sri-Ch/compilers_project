@@ -73,12 +73,12 @@ void weightedBfs(int node, vector<vector<pair<int, int>>>& adj, vector<int>& vis
 
 class graph
 {
+	public:
 	int vertices;
 	vector<vector<int>> edges;
 	vector<vector<pair<int, int>>> weightedEdges;
 	int flag; // To tell whether it is weighted or unweighted
 
-public:
 
 	graph(int n)
 	{
@@ -139,102 +139,7 @@ public:
 		return 1;
 	}
 
-	vector<int> dfs(int node)
-	{
-		if(node > vertices)
-		{
-			cout << "ERROR: Invalid labelled node\n";
-			exit(1);
-		}
-		vector<int> vis(vertices+1, 0);
-		vector<int> res;
-		if(flag==0) unweightedDfs(node, edges, vis, res);
-		else weightedDfs(node, weightedEdges, vis, res);
-		return res;
-	}
-
-	vector<int> bfs(int node)
-	{
-		if(node > vertices)
-		{
-			cout << "ERROR: Invalid labelled node\n";
-			exit(1);
-		}
-		vector<int> vis(vertices+1, 0);
-		vector<int> res;
-		if(flag==0) unweightedBfs(node, edges, vis, res);
-		else weightedBfs(node, weightedEdges, vis, res);
-		return res;
-	}
-
-	void shortest_path_func(int n, int m, vector<int>& path, int& value)
-	{
-		if(n > vertices || m > vertices)
-		{
-			cout << "Invalid labelled node\n";
-			exit(1);
-		}
-		if(flag==0)
-		{
-			cout << "Not a weighted graph\n";
-			exit(1);
-		}
-		priority_queue<pair<double,int>, vector<pair<double,int>>, greater<pair<double,int>> > pq;
-		vector<int> dist (vertices+1, 1e9), parent(vertices+1);
-		for(int i=1; i<vertices; i++) parent[i]=i;
-		dist[n]=0;
-		pq.push({0,1});
-		while(!pq.empty())
-		{
-			auto it = pq.top();
-			int node = it.second;
-			double dis = it.first;
-			pq.pop();
-			for(auto it: weightedEdges[node])
-			{
-				int adjNode = it.first;
-				double edW = it.second;
-				if(dis+edW<dist[adjNode])
-				{
-					dist[adjNode] = dis+edW;
-					pq.push({dis+edW, adjNode});
-					parent[adjNode] = node;
-				}
-			}
-		}
-		if(dist[m]==1e9)
-		{
-			path = {};
-			value = -1;
-			return;
-		}
-		value = dist[m];
-		int node = m;
-		while(parent[node]!=node)
-		{
-			path.push_back(node);
-			node = parent[node];
-		}
-		path.push_back(n);
-		reverse(path.begin(), path.end());
-		return;
-	}
-
-	int shortest_path_value(int n, int m)
-	{
-		vector<int> path;
-		int value;
-		shortest_path_func(n,m,path,value);
-		return value;
-	}
-
-	vector<int> shortest_path(int n, int m)
-	{
-		vector<int> path;
-		int value;
-		shortest_path_func(n,m,path,value);
-		return path;
-	}
+	
 
 	void printUnweighted()
 	{
@@ -286,6 +191,128 @@ public:
 
 typedef class graph graph;
 
+vector<int> dfs(graph G, int node)
+{
+	int vertices = G.vertices;
+	vector<vector<int>> edges = G.edges;
+	vector<vector<pair<int, int>>> weightedEdges = G.weightedEdges;
+	int flag = G.flag;
+	if(node > vertices)
+	{
+		cout << "ERROR: Invalid labelled node\n";
+		exit(1);
+	}
+	vector<int> vis(vertices+1, 0);
+	vector<int> res;
+	if(G.flag==0) unweightedDfs(node, edges, vis, res);
+	else if(G.flag==1) weightedDfs(node, weightedEdges, vis, res);
+	else
+	{
+		cout << "ERROR: Graph not yet initialized";
+		exit(1);
+	}
+	return res;
+}
+
+vector<int> bfs(graph G, int node)
+{
+	int vertices = G.vertices;
+	vector<vector<int>> edges = G.edges;
+	vector<vector<pair<int, int>>> weightedEdges = G.weightedEdges;
+	int flag = G.flag;
+	if(node > vertices)
+	{
+		cout << "ERROR: Invalid labelled node\n";
+		exit(1);
+	}
+	vector<int> vis(vertices+1, 0);
+	vector<int> res;
+	if(flag==0) unweightedBfs(node, edges, vis, res);
+	else if(flag==1)weightedBfs(node, weightedEdges, vis, res);
+	else
+	{
+		cout << "ERROR: Graph not yet initialized";
+		exit(1);
+	}
+	return res;
+}
+
+void shortest_path_func(graph G, int n, int m, vector<int>& path, int& value)
+{
+	int vertices = G.vertices;
+	int flag = G.flag;
+	vector<vector<pair<int, int>>> weightedEdges = G.weightedEdges;
+	if(n > vertices || m > vertices)
+	{
+		cout << "Invalid labelled node\n";
+		exit(1);
+	}
+	if(flag==0)
+	{
+		cout << "Not a weighted graph\n";
+		exit(1);
+	}
+	priority_queue<pair<double,int>, vector<pair<double,int>>, greater<pair<double,int>> > pq;
+	vector<int> dist (vertices+1, 1e9), parent(vertices+1);
+	for(int i=1; i<vertices; i++) parent[i]=i;
+	dist[n]=0;
+	pq.push({0,1});
+	while(!pq.empty())
+	{
+		auto it = pq.top();
+		int node = it.second;
+		double dis = it.first;
+		pq.pop();
+		for(auto it: weightedEdges[node])
+		{
+			int adjNode = it.first;
+			double edW = it.second;
+			if(dis+edW<dist[adjNode])
+			{
+				dist[adjNode] = dis+edW;
+				pq.push({dis+edW, adjNode});
+				parent[adjNode] = node;
+			}
+		}
+	}
+	if(dist[m]==1e9)
+	{
+		path = {};
+		value = -1;
+		return;
+	}
+	value = dist[m];
+	int node = m;
+	while(parent[node]!=node)
+	{
+		path.push_back(node);
+		node = parent[node];
+	}
+	path.push_back(n);
+	reverse(path.begin(), path.end());
+	return;
+}
+
+int shortest_path_value(graph G, int n, int m)
+{
+	int vertices = G.vertices;
+	vector<vector<pair<int, int>>> weightedEdges = G.weightedEdges;
+	vector<int> path;
+	int value;
+	shortest_path_func(G,n,m,path,value);
+	return value;
+}
+
+vector<int> shortest_path(graph G, int n, int m)
+{
+	int vertices = G.vertices;
+	vector<vector<pair<int, int>>> weightedEdges = G.weightedEdges;
+	vector<int> path;
+	int value;
+	shortest_path_func(G,n,m,path,value);
+	return path;
+}
+
 class matrix
 {
 public:
@@ -326,33 +353,7 @@ public:
 		return vals[rowNumber][colNumber];
 	}
 
-	matrix transpose()
-	{
-		matrix* res = new matrix(cols, rows);
-		for(int i=0; i<rows; i++)
-		{
-			for(int j=0; j<cols; j++)
-			{
-				res->addValue(j, i, vals[i][j]);
-			}
-		}
-		return *res;
-	}
-
-	double trace()
-	{
-		if(rows!=cols)
-		{
-			cout << "ERROR: Trace is defined only for square matrices\n";
-		}
-		double sum =0;
-		for(int i=0; i<rows; i++)
-		{
-			sum+=vals[i][i];
-		}
-		return sum;
-	}
-
+	
 	void printMatrix()
 	{
 		for(int i=0; i<rows; i++)
@@ -369,6 +370,34 @@ public:
 };
 
 typedef class matrix matrix;
+
+double trace(matrix M)
+{
+	if(M.rows!=M.cols)
+	{
+		cout << "ERROR: Trace is defined only for square matrices\n";
+	}
+	double sum =0;
+	for(int i=0; i<M.rows; i++)
+	{
+		sum+=M.vals[i][i];
+	}
+	return sum;
+}
+
+
+matrix transpose(matrix M)
+{
+	matrix* res = new matrix(M.cols, M.rows);
+	for(int i=0; i<M.rows; i++)
+	{
+		for(int j=0; j<M.cols; j++)
+		{
+			res->addValue(j, i, M.vals[i][j]);
+		}
+	}
+	return *res;
+}
 
 matrix GtM(graph G)
 {

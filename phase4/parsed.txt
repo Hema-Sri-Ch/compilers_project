@@ -4,9 +4,7 @@ func vect<int> foo(vect<int> myVec) : FUNCTION HEAD{
 	declr int a, b, myInt; : DECLARATION STATEMENT
 	declr bool myBool1, myBool2; : DECLARATION STATEMENT
 	declr int ans; : DECLARATION STATEMENT
-	print(ans, a); : PRINT STATEMENT
-
-	print("Hello, world\n"); : PRINT STATEMENT
+	
 	
 	expr ans = add(a, sub(b, mul(myInt, exp(10, 2)))); : EXPRESSION STATEMENT
 	expr ans = not((myBool1 or (myBool2 and (a lt b)))); : EXPRESSION STATEMENT
@@ -44,6 +42,7 @@ struct myStructA{
 }; : STRUCT DEFINITION
 
 struct myStructB{
+	declr matrix M[2][3]; : DECLARATION STATEMENT
 	declr graph G[10]; : DECLARATION STATEMENT
 	declr int itemC; : DECLARATION STATEMENT
 	declr myStructA itemD; : DECLARATION STATEMENT
@@ -71,7 +70,9 @@ class someClass{
 		}; : EXPRESSION STATEMENT
 		
 		declr vect<int> gvv; : DECLARATION STATEMENT
-		expr gvv = G2.bfs(4); : EXPRESSION STATEMENT
+		expr gvv = G2.shortest_path(1,2); : EXPRESSION STATEMENT
+		declr int gvv2; : DECLARATION STATEMENT
+		expr gvv2 = G2.shortest_path_value(1,2); : EXPRESSION STATEMENT
 		expr M =
 		[
 			[1,3,4];[1,4,5];
@@ -104,9 +105,10 @@ class myClass{
 		return 10; : RETURN STATEMENT : RETURN STATEMENT
 	}
 	
-	func int myFunc(int abc, int k, string str, char c) : FUNCTION HEAD{
+	func int myFunc(int abc, int k, string str, char c, int myArr[]) : FUNCTION HEAD{
 		declr int a, b; : DECLARATION STATEMENT
 		declr myStructB myObj; : DECLARATION STATEMENT
+		!!expr myArr = [1, 2, 3];!!
 		expr myObj = cItemB; : EXPRESSION STATEMENT
 		expr cItemB->itemD->itemA = 10; : EXPRESSION STATEMENT
 		declr int dslkf; : DECLARATION STATEMENT
@@ -165,28 +167,33 @@ func string getStr() : FUNCTION HEAD{
 	return "Hello, World!\n"; : RETURN STATEMENT : RETURN STATEMENT
 }
 
-func int main(myClass obj, float b, char c, string str, int myArr[]) : FUNCTION HEAD{
+func int main() : FUNCTION HEAD{
 
 	
 	declr string str1, str2, str3; : DECLARATION STATEMENT
-	declr int len; : DECLARATION STATEMENT
-	expr str3 = call getStr(); : EXPRESSION STATEMENT
-	expr len = call getStr().strlen(); : EXPRESSION STATEMENT
-	expr len = str1.strlen(); : EXPRESSION STATEMENT
+	declr int len; : DECLARATION STATEMENT!!
+	expr str3 = call getStr();
+	expr len = call getStr().strlen();
+	expr len = str1.strlen();!!
 	
 	declr vect<int> myVec; : DECLARATION STATEMENT
 	expr myVec = {1, 2, 3, 4, 5}; : EXPRESSION STATEMENT
 	
+	!!
+	
+	expr str1 = strjoin(str2.strcut(0, 5), strjoin(str3, call getStr()));!!
+	
+	expr str1 = "Hello"; : EXPRESSION STATEMENT
+	expr str2 = strjoin("he", call getStr()); : EXPRESSION STATEMENT
+	
 	expr len = strcmp(str1, call getStr()); : EXPRESSION STATEMENT
 	
-	expr str1 = strjoin(str2.strcut(0, 5), strjoin(str3, call getStr())); : EXPRESSION STATEMENT
-	
-	
+	expr str2 = str1.strcut(add(1, 1), 3); : EXPRESSION STATEMENT
 	declr int a; : DECLARATION STATEMENT
 	
 	declr int arr[3]; : DECLARATION STATEMENT
 
-	expr arr = [1,2,3]; : EXPRESSION STATEMENT
+!!	expr arr = [1,2,3];!!
 !!	expr myArr = [1, 2, 3];!!
 	
 	declr matrix M1[2][3], M2[2][3]; : DECLARATION STATEMENT

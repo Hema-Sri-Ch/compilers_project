@@ -9,8 +9,6 @@ vector<int> foo ( vector<int> myVec )
 		int a, b, myInt;
 		bool myBool1, myBool2;
 		int ans;
-		cout << ans << a << endl;
-		cout << "Hello, world\n" << endl;
 		ans = (a+(b-(myInt*pow(10,2))));
 		ans = !((myBool1||(myBool2&&(a<b))));
 		{vector<int> temp = v;temp.push_back(4);v = temp;}
@@ -56,7 +54,8 @@ struct myStructA {
 	string itemB;
 };
 struct myStructB {
-	graph G(10);
+	matrix M{2, 3};
+	graph G{10};
 	int itemC;
 	struct myStructA itemD;
 };
@@ -73,6 +72,7 @@ class someClass {
 			G.addEdge(3, 4);
 			G.setFlag(0);
 
+			G.printGraph();
 			graph G2(4);
 			G2.addWeightedEdge(2, 1, 3);
 			G2.addWeightedEdge(2, 4, 3.15);
@@ -80,7 +80,10 @@ class someClass {
 			G2.setFlag(1);
 
 			vector<int> gvv;
-			gvv = G2.bfs(4);
+			gvv = shortest_path(G2,1,2);
+
+			int gvv2;
+			gvv2 = shortest_path_value(G2,1,2);
 
 			M.vals = {{1,3,4},{1,4,5}};
 			Hey.itemB = hey;
@@ -113,7 +116,7 @@ class myClass {
 			return 10;
 		}
 
-	int myFunc ( int abc, int k, string str, char c )
+	int myFunc ( int abc, int k, string str, char c, int myArr[] )
 		{
 			int a, b;
 			struct myStructB myObj;
@@ -153,8 +156,8 @@ class myClass {
 			}
 
 			matrix A(2, 2), B(2, 2), C(2, 2);
-			{matrix _temp = add_matx(A, B);_flag = _temp.trace();}
-			return _flag;
+			return trace(add_matx(A, B));
+			C = add_matx(A, B);
 
 			return 1;
 		}
@@ -164,28 +167,41 @@ string getStr ()
 	{
 		return "Hello, World!\n";
 	}
-int main ( class myClass obj, float b, char c, string str, int myArr[] )
+int main ()
 	{
 		string str1, str2, str3;
 		int len;
-		str3 = getStr();
-		len = strlen(getStr());
-		len = strlen(str1);
 		vector<int> myVec;
 		myVec = {1, 2, 3, 4, 5};
-		len = strcmp(str1, getStr());
-		str1 = (str2.substr(0, 5)+(str3+getStr()));
+		str1 = "Hello";
+		str2 = ("he"+getStr());
+		str2 = str1.substr((1+1), (3-(1+1))+1);
+		cout << str2 << endl;
 		int a;
 		int arr[3];
-		arr = {1,2,3};
-		matrix M1(2, 3), M2(2, 3);
-		M1.vals = {{1,2,3},{1.0,2.0,3.0}};
+		matrix M1(2, 2), M2(2, 3);
+		M1.vals = {{1,2},{2.0,3.0}};
 		M2.vals = {{4,5,6},{1.0,2.0,3.0}};
 		matrix M3(2, 3);
+		M3 = mult_matx(M1, M2);
+		
+		graph G(10);
+		G.addEdge(2, 4);
+		G.addEdge(2, 5);
+		G.addEdge(3, 1);
+		G.addEdge(3, 2);
+		G.addEdge(3, 4);
+		G.setFlag(0);
 
-		{matrix _temp = add_matx(add_matx(M1, M2), mult_matx(M1, M2)); _temp = _temp.transpose(); add_matx(add_matx(M1, M2), mult_matx(M1, M2)) = _temp;}
-
-		{matrix _temp = add_matx(add_matx(M1, M2), mult_matx(M1, M2));_flag = _temp.trace();}
-		a = _flag;
+		
+		
+		matrix m(3, 3);
+		
+		m.vals = {{1, 2, 3},{2, 3, 1},{3, 1, 2}};
+		graph g(3);
+		g = matx_to_graph(m);
+		
+		g.printGraph();
+		
 		return 0;
 	}

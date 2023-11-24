@@ -4,9 +4,7 @@ func vect<int> foo(vect<int> myVec){
 	declr int a, b, myInt;
 	declr bool myBool1, myBool2;
 	declr int ans;
-	print(ans, a);
-
-	print("Hello, world\n");
+	
 	
 	expr ans = add(a, sub(b, mul(myInt, exp(10, 2))));
 	expr ans = not((myBool1 or (myBool2 and (a lt b))));
@@ -44,6 +42,7 @@ struct myStructA{
 };
 
 struct myStructB{
+	declr matrix M[2][3];
 	declr graph G[10];
 	declr int itemC;
 	declr myStructA itemD;
@@ -71,7 +70,9 @@ class someClass{
 		};
 		
 		declr vect<int> gvv;
-		expr gvv = G2.bfs(4);
+		expr gvv = G2.shortest_path(1,2);
+		declr int gvv2;
+		expr gvv2 = G2.shortest_path_value(1,2);
 		expr M =
 		[
 			[1,3,4];[1,4,5];
@@ -104,9 +105,10 @@ class myClass{
 		return 10;
 	}
 	
-	func int myFunc(int abc, int k, string str, char c){
+	func int myFunc(int abc, int k, string str, char c, int myArr[]){
 		declr int a, b;
 		declr myStructB myObj;
+		!!expr myArr = [1, 2, 3];!!
 		expr myObj = cItemB;
 		expr cItemB->itemD->itemA = 10;
 		declr int dslkf;
@@ -165,28 +167,33 @@ func string getStr(){
 	return "Hello, World!\n";
 }
 
-func int main(myClass obj, float b, char c, string str, int myArr[]){
+func int main(){
 
 	
 	declr string str1, str2, str3;
-	declr int len;
+	declr int len;!!
 	expr str3 = call getStr();
 	expr len = call getStr().strlen();
-	expr len = str1.strlen();
+	expr len = str1.strlen();!!
 	
 	declr vect<int> myVec;
 	expr myVec = {1, 2, 3, 4, 5};
 	
+	!!
+	
+	expr str1 = strjoin(str2.strcut(0, 5), strjoin(str3, call getStr()));!!
+	
+	expr str1 = "Hello";
+	expr str2 = strjoin("he", call getStr());
+	
 	expr len = strcmp(str1, call getStr());
 	
-	expr str1 = strjoin(str2.strcut(0, 5), strjoin(str3, call getStr()));
-	
-	
+	expr str2 = str1.strcut(add(1, 1), 3);
 	declr int a;
 	
 	declr int arr[3];
 
-	expr arr = [1,2,3];
+!!	expr arr = [1,2,3];!!
 !!	expr myArr = [1, 2, 3];!!
 	
 	declr matrix M1[2][3], M2[2][3];

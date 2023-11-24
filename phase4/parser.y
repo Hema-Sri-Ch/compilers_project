@@ -271,8 +271,9 @@ struct					: STRUCT id '{'
 								
 								else struct_insert($2.str);
 								fprintf(fIR, "struct %s {\n", $2.text);
+								inStruct = 1;
 							} 
-							struct_items '}' { var_delete(level); level--; fprintf(fIR, "};\n");}';' {fprintf(fparse, " : STRUCT DEFINITION");}
+							struct_items '}' { var_delete(level); level--; fprintf(fIR, "};\n"); inStruct = 0;}';' {fprintf(fparse, " : STRUCT DEFINITION");}
 						;
 						
 struct_items			: declr_stmt {fprintf(fIR, "\n");} struct_items
@@ -1014,6 +1015,7 @@ expr_stmt				: EXPR LHS '=' RHS ';' {
 								int dimAval, dimBval;
 								char* element_type;
 								int ind = var_search($2.name);
+								
 								if(ind==-1) 
 								{
 									ind = class_declr_search($2.name, class_size-1);
@@ -1045,14 +1047,15 @@ expr_stmt				: EXPR LHS '=' RHS ';' {
 								}
 								else if(strcmp("matrix", $2.type)==0)
 								{
-									if(dummy_size!=dimAval) 
+									
+									if(dimAval != -1 && dummy_size!=dimAval) 
 									{
 										printf("%d ERROR: Number of rows mismatch\n", yylineno);
 										exit(1);
 									}
 									for(int i=0; i<dummy_size; i++)
 									{
-										if(newArr[i]!=dimBval)
+										if(dimBval != -1 && newArr[i]!=dimBval)
 										{
 											printf("%d ERROR: Number of columns mismatch\n", yylineno);
 											exit(1);
@@ -1069,7 +1072,7 @@ expr_stmt				: EXPR LHS '=' RHS ';' {
 										printf("%d ERROR: Element-type mismatch in array\n", yylineno);
 										exit(1);
 									}
-									if(dummy_size!=dimAval)
+									if(dimAval != -1 && dummy_size!=dimAval)
 									{
 										printf("%d ERROR: Array length is not matching\n", yylineno);
 										exit(1);
@@ -1114,6 +1117,8 @@ expr_stmt				: EXPR LHS '=' RHS ';' {
 								printf("%d Error: Expression statement, type mismatch\n", yylineno);
 								exit(1);
 							}
+							printTabs();
+							fprintf(fIR, "%s = %s;\n", $2.text, $4.text);
 							fprintf(fparse, " : EXPRESSION STATEMENT");
 						}
 						| EXPR LHS '=' vect_stmt_body ';' {
@@ -1407,7 +1412,10 @@ declr_body				: DATATYPE id_list
 										if($2.text[i] == ']') $2.text[i] = '}';
 									}
 								}
-								else // independent function
+								
+								
+								
+								else // in struct
 								{
 									for(int i=0; i<arr_size; i++)
 									{
@@ -1419,9 +1427,9 @@ declr_body				: DATATYPE id_list
 										add_struct_declrs(arr[i], $1, 1, level, "", dimA[i], -1);
 									}
 									for(int i=0; i<strlen($2.text); i++){
-									if($2.text[i] == '[') $2.text[i] = '(';
+									if($2.text[i] == '[') $2.text[i] = '{';
 									
-									if($2.text[i] == ']') $2.text[i] = ')';
+									if($2.text[i] == ']') $2.text[i] = '}';
 								}
 								}
 								arr_size=0;
@@ -1515,7 +1523,7 @@ declr_body				: DATATYPE id_list
 										if($2.text[i] == ')') $2.text[i] = '}';
 									}
 								}
-								else // independent function
+								else // in struct
 								{
 									for(int i=0; i<arr_size; i++)
 									{
@@ -1525,6 +1533,10 @@ declr_body				: DATATYPE id_list
 											exit(1);
 										}
 										add_struct_declrs(arr[i], $1, 1, level, "", dimA[i], dimB[i]);
+									}
+									for(int i=0; i<strlen($2.text); i++){
+										if($2.text[i] == '(') $2.text[i] = '{';
+										if($2.text[i] == ')') $2.text[i] = '}';
 									}
 								}
 								arr_size=0;
@@ -1931,13 +1943,11 @@ impr					: resultant '.' LENGTH '(' ')'{
 								exit(1);
 							}else{
 								$$.str = "int";
-								char* myText = (char*)malloc(128);
-								strcpy(myText, "{matrix _temp = ");
+								char* myText = (char*)malloc(strlen($1.text)+strlen("trace()"));
+								strcpy(myText, "trace(");
 								strcat(myText, $1.text);
-								strcat(myText, ";_flag = _temp.trace();}\n");
-								printTabs();
-								fprintf(fIR, "%s", myText);
-								$$.text = "_flag";
+								strcat(myText, ")");
+								$$.text = myText;
 							}
 						}
 						| resultant '.' STRLEN '(' ')'
@@ -1991,13 +2001,15 @@ impr					: resultant '.' LENGTH '(' ')'{
 									exit(1);
 								}
 								
-								char* myText = (char*)malloc(strlen($1.text) + strlen(".substr(, )") + strlen($5.text) + strlen($7.text) + 1);
+								char* myText = (char*)malloc(strlen($1.text) + strlen(".substr(, )") + 2*strlen($5.text) + strlen($7.text) + 2);
 								strcpy(myText, $1.text);
 								strcat(myText, ".substr(");
 								strcat(myText, $5.text);
-								strcat(myText, ", ");
+								strcat(myText, ", (");
 								strcat(myText, $7.text);
-								strcat(myText, ")");
+								strcat(myText, "-");
+								strcat(myText, $5.text);
+								strcat(myText, ")+1)");
 								
 								$$.text = myText;
 							}
@@ -2067,6 +2079,15 @@ graph_impr				: resultant '.' TRAVERSAL '(' remove_body ')'
 									printf("%d ERROR: Arguments should be integers\n", yylineno);
 									exit(1);
 								}
+								char* myText = (char*)malloc(strlen($1.text)+strlen("shortest_path()")+3);
+								strcpy(myText, "shortest_path(");
+								strcat(myText, $1.text);
+								strcat(myText, ",");
+								strcat(myText, $5.text);
+								strcat(myText, ",");
+								strcat(myText, $7.text);
+								strcat(myText, ")");
+								$$.text = myText;
 							}
 						| resultant '.' SHPATH_VAL '(' remove_body ',' remove_body ')' 
 							{
@@ -2081,6 +2102,15 @@ graph_impr				: resultant '.' TRAVERSAL '(' remove_body ')'
 									printf("%d ERROR: Arguments should be integers\n", yylineno);
 									exit(1);
 								}
+								char* myText = (char*)malloc(strlen($1.text)+strlen("shortest_path_value()")+3);
+								strcpy(myText, "shortest_path_value(");
+								strcat(myText, $1.text);
+								strcat(myText, ",");
+								strcat(myText, $5.text);
+								strcat(myText, ",");
+								strcat(myText, $7.text);
+								strcat(myText, ")");
+								$$.text = myText;
 							}
 						;
 						
@@ -2112,15 +2142,11 @@ matrix_impr				: MATXOP '(' matr_body ',' matr_body ')'
 									exit(1);
 								}
 								
-								char* myText = (char*)malloc(256);
-								strcpy(myText, "{matrix _temp = ");
+								char* myText = (char*)malloc(strlen($1.text)+strlen("transpose()"));
+								strcpy(myText, "transpose(");
 								strcat(myText, $1.text);
-								strcat(myText, "; _temp = _temp.transpose(); ");
-								strcat(myText, $1.text);
-								strcat(myText, " = _temp;}");
-								printTabs();
-								fprintf(fIR, "%s\n", myText);
-								$$.text = $1.text;
+								strcat(myText, ")");
+								$$.text = myText;
 							}
 						| resultant '.' MAXTOGR '(' ')' 
 							{
@@ -2832,6 +2858,15 @@ int main() {
  	
 
  	yyparse();
+ 	
+ 	int valid=0;
+ 	for (int i=0; i<func_size; i++){
+ 		if(!strcmp(func_symb[i].name, "main")) valid=1;
+ 	}
+ 	if(valid==0){
+ 		printf("ERROR: 'main' function function is not declared\n");
+ 		exit(1);
+ 	}
 
 	fclose(fparse);
  	fclose(ft);

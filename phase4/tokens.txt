@@ -44,18 +44,6 @@ reserved keyword: declr
 datatype: int
 Identifier : ans
 Punctuation : ;
-reserved keyword: print
-Special symbols:	(
-Identifier : ans
-Punctuation : ,
-Identifier : a
-Special symbols:	)
-Punctuation : ;
-reserved keyword: print
-Special symbols:	(
-constant: "Hello, world\n"
-Special symbols:	)
-Punctuation : ;
 reserved keyword: expr
 Identifier : ans
 Special symbols:	=
@@ -311,6 +299,16 @@ reserved keyword: struct
 Identifier : myStructB
 Special symbols:	{
 reserved keyword: declr
+reserved keyword: matrix
+Identifier : M
+Special symbols:	[
+constant: 2
+Special symbols:	]
+Special symbols:	[
+constant: 3
+Special symbols:	]
+Punctuation : ;
+reserved keyword: declr
 reserved keyword: graph
 Identifier : G
 Special symbols:	[
@@ -434,9 +432,27 @@ Identifier : gvv
 Special symbols:	=
 Identifier : G2
 Punctuation : .
-Identifier: bfs
+Identifier: shortest_path
 Special symbols:	(
-constant: 4
+constant: 1
+Punctuation : ,
+constant: 2
+Special symbols:	)
+Punctuation : ;
+reserved keyword: declr
+datatype: int
+Identifier : gvv2
+Punctuation : ;
+reserved keyword: expr
+Identifier : gvv2
+Special symbols:	=
+Identifier : G2
+Punctuation : .
+Identifier: shortest_path_value
+Special symbols:	(
+constant: 1
+Punctuation : ,
+constant: 2
 Special symbols:	)
 Punctuation : ;
 reserved keyword: expr
@@ -570,6 +586,11 @@ Identifier : str
 Punctuation : ,
 datatype: char
 Identifier : c
+Punctuation : ,
+datatype: int
+Identifier : myArr
+Special symbols:	[
+Special symbols:	]
 Special symbols:	)
 Special symbols:	{
 reserved keyword: declr
@@ -582,6 +603,7 @@ reserved keyword: declr
 Identifier : myStructB
 Identifier : myObj
 Punctuation : ;
+comment: !!expr myArr = [1, 2, 3];!!
 reserved keyword: expr
 Identifier : myObj
 Special symbols:	=
@@ -763,22 +785,6 @@ reserved keyword: func
 datatype: int
 Identifier : main
 Special symbols:	(
-Identifier : myClass
-Identifier : obj
-Punctuation : ,
-datatype: float
-Identifier : b
-Punctuation : ,
-datatype: char
-Identifier : c
-Punctuation : ,
-datatype: string
-Identifier : str
-Punctuation : ,
-datatype: int
-Identifier : myArr
-Special symbols:	[
-Special symbols:	]
 Special symbols:	)
 Special symbols:	{
 reserved keyword: declr
@@ -793,35 +799,10 @@ reserved keyword: declr
 datatype: int
 Identifier : len
 Punctuation : ;
-reserved keyword: expr
-Identifier : str3
-Special symbols:	=
-reserved keyword: call
-Identifier : getStr
-Special symbols:	(
-Special symbols:	)
-Punctuation : ;
-reserved keyword: expr
-Identifier : len
-Special symbols:	=
-reserved keyword: call
-Identifier : getStr
-Special symbols:	(
-Special symbols:	)
-Punctuation : .
-Identifier: strlen
-Special symbols:	(
-Special symbols:	)
-Punctuation : ;
-reserved keyword: expr
-Identifier : len
-Special symbols:	=
-Identifier : str1
-Punctuation : .
-Identifier: strlen
-Special symbols:	(
-Special symbols:	)
-Punctuation : ;
+comment: !!
+	expr str3 = call getStr();
+	expr len = call getStr().strlen();
+	expr len = str1.strlen();!!
 reserved keyword: declr
 reserved keyword: vect
 Special symbols:	<
@@ -844,6 +825,27 @@ Punctuation : ,
 constant: 5
 Special symbols:	}
 Punctuation : ;
+comment: !!
+	
+	expr str1 = strjoin(str2.strcut(0, 5), strjoin(str3, call getStr()));!!
+reserved keyword: expr
+Identifier : str1
+Special symbols:	=
+constant: "Hello"
+Punctuation : ;
+reserved keyword: expr
+Identifier : str2
+Special symbols:	=
+Identifier: strjoin
+Special symbols:	(
+constant: "he"
+Punctuation : ,
+reserved keyword: call
+Identifier : getStr
+Special symbols:	(
+Special symbols:	)
+Special symbols:	)
+Punctuation : ;
 reserved keyword: expr
 Identifier : len
 Special symbols:	=
@@ -858,28 +860,20 @@ Special symbols:	)
 Special symbols:	)
 Punctuation : ;
 reserved keyword: expr
-Identifier : str1
-Special symbols:	=
-Identifier: strjoin
-Special symbols:	(
 Identifier : str2
+Special symbols:	=
+Identifier : str1
 Punctuation : .
 Identifier: strcut
 Special symbols:	(
-constant: 0
-Punctuation : ,
-constant: 5
-Special symbols:	)
-Punctuation : ,
-Identifier: strjoin
+operator: add
 Special symbols:	(
-Identifier : str3
+constant: 1
 Punctuation : ,
-reserved keyword: call
-Identifier : getStr
-Special symbols:	(
+constant: 1
 Special symbols:	)
-Special symbols:	)
+Punctuation : ,
+constant: 3
 Special symbols:	)
 Punctuation : ;
 reserved keyword: declr
@@ -893,17 +887,7 @@ Special symbols:	[
 constant: 3
 Special symbols:	]
 Punctuation : ;
-reserved keyword: expr
-Identifier : arr
-Special symbols:	=
-Special symbols:	[
-constant: 1
-Punctuation : ,
-constant: 2
-Punctuation : ,
-constant: 3
-Special symbols:	]
-Punctuation : ;
+comment: !!	expr arr = [1,2,3];!!
 comment: !!	expr myArr = [1, 2, 3];!!
 reserved keyword: declr
 reserved keyword: matrix
