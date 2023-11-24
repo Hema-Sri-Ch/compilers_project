@@ -1,6 +1,9 @@
 # include <bits/stdc++.h>
 using namespace std;
 
+class matrix;
+class graph;
+
 void dfs(int node, vector<vector<int>>& adj, vector<int>& vis, vector<int>& res)
 {
 	vis[node]=1;
@@ -221,6 +224,60 @@ public:
 		return path;
 	}
 
+	// matrix GtM()
+	// {
+	// 	matrix* res;
+	// 	res(vertices, vertices);
+	// 	for(int i=0; i<vertices; i++)
+	// 	{
+	// 		for(int j=0; j<vertices; j++)
+	// 		{
+	// 			res->addValue(i,j,0);
+	// 		}
+	// 	}
+	// 	for(int i=1; i<=vertices; i++)
+	// 	{
+	// 		for(int j=0; j<edges[i].size(); j++)
+	// 		{
+	// 			res->addValue(i-1, edges[i][j]-1, 1);
+	// 		}
+	// 	}
+	// 	return *res;
+	// }
+
+	// matrix wGtM()
+	// {
+	// 	matrix* res;
+	// 	res(vertices, vertices);
+	// 	for(int i=0; i<vertices; i++)
+	// 	{
+	// 		for(int j=0; j<vertices; j++)
+	// 		{
+	// 			res.addValue(i,j,0);
+	// 		}
+	// 	}
+	// 	for(int i=1; i<=vertices; i++)
+	// 	{
+	// 		for(int j=0; j<weightedEdges[i].size(); j++)
+	// 		{
+	// 			double weight = weightedEdges[i][j].second;
+	// 			res.addValue(i-1, weightedEdges[i][j].first-1, weight);
+	// 		}
+	// 	}
+	// 	return *res;
+	// }
+
+	// matrix graph_to_matx()
+	// {
+	// 	if(flag==0) return GtM();
+	// 	else if(flag==1)return wGtM();
+	// 	else
+	// 	{
+	// 		cout << "Graph is not initialised yet\n";
+	// 		exit(1);
+	// 	}
+	// }
+
 };
 
 class matrix
@@ -289,6 +346,32 @@ public:
 		}
 		return sum;
 	}
+
+	graph matx_to_graph()
+	{
+		if(rows!=cols)
+		{
+			cout << "ERROR: Conversion possible only for square matrices\n";
+			exit(1);
+		}
+		graph res(rows);
+		for(int i=0; i<rows; i++)
+		{
+			for(int j=0; j<cols; j++)
+			{
+				double x = getValue(i,j);
+				if(x!=0 || x!=1)
+				{
+					cout << "ERROR: Matrix element is not 0 or 1\n";
+					exit(1);
+				}
+				res.setFlag(0);
+				res.addEdge(i+1, j+1);
+			}
+		}
+		return res;
+	}
+
 };
 
 matrix add_matx(matrix A, matrix B)
