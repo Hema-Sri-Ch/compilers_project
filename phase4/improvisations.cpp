@@ -1,9 +1,6 @@
 # include <bits/stdc++.h>
 using namespace std;
 
-class matrix;
-class graph;
-
 void dfs(int node, vector<vector<int>>& adj, vector<int>& vis, vector<int>& res)
 {
 	vis[node]=1;
@@ -102,6 +99,11 @@ public:
 		return flag;
 	}
 
+	int getVertices()
+	{
+		return vertices;
+	}
+
 	int addEdge(int u, int v)
 	{
 		if(u>vertices || v> vertices)
@@ -110,6 +112,16 @@ public:
 		}
 		edges[u].push_back(v);
 		return 1;
+	}
+
+	vector<vector<int>> getEdges()
+	{
+		return edges;
+	}
+
+	vector<vector<pair<int, int>>> getWeightedEdges()
+	{
+		return weightedEdges;
 	}
 
 	int addWeightedEdge(int u, int v, int weight)
@@ -224,59 +236,51 @@ public:
 		return path;
 	}
 
-	// matrix GtM()
-	// {
-	// 	matrix* res;
-	// 	res(vertices, vertices);
-	// 	for(int i=0; i<vertices; i++)
-	// 	{
-	// 		for(int j=0; j<vertices; j++)
-	// 		{
-	// 			res->addValue(i,j,0);
-	// 		}
-	// 	}
-	// 	for(int i=1; i<=vertices; i++)
-	// 	{
-	// 		for(int j=0; j<edges[i].size(); j++)
-	// 		{
-	// 			res->addValue(i-1, edges[i][j]-1, 1);
-	// 		}
-	// 	}
-	// 	return *res;
-	// }
+	void printUnweighted()
+	{
+		cout << "\n";
+		for(int i=1; i<=vertices; i++)
+		{
+			int sz = edges[i].size();
+			if(sz==0) continue;
+			cout << i << "\t:\t";
+			for(int j=0; j<sz; i++)
+			{
+				cout << edges[i][j];
+				if(j!=sz-1) cout << ",\t";
+			}
+			cout << endl;
+		}
+	}
 
-	// matrix wGtM()
-	// {
-	// 	matrix* res;
-	// 	res(vertices, vertices);
-	// 	for(int i=0; i<vertices; i++)
-	// 	{
-	// 		for(int j=0; j<vertices; j++)
-	// 		{
-	// 			res.addValue(i,j,0);
-	// 		}
-	// 	}
-	// 	for(int i=1; i<=vertices; i++)
-	// 	{
-	// 		for(int j=0; j<weightedEdges[i].size(); j++)
-	// 		{
-	// 			double weight = weightedEdges[i][j].second;
-	// 			res.addValue(i-1, weightedEdges[i][j].first-1, weight);
-	// 		}
-	// 	}
-	// 	return *res;
-	// }
+	void printWeighted()
+	{
+		cout << "\n";
+		for(int i=1; i<=vertices; i++)
+		{
+			int sz = weightedEdges[i].size();
+			if(sz==0) continue;
+			cout << i << "\t:\t";
+			for(int j=0; j<sz; j++)
+			{
+				int node = weightedEdges[i][j].first;
+				double weight = weightedEdges[i][j].second;
+				cout << "(" << node << "," << weight << ")";
+				if(j!=sz-1) cout << ",\t";
+			}
+			cout << endl;
+		}
+	}
 
-	// matrix graph_to_matx()
-	// {
-	// 	if(flag==0) return GtM();
-	// 	else if(flag==1)return wGtM();
-	// 	else
-	// 	{
-	// 		cout << "Graph is not initialised yet\n";
-	// 		exit(1);
-	// 	}
-	// }
+	void printGraph()
+	{
+		if(flag==0) printUnweighted();
+		else if(flag==1) printWeighted();
+		else
+		{
+			cout << "\n{ }\n";
+		}
+	}
 
 };
 
@@ -347,32 +351,104 @@ public:
 		return sum;
 	}
 
-	graph matx_to_graph()
+	void printMatrix()
 	{
-		if(rows!=cols)
-		{
-			cout << "ERROR: Conversion possible only for square matrices\n";
-			exit(1);
-		}
-		graph res(rows);
 		for(int i=0; i<rows; i++)
 		{
+			cout << "[\t";
 			for(int j=0; j<cols; j++)
 			{
-				double x = getValue(i,j);
-				if(x!=0 || x!=1)
-				{
-					cout << "ERROR: Matrix element is not 0 or 1\n";
-					exit(1);
-				}
-				res.setFlag(0);
-				res.addEdge(i+1, j+1);
+				cout << vals[i][j] << "\t";
 			}
+			cout << "]\n";
 		}
-		return res;
 	}
 
 };
+
+matrix GtM(graph G)
+{
+	int vertices = G.getVertices();
+	vector<vector<int>> edges = G.getEdges();
+	matrix res(vertices, vertices);
+	for(int i=0; i<vertices; i++)
+	{
+		for(int j=0; j<vertices; j++)
+		{
+			res.addValue(i,j,0);
+		}
+	}
+	for(int i=1; i<=vertices; i++)
+	{
+		for(int j=0; j<edges[i].size(); j++)
+		{
+			res.addValue(i-1, edges[i][j]-1, 1);
+		}
+	}
+	return res;
+}
+
+matrix wGtM(graph G)
+{
+	int vertices = G.getVertices();
+	vector<vector<pair<int, int>>> weightedEdges = G.getWeightedEdges();
+	matrix res(vertices, vertices);
+	for(int i=0; i<vertices; i++)
+	{
+		for(int j=0; j<vertices; j++)
+		{
+			res.addValue(i,j,0);
+		}
+	}
+	for(int i=1; i<=vertices; i++)
+	{
+		for(int j=0; j<weightedEdges[i].size(); j++)
+		{
+			double weight = weightedEdges[i][j].second;
+			res.addValue(i-1, weightedEdges[i][j].first-1, weight);
+		}
+	}
+	return res;
+}
+
+matrix graph_to_matx(graph G)
+{
+	int flag = G.getFlag();
+	if(flag==0) return GtM(G);
+	else if(flag==1)return wGtM(G);
+	else
+	{
+		cout << "Graph is not initialised yet\n";
+		exit(1);
+	}
+}
+
+graph matx_to_graph(matrix M)
+{
+	int rows = M.getRows();
+	int cols = M.getCols();
+	if(rows!=cols)
+	{
+		cout << "ERROR: Conversion possible only for square matrices\n";
+		exit(1);
+	}
+	graph res(rows);
+	for(int i=0; i<rows; i++)
+	{
+		for(int j=0; j<cols; j++)
+		{
+			double x = M.getValue(i,j);
+			if(x<0)
+			{
+				cout << "ERROR: Edge weight should be non-negative\n";
+				exit(1);
+			}
+			res.setFlag(1);
+			res.addWeightedEdge(i+1, j+1, x);
+		}
+	}
+	return res;
+}
 
 matrix add_matx(matrix A, matrix B)
 {
