@@ -42,6 +42,7 @@ struct myStructA{
 };
 
 struct myStructB{
+	declr graph G[10];
 	declr int itemC;
 	declr myStructA itemD;
 };
@@ -49,7 +50,7 @@ struct myStructB{
 
 class someClass{
 	
-	
+	declr graph G1[10];
 	declr matrix M[2][3];
 	func int foo(myStructA Hey, string hey){
 		
@@ -60,6 +61,15 @@ class someClass{
 			3:1;
 			3:2,4;
 		};
+		
+		declr graph G2[4];
+		expr G2 = {
+			2: (1,3), (4,3.15);
+			1: (2,9);
+		};
+		
+		declr vect<int> gvv;
+		expr gvv = G2.bfs(4);
 		expr M =
 		[
 			[1,3,4];[1,4,5];
@@ -185,8 +195,8 @@ func int main(myClass obj, float b, char c, string str, int myArr[]){
 	
 	declr matrix M3[2][3];
 	expr M3 = add_matx(M1, M2);
-	expr M3 = add_matx(add_matx(M1, M2), M2);
-	
+	expr M3 = add_matx(add_matx(M1, M2), mult_matx(M1, M2)).transpose();
+	expr a = add_matx(add_matx(M1, M2), mult_matx(M1, M2)).trace();
 	return 0;
 	
 }

@@ -175,7 +175,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 56 "parser.y"
+#line 126 "parser.y"
 
 	char* str;
 	struct{
@@ -190,9 +190,10 @@ union YYSTYPE
 	struct
 	{
 		int cols;
+		char* text;
 	} Cols;
 
-#line 196 "y.tab.h"
+#line 197 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

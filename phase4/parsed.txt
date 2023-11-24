@@ -42,6 +42,7 @@ struct myStructA{
 }; : STRUCT DEFINITION
 
 struct myStructB{
+	declr graph G[10]; : DECLARATION STATEMENT
 	declr int itemC; : DECLARATION STATEMENT
 	declr myStructA itemD; : DECLARATION STATEMENT
 }; : STRUCT DEFINITION
@@ -49,7 +50,7 @@ struct myStructB{
 
 class someClass{
 	
-	
+	declr graph G1[10]; : DECLARATION STATEMENT
 	declr matrix M[2][3]; : DECLARATION STATEMENT
 	func int foo(myStructA Hey, string hey) : FUNCTION HEAD{
 		
@@ -60,6 +61,15 @@ class someClass{
 			3:1;
 			3:2,4;
 		}; : EXPRESSION STATEMENT
+		
+		declr graph G2[4]; : DECLARATION STATEMENT
+		expr G2 = {
+			2: (1,3), (4,3.15);
+			1: (2,9);
+		}; : EXPRESSION STATEMENT
+		
+		declr vect<int> gvv; : DECLARATION STATEMENT
+		expr gvv = G2.bfs(4); : EXPRESSION STATEMENT
 		expr M =
 		[
 			[1,3,4];[1,4,5];
@@ -185,8 +195,8 @@ func int main(myClass obj, float b, char c, string str, int myArr[]) : FUNCTION 
 	
 	declr matrix M3[2][3]; : DECLARATION STATEMENT
 	expr M3 = add_matx(M1, M2); : EXPRESSION STATEMENT
-	expr M3 = add_matx(add_matx(M1, M2), M2); : EXPRESSION STATEMENT
-	
+	expr M3 = add_matx(add_matx(M1, M2), mult_matx(M1, M2)).transpose(); : EXPRESSION STATEMENT
+	expr a = add_matx(add_matx(M1, M2), mult_matx(M1, M2)).trace(); : EXPRESSION STATEMENT
 	return 0; : RETURN STATEMENT : RETURN STATEMENT
 	
 }

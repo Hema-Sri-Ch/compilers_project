@@ -299,6 +299,13 @@ reserved keyword: struct
 Identifier : myStructB
 Special symbols:	{
 reserved keyword: declr
+reserved keyword: graph
+Identifier : G
+Special symbols:	[
+constant: 10
+Special symbols:	]
+Punctuation : ;
+reserved keyword: declr
 datatype: int
 Identifier : itemC
 Punctuation : ;
@@ -311,6 +318,13 @@ Punctuation : ;
 reserved keyword: class
 Identifier : someClass
 Special symbols:	{
+reserved keyword: declr
+reserved keyword: graph
+Identifier : G1
+Special symbols:	[
+constant: 10
+Special symbols:	]
+Punctuation : ;
 reserved keyword: declr
 reserved keyword: matrix
 Identifier : M
@@ -360,6 +374,58 @@ Punctuation : ,
 constant: 4
 Punctuation : ;
 Special symbols:	}
+Punctuation : ;
+reserved keyword: declr
+reserved keyword: graph
+Identifier : G2
+Special symbols:	[
+constant: 4
+Special symbols:	]
+Punctuation : ;
+reserved keyword: expr
+Identifier : G2
+Special symbols:	=
+Special symbols:	{
+constant: 2
+Punctuation : :
+Special symbols:	(
+constant: 1
+Punctuation : ,
+constant: 3
+Special symbols:	)
+Punctuation : ,
+Special symbols:	(
+constant: 4
+Punctuation : ,
+constant: 3.15
+Special symbols:	)
+Punctuation : ;
+constant: 1
+Punctuation : :
+Special symbols:	(
+constant: 2
+Punctuation : ,
+constant: 9
+Special symbols:	)
+Punctuation : ;
+Special symbols:	}
+Punctuation : ;
+reserved keyword: declr
+reserved keyword: vect
+Special symbols:	<
+datatype: int
+Special symbols:	>
+Identifier : gvv
+Punctuation : ;
+reserved keyword: expr
+Identifier : gvv
+Special symbols:	=
+Identifier : G2
+Punctuation : .
+Identifier: bfs
+Special symbols:	(
+constant: 4
+Special symbols:	)
 Punctuation : ;
 reserved keyword: expr
 Identifier : M
@@ -921,7 +987,40 @@ Punctuation : ,
 Identifier : M2
 Special symbols:	)
 Punctuation : ,
+reserved keyword: mult_matx
+Special symbols:	(
+Identifier : M1
+Punctuation : ,
 Identifier : M2
+Special symbols:	)
+Special symbols:	)
+Punctuation : .
+Identifier: transpose
+Special symbols:	(
+Special symbols:	)
+Punctuation : ;
+reserved keyword: expr
+Identifier : a
+Special symbols:	=
+reserved keyword: add_matx
+Special symbols:	(
+reserved keyword: add_matx
+Special symbols:	(
+Identifier : M1
+Punctuation : ,
+Identifier : M2
+Special symbols:	)
+Punctuation : ,
+reserved keyword: mult_matx
+Special symbols:	(
+Identifier : M1
+Punctuation : ,
+Identifier : M2
+Special symbols:	)
+Special symbols:	)
+Punctuation : .
+Identifier: trace
+Special symbols:	(
 Special symbols:	)
 Punctuation : ;
 reserved keyword: return

@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#include "improvisations.cpp"
+#include "improvisations.h"
 using namespace std;
 
 vector<int> foo ( vector<int> myVec )
@@ -54,22 +54,39 @@ struct myStructA {
 	string itemB;
 };
 struct myStructB {
+	graph G(10);
 	int itemC;
 	struct myStructA itemD;
 };
 class someClass {
-	matrix M[2][3];
+		graph G1{10};
+	matrix M{2, 3};
 	int foo ( struct myStructA Hey, string hey )
 		{
-			graph G[10];
+			graph G(10);
+			G.addEdge(3, 2);
+			G.addEdge(3, 4);
+			G.addEdge(3, 1);
+			G.addEdge(2, 4);
+			G.addEdge(2, 5);
+			G.setFlag(0);
 			G = (null);
-			M = (null);
+			graph G2(4);
+			G2.addWeightedEdge(1, 2, 9);
+			G2.addWeightedEdge(2, 1, 3);
+			G2.addWeightedEdge(2, 4, 3.15);
+			G2.setFlag(1);
+			G2 = (null);
+			vector<int> gvv;
+			gvv = G2.bfs(4);
+
+			M.vals = {{1,3,4},{1,4,5}};
 			Hey.itemB = hey;
 			int k;
 			return k;
 		}
 
-	(null) boo ()
+	matrix boo ()
 		{
 			int k;
 			return M;
@@ -110,12 +127,12 @@ class myClass {
 
 			int i0, i1;
 			a = 10;
-			switchH ((a+b)){
+			switch ((a+b)){
 				case 1:
 				{ }
 				case 2:
 				{
-					switchH ((a+b)){
+					switch ((a+b)){
 						case 1:
 						{ }
 						case 2:
@@ -133,8 +150,9 @@ class myClass {
 				{ }
 			}
 
-			matrix A[2][2], B[2][2], C[2][2];
-			return (null);
+			matrix A(2, 2), B(2, 2), C(2, 2);
+			{matrix _temp = add_matx(A, B);_flag = _temp.trace();}
+			return _flag;
 
 			return 1;
 		}
@@ -154,15 +172,18 @@ int main ( class myClass obj, float b, char c, string str, int myArr[] )
 		vector<int> myVec;
 		myVec = {1, 2, 3, 4, 5};
 		len = strcmp(str1, getStr());
-		str1 = (str2.substr(0, 5);+(str3+getStr()));
+		str1 = (str2.substr(0, 5)+(str3+getStr()));
 		int a;
 		int arr[3];
-		arr = [1, 2, 3];
-		matrix M1[2][3], M2[2][3];
-		M1 = (null);
-		M2 = (null);
-		matrix M3[2][3];
+		arr = {1,2,3};
+		matrix M1(2, 3), M2(2, 3);
+		M1.vals = {{1,2,3},{1.0,2.0,3.0}};
+		M2.vals = {{4,5,6},{1.0,2.0,3.0}};
+		matrix M3(2, 3);
 
+		{matrix _temp = add_matx(add_matx(M1, M2), mult_matx(M1, M2)); _temp = _temp.transpose(); add_matx(add_matx(M1, M2), mult_matx(M1, M2)) = _temp;}
 
+		{matrix _temp = add_matx(add_matx(M1, M2), mult_matx(M1, M2));_flag = _temp.trace();}
+		a = _flag;
 		return 0;
 	}

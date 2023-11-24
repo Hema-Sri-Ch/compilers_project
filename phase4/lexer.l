@@ -110,6 +110,7 @@
 "dfs"|"bfs" {
 	fprintf(yyout, "Identifier: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
+    yylval.str=strdup(yytext);
     return TRAVERSAL;
 }
 

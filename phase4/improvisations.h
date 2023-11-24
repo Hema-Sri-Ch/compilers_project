@@ -1,14 +1,14 @@
 # include <bits/stdc++.h>
 using namespace std;
 
-void dfs(int node, vector<vector<int>>& adj, vector<int>& vis, vector<int>& res)
+void unweightedDfs(int node, vector<vector<int>>& adj, vector<int>& vis, vector<int>& res)
 {
 	vis[node]=1;
 	res.push_back(node);
 	for(auto it: adj[node])
 	{
 		if(!vis[it])
-			dfs(it, adj, vis, res);
+			unweightedDfs(it, adj, vis, res);
 	}
 	return;
 }
@@ -26,7 +26,7 @@ void weightedDfs(int node, vector<vector<pair<int, int>>>& adj, vector<int>& vis
 	return;
 }
 
-void bfs(int node, vector<vector<int>>& adj, vector<int>& vis, vector<int>& res)
+void unweightedBfs(int node, vector<vector<int>>& adj, vector<int>& vis, vector<int>& res)
 {
 	vis[node]=1;
 	queue<int> q;
@@ -73,13 +73,12 @@ void weightedBfs(int node, vector<vector<pair<int, int>>>& adj, vector<int>& vis
 
 class graph
 {
-
-public:
-
 	int vertices;
 	vector<vector<int>> edges;
 	vector<vector<pair<int, int>>> weightedEdges;
 	int flag; // To tell whether it is weighted or unweighted
+
+public:
 
 	graph(int n)
 	{
@@ -140,7 +139,7 @@ public:
 		return 1;
 	}
 
-	vector<int> getDfs(int node)
+	vector<int> dfs(int node)
 	{
 		if(node > vertices)
 		{
@@ -149,12 +148,12 @@ public:
 		}
 		vector<int> vis(vertices+1, 0);
 		vector<int> res;
-		if(flag==0) dfs(node, edges, vis, res);
+		if(flag==0) unweightedDfs(node, edges, vis, res);
 		else weightedDfs(node, weightedEdges, vis, res);
 		return res;
 	}
 
-	vector<int> getBfs(int node)
+	vector<int> bfs(int node)
 	{
 		if(node > vertices)
 		{
@@ -163,7 +162,7 @@ public:
 		}
 		vector<int> vis(vertices+1, 0);
 		vector<int> res;
-		if(flag==0) bfs(node, edges, vis, res);
+		if(flag==0) unweightedBfs(node, edges, vis, res);
 		else weightedBfs(node, weightedEdges, vis, res);
 		return res;
 	}
@@ -309,10 +308,6 @@ public:
 	int getCols()
 	{
 		return cols;
-	}
-
-	void setVals(vector<vector<double>> Vals){
-		vals = Vals;
 	}
 
 	int addValue(int rowNumber, int colNumber, double value)
