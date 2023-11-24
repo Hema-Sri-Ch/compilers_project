@@ -744,6 +744,28 @@ Identifier: strlen
 Special symbols:	(
 Special symbols:	)
 Punctuation : ;
+reserved keyword: declr
+reserved keyword: vect
+Special symbols:	<
+datatype: int
+Special symbols:	>
+Identifier : myVec
+Punctuation : ;
+reserved keyword: expr
+Identifier : myVec
+Special symbols:	=
+Special symbols:	{
+constant: 1
+Punctuation : ,
+constant: 2
+Punctuation : ,
+constant: 3
+Punctuation : ,
+constant: 4
+Punctuation : ,
+constant: 5
+Special symbols:	}
+Punctuation : ;
 reserved keyword: expr
 Identifier : len
 Special symbols:	=

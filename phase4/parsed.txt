@@ -162,6 +162,8 @@ func int main(myClass obj, float b, char c, string str, int myArr[]) : FUNCTION 
 	expr len = call getStr().strlen(); : EXPRESSION STATEMENT
 	expr len = str1.strlen(); : EXPRESSION STATEMENT
 	
+	declr vect<int> myVec; : DECLARATION STATEMENT
+	expr myVec = {1, 2, 3, 4, 5}; : EXPRESSION STATEMENT
 	
 	expr len = strcmp(str1, call getStr()); : EXPRESSION STATEMENT
 	

@@ -35,6 +35,7 @@
 	*/
 	
 	char* arr[20];
+	char* vType = NULL;
 	int arr_size=0;
 	int dimA[20];
 	int dimB[20];
@@ -44,6 +45,12 @@
 		MY ASSUMPTIONS:
 			--> if it is parameter, only type check is feasible, but no attibute check non-standard datatypes
 	*/
+	
+	void printTabs(){
+		for(int i=0; i<level; i++){
+			fprintf(fIR, "\t");
+		}
+	}
 %}
 
 %union{
@@ -63,7 +70,7 @@
 	} Cols;
 }
 
-%type<Str> fdtype dtype id id_list graph_and_array_list matrix_list return_stmt RHS constants extra_consts impr matrix_impr graph_impr arith_op logical_op func_calls binary_op unary_op arg_list call_head for_RHS myId vect_append resultant vect_stmt_body remove_body int_list float_list bool_list char_list str_list val_list array_const matr_body param param_list Parameters arguments
+%type<Str> fdtype dtype id id_list graph_and_array_list matrix_list return_stmt RHS constants extra_consts impr matrix_impr graph_impr arith_op logical_op func_calls binary_op unary_op arg_list call_head for_RHS myId vect_append resultant vect_stmt_body remove_body int_list float_list bool_list char_list str_list val_list array_const matr_body param param_list Parameters arguments vect_list vect_item vect_const
 %type<details> function function_head func_definition LHS
 %type<Cols> mat_list int_float_list
 
@@ -205,6 +212,8 @@ function				: function_head function_body
 								currentFuncIndex = -1; 
 								if(returnStmtCount==0)	printf("%d ERROR : Expected atlease one return statement\n", yylineno);
 								returnStmtCount = 0;
+								var_delete(level);
+								level--;
 							}
 						;
 						
@@ -240,7 +249,9 @@ func_definition			: FUNC fdtype id {
 								currentFuncIndex = class_symb[class_size-1].cl_func_size - 1;
 							}
 							
+							printTabs();
 							fprintf(fIR, "%s %s ", $2.text, $3.text);
+							level++;
 						}
 						;
 						
@@ -364,8 +375,8 @@ dtype					: DATATYPE {$$.str = $1; $$.text=$1; dataType = 0;}
 						}
 						;
 						
-function_body			: '{' { level++; fprintf(fIR, "{\n");} statements '}' {var_delete(level); level--; fprintf(fIR, "}\n");}
-						| '{' '}' { fprintf(fIR, "{ }\n");}
+function_body			: '{' {printTabs(); level++; fprintf(fIR, "{\n");} statements '}' {var_delete(level); level--; printTabs(); fprintf(fIR, "}\n");}
+						| '{' '}' { printTabs(); fprintf(fIR, "{ }\n");}
 						;
 						
 statements				: statement {fprintf(fIR, "\n");} statements
@@ -388,7 +399,7 @@ statement				: expr_stmt
 						| CONTINUE ';' {fprintf(fparse, " : CONTINUE STATEMENT");}
 						;
 						
-unary_stmt				: unary_op ';' {fprintf(fparse, " : UNARY STATEMENT"); fprintf(fIR, "%s;", $1.text);}
+unary_stmt				: unary_op ';' {fprintf(fparse, " : UNARY STATEMENT"); printTabs(); fprintf(fIR, "%s;", $1.text);}
 						;
 						
 jump_stmt				: label_stmt
@@ -404,18 +415,19 @@ label_stmt				: id
 								}
 								else label_insert($1.str);
 								
+								printTabs();
 								fprintf(fIR, "%s: ", $1.text);
 							}
 							':' function_body {fprintf(fparse, " : LABEL");}
 						;
 						
-goto_stmt				: GOTO id ';' {fprintf(fparse, " : GOTO STATEMENT"); fprintf(fIR, "goto %s;", $2.text);}
+goto_stmt				: GOTO id ';' {fprintf(fparse, " : GOTO STATEMENT"); printTabs(); fprintf(fIR, "goto %s;", $2.text);}
 						;
 
 vect_stmt				: vect_stmt_body ';' {fprintf(fparse, " : INDEPENDENT METHOD");}
 						;
 
-vect_stmt_body			: resultant '.' APPEND '(' vect_append ')' { 
+vect_stmt_body			: resultant  '.' APPEND '(' vect_append ')' { 
 							// printf("%d::Initial resultant - %s\n",yylineno, $1);
 							if($1.str[0] != '*'){
 								printf("%d Error: invalid type for clear\n", yylineno);
@@ -444,15 +456,16 @@ vect_stmt_body			: resultant '.' APPEND '(' vect_append ')' {
 								}
 								
 								char* myText = (char*)malloc(256);
-								strcpy(myText, "{\n\tvector<");
+								strcpy(myText, "{vector<");
 								strcat(myText, myType);
 								strcat(myText, "> temp = ");
 								strcat(myText, $1.text);
-								strcat(myText, ";\n\ttemp.push_back(");
+								strcat(myText, ";temp.push_back(");
 								strcat(myText, $5.text);
-								strcat(myText, ");\n\t");
+								strcat(myText, ");");
 								strcat(myText, $1.text);
-								strcat(myText, " = temp;\n}");
+								strcat(myText, " = temp;}");
+								printTabs();
 								fprintf(fIR, "%s\n", myText);
 								$$.text = $1.text;
 								
@@ -481,15 +494,16 @@ vect_stmt_body			: resultant '.' APPEND '(' vect_append ')' {
 								
 								
 									char* myText = (char*)malloc(512);
-									strcpy(myText, "{\n\tvector<");
+									strcpy(myText, "{vector<");
 									strcat(myText, myType);
 									strcat(myText, "> temp = ");
 									strcat(myText, $1.text);
-									strcat(myText, ";\n\ttemp.erase(temp.begin()+");
+									strcat(myText, ";temp.erase(temp.begin()+");
 									strcat(myText, $5.text);
-									strcat(myText, ");\n\t");
+									strcat(myText, ");");
 									strcat(myText, $1.text);
-									strcat(myText, " = temp;\n}");
+									strcat(myText, " = temp;}");
+									printTabs();
 									fprintf(fIR, "%s\n", myText);
 									$$.text = $1.text;
 									
@@ -513,13 +527,14 @@ vect_stmt_body			: resultant '.' APPEND '(' vect_append ')' {
 								
 								
 								char* myText = (char*)malloc(256);
-								strcpy(myText, "{\n\tvector<");
+								strcpy(myText, "{vector<");
 								strcat(myText, myType);
 								strcat(myText, "> temp = ");
 								strcat(myText, $1.text);
-								strcat(myText, ";\n\tsort(temp.begin(), temp.end());\n\t");
+								strcat(myText, ";sort(temp.begin(), temp.end());");
 								strcat(myText, $1.text);
-								strcat(myText, " = temp;\n}");
+								strcat(myText, " = temp;}");
+								printTabs();
 								fprintf(fIR, "%s\n", myText);
 								$$.text = $1.text;
 								
@@ -542,13 +557,14 @@ vect_stmt_body			: resultant '.' APPEND '(' vect_append ')' {
 								
 								
 								char* myText = (char*)malloc(256);
-								strcpy(myText, "{\n\tvector<");
+								strcpy(myText, "{vector<");
 								strcat(myText, myType);
 								strcat(myText, "> temp = ");
 								strcat(myText, $1.text);
-								strcat(myText, ";\n\ttemp.clear();\n\t");
+								strcat(myText, ";temp.clear();");
 								strcat(myText, $1.text);
-								strcat(myText, " = temp;\n}");
+								strcat(myText, " = temp;}");
+								printTabs();
 								fprintf(fIR, "%s\n", myText);
 								$$.text = $1.text;
 								
@@ -611,7 +627,7 @@ return_stmt 			: RETURN RHS';'
 									}
 								
 								}
-								
+								printTabs();
 								fprintf(fIR, "return %s;", $2.text);
 							
 							/*	if(inClass==0)
@@ -647,7 +663,7 @@ return_stmt 			: RETURN RHS';'
 									}
 								}
 								
-								
+								printTabs();
 								fprintf(fIR, "return %s;", $2.text);
 						 	}
 							{fprintf(fparse, " : RETURN STATEMENT");}
@@ -687,7 +703,7 @@ return_stmt 			: RETURN RHS';'
 									}
 								}
 								
-								
+								printTabs();
 								fprintf(fIR, "return %s;", $2.text);
 						 	} 
 							{fprintf(fparse, " : RETURN STATEMENT");}
@@ -726,7 +742,7 @@ return_stmt 			: RETURN RHS';'
 										}
 									}
 								}
-								
+								printTabs();
 								fprintf(fIR, "return %s;", $2.text);
 							}  
 							{fprintf(fparse, " : RETURN STATEMENT");}
@@ -766,7 +782,7 @@ return_stmt 			: RETURN RHS';'
 									}
 								}
 								
-								
+								printTabs();
 								fprintf(fIR, "return %s;", $2.text);
 						}
 						| RETURN null ';'
@@ -786,7 +802,7 @@ return_stmt 			: RETURN RHS';'
 									}
 								}
 								
-								
+								printTabs();
 								fprintf(fIR, "return NULL;");
 							}
 							{fprintf(fparse, " : RETURN STATEMENT");}
@@ -802,7 +818,7 @@ loop_type				: for_loop
 						| while_loop
 						;
 				
-for_loop				: FOR '(' {fprintf(fIR, "for(");} for_in ')'{fprintf(fIR, ") ");} function_body
+for_loop				: FOR '(' {printTabs(); fprintf(fIR, "for(");} for_in ')'{fprintf(fIR, ") ");} function_body
 						;
 
 
@@ -845,7 +861,7 @@ while_loop				: WHILE '('RHS')' {
 							if(!a) {
 								printf("%d Error : Invalid conditional argument\n", yylineno);
 							}
-							
+							printTabs();
 							fprintf(fIR, "while(%s) ", $3.text);
 						} function_body
 						;
@@ -861,6 +877,7 @@ expr_stmt				: EXPR LHS '=' RHS ';' {
 									exit(1);
 								}
 							}
+							printTabs();
 							fprintf(fIR, "%s = %s;", $2.text, $4.text);
 							fprintf(fparse, " : EXPRESSION STATEMENT");
 						}
@@ -928,6 +945,11 @@ expr_stmt				: EXPR LHS '=' RHS ';' {
 									
 									dummy_size=0;
 								}
+								
+								else if(strcmp($2.type, $4.str)){
+									printf("%d Error: Expression statement type mismatch %s != %s\n", yylineno, $2.type, $4.str);
+									exit(1);
+								}
 							}
 							{fprintf(fparse, " : EXPRESSION STATEMENT");}
 
@@ -957,6 +979,7 @@ expr_stmt				: EXPR LHS '=' RHS ';' {
 								exit(1);
 							}
 							fprintf(fparse, " : EXPRESSION STATEMENT");
+							printTabs();
 							fprintf(fIR, "%s = %s;", $2.text, $4.text);
 						}
 						;
@@ -1193,7 +1216,7 @@ declr_body				: DATATYPE id_list
 									}
 								}
 								arr_size =0;
-								
+								printTabs();
 								fprintf(fIR, "%s %s", $1, $2.text);
 								
 							}
@@ -1241,6 +1264,9 @@ declr_body				: DATATYPE id_list
 									}
 								}
 								arr_size=0;
+								
+								printTabs();
+								fprintf(fIR, "graph %s", $2.text);
 							}
 						| VECT '<' dtype '>' id_list
 							{
@@ -1286,6 +1312,7 @@ declr_body				: DATATYPE id_list
 									}
 								}
 								arr_size=0;
+								printTabs();
 								fprintf(fIR, "vector<%s> %s", $3.text, $5.text);
 								
 							}
@@ -1333,6 +1360,8 @@ declr_body				: DATATYPE id_list
 									}
 								}
 								arr_size=0;
+								printTabs();
+								fprintf(fIR, "matrix %s", $2.text);
 							}
 						| DATATYPE  graph_and_array_list
 							{
@@ -1378,6 +1407,8 @@ declr_body				: DATATYPE id_list
 									}
 								}
 								arr_size=0;
+								printTabs();
+								fprintf(fIR, "%s %s", $1, $2.text);
 								
 								
 								
@@ -1428,13 +1459,14 @@ declr_body				: DATATYPE id_list
 										}
 									}
 									arr_size =0;
-									
+									printTabs();
 									{
 										int a = class_search($1.str);
 										int b = struct_search($1.str);
 										if(a > b) fprintf(fIR, "class %s ", $1.text);
 										else fprintf(fIR, "struct %s ", $1.text);
 									}
+									
 									fprintf(fIR, "%s", $2.text);
 								}
 								else
@@ -1446,10 +1478,10 @@ declr_body				: DATATYPE id_list
 							}
 						;
 
-graph_and_array_list	: id '[' INT_CONST ']' ','
+graph_and_array_list	:  graph_and_array_list ',' id '[' INT_CONST ']'
 							{
-								arr[arr_size] = $1.str;
-								dimA[arr_size] = atoi($3);
+								arr[arr_size] = $3.str;
+								dimA[arr_size] = atoi($5);
 								if(dimA[arr_size]<=0)
 								{
 									printf("%d ERROR: Dimension(s) has to be greater than 0\n", yylineno);
@@ -1457,8 +1489,18 @@ graph_and_array_list	: id '[' INT_CONST ']' ','
 								}
 								arr_size++;
 								
-								fprintf(fIR, "%s[%s], ", $1.text, $3);
-							} graph_and_array_list
+								char* myText = (char*)malloc(strlen($1.text)+strlen($3.text)+strlen($5)+5);
+								strcpy(myText, $1.text);
+								strcat(myText, ", ");
+								strcat(myText, $3.text);
+								strcat(myText, "[");
+								strcat(myText, $5);
+								strcat(myText, "], ");
+								
+								//strcpy($$.text, myText);
+								//free(myText);
+								$$.text = myText;
+							}
 						| id '[' INT_CONST ']'
 							{
 								arr[arr_size] = $1.str;
@@ -1470,15 +1512,23 @@ graph_and_array_list	: id '[' INT_CONST ']' ','
 								}
 								arr_size++;
 								
-								fprintf(fIR, "%s[%s]", $1.text, $3);
+								char* myText = (char*)malloc(strlen($1.text)+strlen($3)+3);
+								strcpy(myText, $1.text);
+								strcat(myText, "[");
+								strcat(myText, $3);
+								strcat(myText, "]");
+								
+								//strcpy($$.text, myText);
+								//free(myText);
+								$$.text = myText;
 							}
 						;
 
-matrix_list				: id '[' INT_CONST ']' '[' INT_CONST ']' ',' 
+matrix_list				: matrix_list ',' id '[' INT_CONST ']' '[' INT_CONST ']'
 							{
-								arr[arr_size] = $1.str;
-								dimA[arr_size] = atoi($3);
-								dimB[arr_size] = atoi($6);
+								arr[arr_size] = $3.str;
+								dimA[arr_size] = atoi($5);
+								dimB[arr_size] = atoi($8);
 								if(dimA[arr_size]<=0 || dimB[arr_size]<=0)
 								{
 									printf("%d ERROR: No of rows or columns has to be positive\n", yylineno);
@@ -1486,8 +1536,19 @@ matrix_list				: id '[' INT_CONST ']' '[' INT_CONST ']' ','
 								}
 								arr_size++;
 								
-								fprintf(fIR, "%s[%s][%s], ", $1.text, $3, $6);
-							} matrix_list
+								char* myText = (char*)malloc(strlen($1.text)+strlen($3.text)+strlen($5)+strlen($8)+7);
+								strcpy(myText, $1.text);
+								strcat(myText, ", ");
+								strcat(myText, $3.text);
+								strcat(myText, "[");
+								strcat(myText, $5);
+								strcat(myText, "][");
+								strcat(myText, $8);
+								strcat(myText, "]");
+								//strcpy($$.text, myText);
+								//free(myText);
+								$$.text = myText;
+							}
 						| id '[' INT_CONST ']' '[' INT_CONST ']'
 							{
 								arr[arr_size] = $1.str;
@@ -1500,7 +1561,15 @@ matrix_list				: id '[' INT_CONST ']' '[' INT_CONST ']' ','
 								}
 								arr_size++;
 								
-								fprintf(fIR, "%s[%s][%s]", $1.text, $3, $6);
+								char* myText = (char*)malloc(strlen($1.text)+strlen($3)+strlen($6)+5);
+								strcpy(myText, $1.text);
+								strcat(myText, "[");
+								strcat(myText, $3);
+								strcat(myText, "][");
+								strcat(myText, $6);
+								strcat(myText, "]");
+								
+								$$.text = myText;
 							}
 						;
 
@@ -1535,6 +1604,7 @@ ifcond_stmt				: IF '(' RHS ')' {
 							if(!a) {
 								printf("%d Error : Invalid conditional argument\n", yylineno);
 							}
+							printTabs();
 							fprintf(fIR, "if(%s)", $3.text);
 							fprintf(fparse, " : CONDITIONAL STATEMENT");
 						} if_body
@@ -1555,18 +1625,18 @@ switch_stmt				: SWITCH '(' RHS ')' {
 							if(!a) {
 								printf("%d Error : Invalid conditional argument\n", yylineno);
 							}
-							
+							printTabs();
 							fprintf(fIR, "SWITCH (%s)", $3.text);
 							fprintf(fparse, " : CONDITIONAL STATEMENT");
 						} switch_body
 						;
 												
 
-switch_body				: '{' {switch_insert(level); level++; fprintf(fIR, "{\n");} cases DEFAULT ':' {fprintf(fIR, "default:\n");} function_body '}' { var_delete(level); level--; switch_delete(); fprintf(fIR, "}\n");}
+switch_body				: '{' {switch_insert(level); level++; fprintf(fIR, "{\n");} cases DEFAULT ':' {printTabs(); fprintf(fIR, "default:\n");} function_body '}' { var_delete(level); level--; switch_delete(); printTabs(); fprintf(fIR, "}\n");}
 						;
 
-cases					: cases CASE INT_CONST  {add_case(level-1, $3); fprintf(fIR, "case %s:\n", $3); } ':' function_body 
-						| CASE INT_CONST  {add_case(level-1, $2); fprintf(fIR, "case %s:\n", $2); } ':' function_body
+cases					: cases CASE INT_CONST  {add_case(level-1, $3); printTabs(); fprintf(fIR, "case %s:\n", $3); } ':' function_body 
+						| CASE INT_CONST  {add_case(level-1, $2); printTabs(); fprintf(fIR, "case %s:\n", $2); } ':' function_body
 						;
 
 						
@@ -1590,7 +1660,12 @@ constants				: INT_CONST {$$.str="int"; $$.text = $1;}
 						
 extra_consts			: array_const{$$.str = $1.str;}
 						| graph_const{$$.str="graph";}
-						| vect_const{$$.str="vect";}
+						| vect_const{
+							char* myType = (char*)malloc(strlen($1.str)+2);
+							strcpy(myType, "*");
+							strcat(myType, $1.str);
+							$$.str = myType;
+						}
 						| matrix_const{$$.str="matrix";}
 						| '{' '}'{$$.str="1";}
 						;
@@ -1966,13 +2041,28 @@ weight_list				: '(' INT_CONST ',' INT_CONST ')' ',' weight_list
 							}
 						;
 						
-vect_const				: '{' vect_list '}'
+vect_const				: '{' vect_list '}' {$$.str = $2.str;}
 						;
 
-vect_list				: constants ',' vect_list
-						| constants
-						| extra_consts ',' vect_list
-						| extra_consts
+vect_list				: vect_list ',' vect_item {
+							$$.str = $1.str;
+							if(strcmp($3.str, $1.str)){
+								int a = !strcmp($3.str, "int") || !strcmp($3.str, "float") || !strcmp($3.str, "bool");
+								int b = !strcmp($1.str, "int") || !strcmp($1.str, "float") || !strcmp($1.str, "bool");
+							
+								if(!(a && b)){
+									printf("%d Error: vector element type mis-matched\n\n", yylineno);
+									exit(1);
+								}
+							}
+						}
+						| vect_item {
+							$$.str = $1.str;
+						}
+						;
+						
+vect_item				: constants {$$.str = $1.str;}
+						| extra_consts {$$.str = $1.str;}
 						;
 						
 matrix_const			: '[' mat_list ']'
@@ -2131,7 +2221,7 @@ logical_op				: '(' RHS LOGOP RHS ')' {
 						;
 
 						
-call_stmt				: func_calls ';' {fprintf(fparse, " : CALL STATEMENT"); classIndex = -1; }
+call_stmt				: func_calls ';' {fprintf(fparse, " : CALL STATEMENT"); classIndex = -1; printTabs(); fprintf(fIR, "%s;", $1.text); }
 						;
 						
 						
@@ -2320,7 +2410,7 @@ int main() {
  	FILE* ft = fopen("tokens.txt", "w");
  	yyout = ft;
  	fIR = fopen("IR.cpp", "w");
- 	fprintf(fIR, "#include <bits/stdc++.h>\nusing namespace std;\n\n");
+ 	fprintf(fIR, "#include <bits/stdc++.h>\n#include \"improvisations.cpp\"\nusing namespace std;\n\n");
  	
 
  	yyparse();

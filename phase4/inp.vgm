@@ -162,6 +162,8 @@ func int main(myClass obj, float b, char c, string str, int myArr[]){
 	expr len = call getStr().strlen();
 	expr len = str1.strlen();
 	
+	declr vect<int> myVec;
+	expr myVec = {1, 2, 3, 4, 5};
 	
 	expr len = strcmp(str1, call getStr());
 	
