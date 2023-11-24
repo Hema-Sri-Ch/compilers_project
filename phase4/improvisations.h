@@ -13,7 +13,7 @@ void unweightedDfs(int node, vector<vector<int>>& adj, vector<int>& vis, vector<
 	return;
 }
 
-void weightedDfs(int node, vector<vector<pair<int, int>>>& adj, vector<int>& vis, vector<int>& res)
+void weightedDfs(int node, vector<vector<pair<int, double>>>& adj, vector<int>& vis, vector<int>& res)
 {
 	vis[node]=1;
 	res.push_back(node);
@@ -48,7 +48,7 @@ void unweightedBfs(int node, vector<vector<int>>& adj, vector<int>& vis, vector<
 	return;
 }
 
-void weightedBfs(int node, vector<vector<pair<int, int>>>& adj, vector<int>& vis, vector<int>& res)
+void weightedBfs(int node, vector<vector<pair<int, double>>>& adj, vector<int>& vis, vector<int>& res)
 {
 	vis[node]=1;
 	queue<int> q;
@@ -76,15 +76,15 @@ class graph
 	public:
 	int vertices;
 	vector<vector<int>> edges;
-	vector<vector<pair<int, int>>> weightedEdges;
+	vector<vector<pair<int, double>>> weightedEdges;
 	int flag; // To tell whether it is weighted or unweighted
 
 
 	graph(int n)
 	{
 		vertices = n;
-		edges.resize(n+1, vector<int>(10));
-		weightedEdges.resize(n+1, vector<pair<int,int>>(10) );
+		edges.resize(n+1, vector<int>(0));
+		weightedEdges.resize(n+1, vector<pair<int,double>>(0) );
 	}
 
 	void setFlag(int val)
@@ -119,12 +119,12 @@ class graph
 		return edges;
 	}
 
-	vector<vector<pair<int, int>>> getWeightedEdges()
+	vector<vector<pair<int, double>>> getWeightedEdges()
 	{
 		return weightedEdges;
 	}
 
-	int addWeightedEdge(int u, int v, int weight)
+	int addWeightedEdge(int u, int v, double weight)
 	{
 		if(u>vertices || v> vertices)
 		{
@@ -149,7 +149,7 @@ class graph
 			int sz = edges[i].size();
 			if(sz==0) continue;
 			cout << i << "\t:\t";
-			for(int j=0; j<sz; i++)
+			for(int j=0; j<sz; j++)
 			{
 				cout << edges[i][j];
 				if(j!=sz-1) cout << ",\t";
@@ -187,6 +187,38 @@ class graph
 		}
 	}
 
+	vector<int> adjUnweighted(int node)
+	{
+		return edges[node];
+	}
+
+	vector<int> adjWeighted(int node)
+	{
+		vector<int> res;
+		int sz = weightedEdges[node].size();
+		for(int i=0; i<sz; i++)
+		{
+			res.push_back(weightedEdges[node][i].first);
+		}
+		return res;
+	}
+
+	vector<int> adjNodes(int node)
+	{
+		if(node>vertices)
+		{
+			cout << "ERROR: Invalid labelled node\n";
+			exit(1);
+		}
+		if(flag==0) return adjUnweighted(node);
+		else if(flag==1) return adjWeighted(node);
+		else
+		{
+			cout << "ERROR: Graph is not initialised yet\n";
+			exit(1);
+		}
+	}
+
 };
 
 typedef class graph graph;
@@ -195,7 +227,7 @@ vector<int> dfs(graph G, int node)
 {
 	int vertices = G.vertices;
 	vector<vector<int>> edges = G.edges;
-	vector<vector<pair<int, int>>> weightedEdges = G.weightedEdges;
+	vector<vector<pair<int, double>>> weightedEdges = G.weightedEdges;
 	int flag = G.flag;
 	if(node > vertices)
 	{
@@ -218,7 +250,7 @@ vector<int> bfs(graph G, int node)
 {
 	int vertices = G.vertices;
 	vector<vector<int>> edges = G.edges;
-	vector<vector<pair<int, int>>> weightedEdges = G.weightedEdges;
+	vector<vector<pair<int, double>>> weightedEdges = G.weightedEdges;
 	int flag = G.flag;
 	if(node > vertices)
 	{
@@ -237,11 +269,11 @@ vector<int> bfs(graph G, int node)
 	return res;
 }
 
-void shortest_path_func(graph G, int n, int m, vector<int>& path, int& value)
+void shortest_path_func(graph G, int n, int m, vector<int>& path, double& value)
 {
 	int vertices = G.vertices;
 	int flag = G.flag;
-	vector<vector<pair<int, int>>> weightedEdges = G.weightedEdges;
+	vector<vector<pair<int, double>>> weightedEdges = G.weightedEdges;
 	if(n > vertices || m > vertices)
 	{
 		cout << "Invalid labelled node\n";
@@ -293,12 +325,12 @@ void shortest_path_func(graph G, int n, int m, vector<int>& path, int& value)
 	return;
 }
 
-int shortest_path_value(graph G, int n, int m)
+double shortest_path_value(graph G, int n, int m)
 {
 	int vertices = G.vertices;
-	vector<vector<pair<int, int>>> weightedEdges = G.weightedEdges;
+	vector<vector<pair<int, double>>> weightedEdges = G.weightedEdges;
 	vector<int> path;
-	int value;
+	double value;
 	shortest_path_func(G,n,m,path,value);
 	return value;
 }
@@ -306,9 +338,9 @@ int shortest_path_value(graph G, int n, int m)
 vector<int> shortest_path(graph G, int n, int m)
 {
 	int vertices = G.vertices;
-	vector<vector<pair<int, int>>> weightedEdges = G.weightedEdges;
+	vector<vector<pair<int, double>>> weightedEdges = G.weightedEdges;
 	vector<int> path;
-	int value;
+	double value;
 	shortest_path_func(G,n,m,path,value);
 	return path;
 }
@@ -424,7 +456,7 @@ matrix GtM(graph G)
 matrix wGtM(graph G)
 {
 	int vertices = G.getVertices();
-	vector<vector<pair<int, int>>> weightedEdges = G.getWeightedEdges();
+	vector<vector<pair<int, double>>> weightedEdges = G.getWeightedEdges();
 	matrix res(vertices, vertices);
 	for(int i=0; i<vertices; i++)
 	{
@@ -570,4 +602,14 @@ string strjoin(string str1, string str2)
 	return result;
 }
 
-
+int strcmpr(string str1, string str2)
+{
+	int l1 = str1.size();
+	int l2 = str2.size();
+	if(l1!=l2) return 1;
+	for(int i=0; i<l1; i++)
+	{
+		if(str1[i]!=str2[i]) return 1;
+	}
+	return 0;
+}
