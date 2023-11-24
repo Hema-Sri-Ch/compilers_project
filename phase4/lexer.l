@@ -16,6 +16,20 @@
 	fprintf(fparse, "%s", yytext);
 }
 
+"addVal" {
+	fprintf(yyout, "reserved keyword: %s\n", yytext);
+    fprintf(fparse, "%s", yytext);
+    yylval.str=strdup(yytext);
+    return ADDVAL;
+}
+
+"getVal" {
+	fprintf(yyout, "reserved keyword: %s\n", yytext);
+    fprintf(fparse, "%s", yytext);
+    yylval.str=strdup(yytext);
+    return GETVAL;
+}
+
 "add_matx"|"sub_matx"|"mult_matx" {
 	fprintf(yyout, "reserved keyword: %s\n", yytext);
     fprintf(fparse, "%s", yytext);

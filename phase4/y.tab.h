@@ -89,26 +89,32 @@ extern int yydebug;
     null = 290,                    /* null  */
     FOR = 291,                     /* FOR  */
     WHILE = 292,                   /* WHILE  */
-    APPEND = 293,                  /* APPEND  */
-    REMOVE = 294,                  /* REMOVE  */
-    LENGTH = 295,                  /* LENGTH  */
-    SORT = 296,                    /* SORT  */
-    CLEAR = 297,                   /* CLEAR  */
-    AT = 298,                      /* AT  */
-    TRANSPOSE = 299,               /* TRANSPOSE  */
-    TRACE = 300,                   /* TRACE  */
-    TRAVERSAL = 301,               /* TRAVERSAL  */
-    STRLEN = 302,                  /* STRLEN  */
-    STRCUT = 303,                  /* STRCUT  */
-    STRCMP = 304,                  /* STRCMP  */
-    STRJOIN = 305,                 /* STRJOIN  */
-    MATXOP = 306,                  /* MATXOP  */
-    MAXTOGR = 307,                 /* MAXTOGR  */
-    GRTOMATX = 308,                /* GRTOMATX  */
-    SHPATH = 309,                  /* SHPATH  */
-    SHPATH_VAL = 310,              /* SHPATH_VAL  */
-    GOTO = 311,                    /* GOTO  */
-    PRINT = 312                    /* PRINT  */
+    GETVAL = 293,                  /* GETVAL  */
+    PRINTMATX = 294,               /* PRINTMATX  */
+    PRINTARRAY = 295,              /* PRINTARRAY  */
+    PRINTVECT = 296,               /* PRINTVECT  */
+    PRINTGRAPH = 297,              /* PRINTGRAPH  */
+    ADDVAL = 298,                  /* ADDVAL  */
+    APPEND = 299,                  /* APPEND  */
+    REMOVE = 300,                  /* REMOVE  */
+    LENGTH = 301,                  /* LENGTH  */
+    SORT = 302,                    /* SORT  */
+    CLEAR = 303,                   /* CLEAR  */
+    AT = 304,                      /* AT  */
+    TRANSPOSE = 305,               /* TRANSPOSE  */
+    TRACE = 306,                   /* TRACE  */
+    TRAVERSAL = 307,               /* TRAVERSAL  */
+    STRLEN = 308,                  /* STRLEN  */
+    STRCUT = 309,                  /* STRCUT  */
+    STRCMP = 310,                  /* STRCMP  */
+    STRJOIN = 311,                 /* STRJOIN  */
+    MATXOP = 312,                  /* MATXOP  */
+    MAXTOGR = 313,                 /* MAXTOGR  */
+    GRTOMATX = 314,                /* GRTOMATX  */
+    SHPATH = 315,                  /* SHPATH  */
+    SHPATH_VAL = 316,              /* SHPATH_VAL  */
+    GOTO = 317,                    /* GOTO  */
+    PRINT = 318                    /* PRINT  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -152,26 +158,32 @@ extern int yydebug;
 #define null 290
 #define FOR 291
 #define WHILE 292
-#define APPEND 293
-#define REMOVE 294
-#define LENGTH 295
-#define SORT 296
-#define CLEAR 297
-#define AT 298
-#define TRANSPOSE 299
-#define TRACE 300
-#define TRAVERSAL 301
-#define STRLEN 302
-#define STRCUT 303
-#define STRCMP 304
-#define STRJOIN 305
-#define MATXOP 306
-#define MAXTOGR 307
-#define GRTOMATX 308
-#define SHPATH 309
-#define SHPATH_VAL 310
-#define GOTO 311
-#define PRINT 312
+#define GETVAL 293
+#define PRINTMATX 294
+#define PRINTARRAY 295
+#define PRINTVECT 296
+#define PRINTGRAPH 297
+#define ADDVAL 298
+#define APPEND 299
+#define REMOVE 300
+#define LENGTH 301
+#define SORT 302
+#define CLEAR 303
+#define AT 304
+#define TRANSPOSE 305
+#define TRACE 306
+#define TRAVERSAL 307
+#define STRLEN 308
+#define STRCUT 309
+#define STRCMP 310
+#define STRJOIN 311
+#define MATXOP 312
+#define MAXTOGR 313
+#define GRTOMATX 314
+#define SHPATH 315
+#define SHPATH_VAL 316
+#define GOTO 317
+#define PRINT 318
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -195,7 +207,7 @@ union YYSTYPE
 		char* text;
 	} Cols;
 
-#line 199 "y.tab.h"
+#line 211 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

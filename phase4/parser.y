@@ -180,6 +180,12 @@ void freeStringArray(char** array, size_t count) {
 %token null
 %token FOR
 %token WHILE
+%token <str> GETVAL
+%token <str> PRINTMATX
+%token <str> PRINTARRAY
+%token <str> PRINTVECT
+%token <str> PRINTGRAPH
+%token <str> ADDVAL
 %token <str> APPEND
 %token <str> REMOVE
 %token <str> LENGTH
@@ -227,7 +233,7 @@ class					: CLASS id '{' {
 								
 							else class_insert($2.str);
 							
-							fprintf(fIR, "class %s {\n", $2.text);
+							fprintf(fIR, "class %s {\npublic:", $2.text);
 							
 						} class_items '}' { var_delete(level); level--; inClass = 0; fprintf(fIR, "};\n");} ';' {fprintf(fparse, " : CLASS DEFINITION");}
 						;
@@ -250,6 +256,8 @@ id						: newid {$$.str=$1; $$.text=$1;}
 						| GRTOMATX {$$.str=$1; $$.text=$1;}
 						| SHPATH {$$.str=$1; $$.text=$1;}
 						| SHPATH_VAL {$$.str=$1; $$.text=$1;}
+						| ADDVAL {$$.str=$1; $$.text=$1;}
+						| GETVAL {$$.str=$1; $$.text=$1;}
 						;
 						
 class_items				: class_item {fprintf(fIR, "\n");}class_items
@@ -485,7 +493,66 @@ statement				: expr_stmt
 						| BREAK ';' {fprintf(fparse, " : BREAK STATEMENT");}
 						| CONTINUE ';' {fprintf(fparse, " : CONTINUE STATEMENT");}
 						| print_stmt
+						| independent_funcs ';'
 						;
+						
+independent_funcs		: resultant '.' ADDVAL '(' remove_body ',' remove_body ',' remove_body ')' {
+							if(strcmp($1.str, "matrix")){
+								printf("%d Error: Only matrix can call addVal function\n", yylineno);
+								exit(1);
+							}
+							
+							int a = !strcmp($5.str, "int");
+							int b = !strcmp($7.str, "int");
+							int c = !strcmp($9.str, "int") || !strcmp($9.str, "float") || !strcmp($9.str, "bool");
+							
+							if(!(a && b && c)){
+								printf("%d Error: Invalid argument types for addVal function\n", yylineno);
+								exit(1);
+							}
+							
+							printTabs();
+							fprintf(fIR, "%s.addValue(%s, %s, %s);\n", $1.text, $5.text, $7.text, $9.text);
+						}
+						| resultant '.' PRINTMATX '(' ')' {
+							if(strcmp($1.str, "matrix")){
+								printf("%d Error: Only matrix can call printMatrix function\n", yylineno);
+								exit(1);
+							}
+							
+							printTabs();
+							fprintf(fIR, "%s.printMatrix();\n", $1.text);
+						}
+						| resultant '.' PRINTGRAPH '(' ')' {
+							if(strcmp($1.str, "graph")){
+								printf("%d Error: Only graph can call printGraph function\n", yylineno);
+								exit(1);
+							}
+							
+							printTabs();
+							fprintf(fIR, "%s.printGraph();\n", $1.text);
+						}
+						| PRINTARRAY '(' resultant ')' {
+							if($3.text[0] == '#'){
+								printf("%d Error: Invalid argument for printArray function\n", yylineno);
+								exit(1);
+							}
+							
+							printTabs();
+							fprintf(fIR, "printArray(%s);\n", $3.text);
+						}
+						| PRINTVECT '(' resultant ')' {
+							if($3.str[0] != '*'){
+								printf("%d Error: Invalid argument for printVect function\n", yylineno);
+								exit(1);
+							}
+							
+							printTabs();
+							fprintf(fIR, "printVect(%s);\n", $3.text);
+						}
+						;
+						
+						
 
 print_stmt				: PRINT '(' print_body ')' ';'
 						 {
@@ -1051,6 +1118,7 @@ expr_stmt				: EXPR LHS '=' RHS ';' {
 									if(dimAval != -1 && dummy_size!=dimAval) 
 									{
 										printf("%d ERROR: Number of rows mismatch\n", yylineno);
+										printf("dummy_size: %d, dimAval: %d\n", dummy_size, dimAval); 
 										exit(1);
 									}
 									for(int i=0; i<dummy_size; i++)
@@ -1065,9 +1133,9 @@ expr_stmt				: EXPR LHS '=' RHS ';' {
 									printTabs();
 									fprintf(fIR, "%s.vals = %s;", $2.text, $4.text);
 								}
-								else if(strcmp("array", $2.type)==0)
+								else if($2.type[0] == '#')
 								{
-									if(strcmp(element_type, $4.str)!=0 && strcmp($4.str, "any")!=0)
+									if(strcmp($2.type, $4.str) && strcmp($4.str, "any")!=0)
 									{
 										printf("%d ERROR: Element-type mismatch in array\n", yylineno);
 										exit(1);
@@ -1159,6 +1227,7 @@ LHS						: myId {
 										    // dataType = 2;
 				   				     $$.type = result;
 								}
+								
 								else {
 									$$.type = class_symb[class_size-1].declr_list[j].type;
 								}
@@ -1178,6 +1247,7 @@ LHS						: myId {
 										    // dataType = 2;
 						   			$$.type = result;
 								}
+								
 								else{
 									$$.type = var_symb[i].type;
 								}
@@ -1245,6 +1315,7 @@ LHS						: myId {
 										    // dataType = 2;
 						   				     $$.type = result;
 										}
+										
 										else {
 											$$.type = class_symb[i].declr_list[j].type;	
 										}
@@ -1283,6 +1354,7 @@ LHS						: myId {
 										    // dataType = 2;
 						   				     $$.type = result;
 									}
+									
 									else{
 										$$.type = struct_symb[i].list[j].type;
 									}
@@ -1729,6 +1801,28 @@ matrix_list				: matrix_list ',' id '[' INT_CONST ']' '[' INT_CONST ']'
 								//free(myText);
 								$$.text = myText;
 							}
+							
+						| matrix_list ',' id '[' LHS ']' '[' LHS ']'
+							{
+								arr[arr_size] = $3.str;
+								
+								arr_size++;
+								
+								char* myText = (char*)malloc(strlen($1.text)+strlen($3.text)+strlen($5.text)+strlen($8.text)+7);
+								strcpy(myText, $1.text);
+								strcat(myText, ", ");
+								strcat(myText, $3.text);
+								strcat(myText, "(");
+								strcat(myText, $5.text);
+								strcat(myText, ", ");
+								strcat(myText, $8.text);
+								strcat(myText, ")");
+								//strcpy($$.text, myText);
+								//free(myText);
+								$$.text = myText;
+							}
+						
+							
 						| id '[' INT_CONST ']' '[' INT_CONST ']'
 							{
 								arr[arr_size] = $1.str;
@@ -1747,6 +1841,22 @@ matrix_list				: matrix_list ',' id '[' INT_CONST ']' '[' INT_CONST ']'
 								strcat(myText, $3);
 								strcat(myText, ", ");
 								strcat(myText, $6);
+								strcat(myText, ")");
+								
+								$$.text = myText;
+							}
+						| id '[' LHS ']' '[' LHS ']'
+							{
+								arr[arr_size] = $1.str;
+								
+								arr_size++;
+								
+								char* myText = (char*)malloc(strlen($1.text)+strlen($3.text)+strlen($6.text)+5);
+								strcpy(myText, $1.text);
+								strcat(myText, "(");
+								strcat(myText, $3.text);
+								strcat(myText, ", ");
+								strcat(myText, $6.text);
 								strcat(myText, ")");
 								
 								$$.text = myText;
@@ -1853,7 +1963,8 @@ extra_consts			: array_const{$$.str = $1.str; $$.text = $1.text;}
 
 array_const				: '[' val_list ']'
 							{
-								$$.str = $2.str;
+								
+								$$.str = $2.text;
 								
 								char* myText = (char*)malloc(strlen($2.text)+3);
 								strcpy(myText, "{");
@@ -1959,10 +2070,9 @@ impr					: resultant '.' LENGTH '(' ')'{
 									exit(1);
 								}
 								
-								char* myText = (char*)malloc(strlen("strlen()") + strlen($1.text));
-								strcpy(myText, "strlen(");
-								strcat(myText, $1.text);
-								strcat(myText, ")");
+								char* myText = (char*)malloc(strlen(".size()") + strlen($1.text));
+								strcpy(myText, $1.text);
+								strcpy(myText, ".size()");
 								
 								strcpy($$.text, myText);
 								free(myText);
@@ -1977,8 +2087,8 @@ impr					: resultant '.' LENGTH '(' ')'{
 								}
 								
 								
-								char* myText = (char*)malloc(strlen("strcmp(, )") + strlen($3.text) + strlen($5.text));
-								strcpy(myText, "strcmp(");
+								char* myText = (char*)malloc(strlen("strcmpr(, )") + strlen($3.text) + strlen($5.text));
+								strcpy(myText, "strcmpr(");
 								strcat(myText, $3.text);
 								strcat(myText, ", ");
 								strcat(myText, $5.text);
@@ -2157,6 +2267,32 @@ matrix_impr				: MATXOP '(' matr_body ',' matr_body ')'
 									exit(1);
 								}
 							}
+							
+						| resultant '.' GETVAL '(' remove_body ',' remove_body ')' {
+							if(strcmp($1.str, "matrix")){
+								printf("%d Error: Only matrix can call getVal function\n", yylineno);
+								exit(1);
+							}
+							
+							int a = !(strcmp($5.str, "int"));
+							int b = !(strcmp($7.str, "int"));
+							
+							if(!(a && b)){
+								printf("%d Error: invalid arguments in getVal function\n", yylineno);
+								exit(1);
+							}
+							
+							char* myText = (char*)malloc(strlen($1.text)+strlen(".getValue(, )")+strlen($5.text)+strlen($7.text)+1);
+							strcpy(myText, $1.text);
+							strcat(myText, ".getValue(");
+							strcat(myText, $5.text);
+							strcat(myText, ", ");
+							strcat(myText, $7.text);
+							strcat(myText, ")");
+							
+							$$.str = "int";
+							$$.text = myText;
+						}
 						;
 						
 matr_body				: RHS {$$.str = $1.str;}
@@ -2688,9 +2824,9 @@ func_calls				: call_head arguments {
 							char* myText = (char*)malloc(strlen($1.text) + strlen($2.text) + 1);
 							strcpy(myText, $1.text);
 							strcat(myText, $2.text);
-							
-							strcpy($$.text, myText);
-							free(myText);
+							$$.text = myText;
+							// strcpy($$.text, myText);
+							// free(myText);
 						}
 						;
 						
@@ -2715,65 +2851,14 @@ arguments				: '(' arg_list ')' {
 							strcpy(myText, "(");
 							strcat(myText, $2.text);
 							strcat(myText, ")");
-							strcpy($$.text, myText);
-							free(myText);
+							$$.text = myText;
+							// strcpy($$.text, myText);
+							// free(myText);
 						}
 						| '(' ')' {$$.text = "()";}
 						;
 						
-arg_list				: RHS {
-
-							// tot size; list
-							
-							int maxSize;
-							if(callClassIndex == -1) maxSize = func_symb[callFuncIndex].param_no;
-							else maxSize = class_symb[callClassIndex].func_list[callFuncIndex].param_no;
-							
-							if(myIndex >= maxSize){
-								printf("%d Error: Excess functional arguments for function %s\n", yylineno, func_symb[callFuncIndex].name);
-								exit(1);
-							}
-							
-							else{
-								char* myType = NULL;
-								if(callClassIndex == -1) {
-									int k = strlen(func_symb[callFuncIndex].args[myIndex]);
-									myType = (char*)malloc(k+1);
-									myType = func_symb[callFuncIndex].args[myIndex];
-									myType[k] = '\0';
-								}
-								else {
-									int k = strlen(class_symb[callClassIndex].func_list[callFuncIndex].args[myIndex]);
-									myType = (char*)malloc(k+1);
-									myType = class_symb[callClassIndex].func_list[callFuncIndex].args[myIndex];
-									myType[k]='\0';
-								}
-								
-								if(strcmp(myType, $1.str)){
-									// type mismatched. Now check if it is ignorable or not
-									int a = !strcmp(myType, "int") || !strcmp(myType, "float") || !strcmp(myType, "bool");
-									int b = !strcmp($1.str, "int") || !strcmp($1.str, "float") || !strcmp($1.str, "bool");
-									
-									if(!(a && b)){
-										printf("%d Error: for argument-%d expected argument type: %s, given argument type %s\n", yylineno, myIndex+1, myType, $1.str);
-										free(myType);
-										exit(1);
-									}
-									
-									else {
-										myIndex++;
-										free(myType);
-									}
-								}
-								
-								else myIndex++;
-								free(myType);
-								
-							}
-							
-							$$.text = $1.text;
-						}
-						| arg_list ',' RHS {
+arg_list				: arg_list ',' RHS {
 							int maxSize;
 							if(callClassIndex == -1) maxSize = func_symb[callFuncIndex].param_no;
 							else maxSize = class_symb[callClassIndex].func_list[callFuncIndex].param_no;
@@ -2819,8 +2904,60 @@ arg_list				: RHS {
 							strcpy(myText, $1.text);
 							strcat(myText, ", ");
 							strcat(myText, $3.text);
-							strcpy($$.text, myText);
-							free(myText);
+							$$.text = myText;
+							// strcpy($$.text, myText);
+							// free(myText);
+						}
+						| RHS {
+
+							// tot size; list
+							
+							int maxSize;
+							if(callClassIndex == -1) maxSize = func_symb[callFuncIndex].param_no;
+							else maxSize = class_symb[callClassIndex].func_list[callFuncIndex].param_no;
+							
+							if(myIndex >= maxSize){
+								printf("%d Error: Excess functional arguments for function %s\n", yylineno, func_symb[callFuncIndex].name);
+								exit(1);
+							}
+							
+							else{
+								char* myType = NULL;
+								if(callClassIndex == -1) {
+									int k = strlen(func_symb[callFuncIndex].args[myIndex]);
+									myType = (char*)malloc(k+1);
+									myType = func_symb[callFuncIndex].args[myIndex];
+									myType[k] = '\0';
+								}
+								else {
+									int k = strlen(class_symb[callClassIndex].func_list[callFuncIndex].args[myIndex]);
+									myType = (char*)malloc(k+1);
+									myType = class_symb[callClassIndex].func_list[callFuncIndex].args[myIndex];
+									myType[k]='\0';
+								}
+								if(strcmp(myType, $1.str)){
+									// type mismatched. Now check if it is ignorable or not
+									int a = !strcmp(myType, "int") || !strcmp(myType, "float") || !strcmp(myType, "bool");
+									int b = !strcmp($1.str, "int") || !strcmp($1.str, "float") || !strcmp($1.str, "bool");
+									
+									if(!(a && b)){
+										printf("%d Error: for argument-%d expected argument type: %s, given argument type %s\n", yylineno, myIndex+1, myType, $1.str);
+										free(myType);
+										exit(1);
+									}
+									
+									else {
+										myIndex++;
+										free(myType);
+									}
+								}
+								
+								else myIndex++;
+								free(myType);
+								
+							}
+							
+							$$.text = $1.text;
 						}
 						;
 
