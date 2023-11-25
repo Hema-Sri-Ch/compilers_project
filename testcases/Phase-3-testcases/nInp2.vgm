@@ -1,0 +1,70 @@
+func vect<string> splitString(string str){
+	declr vect<string> ans;
+	declr int start, end;
+	
+	expr start = 0;
+	expr end = 0;
+	declr int i;
+	declr string c;
+	loop for(expr i=0; (i lt str.strlen()); incr(i)){
+		expr c = str[i];
+		incr(end);
+		if((strcmp(c, " ") eq 0)) {
+			if((sub(end, start) gt 0)) {
+				ans.append(str.strcut(start, sub(end,1)));
+			}
+			
+			expr start = add(i, 1);
+			expr end = start;
+		}
+	}
+	
+	
+	return ans;
+}
+
+
+!! This function prints words in sorted order ALL WORDS TOGETHER !!
+func void PrintWords2(vect<string> words)
+{
+	words.sort();
+	
+	declr string ans;
+	declr int i;
+	expr i = 'c';
+	expr ans = "";
+	
+	loop while((i lt words.length())) {
+		expr ans = strjoin(ans, words.at(i));
+		incr(i);
+	}
+	print(ans);
+	return null;
+}
+
+
+!! This function prints words ONE WORD PER LINE !!
+func void PrintWords1(vect<string> words)
+{
+	declr string word;
+	declr int i;
+	expr i = 0;
+	loop while((i lt words.length())) {
+		expr word = words.at(i);
+		incr(i);
+		print(word);
+	}
+	return null;
+}
+
+func int main()
+{
+	declr string str;
+	expr str = "Both forms are valid, and you can choose the one that you find more readable or that fits the coding style of your project. If you're working with an older C++ compiler that doesn't support C++11 features, the second form with parentheses is the only option.";
+	declr vect<string> ans;
+	expr ans = call splitString(str);
+	
+	call PrintWords1(ans);
+	call PrintWords2(ans);
+	return 0;
+}

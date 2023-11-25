@@ -461,7 +461,7 @@
 
 . {
 	// printf("EXTRA:	%s\n", yytext);
-	fprintf(yyout, "invalid statement in lexer");
+	printf("%d ERROR: invalid statement in lexer\n", yylineno);
     exit(1);
 }
 

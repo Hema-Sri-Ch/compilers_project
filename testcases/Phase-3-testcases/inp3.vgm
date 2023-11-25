@@ -1,0 +1,120 @@
+func int main()
+{
+    declr matrix A[2][2], B[2][1];
+    declr matrix C[1][3];
+
+    expr A =
+    [
+        [1,1.5];
+        [6.1,2.123];
+    ];
+
+    expr B = 
+    [
+        [3];
+        [7.123];
+    ];
+
+    declr graph G1[10], G2[5], G3[7]; !! I'm getting many commas in IR.cpp !!
+
+    expr G1=
+    {
+        1:2,3;
+        2:1;
+        3:4,5;
+    };
+
+    expr G2=
+    {
+        1:(2,1), (5,1.5);
+		5:(4,11);
+		2:(5,2), (3,2.5);
+		3:(4,0);
+    };
+
+	print("Printing graph G1:");
+    G1.printGraph();
+	print("Printing graph G1:");
+    G2.printGraph(); 
+
+    declr vect<int> myVec1;
+    expr myVec1 = G1.adjNodes(1); 
+
+    declr vect<int> myVec2;
+    expr myVec2 = G1.dfs(1); 
+
+    declr vect<int> myVec3;
+    expr myVec3 = G1.bfs(3); 
+
+    declr int i;
+    
+    print("Adjacent nodes of vertex 1 in graph G1");
+    loop for(expr i=0; (i lt myVec1.length()); incr(i))
+	{
+        declr int i2;
+        expr i2 = myVec1.at(i);
+		print(i2);
+	}
+        
+    
+    print("dfs traversal from vertex 1 in graph G1");
+    loop for(expr i=0; (i lt myVec2.length()); incr(i))
+	{
+        declr int i2;
+        expr i2 = myVec1.at(i);
+		print(i2);
+	}
+
+    declr int myInt1;
+    expr myInt1 = G2.shortest_path_value(1,4);
+    print("Shortest path value from vertex 1 to 4 in graph G2 ", myInt1); 
+
+    declr vect<int> myVec4;
+    expr myVec4 = G2.shortest_path(3,5);
+    
+    print("Shortest path from vertex 3 to 5 in graph G2:");
+    loop for(expr i=0; (i lt myVec2.length()); incr(i))
+	{
+        declr int i2;
+        expr i2 = myVec1.at(i);
+		print(i2);
+	}
+    
+    declr float myFloat1;
+    expr myFloat1 = G2.shortest_path_value(3,5);
+    print("Shortest path value from vertex 3 to 5 in graph G2: ", myFloat1);
+
+
+    C.printMatrix();
+    declr matrix M1[10][10];
+    expr M1 = G2.graph_to_matx();
+    print("Graph G2 converted to matrix M1; M1:");
+    M1.printMatrix(); 
+
+    expr G3 = A.matx_to_graph(); 
+    print("Matrix A converted to Graph G3; G3:");
+    G3.printGraph();
+
+    expr C = add_matx(B,B);
+!!    C.printMatrix(); !!
+    declr int r1, c1;
+    expr r1 = C.getRows();
+    expr c1 = C.getCols();
+!!    print(r1, " ", c1);!!
+
+    expr C = mult_matx(A, B);
+    print("Result of Matrix multiplication AxB:");
+    C.printMatrix();
+
+    expr C = C.transpose();
+    print("Transpose of matrix C");
+    C.printMatrix();
+
+    declr float myInt2;
+    expr myInt2 = A.trace();
+    print("Trace of matrix A: ", myInt2);
+
+
+
+    return 0;
+}

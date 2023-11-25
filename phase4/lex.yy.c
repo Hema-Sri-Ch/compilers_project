@@ -1588,7 +1588,7 @@ YY_RULE_SETUP
 #line 462 "lexer.l"
 {
 	// printf("EXTRA:	%s\n", yytext);
-	fprintf(yyout, "invalid statement in lexer");
+	printf("%d ERROR: invalid statement in lexer\n", yylineno);
     exit(1);
 }
 	YY_BREAK

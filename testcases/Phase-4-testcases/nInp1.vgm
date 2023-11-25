@@ -1,0 +1,63 @@
+class Solution {
+	func bool isSubsetSum(vect<int> arr, int sum){
+		declr int a, b;
+        expr a = add(arr.length(),1);
+        expr b = add(sum,1);
+        declr matrix store[a][b];
+        declr int i;
+        
+        loop for(expr i=1; (i lt b); incr(i)) 
+        {
+        	store.addVal(0, i, 0);
+        }
+        loop for(expr i=0; (i lt a); incr(i)) 
+        {
+        	store.addVal(i, 0, 1);
+        }
+        
+        loop for(expr i=1; (i lte arr.length()); incr(i)){
+        	declr int j;
+            loop for( expr j=1; (j lte sum); incr(j)){
+            	expr a = sub(i, 1);
+                if((arr.at(a) gt j)) {
+                	expr a = store.getVal(sub(i, 1), j);
+                	store.addVal(i, j, a);
+                }
+                else{
+                	expr a = store.getVal(sub(i, 1), sub(j, arr.at(sub(i, 1))));
+                	expr b = store.getVal(sub(i, 1), j);
+                    if ( (b or a) ) {
+                    	store.addVal(i, j, 1);
+                    }
+                    else {store.addVal(i, j, 0);}
+                    else store.addVal(i, j, 0); !! here comes syntax error !!
+                }
+            }
+        }
+        
+        return store.getVal(arr.length(), add(sum, sum)); !! here comes length exceeded error !!
+		!! return store.getVal(arr.length(), sum); !!
+	}
+};
+
+func int main() 
+{ 
+    declr int t;
+    expr t = 2;
+    loop while(decr(t))
+    {
+        declr int N, sum, i;
+        expr N = 5;
+        declr vect<int> arr;
+        loop for(expr i = 0; (i lt N); incr(i)){
+            arr.append(mul(5, i));
+        }
+        
+        expr sum = 15*t;
+        
+        declr Solution ob;
+        expr i = call ob->isSubsetSum(arr, sum);
+        print(i);
+    }
+    return 0; 
+}

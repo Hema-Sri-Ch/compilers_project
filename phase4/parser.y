@@ -503,8 +503,8 @@ statement				: expr_stmt
 						| return_stmt {fprintf(fparse," : RETURN STATEMENT");}
 						| unary_stmt
 						| vect_stmt
-						| BREAK ';' {fprintf(fparse, " : BREAK STATEMENT");}
-						| CONTINUE ';' {fprintf(fparse, " : CONTINUE STATEMENT");}
+						| BREAK ';' {fprintf(fparse, " : BREAK STATEMENT"); printTabs(); fprintf(fIR, "break;\n");}
+						| CONTINUE ';' {fprintf(fparse, " : CONTINUE STATEMENT");printTabs(); fprintf(fIR, "continue;\n");}
 						| print_stmt
 						| independent_funcs ';'
 						;
@@ -1911,7 +1911,7 @@ ifcond_stmt				: IF '(' RHS ')' {
 						;
 						
 						
-if_body					: function_body ELSE {fprintf(fIR, "else\n");}function_body
+if_body					: function_body ELSE {printTabs(); fprintf(fIR, "else\n");}function_body
 						| function_body
 						;
 
@@ -3024,36 +3024,25 @@ arg_list				: arg_list ',' RHS {
 
 %%
 
-/*
-int main(){
-	yyparse();
-	return 0;
-}
-*/
-
 
 int yyerror(const char *msg)
 {
-	/*
-	extern int yylineno;
-	printf("Parsing Failed\nLine Number: %d %s\n",yylineno,msg);
-	printf( " : invalid statement");
-	return 0;
-	*/
 	printf("Parsing Failed\nLine Number: %d, %s\n",yylineno,msg);
 	fprintf(fparse, " : invalid statement");
 	exit(0);
 }
 
 int main() {
- 	FILE* fp = fopen("inp.vgm", "r");
+	char* inpFile = (char*)malloc(256);
+	strcpy(inpFile, "../testcases/Phase-4-testcases/");
+	strcat(inpFile, "nInp4.vgm");
+ 	FILE* fp = fopen(inpFile, "r");
     yyin = fp;
     fparse = fopen("parsed.txt", "w");
  	FILE* ft = fopen("tokens.txt", "w");
  	yyout = ft;
  	fIR = fopen("IR.cpp", "w");
  	fprintf(fIR, "#include <bits/stdc++.h>\n#include \"improvisations.h\"\nusing namespace std;\n\n");
- 	
 
  	yyparse();
  	
@@ -3070,7 +3059,3 @@ int main() {
  	fclose(ft);
  	fclose(fp);
  }
-
-
-
-

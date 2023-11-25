@@ -2154,7 +2154,10 @@ int yyerror(const char *msg)
 }
 
 int main() {
- 	FILE* fp = fopen("input.txt", "r");
+	char* inpFile = (char*)malloc(256);
+	strcpy(inpFile, "../testcases/Phase-2-testcases/");
+	strcat(inpFile, "nInp1.vgm");
+ 	FILE* fp = fopen(inpFile, "r");
     yyin = fp;
     fparse = fopen("parsed.txt", "w");
  	FILE* ft = fopen("tokens.txt", "w");

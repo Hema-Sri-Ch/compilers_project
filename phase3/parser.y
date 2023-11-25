@@ -1866,7 +1866,10 @@ int yyerror(const char *msg)
 }
 
 int main() {
- 	FILE* fp = fopen("inp.vgm", "r");
+	char* inpFile = (char*)malloc(256);
+	strcpy(inpFile, "../testcases/Phase-3-testcases/");
+	strcat(inpFile, "inp2.vgm");
+ 	FILE* fp = fopen(inpFile, "r");
     yyin = fp;
     fparse = fopen("parsed.txt", "w");
  	FILE* ft = fopen("tokens.txt", "w");

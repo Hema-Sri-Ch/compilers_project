@@ -2636,13 +2636,13 @@ yyreduce:
 
   case 80: /* statement: BREAK ';'  */
 #line 506 "parser.y"
-                                                            {fprintf(fparse, " : BREAK STATEMENT");}
+                                                            {fprintf(fparse, " : BREAK STATEMENT"); printTabs(); fprintf(fIR, "break;\n");}
 #line 2641 "y.tab.c"
     break;
 
   case 81: /* statement: CONTINUE ';'  */
 #line 507 "parser.y"
-                                                               {fprintf(fparse, " : CONTINUE STATEMENT");}
+                                                               {fprintf(fparse, " : CONTINUE STATEMENT");printTabs(); fprintf(fIR, "continue;\n");}
 #line 2647 "y.tab.c"
     break;
 
@@ -4323,7 +4323,7 @@ yyreduce:
 
   case 168: /* $@21: %empty  */
 #line 1914 "parser.y"
-                                                             {fprintf(fIR, "else\n");}
+                                                             {printTabs(); fprintf(fIR, "else\n");}
 #line 4328 "y.tab.c"
     break;
 
@@ -5997,36 +5997,25 @@ yyreturnlab:
 #line 3025 "parser.y"
 
 
-/*
-int main(){
-	yyparse();
-	return 0;
-}
-*/
-
 
 int yyerror(const char *msg)
 {
-	/*
-	extern int yylineno;
-	printf("Parsing Failed\nLine Number: %d %s\n",yylineno,msg);
-	printf( " : invalid statement");
-	return 0;
-	*/
 	printf("Parsing Failed\nLine Number: %d, %s\n",yylineno,msg);
 	fprintf(fparse, " : invalid statement");
 	exit(0);
 }
 
 int main() {
- 	FILE* fp = fopen("inp.vgm", "r");
+	char* inpFile = (char*)malloc(256);
+	strcpy(inpFile, "../testcases/Phase-3-testcases/");
+	strcat(inpFile, "nInp4.vgm");
+ 	FILE* fp = fopen(inpFile, "r");
     yyin = fp;
     fparse = fopen("parsed.txt", "w");
  	FILE* ft = fopen("tokens.txt", "w");
  	yyout = ft;
  	fIR = fopen("IR.cpp", "w");
  	fprintf(fIR, "#include <bits/stdc++.h>\n#include \"improvisations.h\"\nusing namespace std;\n\n");
- 	
 
  	yyparse();
  	
@@ -6043,7 +6032,3 @@ int main() {
  	fclose(ft);
  	fclose(fp);
  }
-
-
-
-

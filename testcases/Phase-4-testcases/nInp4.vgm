@@ -50,9 +50,7 @@ class myClassB {
 	
 	func int nCr(int n, int r){
 	
-		if((r gt n)){
-			return -1;
-		}
+		if((r gt n)) return -1; !! SYNTAX ERROR !!
 		
 		if((r eq 0)){
 			return 1;
@@ -61,13 +59,13 @@ class myClassB {
 		if((r eq n)){
 			return 1;
 		}
-		!!
+		
 		declr int a, b;
 		expr a = call itemH->factorial(n);
 		expr b = mul(call itemH->factorial(sub(n, r)), call itemH->factorial(r));
-		return div(a, b); !!
+		return div(a, b);
 		
-		return div(call itemH->factorial(n),  mul(call itemH->factorial(sub(n, r)), call itemH->factorial(r)));
+		!! return div(call itemH->factorial(n),  mul(call itemH->factorial(sub(n, r)), call itemH->factorial(r)))!!
 	}
 	
 	func vect<int> getCoeffs(int n) {
@@ -131,15 +129,13 @@ func int main() {
 				print("Values of sub sub sub sub attributes:");
 				print(obj->itemH->itemF->itemD->itemA);
 				
-				call printVec(obj->itemH->itemF->itemD->itemB);
-				
-				!!
+				!! call printVec(obj->itemH->itemF->itemD->itemB) !!
 				declr int i, temp;
 				expr i = 0;
 				loop for(expr i=0; (i lt obj->itemH->itemF->itemD->itemB.length()); incr(i)){
 					expr temp = obj->itemH->itemF->itemD->itemB.at(i);
 					print(temp);
-				} !!
+				}
 				break;
 			}
 			

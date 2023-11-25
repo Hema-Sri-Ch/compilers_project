@@ -13,16 +13,28 @@ class myClassA {
 	declr int itemE; : DECLARATION STATEMENT
 	declr myStructB itemF; : DECLARATION STATEMENT
 	
+	func void Initialise() : FUNCTION HEAD{
+		expr itemE = 16; : EXPRESSION STATEMENT
+		
+		expr itemF->itemC = 24; : EXPRESSION STATEMENT
+		expr itemF->itemD->itemA = 32; : EXPRESSION STATEMENT
+		expr itemF->itemD->itemB = {40, 48, 56, 64}; : EXPRESSION STATEMENT
+		return null; : RETURN STATEMENT : RETURN STATEMENT
+	}
+	
 	func int factorial(int k) : FUNCTION HEAD
 	{
-		declr int ans, num; : DECLARATION STATEMENT
-		expr num = itemE; : EXPRESSION STATEMENT
-		expr ans = k; : EXPRESSION STATEMENT
-		loop while (decr(num))
-		{
-			expr ans = mul(ans, num); : EXPRESSION STATEMENT
+		if((k eq 0)) : CONDITIONAL STATEMENT {
+			return 1; : RETURN STATEMENT : RETURN STATEMENT
+		}
+		declr int ans, num, i; : DECLARATION STATEMENT
+		expr num = k; : EXPRESSION STATEMENT
+		expr ans = 1; : EXPRESSION STATEMENT
+		loop for(expr i = 1; : EXPRESSION STATEMENT (i lte k); incr(i)){
+			expr ans = mul(ans, i); : EXPRESSION STATEMENT
 		} : LOOP
-		return k; : RETURN STATEMENT : RETURN STATEMENT
+		
+		return ans; : RETURN STATEMENT : RETURN STATEMENT
 	}
 }; : CLASS DEFINITION
 
@@ -30,10 +42,22 @@ class myClassB {
 	declr int itemG; : DECLARATION STATEMENT
 	declr myClassA itemH; : DECLARATION STATEMENT
 	
+	func void Initialise() : FUNCTION HEAD{
+		expr itemG = 8; : EXPRESSION STATEMENT
+		call itemH->Initialise(); : CALL STATEMENT
+		return null; : RETURN STATEMENT : RETURN STATEMENT
+	}
+	
 	func int nCr(int n, int r) : FUNCTION HEAD{
 	
-		if((r gt n)) : CONDITIONAL STATEMENT{
-			return -1; : RETURN STATEMENT : RETURN STATEMENT
+		if((r gt n)) : CONDITIONAL STATEMENT {return 1; : RETURN STATEMENT : RETURN STATEMENT}
+		
+		if((r eq 0)) : CONDITIONAL STATEMENT{
+			return 1; : RETURN STATEMENT : RETURN STATEMENT
+		}
+		
+		if((r eq n)) : CONDITIONAL STATEMENT{
+			return 1; : RETURN STATEMENT : RETURN STATEMENT
 		}
 		
 		declr int a, b; : DECLARATION STATEMENT
@@ -46,15 +70,61 @@ class myClassB {
 	
 	func vect<int> getCoeffs(int n) : FUNCTION HEAD {
 		declr vect<int> ans; : DECLARATION STATEMENT
-		return {1}; : RETURN STATEMENT : RETURN STATEMENT
+		declr int i; : DECLARATION STATEMENT
+		expr i = 0; : EXPRESSION STATEMENT
+		declr int temp; : DECLARATION STATEMENT
+		loop while((i lte n)) {
+			ans.append(call nCr(n, i)); : INDEPENDENT METHOD
+			expr temp = call nCr(n, i); : EXPRESSION STATEMENT
+			print(n, "C", i, ": ", temp); : PRINT STATEMENT
+			incr(i); : UNARY STATEMENT
+		} : LOOP
+		return ans; : RETURN STATEMENT : RETURN STATEMENT
 	}
 	
-	func void printPyramid () : FUNCTION HEAD {
-		return null; : RETURN STATEMENT : RETURN STATEMENT
-	}
 }; : CLASS DEFINITION
 
+func void printVec(vect<int> myVec) : FUNCTION HEAD{
+	declr int i; : DECLARATION STATEMENT
+	declr int temp; : DECLARATION STATEMENT
+	loop for(expr i=0; : EXPRESSION STATEMENT (i lt myVec.length()); incr(i)){
+		expr temp = myVec.at(i); : EXPRESSION STATEMENT
+		print(temp); : PRINT STATEMENT
+	} : LOOP
+	return null; : RETURN STATEMENT : RETURN STATEMENT
+}
 
 func int main() : FUNCTION HEAD {
-	return 0; : RETURN STATEMENT : RETURN STATEMENT
-}
+	declr myClassB obj; : DECLARATION STATEMENT
+	
+	declr int a; : DECLARATION STATEMENT
+	expr a = 1; : EXPRESSION STATEMENT
+	
+	labelA:{
+		switch(a) : CONDITIONAL STATEMENT {
+			!! calling inside function inside the class !!
+			case 1:{
+				declr vect<int> myVec; : DECLARATION STATEMENT
+				declr int t; : DECLARATION STATEMENT
+				expr t = 6; : EXPRESSION STATEMENT
+				expr myVec = call obj->getCoeffs(t); : EXPRESSION STATEMENT
+				print("coefficients of x in (1+x)^", t); : PRINT STATEMENT
+				call printVec(myVec); : CALL STATEMENT
+				break; : BREAK STATEMENT
+			}
+			
+			!! calling function inside class atrribute of some class !!
+			case 2: {
+				declr int num; : DECLARATION STATEMENT
+				declr int t; : DECLARATION STATEMENT
+				expr t = 5; : EXPRESSION STATEMENT
+				expr num = call obj->itemH->factorial(t); : EXPRESSION STATEMENT
+				print("Factorial of ", t , " = ",num); : PRINT STATEMENT
+				break; : BREAK STATEMENT
+			}
+			
+			!! using sub-sub-.. attributes !!
+			case 3:{
+				call obj->Initialise(); : CALL STATEMENT
+				print("Values of sub sub sub sub attributes:"); : PRINT STATEMENT
+				print(obj->itemH->itemF->itemD->itemC)

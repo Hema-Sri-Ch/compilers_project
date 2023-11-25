@@ -39,6 +39,54 @@ Identifier : myStructB
 Identifier : itemF
 Punctuation : ;
 reserved keyword: func
+datatype: void
+Identifier : Initialise
+Special symbols:	(
+Special symbols:	)
+Special symbols:	{
+reserved keyword: expr
+Identifier : itemE
+Special symbols:	=
+constant: 16
+Punctuation : ;
+reserved keyword: expr
+Identifier : itemF
+Special symbols: ->
+Identifier : itemC
+Special symbols:	=
+constant: 24
+Punctuation : ;
+reserved keyword: expr
+Identifier : itemF
+Special symbols: ->
+Identifier : itemD
+Special symbols: ->
+Identifier : itemA
+Special symbols:	=
+constant: 32
+Punctuation : ;
+reserved keyword: expr
+Identifier : itemF
+Special symbols: ->
+Identifier : itemD
+Special symbols: ->
+Identifier : itemB
+Special symbols:	=
+Special symbols:	{
+constant: 40
+Punctuation : ,
+constant: 48
+Punctuation : ,
+constant: 56
+Punctuation : ,
+constant: 64
+Special symbols:	}
+Punctuation : ;
+reserved keyword: return
+reserved keyword: null
+Punctuation : ;
+Special symbols:	}
+reserved keyword: func
 datatype: int
 Identifier : factorial
 Special symbols:	(
@@ -46,28 +94,54 @@ datatype: int
 Identifier : k
 Special symbols:	)
 Special symbols:	{
+reserved keyword: if
+Special symbols:	(
+Special symbols:	(
+Identifier : k
+reserved keyword: eq
+constant: 0
+Special symbols:	)
+Special symbols:	)
+Special symbols:	{
+reserved keyword: return
+constant: 1
+Punctuation : ;
+Special symbols:	}
 reserved keyword: declr
 datatype: int
 Identifier : ans
 Punctuation : ,
 Identifier : num
+Punctuation : ,
+Identifier : i
 Punctuation : ;
 reserved keyword: expr
 Identifier : num
 Special symbols:	=
-Identifier : itemE
+Identifier : k
 Punctuation : ;
 reserved keyword: expr
 Identifier : ans
 Special symbols:	=
-Identifier : k
+constant: 1
 Punctuation : ;
 reserved keyword: loop
-reserved keyword: while
+reserved keyword: for
 Special symbols:	(
-reserved keyword: decr
+reserved keyword: expr
+Identifier : i
+Special symbols:	=
+constant: 1
+Punctuation : ;
 Special symbols:	(
-Identifier : num
+Identifier : i
+reserved keyword: lte
+Identifier : k
+Special symbols:	)
+Punctuation : ;
+reserved keyword: incr
+Special symbols:	(
+Identifier : i
 Special symbols:	)
 Special symbols:	)
 Special symbols:	{
@@ -78,12 +152,12 @@ operator: mul
 Special symbols:	(
 Identifier : ans
 Punctuation : ,
-Identifier : num
+Identifier : i
 Special symbols:	)
 Punctuation : ;
 Special symbols:	}
 reserved keyword: return
-Identifier : k
+Identifier : ans
 Punctuation : ;
 Special symbols:	}
 Special symbols:	}
@@ -99,6 +173,28 @@ reserved keyword: declr
 Identifier : myClassA
 Identifier : itemH
 Punctuation : ;
+reserved keyword: func
+datatype: void
+Identifier : Initialise
+Special symbols:	(
+Special symbols:	)
+Special symbols:	{
+reserved keyword: expr
+Identifier : itemG
+Special symbols:	=
+constant: 8
+Punctuation : ;
+reserved keyword: call
+Identifier : itemH
+Special symbols: ->
+Identifier : Initialise
+Special symbols:	(
+Special symbols:	)
+Punctuation : ;
+reserved keyword: return
+reserved keyword: null
+Punctuation : ;
+Special symbols:	}
 reserved keyword: func
 datatype: int
 Identifier : nCr
@@ -120,7 +216,33 @@ Special symbols:	)
 Special symbols:	)
 Special symbols:	{
 reserved keyword: return
-constant: -1
+constant: 1
+Punctuation : ;
+Special symbols:	}
+reserved keyword: if
+Special symbols:	(
+Special symbols:	(
+Identifier : r
+reserved keyword: eq
+constant: 0
+Special symbols:	)
+Special symbols:	)
+Special symbols:	{
+reserved keyword: return
+constant: 1
+Punctuation : ;
+Special symbols:	}
+reserved keyword: if
+Special symbols:	(
+Special symbols:	(
+Identifier : r
+reserved keyword: eq
+Identifier : n
+Special symbols:	)
+Special symbols:	)
+Special symbols:	{
+reserved keyword: return
+constant: 1
 Punctuation : ;
 Special symbols:	}
 reserved keyword: declr
@@ -195,31 +317,287 @@ datatype: int
 Special symbols:	>
 Identifier : ans
 Punctuation : ;
-reserved keyword: return
-Special symbols:	{
-constant: 1
-Special symbols:	}
+reserved keyword: declr
+datatype: int
+Identifier : i
 Punctuation : ;
-Special symbols:	}
-reserved keyword: func
-datatype: void
-Identifier : printPyramid
+reserved keyword: expr
+Identifier : i
+Special symbols:	=
+constant: 0
+Punctuation : ;
+reserved keyword: declr
+datatype: int
+Identifier : temp
+Punctuation : ;
+reserved keyword: loop
+reserved keyword: while
 Special symbols:	(
+Special symbols:	(
+Identifier : i
+reserved keyword: lte
+Identifier : n
+Special symbols:	)
 Special symbols:	)
 Special symbols:	{
+Identifier : ans
+Punctuation : .
+Identifier: append
+Special symbols:	(
+reserved keyword: call
+Identifier : nCr
+Special symbols:	(
+Identifier : n
+Punctuation : ,
+Identifier : i
+Special symbols:	)
+Special symbols:	)
+Punctuation : ;
+reserved keyword: expr
+Identifier : temp
+Special symbols:	=
+reserved keyword: call
+Identifier : nCr
+Special symbols:	(
+Identifier : n
+Punctuation : ,
+Identifier : i
+Special symbols:	)
+Punctuation : ;
+reserved keyword: print
+Special symbols:	(
+Identifier : n
+Punctuation : ,
+constant: "C"
+Punctuation : ,
+Identifier : i
+Punctuation : ,
+constant: ": "
+Punctuation : ,
+Identifier : temp
+Special symbols:	)
+Punctuation : ;
+reserved keyword: incr
+Special symbols:	(
+Identifier : i
+Special symbols:	)
+Punctuation : ;
+Special symbols:	}
+reserved keyword: return
+Identifier : ans
+Punctuation : ;
+Special symbols:	}
+Special symbols:	}
+Punctuation : ;
+reserved keyword: func
+datatype: void
+Identifier : printVec
+Special symbols:	(
+reserved keyword: vect
+Special symbols:	<
+datatype: int
+Special symbols:	>
+Identifier : myVec
+Special symbols:	)
+Special symbols:	{
+reserved keyword: declr
+datatype: int
+Identifier : i
+Punctuation : ;
+reserved keyword: declr
+datatype: int
+Identifier : temp
+Punctuation : ;
+reserved keyword: loop
+reserved keyword: for
+Special symbols:	(
+reserved keyword: expr
+Identifier : i
+Special symbols:	=
+constant: 0
+Punctuation : ;
+Special symbols:	(
+Identifier : i
+reserved keyword: lt
+Identifier : myVec
+Punctuation : .
+Identifier: length
+Special symbols:	(
+Special symbols:	)
+Special symbols:	)
+Punctuation : ;
+reserved keyword: incr
+Special symbols:	(
+Identifier : i
+Special symbols:	)
+Special symbols:	)
+Special symbols:	{
+reserved keyword: expr
+Identifier : temp
+Special symbols:	=
+Identifier : myVec
+Punctuation : .
+Identifier: at
+Special symbols:	(
+Identifier : i
+Special symbols:	)
+Punctuation : ;
+reserved keyword: print
+Special symbols:	(
+Identifier : temp
+Special symbols:	)
+Punctuation : ;
+Special symbols:	}
 reserved keyword: return
 reserved keyword: null
 Punctuation : ;
 Special symbols:	}
-Special symbols:	}
-Punctuation : ;
 reserved keyword: func
 datatype: int
 Identifier : main
 Special symbols:	(
 Special symbols:	)
 Special symbols:	{
-reserved keyword: return
-constant: 0
+reserved keyword: declr
+Identifier : myClassB
+Identifier : obj
+Punctuation : ;
+reserved keyword: declr
+datatype: int
+Identifier : a
+Punctuation : ;
+reserved keyword: expr
+Identifier : a
+Special symbols:	=
+constant: 1
+Punctuation : ;
+Identifier : labelA
+Punctuation : :
+Special symbols:	{
+reserved keyword: switch
+Special symbols:	(
+Identifier : a
+Special symbols:	)
+Special symbols:	{
+comment: !! calling inside function inside the class !!
+reserved keyword: case
+constant: 1
+Punctuation : :
+Special symbols:	{
+reserved keyword: declr
+reserved keyword: vect
+Special symbols:	<
+datatype: int
+Special symbols:	>
+Identifier : myVec
+Punctuation : ;
+reserved keyword: declr
+datatype: int
+Identifier : t
+Punctuation : ;
+reserved keyword: expr
+Identifier : t
+Special symbols:	=
+constant: 6
+Punctuation : ;
+reserved keyword: expr
+Identifier : myVec
+Special symbols:	=
+reserved keyword: call
+Identifier : obj
+Special symbols: ->
+Identifier : getCoeffs
+Special symbols:	(
+Identifier : t
+Special symbols:	)
+Punctuation : ;
+reserved keyword: print
+Special symbols:	(
+constant: "coefficients of x in (1+x)^"
+Punctuation : ,
+Identifier : t
+Special symbols:	)
+Punctuation : ;
+reserved keyword: call
+Identifier : printVec
+Special symbols:	(
+Identifier : myVec
+Special symbols:	)
+Punctuation : ;
+reserved keyword: break
 Punctuation : ;
 Special symbols:	}
+comment: !! calling function inside class atrribute of some class !!
+reserved keyword: case
+constant: 2
+Punctuation : :
+Special symbols:	{
+reserved keyword: declr
+datatype: int
+Identifier : num
+Punctuation : ;
+reserved keyword: declr
+datatype: int
+Identifier : t
+Punctuation : ;
+reserved keyword: expr
+Identifier : t
+Special symbols:	=
+constant: 5
+Punctuation : ;
+reserved keyword: expr
+Identifier : num
+Special symbols:	=
+reserved keyword: call
+Identifier : obj
+Special symbols: ->
+Identifier : itemH
+Special symbols: ->
+Identifier : factorial
+Special symbols:	(
+Identifier : t
+Special symbols:	)
+Punctuation : ;
+reserved keyword: print
+Special symbols:	(
+constant: "Factorial of "
+Punctuation : ,
+Identifier : t
+Punctuation : ,
+constant: " = "
+Punctuation : ,
+Identifier : num
+Special symbols:	)
+Punctuation : ;
+reserved keyword: break
+Punctuation : ;
+Special symbols:	}
+comment: !! using sub-sub-.. attributes !!
+reserved keyword: case
+constant: 3
+Punctuation : :
+Special symbols:	{
+reserved keyword: call
+Identifier : obj
+Special symbols: ->
+Identifier : Initialise
+Special symbols:	(
+Special symbols:	)
+Punctuation : ;
+reserved keyword: print
+Special symbols:	(
+constant: "Values of sub sub sub sub attributes:"
+Special symbols:	)
+Punctuation : ;
+reserved keyword: print
+Special symbols:	(
+Identifier : obj
+Special symbols: ->
+Identifier : itemH
+Special symbols: ->
+Identifier : itemF
+Special symbols: ->
+Identifier : itemD
+Special symbols: ->
+Identifier : itemC
+Special symbols:	)
