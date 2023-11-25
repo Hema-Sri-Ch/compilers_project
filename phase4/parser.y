@@ -389,7 +389,7 @@ param					: dtype id {
 								strncpy(myType, $1.str + 1, strlen($1.str));
 								myType[strlen($1.str)] = '\0';
 								var_insert(0, level, $2.str, "vect", myType, -1, -1);
-								free(myType);
+								// free(myType);
 							}
 							else if(dataType == 3) {
 								var_insert(0, level, $2.str, "matrix", "", -1, -1);
@@ -635,7 +635,7 @@ vect_stmt_body			: resultant  '.' APPEND '(' vect_append ')' {
 									int c = !strcmp(myType, "bool") && (!strcmp($5.str, "float") || !strcmp($5.str, "int") || !strcmp($5.str, "char") || !strcmp($5.str, "string"));
 									if(!(a || b || c)){
 										printf("%d ERROR: appending the wrong dtype; expected %s; given %s\n", yylineno, myType, $5.str);
-										free(myType);
+										// free(myType);
 										exit(1);
 									}
 								}
@@ -660,8 +660,8 @@ vect_stmt_body			: resultant  '.' APPEND '(' vect_append ')' {
 								fprintf(fIR, "%s\n", myText);
 								$$.text = $1.text;
 								
-								free(myType);
-								free(myText);
+								// free(myType);
+								// free(myText);
 							}
 							
 						}
@@ -729,8 +729,8 @@ vect_stmt_body			: resultant  '.' APPEND '(' vect_append ')' {
 								fprintf(fIR, "%s\n", myText);
 								$$.text = $1.text;
 								
-								free(myType);
-								free(myText);
+								// free(myType);
+								// free(myText);
 							}
 						}
 						| resultant '.' CLEAR '(' ')' {
@@ -759,8 +759,8 @@ vect_stmt_body			: resultant  '.' APPEND '(' vect_append ')' {
 								fprintf(fIR, "%s\n", myText);
 								$$.text = $1.text;
 								
-								free(myType);
-								free(myText);
+								// free(myType);
+								// free(myText);
 							}
 						}
 						;
@@ -994,7 +994,7 @@ return_stmt 			: RETURN RHS';'
 								}
 								
 								printTabs();
-								fprintf(fIR, "return NULL;");
+								fprintf(fIR, "return ;");
 							}
 							{fprintf(fparse, " : RETURN STATEMENT");}
 						;
@@ -1009,7 +1009,7 @@ loop_type				: for_loop
 						| while_loop
 						;
 				
-for_loop				: FOR '(' {printTabs(); fprintf(fIR, "for(");} for_in ')'{fprintf(fIR, ") ");} function_body
+for_loop				: FOR '(' {printTabs(); fprintf(fIR, "for(");} for_in ')'{fprintf(fIR, ")\n");} function_body
 						;
 
 
@@ -1053,7 +1053,7 @@ while_loop				: WHILE '('RHS')' {
 								printf("%d Error : Invalid conditional argument\n", yylineno);
 							}
 							printTabs();
-							fprintf(fIR, "while(%s) ", $3.text);
+							fprintf(fIR, "while(%s)\n", $3.text);
 						} function_body
 						;
 						
@@ -1220,7 +1220,7 @@ LHS						: myId {
 								$$.name = $1.str;
 								$$.dimA = class_symb[class_size-1].declr_list[j].dim_A;
 								$$.dimB = class_symb[class_size-1].declr_list[j].dim_B;
-								$$.eleType = class_symb[class_size-1].declr_list[j].ele_type;
+								// $$.eleType = class_symb[class_size-1].declr_list[j].ele_type;
 								if(strcmp(class_symb[class_size-1].declr_list[j].type, "vect") == 0) {
 								    char* result;
 									char* A = "*";
@@ -1243,7 +1243,7 @@ LHS						: myId {
 								$$.name = $1.str;
 								$$.dimA = var_symb[i].dim_A;
 								$$.dimB = var_symb[i].dim_B;
-								$$.eleType = var_symb[i].ele_type;
+								// $$.eleType = var_symb[i].ele_type;
 								if(!strcmp(var_symb[i].type, "vect")){
 									char* result;
 									char* A = "*";
@@ -1310,10 +1310,9 @@ LHS						: myId {
 									
 									if(j >= 0){
 										$$.name = $3.str;
-										$$.type = class_symb[i].declr_list[j].type;
 										$$.dimA = class_symb[i].declr_list[j].dim_A;
 										$$.dimB = class_symb[i].declr_list[j].dim_B;
-										$$.eleType = class_symb[i].declr_list[j].ele_type;
+										// $$.eleType = class_symb[i].declr_list[j].ele_type;
 										if(strcmp(class_symb[i].declr_list[j].type, "vect") == 0){
 										    char* result;
 										    char* A = "*";
@@ -1354,7 +1353,7 @@ LHS						: myId {
 									$$.name = $3.str;
 									$$.dimA = struct_symb[i].list[j].dim_A;
 									$$.dimB = struct_symb[i].list[j].dim_B;
-									$$.eleType = struct_symb[i].list[j].ele_type;
+									// $$.eleType = struct_symb[i].list[j].ele_type;
 									
 									if(!strcmp(struct_symb[i].list[j].type, "vect")){
 										char* result;
@@ -1906,13 +1905,13 @@ ifcond_stmt				: IF '(' RHS ')' {
 								printf("%d Error : Invalid conditional argument\n", yylineno);
 							}
 							printTabs();
-							fprintf(fIR, "if(%s)", $3.text);
+							fprintf(fIR, "if(%s)\n", $3.text);
 							fprintf(fparse, " : CONDITIONAL STATEMENT");
 						} if_body
 						;
 						
 						
-if_body					: function_body ELSE {fprintf(fIR, "else ");}function_body
+if_body					: function_body ELSE {fprintf(fIR, "else\n");}function_body
 						| function_body
 						;
 
@@ -2024,7 +2023,7 @@ impr					: resultant '.' LENGTH '(' ')'{
 								strcpy(myText, $1.text);
 								strcat(myText, ".size()");
 								strcpy($$.text, myText);
-								free(myText);;
+								// free(myText);;
 								
 							}
 						}
@@ -2043,16 +2042,17 @@ impr					: resultant '.' LENGTH '(' ')'{
 									char* myType = (char*)malloc(strlen($1.str)+1);
 									strncpy(myType, $1.str + 1, strlen($1.str));
 									myType[strlen($1.str)] = '\0';
-									strcpy($$.str, myType);
+									$$.str = myType;
+									
 									char* myText = (char*)malloc(strlen($1.text) + strlen($5.text) + 3);
 									strcpy(myText, $1.text);
 									strcat(myText, "[");
 									strcat(myText, $5.text);
 									strcat(myText, "]");
-									strcpy($$.text, myText);
+									$$.text = myText;
 									
-									free(myType);
-									free(myText);
+									// free(myType);
+									// free(myText);
 								}
 							} 
 							
@@ -2083,10 +2083,10 @@ impr					: resultant '.' LENGTH '(' ')'{
 								
 								char* myText = (char*)malloc(strlen(".size()") + strlen($1.text));
 								strcpy(myText, $1.text);
-								strcpy(myText, ".size()");
+								strcat(myText, ".size()");
+								$$.text = myText;
 								
-								strcpy($$.text, myText);
-								free(myText);
+								// free(myText);
 							}
 						| STRCMP '(' RHS ',' RHS ')' 
 							{
@@ -2139,7 +2139,7 @@ impr					: resultant '.' LENGTH '(' ')'{
 								$$.str =  "string";
 								if(strcmp($3.str, "string") || strcmp($5.str, "string"))
 								{
-									printf("%d ERROR: Arguments have to be strings\n", yylineno);
+									printf("%d ERROR: Arguments have to be strings; given %s, %s\n", yylineno, $3.str, $5.str);
 									exit(1);
 								}
 								
@@ -2833,7 +2833,7 @@ logical_op				: '(' RHS LOGOP RHS ')' {
 							else if(!strcmp($3, "lte")) symb = "<=";
 							else if(!strcmp($3, "gt")) symb = ">";
 							else if(!strcmp($3, "get")) symb = ">=";
-							else if(!strcmp($3, "eq")) symb = "=";
+							else if(!strcmp($3, "eq")) symb = "==";
 							else if(!strcmp($3, "neq")) symb = "!=";
 							
 							char* myText = (char*)malloc(strlen($2.text)+strlen($4.text)+strlen(symb)+3);
@@ -2959,7 +2959,7 @@ arg_list				: arg_list ',' RHS {
 								}
 								
 								else myIndex++;
-								free(myType);
+								// free(myType);
 							}
 							char* myText = (char*)malloc(strlen($1.text) + strlen($3.text) + 3);
 							strcpy(myText, $1.text);
@@ -3003,18 +3003,18 @@ arg_list				: arg_list ',' RHS {
 									
 									if(!(a && b)){
 										printf("%d Error: for argument-%d expected argument type: %s, given argument type %s\n", yylineno, myIndex+1, myType, $1.str);
-										free(myType);
+										// free(myType);
 										exit(1);
 									}
 									
 									else {
 										myIndex++;
-										free(myType);
+										// free(myType);
 									}
 								}
 								
 								else myIndex++;
-								free(myType);
+								// free(myType);
 								
 							}
 							
@@ -3046,7 +3046,7 @@ int yyerror(const char *msg)
 }
 
 int main() {
- 	FILE* fp = fopen("inpFail.vgm", "r");
+ 	FILE* fp = fopen("inp.vgm", "r");
     yyin = fp;
     fparse = fopen("parsed.txt", "w");
  	FILE* ft = fopen("tokens.txt", "w");

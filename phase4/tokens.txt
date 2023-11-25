@@ -1,23 +1,216 @@
 reserved keyword: struct
-Identifier : type1
+Identifier : myStructA
 Special symbols:	{
 reserved keyword: declr
-reserved keyword: graph
-Identifier : grp
-Special symbols:	[
-constant: 5
-Special symbols:	]
+datatype: int
+Identifier : itemA
 Punctuation : ;
 reserved keyword: declr
-reserved keyword: matrix
-Identifier : mat
-Special symbols:	[
-constant: 4
-Special symbols:	]
-Special symbols:	[
-constant: 4
-Special symbols:	]
+reserved keyword: vect
+Special symbols:	<
+datatype: int
+Special symbols:	>
+Identifier : itemB
 Punctuation : ;
+Special symbols:	}
+Punctuation : ;
+reserved keyword: struct
+Identifier : myStructB
+Special symbols:	{
+reserved keyword: declr
+datatype: int
+Identifier : itemC
+Punctuation : ;
+reserved keyword: declr
+Identifier : myStructA
+Identifier : itemD
+Punctuation : ;
+Special symbols:	}
+Punctuation : ;
+reserved keyword: class
+Identifier : myClassA
+Special symbols:	{
+reserved keyword: declr
+datatype: int
+Identifier : itemE
+Punctuation : ;
+reserved keyword: declr
+Identifier : myStructB
+Identifier : itemF
+Punctuation : ;
+reserved keyword: func
+datatype: int
+Identifier : factorial
+Special symbols:	(
+datatype: int
+Identifier : k
+Special symbols:	)
+Special symbols:	{
+reserved keyword: declr
+datatype: int
+Identifier : ans
+Punctuation : ,
+Identifier : num
+Punctuation : ;
+reserved keyword: expr
+Identifier : num
+Special symbols:	=
+Identifier : itemE
+Punctuation : ;
+reserved keyword: expr
+Identifier : ans
+Special symbols:	=
+Identifier : k
+Punctuation : ;
+reserved keyword: loop
+reserved keyword: while
+Special symbols:	(
+reserved keyword: decr
+Special symbols:	(
+Identifier : num
+Special symbols:	)
+Special symbols:	)
+Special symbols:	{
+reserved keyword: expr
+Identifier : ans
+Special symbols:	=
+operator: mul
+Special symbols:	(
+Identifier : ans
+Punctuation : ,
+Identifier : num
+Special symbols:	)
+Punctuation : ;
+Special symbols:	}
+reserved keyword: return
+Identifier : k
+Punctuation : ;
+Special symbols:	}
+Special symbols:	}
+Punctuation : ;
+reserved keyword: class
+Identifier : myClassB
+Special symbols:	{
+reserved keyword: declr
+datatype: int
+Identifier : itemG
+Punctuation : ;
+reserved keyword: declr
+Identifier : myClassA
+Identifier : itemH
+Punctuation : ;
+reserved keyword: func
+datatype: int
+Identifier : nCr
+Special symbols:	(
+datatype: int
+Identifier : n
+Punctuation : ,
+datatype: int
+Identifier : r
+Special symbols:	)
+Special symbols:	{
+reserved keyword: if
+Special symbols:	(
+Special symbols:	(
+Identifier : r
+reserved keyword: gt
+Identifier : n
+Special symbols:	)
+Special symbols:	)
+Special symbols:	{
+reserved keyword: return
+constant: -1
+Punctuation : ;
+Special symbols:	}
+reserved keyword: declr
+datatype: int
+Identifier : a
+Punctuation : ,
+Identifier : b
+Punctuation : ;
+reserved keyword: expr
+Identifier : a
+Special symbols:	=
+reserved keyword: call
+Identifier : itemH
+Special symbols: ->
+Identifier : factorial
+Special symbols:	(
+Identifier : n
+Special symbols:	)
+Punctuation : ;
+reserved keyword: expr
+Identifier : b
+Special symbols:	=
+operator: mul
+Special symbols:	(
+reserved keyword: call
+Identifier : itemH
+Special symbols: ->
+Identifier : factorial
+Special symbols:	(
+operator: sub
+Special symbols:	(
+Identifier : n
+Punctuation : ,
+Identifier : r
+Special symbols:	)
+Special symbols:	)
+Punctuation : ,
+reserved keyword: call
+Identifier : itemH
+Special symbols: ->
+Identifier : factorial
+Special symbols:	(
+Identifier : r
+Special symbols:	)
+Special symbols:	)
+Punctuation : ;
+reserved keyword: return
+operator: div
+Special symbols:	(
+Identifier : a
+Punctuation : ,
+Identifier : b
+Special symbols:	)
+Punctuation : ;
+comment: !! return div(call itemH->factorial(n),  mul(call itemH->factorial(sub(n, r)), call itemH->factorial(r)))!!
+Special symbols:	}
+reserved keyword: func
+reserved keyword: vect
+Special symbols:	<
+datatype: int
+Special symbols:	>
+Identifier : getCoeffs
+Special symbols:	(
+datatype: int
+Identifier : n
+Special symbols:	)
+Special symbols:	{
+reserved keyword: declr
+reserved keyword: vect
+Special symbols:	<
+datatype: int
+Special symbols:	>
+Identifier : ans
+Punctuation : ;
+reserved keyword: return
+Special symbols:	{
+constant: 1
+Special symbols:	}
+Punctuation : ;
+Special symbols:	}
+reserved keyword: func
+datatype: void
+Identifier : printPyramid
+Special symbols:	(
+Special symbols:	)
+Special symbols:	{
+reserved keyword: return
+reserved keyword: null
+Punctuation : ;
+Special symbols:	}
 Special symbols:	}
 Punctuation : ;
 reserved keyword: func
@@ -26,138 +219,7 @@ Identifier : main
 Special symbols:	(
 Special symbols:	)
 Special symbols:	{
-reserved keyword: declr
-Identifier : type1
-Identifier : a
-Punctuation : ,
-Identifier : b
-Punctuation : ,
-Identifier : c
-Punctuation : ;
-reserved keyword: expr
-Identifier : a
-Special symbols: ->
-Identifier : mat
-Special symbols:	=
-Special symbols:	[
-Special symbols:	[
-constant: 1
-Punctuation : ,
-constant: 2
-Punctuation : ,
-constant: 3
-Punctuation : ,
-constant: 4
-Special symbols:	]
-Punctuation : ;
-Special symbols:	[
-constant: 1
-Punctuation : ,
-constant: 1
-Punctuation : ,
-constant: 1
-Punctuation : ,
-constant: 1
-Special symbols:	]
-Punctuation : ;
-Special symbols:	[
-constant: 2
-Punctuation : ,
-constant: 3
-Punctuation : ,
-constant: 1
-Punctuation : ,
-constant: 4
-Special symbols:	]
-Punctuation : ;
-Special symbols:	[
-constant: 9
-Punctuation : ,
-constant: 1
-Punctuation : ,
-constant: 0
-Punctuation : ,
-constant: 0
-Special symbols:	]
-Punctuation : ;
-Special symbols:	]
-Punctuation : ;
-reserved keyword: expr
-Identifier : a
-Special symbols: ->
-Identifier : grp
-Special symbols:	=
-Special symbols:	{
-constant: 1
-Punctuation : :
-Special symbols:	(
-constant: 2
-Punctuation : ,
-constant: 10
-Special symbols:	)
-Punctuation : ,
-Special symbols:	(
-constant: 5
-Punctuation : ,
-constant: 1
-Special symbols:	)
-Punctuation : ;
-constant: 5
-Punctuation : :
-Special symbols:	(
-constant: 4
-Punctuation : ,
-constant: 11
-Special symbols:	)
-Punctuation : ;
-constant: 2
-Punctuation : :
-Special symbols:	(
-constant: 5
-Punctuation : ,
-constant: 2
-Special symbols:	)
-Punctuation : ,
-Special symbols:	(
-constant: 3
-Punctuation : ,
-constant: 6
-Special symbols:	)
-Punctuation : ;
-constant: 3
-Punctuation : :
-Special symbols:	(
-constant: 4
-Punctuation : ,
-constant: 0
-Special symbols:	)
-Punctuation : ;
-Special symbols:	}
-Punctuation : ;
-reserved keyword: declr
-datatype: int
-Identifier : v
-Punctuation : ;
-reserved keyword: expr
-Identifier : v
-Special symbols:	=
-Identifier : a
-Special symbols: ->
-Identifier : grp
-Punctuation : .
-Identifier: shortest_path_value
-Special symbols:	(
-constant: 1
-Punctuation : ,
-constant: 4
-Special symbols:	)
-Punctuation : ;
-reserved keyword: print
-Special symbols:	(
-Identifier : v
-Special symbols:	)
-Punctuation : ;
 reserved keyword: return
-constant: 1
+constant: 0
 Punctuation : ;
 Special symbols:	}

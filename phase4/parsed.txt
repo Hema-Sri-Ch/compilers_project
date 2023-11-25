@@ -1,28 +1,60 @@
-struct type1
-{
-	declr graph grp[5]; : DECLARATION STATEMENT
-	declr matrix mat[4][4]; : DECLARATION STATEMENT
+struct myStructA{
+	declr int itemA; : DECLARATION STATEMENT
+	declr vect<int> itemB; : DECLARATION STATEMENT
 }; : STRUCT DEFINITION
 
-func int main() : FUNCTION HEAD 
-{
-	declr type1 a,b,c; : DECLARATION STATEMENT
-	expr a->mat =
-	[
-		[1,2,3,4];
-		[1,1,1,1];
-		[2,3,1,4];
-		[9,1,0,0];
-	]; : EXPRESSION STATEMENT
-	expr a->grp =
+
+struct myStructB {
+	declr int itemC; : DECLARATION STATEMENT
+	declr myStructA itemD; : DECLARATION STATEMENT
+}; : STRUCT DEFINITION
+
+class myClassA {
+	declr int itemE; : DECLARATION STATEMENT
+	declr myStructB itemF; : DECLARATION STATEMENT
+	
+	func int factorial(int k) : FUNCTION HEAD
 	{
-		1:(2,10), (5,1);
-		5:(4,11);
-		2:(5,2), (3,6);
-		3:(4,0);
-	}; : EXPRESSION STATEMENT
-	declr int v; : DECLARATION STATEMENT
-	expr v = a->grp.shortest_path_value(1,4); : EXPRESSION STATEMENT
-	print(v); : PRINT STATEMENT
-	return 1; : RETURN STATEMENT : RETURN STATEMENT
+		declr int ans, num; : DECLARATION STATEMENT
+		expr num = itemE; : EXPRESSION STATEMENT
+		expr ans = k; : EXPRESSION STATEMENT
+		loop while (decr(num))
+		{
+			expr ans = mul(ans, num); : EXPRESSION STATEMENT
+		} : LOOP
+		return k; : RETURN STATEMENT : RETURN STATEMENT
+	}
+}; : CLASS DEFINITION
+
+class myClassB {
+	declr int itemG; : DECLARATION STATEMENT
+	declr myClassA itemH; : DECLARATION STATEMENT
+	
+	func int nCr(int n, int r) : FUNCTION HEAD{
+	
+		if((r gt n)) : CONDITIONAL STATEMENT{
+			return -1; : RETURN STATEMENT : RETURN STATEMENT
+		}
+		
+		declr int a, b; : DECLARATION STATEMENT
+		expr a = call itemH->factorial(n); : EXPRESSION STATEMENT
+		expr b = mul(call itemH->factorial(sub(n, r)), call itemH->factorial(r)); : EXPRESSION STATEMENT
+		return div(a, b); : RETURN STATEMENT : RETURN STATEMENT
+		
+		!! return div(call itemH->factorial(n),  mul(call itemH->factorial(sub(n, r)), call itemH->factorial(r)))!!
+	}
+	
+	func vect<int> getCoeffs(int n) : FUNCTION HEAD {
+		declr vect<int> ans; : DECLARATION STATEMENT
+		return {1}; : RETURN STATEMENT : RETURN STATEMENT
+	}
+	
+	func void printPyramid () : FUNCTION HEAD {
+		return null; : RETURN STATEMENT : RETURN STATEMENT
+	}
+}; : CLASS DEFINITION
+
+
+func int main() : FUNCTION HEAD {
+	return 0; : RETURN STATEMENT : RETURN STATEMENT
 }

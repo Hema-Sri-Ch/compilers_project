@@ -2,25 +2,60 @@
 #include "improvisations.h"
 using namespace std;
 
-struct type1 {
-	graph grp{5};
-	matrix mat{4, 4};
+struct myStructA {
+	int itemA;
+	vector<int> itemB;
+};
+struct myStructB {
+	int itemC;
+	struct myStructA itemD;
+};
+class myClassA {
+public:	int itemE;
+	struct myStructB itemF;
+	int factorial ( int k )
+		{
+			int ans, num;
+			num = itemE;
+			ans = k;
+			while(num--)
+			{
+				ans = (ans*num);
+			}
+
+			return k;
+		}
+
+};
+class myClassB {
+public:	int itemG;
+	class myClassA itemH;
+	int nCr ( int n, int r )
+		{
+			if((r>n))
+			{
+				return -1;
+			}
+
+			int a, b;
+			a = itemH.factorial(n);
+			b = (itemH.factorial((n-r))*itemH.factorial(r));
+			return (a/b);
+		}
+
+	vector<int> getCoeffs ( int n )
+		{
+			vector<int> ans;
+			return {1};
+		}
+
+	void printPyramid ()
+		{
+			return ;
+		}
+
 };
 int main ()
 	{
-		struct type1 a, b, c;
-		a.mat.vals = {{1,2,3,4},{1,1,1,1},{2,3,1,4},{9,1,0,0}};
-		a.grp.addWeightedEdge(1, 2, 10);
-		a.grp.addWeightedEdge(1, 5, 1);
-		a.grp.addWeightedEdge(5, 4, 11);
-		a.grp.addWeightedEdge(2, 5, 2);
-		a.grp.addWeightedEdge(2, 3, 6);
-		a.grp.addWeightedEdge(3, 4, 0);
-		a.grp.setFlag(1);
-
-		int v;
-		v = shortest_path_value(a.grp,1,4);
-
-		cout << v << endl;
 		return 0;
 	}

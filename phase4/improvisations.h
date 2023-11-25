@@ -420,6 +420,11 @@ public:
 
 	double getValue(int rowNumber, int colNumber)
 	{
+		if(rowNumber>=rows || colNumber>=cols)
+		{
+			cout << "ERROR: Row or col Number exceeding the matrix dimensions\n";
+			exit(1);
+		}
 		return vals[rowNumber][colNumber];
 	}
 
