@@ -20,8 +20,9 @@ func int main()
 		5:(4,11);
 		2:(5,2), (3,6);
 		3:(4,0);
-	}
+	};
 	declr int v;
 	expr v = a->grp.shortest_path_value(1,4);
 	print(v);
+	return 1;
 }

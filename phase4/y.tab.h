@@ -203,13 +203,21 @@ union YYSTYPE
 		char* name;
 		char* type;
 	} details;
+	struct{
+		char* text;
+		char* name;
+		char* type;
+		char* eleType;
+		int dimA;
+		int dimB;
+	} Details;
 	struct
 	{
 		int cols;
 		char* text;
 	} Cols;
 
-#line 213 "y.tab.h"
+#line 221 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

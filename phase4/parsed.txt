@@ -13,4 +13,16 @@ func int main() : FUNCTION HEAD
 		[1,1,1,1];
 		[2,3,1,4];
 		[9,1,0,0];
-	];
+	]; : EXPRESSION STATEMENT
+	expr a->grp =
+	{
+		1:(2,10), (5,1);
+		5:(4,11);
+		2:(5,2), (3,6);
+		3:(4,0);
+	}; : EXPRESSION STATEMENT
+	declr int v; : DECLARATION STATEMENT
+	expr v = a->grp.shortest_path_value(1,4); : EXPRESSION STATEMENT
+	print(v); : PRINT STATEMENT
+	return 1; : RETURN STATEMENT : RETURN STATEMENT
+}

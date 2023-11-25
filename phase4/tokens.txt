@@ -82,3 +82,82 @@ Special symbols:	]
 Punctuation : ;
 Special symbols:	]
 Punctuation : ;
+reserved keyword: expr
+Identifier : a
+Special symbols: ->
+Identifier : grp
+Special symbols:	=
+Special symbols:	{
+constant: 1
+Punctuation : :
+Special symbols:	(
+constant: 2
+Punctuation : ,
+constant: 10
+Special symbols:	)
+Punctuation : ,
+Special symbols:	(
+constant: 5
+Punctuation : ,
+constant: 1
+Special symbols:	)
+Punctuation : ;
+constant: 5
+Punctuation : :
+Special symbols:	(
+constant: 4
+Punctuation : ,
+constant: 11
+Special symbols:	)
+Punctuation : ;
+constant: 2
+Punctuation : :
+Special symbols:	(
+constant: 5
+Punctuation : ,
+constant: 2
+Special symbols:	)
+Punctuation : ,
+Special symbols:	(
+constant: 3
+Punctuation : ,
+constant: 6
+Special symbols:	)
+Punctuation : ;
+constant: 3
+Punctuation : :
+Special symbols:	(
+constant: 4
+Punctuation : ,
+constant: 0
+Special symbols:	)
+Punctuation : ;
+Special symbols:	}
+Punctuation : ;
+reserved keyword: declr
+datatype: int
+Identifier : v
+Punctuation : ;
+reserved keyword: expr
+Identifier : v
+Special symbols:	=
+Identifier : a
+Special symbols: ->
+Identifier : grp
+Punctuation : .
+Identifier: shortest_path_value
+Special symbols:	(
+constant: 1
+Punctuation : ,
+constant: 4
+Special symbols:	)
+Punctuation : ;
+reserved keyword: print
+Special symbols:	(
+Identifier : v
+Special symbols:	)
+Punctuation : ;
+reserved keyword: return
+constant: 1
+Punctuation : ;
+Special symbols:	}

@@ -134,6 +134,14 @@ void freeStringArray(char** array, size_t count) {
 		char* name;
 		char* type;
 	} details;
+	struct{
+		char* text;
+		char* name;
+		char* type;
+		char* eleType;
+		int dimA;
+		int dimB;
+	} Details;
 	struct
 	{
 		int cols;
@@ -142,8 +150,9 @@ void freeStringArray(char** array, size_t count) {
 }
 
 %type<Str> fdtype dtype id id_list graph_and_array_list matrix_list return_stmt RHS constants extra_consts impr matrix_impr graph_impr arith_op logical_op func_calls binary_op unary_op arg_list call_head for_RHS myId vect_append resultant vect_stmt_body remove_body int_list float_list bool_list char_list str_list val_list array_const matr_body param param_list Parameters arguments vect_list vect_item vect_const weight_list matrix_const print_body print_constants graph_const graph_type1 graph_type2
-%type<details> function function_head func_definition LHS
+%type<details> function function_head func_definition
 %type<Cols> mat_list int_float_list
+%type<Details> LHS
 
 %token <str> newid
 %token <str> INT_CONST
@@ -1081,8 +1090,11 @@ expr_stmt				: EXPR LHS '=' RHS ';' {
 						| EXPR LHS '=' extra_consts ';'
 							{
 								int dimAval, dimBval;
+								dimAval = $2.dimA;
+								dimBval = $2.dimB;
 								char* element_type;
-								int ind = var_search($2.name);
+								element_type = $2.eleType;
+								/*int ind = var_search($2.name);
 								
 								if(ind==-1) 
 								{
@@ -1096,7 +1108,7 @@ expr_stmt				: EXPR LHS '=' RHS ';' {
 									dimAval = var_symb[ind].dim_A;
 									dimBval = var_symb[ind].dim_B;
 									element_type = var_symb[ind].ele_type;
-								}
+								}*/
 								 
 
 								if(strcmp("graph", $2.type)==0)
@@ -1134,9 +1146,9 @@ expr_stmt				: EXPR LHS '=' RHS ';' {
 									printTabs();
 									fprintf(fIR, "%s.vals = %s;", $2.text, $4.text);
 								}
-								else if($2.type[0] == '#')
+								else if(strcmp($2.type, "array") == 0)
 								{
-									if(strcmp($2.type, $4.str) && strcmp($4.str, "any")!=0)
+									if(strcmp(element_type, $4.str) && strcmp($4.str, "any")!=0)
 									{
 										printf("%d ERROR: Element-type mismatch in array\n", yylineno);
 										exit(1);
@@ -1219,6 +1231,9 @@ LHS						: myId {
 							// class declare variable (class attirbute)
 							if(j>=0) {
 								$$.name = $1.str;
+								$$.dimA = class_symb[class_size-1].declr_list[j].dim_A;
+								$$.dimB = class_symb[class_size-1].declr_list[j].dim_B;
+								$$.eleType = class_symb[class_size-1].declr_list[j].ele_type;
 								if(strcmp(class_symb[class_size-1].declr_list[j].type, "vect") == 0) {
 								    char* result;
 									char* A = "*";
@@ -1239,6 +1254,9 @@ LHS						: myId {
 							// declare variable
 							else if(i>=0){
 								$$.name = $1.str;
+								$$.dimA = var_symb[i].dim_A;
+								$$.dimB = var_symb[i].dim_B;
+								$$.eleType = var_symb[i].ele_type;
 								if(!strcmp(var_symb[i].type, "vect")){
 									char* result;
 									char* A = "*";
@@ -1306,7 +1324,9 @@ LHS						: myId {
 									if(j >= 0){
 										$$.name = $3.str;
 										$$.type = class_symb[i].declr_list[j].type;
-										
+										$$.dimA = class_symb[i].declr_list[j].dim_A;
+										$$.dimB = class_symb[i].declr_list[j].dim_B;
+										$$.eleType = class_symb[i].declr_list[j].ele_type;
 										if(strcmp(class_symb[i].declr_list[j].type, "vect") == 0){
 										    char* result;
 										    char* A = "*";
@@ -1345,7 +1365,9 @@ LHS						: myId {
 								
 								else{
 									$$.name = $3.str;
-									// $$.type = struct_symb[i].list[j].type;
+									$$.dimA = struct_symb[i].list[j].dim_A;
+									$$.dimB = struct_symb[i].list[j].dim_B;
+									$$.eleType = struct_symb[i].list[j].ele_type;
 									if(!strcmp(struct_symb[i].list[j].type, "vect")){
 										char* result;
 										    char* A = "*";
@@ -1367,7 +1389,7 @@ LHS						: myId {
 							strcat(myText, ".");
 							strcat(myText, $3.text);
 							$$.text = myText;
-							LeftName = $1.text;
+							LeftName = $$.text;
 						}
 						;
 						
