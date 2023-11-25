@@ -1,0 +1,28 @@
+struct type1
+{
+	declr graph grp[5];
+	declr matrix mat[4][4];
+};
+
+func int main() 
+{
+	declr type1 a,b,c;
+	expr a->mat =
+	[
+		[1,2,3,4];
+		[1,1,1,1];
+		[2,3,1,4];
+		[9,1,0,0];
+	];
+	expr a->grp =
+	{
+		1:(2,10), (5,1);
+		5:(4,11);
+		2:(5,2), (3,6);
+		3:(4,0);
+	};
+	declr int v;
+	expr v = a->grp.shortest_path_value(1,4);
+	print(v);
+	return 1;
+}

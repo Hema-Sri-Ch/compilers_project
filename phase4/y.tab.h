@@ -89,33 +89,32 @@ extern int yydebug;
     null = 290,                    /* null  */
     FOR = 291,                     /* FOR  */
     WHILE = 292,                   /* WHILE  */
-    GETVAL = 293,                  /* GETVAL  */
-    ADJNODE = 294,                 /* ADJNODE  */
-    PRINTMATX = 295,               /* PRINTMATX  */
-    PRINTARRAY = 296,              /* PRINTARRAY  */
-    PRINTVECT = 297,               /* PRINTVECT  */
-    PRINTGRAPH = 298,              /* PRINTGRAPH  */
-    ADDVAL = 299,                  /* ADDVAL  */
-    APPEND = 300,                  /* APPEND  */
-    REMOVE = 301,                  /* REMOVE  */
-    LENGTH = 302,                  /* LENGTH  */
-    SORT = 303,                    /* SORT  */
-    CLEAR = 304,                   /* CLEAR  */
-    AT = 305,                      /* AT  */
-    TRANSPOSE = 306,               /* TRANSPOSE  */
-    TRACE = 307,                   /* TRACE  */
-    TRAVERSAL = 308,               /* TRAVERSAL  */
-    STRLEN = 309,                  /* STRLEN  */
-    STRCUT = 310,                  /* STRCUT  */
-    STRCMP = 311,                  /* STRCMP  */
-    STRJOIN = 312,                 /* STRJOIN  */
-    MATXOP = 313,                  /* MATXOP  */
-    MAXTOGR = 314,                 /* MAXTOGR  */
-    GRTOMATX = 315,                /* GRTOMATX  */
-    SHPATH = 316,                  /* SHPATH  */
-    SHPATH_VAL = 317,              /* SHPATH_VAL  */
-    GOTO = 318,                    /* GOTO  */
-    PRINT = 319                    /* PRINT  */
+    MATXGET = 293,                 /* MATXGET  */
+    GETVAL = 294,                  /* GETVAL  */
+    ADJNODE = 295,                 /* ADJNODE  */
+    PRINTMATX = 296,               /* PRINTMATX  */
+    PRINTGRAPH = 297,              /* PRINTGRAPH  */
+    ADDVAL = 298,                  /* ADDVAL  */
+    APPEND = 299,                  /* APPEND  */
+    REMOVE = 300,                  /* REMOVE  */
+    LENGTH = 301,                  /* LENGTH  */
+    SORT = 302,                    /* SORT  */
+    CLEAR = 303,                   /* CLEAR  */
+    AT = 304,                      /* AT  */
+    TRANSPOSE = 305,               /* TRANSPOSE  */
+    TRACE = 306,                   /* TRACE  */
+    TRAVERSAL = 307,               /* TRAVERSAL  */
+    STRLEN = 308,                  /* STRLEN  */
+    STRCUT = 309,                  /* STRCUT  */
+    STRCMP = 310,                  /* STRCMP  */
+    STRJOIN = 311,                 /* STRJOIN  */
+    MATXOP = 312,                  /* MATXOP  */
+    MAXTOGR = 313,                 /* MAXTOGR  */
+    GRTOMATX = 314,                /* GRTOMATX  */
+    SHPATH = 315,                  /* SHPATH  */
+    SHPATH_VAL = 316,              /* SHPATH_VAL  */
+    GOTO = 317,                    /* GOTO  */
+    PRINT = 318                    /* PRINT  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -159,33 +158,32 @@ extern int yydebug;
 #define null 290
 #define FOR 291
 #define WHILE 292
-#define GETVAL 293
-#define ADJNODE 294
-#define PRINTMATX 295
-#define PRINTARRAY 296
-#define PRINTVECT 297
-#define PRINTGRAPH 298
-#define ADDVAL 299
-#define APPEND 300
-#define REMOVE 301
-#define LENGTH 302
-#define SORT 303
-#define CLEAR 304
-#define AT 305
-#define TRANSPOSE 306
-#define TRACE 307
-#define TRAVERSAL 308
-#define STRLEN 309
-#define STRCUT 310
-#define STRCMP 311
-#define STRJOIN 312
-#define MATXOP 313
-#define MAXTOGR 314
-#define GRTOMATX 315
-#define SHPATH 316
-#define SHPATH_VAL 317
-#define GOTO 318
-#define PRINT 319
+#define MATXGET 293
+#define GETVAL 294
+#define ADJNODE 295
+#define PRINTMATX 296
+#define PRINTGRAPH 297
+#define ADDVAL 298
+#define APPEND 299
+#define REMOVE 300
+#define LENGTH 301
+#define SORT 302
+#define CLEAR 303
+#define AT 304
+#define TRANSPOSE 305
+#define TRACE 306
+#define TRAVERSAL 307
+#define STRLEN 308
+#define STRCUT 309
+#define STRCMP 310
+#define STRJOIN 311
+#define MATXOP 312
+#define MAXTOGR 313
+#define GRTOMATX 314
+#define SHPATH 315
+#define SHPATH_VAL 316
+#define GOTO 317
+#define PRINT 318
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -203,6 +201,11 @@ union YYSTYPE
 		char* name;
 		char* type;
 	} details;
+	struct
+	{
+		int cols;
+		char* text;
+	} Cols;
 	struct{
 		char* text;
 		char* name;
@@ -211,13 +214,8 @@ union YYSTYPE
 		int dimA;
 		int dimB;
 	} Details;
-	struct
-	{
-		int cols;
-		char* text;
-	} Cols;
 
-#line 221 "y.tab.h"
+#line 219 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

@@ -58,20 +58,27 @@
     return MATXOP;
 }
 
+"getRows"|"getCols" {
+    fprintf(yyout, "reserved keyword: %s\n", yytext);
+    fprintf(fparse, "%s", yytext);
+    yylval.str=strdup(yytext);
+    return MATXGET;
+}
+
 "print" {
 	fprintf(yyout, "reserved keyword: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
 	return PRINT;
 }
 
-"matxtograph" {
+"matx_to_graph" {
 	fprintf(yyout, "Identifier: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
     yylval.str=strdup(yytext);
     return MAXTOGR;
 }
 
-"graphtomatx" {
+"graph_to_matx" {
 	fprintf(yyout, "Identifier: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
     yylval.str=strdup(yytext);

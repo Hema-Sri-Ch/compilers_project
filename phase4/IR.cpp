@@ -22,5 +22,5 @@ int main ()
 		v = shortest_path_value(a.grp,1,4);
 
 		cout << v << endl;
-		return 1;
+		return 0;
 	}
