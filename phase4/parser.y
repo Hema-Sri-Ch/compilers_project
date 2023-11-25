@@ -181,6 +181,7 @@ void freeStringArray(char** array, size_t count) {
 %token FOR
 %token WHILE
 %token <str> GETVAL
+%token <str> ADJNODE
 %token <str> PRINTMATX
 %token <str> PRINTARRAY
 %token <str> PRINTVECT
@@ -1747,7 +1748,7 @@ graph_and_array_list	:  graph_and_array_list ',' id '[' INT_CONST ']'
 								strcat(myText, $3.text);
 								strcat(myText, "[");
 								strcat(myText, $5);
-								strcat(myText, "], ");
+								strcat(myText, "]");
 								
 								//strcpy($$.text, myText);
 								//free(myText);
@@ -2219,6 +2220,29 @@ graph_impr				: resultant '.' TRAVERSAL '(' remove_body ')'
 								strcat(myText, $5.text);
 								strcat(myText, ",");
 								strcat(myText, $7.text);
+								strcat(myText, ")");
+								$$.text = myText;
+							}
+						| resultant '.' ADJNODE '(' remove_body ')'
+							{
+								$$.str = "*int";
+								if(strcmp($1.str,"graph"))
+								{
+									printf("%d ERROR: Adjacent Nodes are defined only for graph datatype\n", yylineno);
+									exit(1);
+								}
+								if(strcmp($5.str, "int"))
+								{
+									printf("%d ERROR: Argument has to be an integer\n", yylineno);
+									exit(1);
+								}
+								
+								char* myText = (char*)malloc(strlen($1.text)+strlen("adjNodes.()")+strlen($5.text)+1);
+								strcpy(myText, $1.text);
+								strcat(myText, ".");
+								strcat(myText, $3);
+								strcat(myText, "(");
+								strcat(myText, $5.text);
 								strcat(myText, ")");
 								$$.text = myText;
 							}

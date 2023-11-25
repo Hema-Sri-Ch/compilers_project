@@ -219,6 +219,44 @@ class graph
 		}
 	}
 
+	vector<int> dfs(int node)
+	{
+		if(node > vertices)
+		{
+			cout << "ERROR: Invalid labelled node\n";
+			exit(1);
+		}
+		vector<int> vis(vertices+1, 0);
+		vector<int> res;
+		if(flag==0) unweightedDfs(node, edges, vis, res);
+		else if(flag==1) weightedDfs(node, weightedEdges, vis, res);
+		else
+		{
+			cout << "ERROR: Graph not yet initialized";
+			exit(1);
+		}
+		return res;
+	}
+
+	vector<int> bfs(int node)
+	{
+		if(node > vertices)
+		{
+			cout << "ERROR: Invalid labelled node\n";
+			exit(1);
+		}
+		vector<int> vis(vertices+1, 0);
+		vector<int> res;
+		if(flag==0) unweightedBfs(node, edges, vis, res);
+		else if(flag==1)weightedBfs(node, weightedEdges, vis, res);
+		else
+		{
+			cout << "ERROR: Graph not yet initialized";
+			exit(1);
+		}
+		return res;
+	}
+
 };
 
 typedef class graph graph;
@@ -285,10 +323,10 @@ void shortest_path_func(graph G, int n, int m, vector<int>& path, double& value)
 		exit(1);
 	}
 	priority_queue<pair<double,int>, vector<pair<double,int>>, greater<pair<double,int>> > pq;
-	vector<int> dist (vertices+1, 1e9), parent(vertices+1);
+	vector<double> dist (vertices+1, 1e9), parent(vertices+1);
 	for(int i=1; i<vertices; i++) parent[i]=i;
 	dist[n]=0;
-	pq.push({0,1});
+	pq.push({0,n});
 	while(!pq.empty())
 	{
 		auto it = pq.top();

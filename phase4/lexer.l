@@ -16,6 +16,27 @@
 	fprintf(fparse, "%s", yytext);
 }
 
+"printGraph" {
+	fprintf(yyout, "reserved keyword: %s\n", yytext);
+    fprintf(fparse, "%s", yytext);
+    yylval.str=strdup(yytext);
+    return PRINTGRAPH;
+}
+
+"adjNodes" {
+	fprintf(yyout, "reserved keyword: %s\n", yytext);
+    fprintf(fparse, "%s", yytext);
+    yylval.str=strdup(yytext);
+    return ADJNODE;
+}
+
+"printMatrix" {
+	fprintf(yyout, "reserved keyword: %s\n", yytext);
+    fprintf(fparse, "%s", yytext);
+    yylval.str=strdup(yytext);
+    return PRINTMATX;
+}
+
 "addVal" {
 	fprintf(yyout, "reserved keyword: %s\n", yytext);
     fprintf(fparse, "%s", yytext);
